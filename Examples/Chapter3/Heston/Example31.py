@@ -1,13 +1,12 @@
-import numpy as np
-
+from tabulate import tabulate
 from MC_Engines.MC_Heston import Heston_Engine
 from Instruments.EuropeanInstruments import EuropeanOption, TypeSellBuy, TypeEuropeanOption
 from Tools import Types
 from Tools import RNG
-
 from prettytable import PrettyTable
 
-epsilon = 0.9
+
+epsilon = 1.1
 k = 0.5
 rho = -0.9
 v0 = 0.05
@@ -18,10 +17,10 @@ T = 2.0
 
 seed = 123456789
 
-delta = 1.0 / 16.0
+delta = 1.0 / 32.0
 no_time_steps = int(T / delta)
-no_paths = 500000
-strike = 100.0
+no_paths = 1000000
+strike = 120.0
 
 rnd_generator = RNG.RndGenerator(seed)
 
@@ -33,7 +32,7 @@ parameters_option_price = [0.0, theta, rho, k, epsilon, v0, 0.0]
 
 # Compute price, delta and gamma by numerical integration in Heston model
 analytic_output = european_option.get_analytic_value(0.0, theta, rho, k, epsilon, v0, 0.0,
-                                                     model_type=Types.ANALYTIC_MODEL.HESTON_MODEL_ATTARI,
+                                                     model_type=Types.ANALYTIC_MODEL.HESTON_MODEL_REGULAR,
                                                      compute_greek=True)
 
 # Compute price, delta and gamma by MC and Malliavin in Heston model
@@ -42,6 +41,7 @@ map_heston_output = Heston_Engine.get_path_multi_step(0.0, T, parameters, f0, v0
                                                       rnd_generator)
 
 result = european_option.get_price(map_heston_output[Types.HESTON_OUTPUT.PATHS])
+
 malliavin_delta = european_option.get_malliavin_delta(map_heston_output[Types.HESTON_OUTPUT.PATHS],
                                                       map_heston_output[Types.HESTON_OUTPUT.DELTA_MALLIAVIN_WEIGHTS_PATHS_TERMINAL])
 
@@ -72,11 +72,14 @@ heston_gamma_fd = (result_shift[0] - 2 * result[0] + result_shift_left[0]) / (de
 # Outputs
 table = PrettyTable()
 table.field_names = ["Numerical Method", "Price", "Delta", "Gamma"]
-table.add_row(["Numerical Integration", analytic_output[0], analytic_output[1][Types.TypeGreeks.DELTA],
-               analytic_output[1][Types.TypeGreeks.GAMMA]])
-table.add_row(["MC and Malliavin", result, malliavin_delta, malliavin_gamma])
-table.add_row(["MC and Finite Differences", result, heston_delta_fd, heston_gamma_fd])
-print(table.get_string(title="Strike=F0"))
+table.add_row(["Numerical Integration", '{0:.5g}'.format(analytic_output[0]), '{0:.5g}'.format(analytic_output[1][Types.TypeGreeks.DELTA]),
+               '{0:.5g}'.format(analytic_output[1][Types.TypeGreeks.GAMMA])])
+table.add_row(["MC and Malliavin", ['{0:.5g}'.format(result[0]), '{0:.5g}'.format(result[1])],
+               ['{0:.5g}'.format(malliavin_delta[0]), '{0:.5g}'.format(malliavin_delta[1])],
+               ['{0:.5g}'.format(malliavin_gamma[0]), '{0:.6g}'.format(malliavin_gamma[1])]])
+table.add_row(["MC and Finite Differences", ['{0:.5g}'.format(result[0]), '{0:.5g}'.format(result[1])], '{0:.5g}'.format(heston_delta_fd), '{0:.5g}'.format(heston_gamma_fd)])
+
+print(tabulate(table, tablefmt="latex"))
 
 
 
