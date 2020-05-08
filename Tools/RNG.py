@@ -21,7 +21,8 @@ class RndGenerator(object):
     def __init__(self,
                  initial_seed: int):
         self._seed = initial_seed
-        self._rnd_generator = np.random.RandomState(initial_seed)
+        self._rnd_generator = np.random.Generator(np.random.PCG64())
+        # self._rnd_generator = np.random.RandomState(initial_seed)
 
     @property
     def rnd_generator(self):
