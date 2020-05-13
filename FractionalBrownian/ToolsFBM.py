@@ -18,7 +18,7 @@ def get_mean_ratio_rs(x_t: Types.ndarray, chunksize: int = 1):
         mean_n[i - 1] = np.mean(x_t[index[i - 1]:index[i]])
         s_n[i - 1] = np.std(x_t[index[i - 1]:index[i]])
         z_n = np.cumsum(x_t[index[i - 1]:index[i]] - mean_n[i - 1])
-        r_n[i - 1] = np.max(z_n) - np.min(z_n)
+        r_n[i - 1] = z_n.max() - z_n.min()
         ratio[i - 1] = r_n[i - 1] / s_n[i - 1]
 
     return np.mean(ratio)
