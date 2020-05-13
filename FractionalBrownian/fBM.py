@@ -1,7 +1,7 @@
 import numpy as np
 import numba as nb
 
-from Tools.Types import ndarray
+from Tools.Types import ndarray, TYPE_STANDARD_NORMAL_SAMPLING
 from Tools.RNG import RndGenerator
 
 
@@ -32,12 +32,7 @@ def get_spectral_representation(n: int, hurst_parameter: float):
     return output
 
 
-def get_fft(n: int, hurst_parameter: float):
-    alpha_k = get_spectral_representation(n, hurst_parameter)
-    return np.fft(alpha_k)
-
-
-# @nb.jit("f8[:,:](f8[:],f8, f8[:,:], f8, i8, i8)", nopython=True, nogil=True)
+@nb.jit("f8[:,:](f8[:],f8, f8[:,:], f8, i8, i8)", nopython=True, nogil=True)
 def cholesky_method_jit(t_i: ndarray, z0: float, z: ndarray,  hurst_parameter: float, no_paths: int, no_time_steps):
     paths = np.zeros(shape=(no_paths, no_time_steps))
     sigma = np.zeros(shape=(no_time_steps - 1, no_time_steps - 1))
@@ -68,7 +63,8 @@ def cholesky_method(t0: float,
                     no_time_steps: int):
 
     t_i = np.linspace(t0, t1, no_time_steps)
-    z_i = rng_generator.normal(mu=0.0, sigma=1.0, size=(no_paths, no_time_steps))
+    z_i = rng_generator.normal(mu=0.0, sigma=1.0, size=(no_paths, no_time_steps),
+                               sampling_type=TYPE_STANDARD_NORMAL_SAMPLING.ANTITHETIC)
 
     return cholesky_method_jit(t_i, z0, z_i, hurst_parameter, no_paths, no_time_steps)
 

@@ -47,8 +47,14 @@ class RndGenerator(object):
         if sampling_type == TYPE_STANDARD_NORMAL_SAMPLING.REGULAR_WAY:
             return self._rnd_generator.normal(mu, sigma, size)
         else:
-            first_part_rn = self._rnd_generator.normal(mu, sigma, int(0.5 * size))
-            return np.concatenate((first_part_rn, - first_part_rn), axis=0)
+            if type(size) is tuple:
+                no_elements = size[0] * size[1]
+                first_part_rn = self._rnd_generator.normal(mu, sigma, int(0.5 * no_elements))
+                return np.concatenate((first_part_rn, - first_part_rn), axis=0).reshape(size)
+
+            else:
+                first_part_rn = self._rnd_generator.normal(mu, sigma, int(0.5 * size))
+                return np.concatenate((first_part_rn, - first_part_rn), axis=0).reshape(size)
 
     @staticmethod
     def normal_sobol(mu=0.0,
