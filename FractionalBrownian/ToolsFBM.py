@@ -1,7 +1,8 @@
 import numpy as np
 
 from scipy.stats import linregress
-from Tools import Types, RNG
+from Tools import Types
+from scipy.optimize import curve_fit
 
 
 def get_mean_ratio_rs(x_t: Types.ndarray, chunksize: int = 1):
@@ -25,14 +26,17 @@ def get_mean_ratio_rs(x_t: Types.ndarray, chunksize: int = 1):
 
 
 def get_estimator_rs(x_t: Types.ndarray, lower_chunksize: int = 0, upper_chunksize: int = 1):
-    # We will suppose that the length of x_t is 2**n where n is some integer > 0.
-    # In addition, upper_bound is such that 2**upper_bound < len(x_t)
-    no_elements = len(x_t)
     rs = []
     log_no_elements = []
+
     for i in range(lower_chunksize, upper_chunksize + 1):
         rs.append(get_mean_ratio_rs(x_t, 2 ** i))
         log_no_elements.append(i * np.log(2))
 
-    output = linregress(log_no_elements, np.log(rs))
-    return output.slope
+    def func(x, a, b):
+        return a + b * x
+
+    popt, pcov = curve_fit(func, log_no_elements, np.log(rs))
+    estimated_rs = func(np.array(log_no_elements), *popt)
+
+    return popt[0], popt[1], log_no_elements, np.log(rs), estimated_rs

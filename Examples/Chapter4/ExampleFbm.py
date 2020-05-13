@@ -1,10 +1,9 @@
 import numpy as np
-import FractionalBrownian as FBM
 from Tools import RNG, Functionals
-from FractionalBrownian import fBM, ToolsFBM
+from FractionalBrownian import fBM
 
-no_paths = 1
-no_time_steps = 2**12
+no_paths = 100000
+no_time_steps = 2**6
 t0 = 0.0
 t1 = 1.0
 z0 = 0.0
@@ -29,20 +28,17 @@ no_full_time_steps = len(t)
 empirical_covariance = np.zeros(shape=(no_time_steps, no_full_time_steps))
 exact_covariance = np.zeros(shape=(no_time_steps, no_full_time_steps))
 
-# for i in range(0, no_time_steps):
-#     for j in range(0, i):
-#         empirical_covariance[i, j] = np.mean(Functionals.dot_wise(paths[:, i], paths[:, j])) - \
-#                                      empirical_mean[i] * empirical_mean[j]
-#         exact_covariance[i, j] = fBM.covariance(t[i], t[j], hurst_parameter)
-#         empirical_covariance[j, i] = empirical_covariance[i, j]
-#         exact_covariance[j, i] = exact_covariance[i, j]
+for i in range(0, no_time_steps):
+    for j in range(0, i):
+        empirical_covariance[i, j] = np.mean(Functionals.dot_wise(paths[:, i], paths[:, j])) - \
+                                     empirical_mean[i] * empirical_mean[j]
+        exact_covariance[i, j] = fBM.covariance(t[i], t[j], hurst_parameter)
+        empirical_covariance[j, i] = empirical_covariance[i, j]
+        exact_covariance[j, i] = exact_covariance[i, j]
 
 error_covariance = np.max(np.abs(empirical_covariance - exact_covariance))
 error_variance = np.max(np.abs(exact_variance - empirical_variance))
 error_mean = np.max(np.abs(empirical_mean))
-
-# Estimation Hurst parameter
-output = ToolsFBM.get_estimator_rs(paths[0, :], 7, 11)
 
 
 
