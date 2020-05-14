@@ -40,3 +40,29 @@ def get_estimator_rs(x_t: Types.ndarray, lower_chunksize: int = 0, upper_chunksi
     estimated_rs = func(np.array(log_no_elements), *popt)
 
     return popt[0], popt[1], log_no_elements, np.log(rs), estimated_rs
+
+
+def get_estimator_pe(x_t: Types.ndarray, size_f: int):
+    no_elements = len(x_t)
+    f_i = np.linspace(-0.5, 0.5, size_f)
+    sr_n = np.zeros(size_f)
+    t_i = np.arange(0, no_elements, 1)
+
+    for i in range(0, size_f):
+        z_n = x_t - np.mean(x_t)
+        out = np.exp(- 2.0 * np.pi * 1j * t_i * f_i[i]) * z_n
+        sr_n[i] = np.power(np.sum(np.abs(out)), 2.0) / no_elements
+
+    mid_point = int((size_f + 1) * 0.5)
+    max_size_f = int(np.power(mid_point, 4 / 5))
+    log_filtered_f_i = np.log(f_i[mid_point + 1: mid_point + 2 + max_size_f])
+    log_filtered_sr_n = np.log(sr_n[mid_point + 1: mid_point + 2 + max_size_f])
+
+    def func(x, a, b):
+        return a + b * x
+
+    popt, pcov = curve_fit(func, log_filtered_f_i, log_filtered_sr_n)
+    estimated_gamma = func(log_filtered_f_i, *popt)
+    hurst_parameter = 0.5 * (1-popt[1])
+
+    return popt[0], popt[1], hurst_parameter, log_filtered_f_i, log_filtered_sr_n, estimated_gamma
