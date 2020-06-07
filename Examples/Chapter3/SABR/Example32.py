@@ -5,6 +5,9 @@ from Tools import RNG
 from prettytable import PrettyTable
 from tabulate import tabulate
 
+import time
+
+
 alpha = 0.4
 nu = 1.1
 rho = -0.8
@@ -25,9 +28,12 @@ european_option = EuropeanOption(strike, notional, TypeSellBuy.BUY, TypeEuropean
 rnd_generator = RNG.RndGenerator(seed)
 
 # Compute price, delta and gamma by MC and Malliavin in SABR model
+start_time = time.time()
 map_output = SABR_Engine.get_path_multi_step(0.0, T, parameters, f0, no_paths, no_time_steps,
                                              Types.TYPE_STANDARD_NORMAL_SAMPLING.ANTITHETIC,
-                                             rnd_generator, european_option.get_control_variate)
+                                             rnd_generator)
+end_time = time.time()
+delta_time = (end_time - start_time)
 
 result = european_option.get_price(map_output[Types.SABR_OUTPUT.PATHS])
 
@@ -45,7 +51,7 @@ f0_right_shift = f0 * (1.0 + delta_shift)
 rnd_generator.set_seed(seed)
 map_output_right_shift = SABR_Engine.get_path_multi_step(0.0, T, parameters, f0_right_shift, no_paths, no_time_steps,
                                                          Types.TYPE_STANDARD_NORMAL_SAMPLING.ANTITHETIC,
-                                                         rnd_generator, european_option.get_control_variate)
+                                                         rnd_generator)
 result_right_shift = european_option.get_price(map_output_right_shift[Types.SABR_OUTPUT.PATHS])
 price_right_shift = result_right_shift[0]
 wide_ci_shift_right = result_right_shift[1]
@@ -56,7 +62,7 @@ f0_left_shift = f0 * (1.0 - delta_shift)
 rnd_generator.set_seed(seed)
 map_output_left_shift = SABR_Engine.get_path_multi_step(0.0, T, parameters, f0_left_shift, no_paths, no_time_steps,
                                                         Types.TYPE_STANDARD_NORMAL_SAMPLING.ANTITHETIC,
-                                                        rnd_generator, european_option.get_control_variate)
+                                                        rnd_generator)
 
 result_left_shift = european_option.get_price(map_output_left_shift[Types.SABR_OUTPUT.PATHS])
 price_left_shift = result_left_shift[0]
