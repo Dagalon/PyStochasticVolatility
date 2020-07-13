@@ -14,10 +14,12 @@ def get_volterra_covariance(s: float, t: float, h: float):
     return ((1.0 - 2.0 * gamma) / (1.0 - gamma)) * np.power(x, gamma) * hyp2f1(1.0, gamma, 2.0 - gamma, x)
 
 
+@nb.jit("f8(f8, f8)", nopython=True, nogil=True)
 def get_volterra_variance(t: float, h: float):
     return np.power(t, - 2.0 * h)
 
 
+@nb.jit("f8(f8, f8, f8, f8)", nopython=True, nogil=True)
 def get_covariance_matrix(s: float, u: float, t: float, h: float):
     # we suppose that s < u < t
     cov = np.zeros(shape=(3, 3))
@@ -59,7 +61,8 @@ def get_covariance_w_v_w_t(s: float, t: float, rho: float, h: float):
     return rho * d_h * (np.power(t, h + 0.5) - np.power(t - np.minimum(s,t), h + 0.5))
 
 
-def get_brownian_bridge(u, s, t, w_u, w_t, w_v_u, w_v_t, z_w, z_v, rho_w, h):
+@nb.jit("(f8, f8, f8, f8[:], f8[:], f8[:], f8[:], f8[:], f8[:], f8, f8, f8[:], f8[:])", nopython=True, nogil=True)
+def get_gaussian_bridge(u, s, t, w_u, w_t, w_v_u, w_v_t, z_w, z_v, rho_w, h, w_s, w_v_s):
     no_paths = len(w_u)
 
     d_u_s = s - u
@@ -69,12 +72,16 @@ def get_brownian_bridge(u, s, t, w_u, w_t, w_v_u, w_v_t, z_w, z_v, rho_w, h):
     process = np.zeros(shape=(no_paths, 2))
 
     mean_w_s = (d_s_t * w_u + d_u_s * w_t) / d_u_t
-    variance_w_s = d_s_t * d_u_s / d_u_t
+    std_w_s = np.sqrt(d_s_t * d_u_s / d_u_t)
+
+    inv_rho_w = np.sqrt(1.0 - rho_w * rho_w)
 
     cov_w_v = get_covariance_matrix(u, s, t, h)
     moments_w_v_s = get_volterra_bridge_moments(u, s, t, w_v_u, w_v_t, cov_w_v)
 
     for i in range(0, no_paths):
+        w_s[i] = mean_w_s + std_w_s * z_w[i]
+        w_v_s[i] = moments_w_v_s[0] + moments_w_v_s[1] * (rho_w * z_w[i] + inv_rho_w * z_v[i])
 
 
 def get_path_gaussian_bridge(t0, t1, n, no_paths, h, rho, rnd_generator):
@@ -101,5 +108,19 @@ def get_path_gaussian_bridge(t0, t1, n, no_paths, h, rho, rnd_generator):
         scale_factor = 2 ** (n - n_i)
         even_nodes = [scale_factor * k for k in range(0, int(2 ** n_i) + 1) if k % 2 == 0]
         odd_nodes = [scale_factor * k for k in range(0, int(2 ** n_i) + 1) if k % 2 == 1]
+        rho_w = get_covariance_w_v_w_t(odd_nodes[n_i], odd_nodes[n_i], rho, h)
 
+        get_gaussian_bridge(even_nodes[n_i] * delta_step,
+                            odd_nodes[n_i] * delta_step,
+                            even_nodes[n_i + 1] * delta_step,
+                            w_t_paths[:, even_nodes[n_i]],
+                            w_t_paths[:, even_nodes[n_i + 1]],
+                            w_v_t_paths[:, even_nodes[n_i]],
+                            w_v_t_paths[:, even_nodes[n_i + 1]],
+                            rho_w,
+                            h,
+                            w_t_paths[:, odd_nodes[n_i]],
+                            w_v_t_paths[:, odd_nodes[n_i]])
+
+    return w_t_paths, w_v_t_paths
 
