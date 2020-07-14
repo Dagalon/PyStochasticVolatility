@@ -14,12 +14,12 @@ def get_volterra_covariance(s: float, t: float, h: float):
     return ((1.0 - 2.0 * gamma) / (1.0 - gamma)) * np.power(x, gamma) * hyp2f1(1.0, gamma, 2.0 - gamma, x)
 
 
-@nb.jit("f8(f8, f8)", nopython=True, nogil=True)
+# @nb.jit("f8(f8, f8)", nopython=True, nogil=True)
 def get_volterra_variance(t: float, h: float):
     return np.power(t, - 2.0 * h)
 
 
-@nb.jit("f8(f8, f8, f8, f8)", nopython=True, nogil=True)
+@nb.jit("f8[:,:](f8, f8, f8, f8)", nopython=True, nogil=True)
 def get_covariance_matrix(s: float, u: float, t: float, h: float):
     # we suppose that s < u < t
     cov = np.zeros(shape=(3, 3))
@@ -54,14 +54,14 @@ def get_volterra_bridge_moments(t_i_1: float, t: float, t_i: float, x_t_i_1: flo
     return moments
 
 
-@nb.jit("f8(f8, f8, f8, f8)", nopython=True, nogil=True)
+# @nb.jit("f8(f8, f8, f8, f8)", nopython=True, nogil=True)
 def get_covariance_w_v_w_t(s: float, t: float, rho: float, h: float):
     gamma = 0.5 - h
     d_h = np.sqrt(2.0 * h) / (h + 0.5)
-    return rho * d_h * (np.power(t, h + 0.5) - np.power(t - np.minimum(s,t), h + 0.5))
+    return rho * d_h * (np.power(t, h + 0.5) - np.power(t - np.minimum(s, t), h + 0.5))
 
 
-@nb.jit("(f8, f8, f8, f8[:], f8[:], f8[:], f8[:], f8[:], f8[:], f8, f8, f8[:], f8[:])", nopython=True, nogil=True)
+# @nb.jit("void(f8, f8, f8, f8[:], f8[:], f8[:], f8[:], f8[:], f8[:], f8, f8, f8[:], f8[:])", nopython=True, nogil=True)
 def get_gaussian_bridge(u, s, t, w_u, w_t, w_v_u, w_v_t, z_w, z_v, rho_w, h, w_s, w_v_s):
     no_paths = len(w_u)
 
@@ -100,27 +100,34 @@ def get_path_gaussian_bridge(t0, t1, n, no_paths, h, rho, rnd_generator):
     np.copyto(z_w_v_i, rnd_generator.normal(0.0, 1.0, no_paths))
 
     w_t_paths[:, -1] = np.sqrt(t1) * z_w_i
+    # std_w = np.std(w_t_paths[:, -1])
 
     var_t = get_volterra_variance(t1, h)
-    w_v_t_paths[:, -1] = np.sqrt(var_t) * (np.add(rho_w * z_w_i, np.sqrt(1.0 - rho_w * rho_w) * z_w_v_i))
+    w_v_t_paths[:, -1] = np.sqrt(var_t) * (np.add(rho_w * z_w_i, np.sqrt(1.0 - (rho_w * rho_w) / np.sqrt(t1)) * z_w_v_i))
+    # std_w_v = np.std(w_v_t_paths[:, -1])
+
+    # correl = np.cov(w_t_paths[:, -1], w_v_t_paths[:, -1]) / (std_w * std_w_v)
 
     for n_i in range(1, n + 1):
         scale_factor = 2 ** (n - n_i)
         even_nodes = [scale_factor * k for k in range(0, int(2 ** n_i) + 1) if k % 2 == 0]
         odd_nodes = [scale_factor * k for k in range(0, int(2 ** n_i) + 1) if k % 2 == 1]
-        rho_w = get_covariance_w_v_w_t(odd_nodes[n_i], odd_nodes[n_i], rho, h)
 
-        get_gaussian_bridge(even_nodes[n_i] * delta_step,
-                            odd_nodes[n_i] * delta_step,
-                            even_nodes[n_i + 1] * delta_step,
-                            w_t_paths[:, even_nodes[n_i]],
-                            w_t_paths[:, even_nodes[n_i + 1]],
-                            w_v_t_paths[:, even_nodes[n_i]],
-                            w_v_t_paths[:, even_nodes[n_i + 1]],
-                            rho_w,
-                            h,
-                            w_t_paths[:, odd_nodes[n_i]],
-                            w_v_t_paths[:, odd_nodes[n_i]])
+        for n_j in range(0, len(odd_nodes)):
+            rho_w = get_covariance_w_v_w_t(odd_nodes[n_j] * delta_step, odd_nodes[n_j] * delta_step, rho, h)
+            get_gaussian_bridge(even_nodes[n_j] * delta_step,
+                                odd_nodes[n_j] * delta_step,
+                                even_nodes[n_j + 1] * delta_step,
+                                w_t_paths[:, even_nodes[n_j]],
+                                w_t_paths[:, even_nodes[n_j + 1]],
+                                w_v_t_paths[:, even_nodes[n_j]],
+                                w_v_t_paths[:, even_nodes[n_j + 1]],
+                                rnd_generator.normal(mu=0, sigma=1.0, size=no_paths),
+                                rnd_generator.normal(mu=0, sigma=1.0, size=no_paths),
+                                rho_w,
+                                h,
+                                w_t_paths[:, odd_nodes[n_j]],
+                                w_v_t_paths[:, odd_nodes[n_j]])
 
     return w_t_paths, w_v_t_paths
 
