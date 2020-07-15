@@ -5,13 +5,17 @@ from ncephes import hyp2f1
 from typing import Callable
 
 
-@nb.jit("f8(f8, f8, f8)", nopython=True, nogil=True)
+# @nb.jit("f8(f8, f8, f8)", nopython=True, nogil=True)
 def get_volterra_covariance(s: float, t: float, h: float):
     # We suppose that t > s
-    gamma = 0.5 - h
-    x = s / t
+    if s > 0.0:
+        gamma = 0.5 - h
+        x = s / t
 
-    return ((1.0 - 2.0 * gamma) / (1.0 - gamma)) * np.power(x, gamma) * hyp2f1(1.0, gamma, 2.0 - gamma, x)
+        return ((1.0 - 2.0 * gamma) / (1.0 - gamma)) * np.power(x, gamma) * hyp2f1(1.0, gamma, 2.0 - gamma, x)
+
+    else:
+        return 0.0
 
 
 # @nb.jit("f8(f8, f8)", nopython=True, nogil=True)
@@ -19,7 +23,7 @@ def get_volterra_variance(t: float, h: float):
     return np.power(t, - 2.0 * h)
 
 
-@nb.jit("f8[:,:](f8, f8, f8, f8)", nopython=True, nogil=True)
+# @nb.jit("f8[:,:](f8, f8, f8, f8)", nopython=True, nogil=True)
 def get_covariance_matrix(s: float, u: float, t: float, h: float):
     # we suppose that s < u < t
     cov = np.zeros(shape=(3, 3))
@@ -36,7 +40,7 @@ def get_covariance_matrix(s: float, u: float, t: float, h: float):
     return cov
 
 
-@nb.jit("f8[:,:](f8, f8, f8, f8[:], f8[:], f8[:,:])", nopython=True, nogil=True)
+# @nb.jit("f8[:,:](f8, f8, f8, f8[:], f8[:], f8[:,:])", nopython=True, nogil=True)
 def get_volterra_bridge_moments(t_i_1: float, t: float, t_i: float, x_t_i_1: float, x_t_i: float, cov: ndarray):
     # We must have that t_i_1 < t < t_i
     no_elements = len(x_t_i_1)
@@ -44,12 +48,20 @@ def get_volterra_bridge_moments(t_i_1: float, t: float, t_i: float, x_t_i_1: flo
     # moments[0] is mean
     # moments[1] is std
     moments = np.zeros(shape=(no_elements, 2))
-    a = np.linalg.cholesky(cov)
+    if t_i_1 > 0.0:
+        a = np.linalg.cholesky(cov)
+        for i in range(0, no_elements):
+            moments[i, 0] = (a[2, 0] / a[0, 0]) - (a[2, 1] / a[1, 1]) * (a[1, 0] / a[0, 0]) * x_t_i_1[i] + \
+                            (a[2, 1] / a[1, 1]) * x_t_i[i]
+            moments[i, 1] = a[2, 1] / a[2, 2]
+    else:
+        rho = cov[1, 2]
+        sigma_11 = np.sqrt(cov[1, 1])
+        sigma_22 = np.sqrt(cov[2, 2])
+        for i in range(0, no_elements):
+            moments[i, 0] = (sigma_22 / sigma_11) * rho * x_t_i[i]
+            moments[i, 1] = sigma_22 * (1.0 - rho * rho)
 
-    for i in range(0, no_elements):
-        moments[i, 0] = (a[2, 0] / a[0, 0]) - (a[2, 1] / a[1, 1]) * (a[1, 0] / a[0, 0]) * x_t_i_1[i] + \
-                        (a[2, 1] / a[1, 1]) * x_t_i[i]
-        moments[i, 1] = a[2, 1] / a[2, 2]
 
     return moments
 
@@ -74,7 +86,7 @@ def get_gaussian_bridge(u, s, t, w_u, w_t, w_v_u, w_v_t, z_w, z_v, rho_w, h, w_s
     mean_w_s = (d_s_t * w_u + d_u_s * w_t) / d_u_t
     std_w_s = np.sqrt(d_s_t * d_u_s / d_u_t)
 
-    inv_rho_w = np.sqrt(1.0 - rho_w * rho_w)
+    inv_rho_w = np.sqrt(1.0 - rho_w * rho_w / np.sqrt(s))
 
     cov_w_v = get_covariance_matrix(u, s, t, h)
     moments_w_v_s = get_volterra_bridge_moments(u, s, t, w_v_u, w_v_t, cov_w_v)
@@ -100,13 +112,13 @@ def get_path_gaussian_bridge(t0, t1, n, no_paths, h, rho, rnd_generator):
     np.copyto(z_w_v_i, rnd_generator.normal(0.0, 1.0, no_paths))
 
     w_t_paths[:, -1] = np.sqrt(t1) * z_w_i
-    # std_w = np.std(w_t_paths[:, -1])
+    std_w = np.std(w_t_paths[:, -1])
 
     var_t = get_volterra_variance(t1, h)
-    w_v_t_paths[:, -1] = np.sqrt(var_t) * (np.add(rho_w * z_w_i, np.sqrt(1.0 - (rho_w * rho_w) / np.sqrt(t1)) * z_w_v_i))
-    # std_w_v = np.std(w_v_t_paths[:, -1])
+    w_v_t_paths[:, -1] = np.sqrt(var_t) * (np.add(rho_w * z_w_i, np.sqrt(1.0 - rho_w * rho_w) * z_w_v_i))
+    std_w_v = np.std(w_v_t_paths[:, -1])
 
-    # correl = np.cov(w_t_paths[:, -1], w_v_t_paths[:, -1]) / (std_w * std_w_v)
+    correl = np.mean(w_t_paths[:, -1] * w_v_t_paths[:, -1]) / (std_w * std_w_v)
 
     for n_i in range(1, n + 1):
         scale_factor = 2 ** (n - n_i)
