@@ -11,7 +11,7 @@ covariance = ToolsVariance.get_volterra_covariance(s, t, hurst_parameter)
 t0 = 0.0
 t1 = 2.0
 n = 5
-no_paths = 10
+no_paths = 100000
 h = 0.3
 rho = 0.5
 

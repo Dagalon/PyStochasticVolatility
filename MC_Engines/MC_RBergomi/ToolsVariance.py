@@ -60,8 +60,7 @@ def get_volterra_bridge_moments(t_i_1: float, t: float, t_i: float, x_t_i_1: flo
         sigma_22 = np.sqrt(cov[2, 2])
         for i in range(0, no_elements):
             moments[i, 0] = (sigma_22 / sigma_11) * rho * x_t_i[i]
-            moments[i, 1] = sigma_22 * (1.0 - rho * rho)
-
+            moments[i, 1] = sigma_22 * np.sqrt((1.0 - rho * rho))
 
     return moments
 
@@ -86,14 +85,16 @@ def get_gaussian_bridge(u, s, t, w_u, w_t, w_v_u, w_v_t, z_w, z_v, rho_w, h, w_s
     mean_w_s = (d_s_t * w_u + d_u_s * w_t) / d_u_t
     std_w_s = np.sqrt(d_s_t * d_u_s / d_u_t)
 
-    inv_rho_w = np.sqrt(1.0 - rho_w * rho_w / np.sqrt(s))
+    inv_rho_w = np.sqrt(1.0 - rho_w * rho_w)
 
     cov_w_v = get_covariance_matrix(u, s, t, h)
     moments_w_v_s = get_volterra_bridge_moments(u, s, t, w_v_u, w_v_t, cov_w_v)
 
     for i in range(0, no_paths):
-        w_s[i] = mean_w_s + std_w_s * z_w[i]
-        w_v_s[i] = moments_w_v_s[0] + moments_w_v_s[1] * (rho_w * z_w[i] + inv_rho_w * z_v[i])
+        w_s[i] = mean_w_s[i] + std_w_s * z_w[i]
+        w_v_s[i] = moments_w_v_s[i, 0] + moments_w_v_s[i, 1] * (rho_w * z_w[i] + inv_rho_w * z_v[i])
+
+    correl = (np.mean(w_s * w_v_s) - np.mean(w_s) * np.mean(w_v_s)) / (np.std(w_s) * np.std(w_v_s))
 
 
 def get_path_gaussian_bridge(t0, t1, n, no_paths, h, rho, rnd_generator):
