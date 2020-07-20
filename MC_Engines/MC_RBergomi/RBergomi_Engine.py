@@ -26,15 +26,22 @@ def get_path_multi_step(t0: float,
 
     nu = parameters[0]
     rho = parameters[1]
-    rho_inv = np.sqrt(1.0 - rho * rho)
+    h = parameters[2]
 
     no_paths = 2 * no_paths if type_random_number == TYPE_STANDARD_NORMAL_SAMPLING.ANTITHETIC else no_paths
 
-    t_i = np.linspace(t0, t1, no_time_steps)
-    delta_t_i = np.diff(t_i)
+    t_i_s = np.linspace(t0, t1, no_time_steps)
 
     s_t = np.empty((no_paths, no_time_steps))
     s_t[:, 0] = f0
+
+    cov = ToolsVariance.get_covariance_matrix(t_i_s, h, rho)
+    z_i_s = rnd_generator.normal(mu=0.0, sigma=1.0, size=(2 * no_time_steps - 1, no_paths))
+
+
+
+
+
 
 
 

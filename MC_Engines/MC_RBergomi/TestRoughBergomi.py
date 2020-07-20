@@ -1,12 +1,9 @@
+import numpy as np
+
+from time import time
 from MC_Engines.MC_RBergomi import ToolsVariance
-from Tools.RNG import RndGenerator
 
 hurst_parameter = 0.3
-
-s = 0.1
-t = 0.3
-
-covariance = ToolsVariance.get_volterra_covariance(s, t, hurst_parameter)
 
 t0 = 0.0
 t1 = 2.0
@@ -15,12 +12,17 @@ no_paths = 100000
 h = 0.3
 rho = 0.5
 
-rnd = RndGenerator(1234567)
+t_i_s = np.linspace(1.0 / 100.0, t1, 1000)
 
-bridge_sampling = ToolsVariance.get_path_gaussian_bridge(t0,
-                                                         t1,
-                                                         n,
-                                                         no_paths,
-                                                         h,
-                                                         rho,
-                                                         rnd)
+start_time = time()
+cov = ToolsVariance.get_covariance_matrix(t_i_s, hurst_parameter, rho)
+end_time = time()
+diff = end_time - start_time
+
+start_time = time()
+a = np.linalg.cholesky(cov)
+end_time = time()
+diff = end_time - start_time
+print(diff)
+
+

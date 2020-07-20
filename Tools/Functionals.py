@@ -48,6 +48,16 @@ def dot_wise(x, y):
     return out
 
 
+@nb.jit("f8[:](f8[:,:],f8[:])", nopython=True, nogil=True)
+def apply_lower_tridiagonal_matrix(a, b):
+    no_elements = len(b)
+    output = np.zeros(no_elements)
+    for i in range(0, no_elements):
+        for j in range(0, i+1):
+            output[i] += a[i, j] * b[i]
+
+    return output
+
 
 
 
