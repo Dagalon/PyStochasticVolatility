@@ -54,7 +54,7 @@ def apply_lower_tridiagonal_matrix(a, b):
     output = np.zeros(no_elements)
     for i in range(0, no_elements):
         for j in range(0, i+1):
-            output[i] += a[i, j] * b[i]
+            output[i] += a[i, j] * b[j]
 
     return output
 
