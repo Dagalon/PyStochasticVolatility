@@ -20,7 +20,7 @@ def get_path_multi_step(t0: float,
                         no_paths: int,
                         no_time_steps: int,
                         type_random_number: TYPE_STANDARD_NORMAL_SAMPLING,
-                        rnd_generator) -> map:
+                        rnd_generator):
 
     nu = parameters[0]
     rho = parameters[1]
@@ -47,7 +47,40 @@ def get_path_multi_step(t0: float,
     return paths
 
 
+def get_path_multi_step_affine_method(t0: float,
+                                      t1: float,
+                                      parameters: Vector,
+                                      f0: float,
+                                      v0: float,
+                                      no_paths: int,
+                                      no_time_steps: int,
+                                      type_random_number: TYPE_STANDARD_NORMAL_SAMPLING,
+                                      rnd_generator):
+    nu = parameters[0]
+    rho = parameters[1]
+    h = parameters[2]
 
+    no_paths = 2 * no_paths if type_random_number == TYPE_STANDARD_NORMAL_SAMPLING.ANTITHETIC else no_paths
+
+    t_i_s = np.linspace(t0, t1, no_time_steps)
+
+    s_t = np.empty((no_paths, no_time_steps))
+    s_t[:, 0] = f0
+
+    z_s_i = rnd_generator.normal(mu=0.0, sigma=1.0, size=(no_paths, no_time_steps - 1))
+    z_v_i = rnd_generator.normal(mu=0.0, sigma=1.0, size=(no_paths, no_time_steps - 1))
+
+    paths = ToolsVariance.generate_paths_affine_method(f0,
+                                                       v0,
+                                                       nu,
+                                                       rho,
+                                                       h,
+                                                       z_s_i,
+                                                       z_v_i,
+                                                       t_i_s,
+                                                       no_paths)
+
+    return paths
 
 
 

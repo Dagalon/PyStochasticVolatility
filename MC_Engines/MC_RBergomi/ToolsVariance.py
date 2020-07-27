@@ -67,9 +67,9 @@ def generate_paths(s0: float,
     no_time_steps = len(t_i_s)
 
     paths = np.zeros(shape=(no_paths, no_time_steps))
-    v_i_1 = np.zeros(no_time_steps)
+    v_i_1 = np.zeros(shape=(no_paths, no_time_steps))
 
-    v_i_1[0] = v0
+    v_i_1[:, 0] = v0
     paths[:, 0] = s0
 
     # we compute before a loop of variance of the variance process
@@ -81,11 +81,46 @@ def generate_paths(s0: float,
         w_i_1 = 0.0
         for j in range(1, no_time_steps):
             delta_i_s = t_i_s[j] - t_i_s[j - 1]
-            v_i_1[j] = v0 * np.exp(- 0.5 * nu * nu * var_w_t[j - 1] + nu * w_i_s[j + no_time_steps - 2])
+            v_i_1[k, j] = v0 * np.exp(- 0.5 * nu * nu * var_w_t[j - 1] + nu * w_i_s[j + no_time_steps - 2])
 
             d_w_i_1_i = (w_i_s[j - 1] - w_i_1)
-            paths[k, j] = paths[k, j - 1] * np.exp(-0.25 * (v_i_1[j] + v_i_1[j - 1]) * delta_i_s +
-                                                   v_i_1[j - 1] * d_w_i_1_i)
+            paths[k, j] = paths[k, j - 1] * np.exp(-0.25 * (v_i_1[k, j] + v_i_1[k, j - 1]) * delta_i_s +
+                                                   v_i_1[k, j - 1] * d_w_i_1_i)
             w_i_1 = w_i_s[j - 1]
 
     return paths
+
+
+def generate_paths_affine_method(s0: float,
+                                 v0: float,
+                                 nu: float,
+                                 rho: float,
+                                 h: float,
+                                 z_s_i: ndarray,
+                                 z_v_i: ndarray,
+                                 t_i_s: ndarray,
+                                 no_paths: int):
+    no_time_steps = len(t_i_s)
+
+    delta_i_s = np.diff(t_i_s)
+    exp_delta_i_s = np.exp(- delta_i_s)
+    paths = np.zeros(shape=(no_paths, no_time_steps))
+    v_i_1 = np.zeros(shape=(no_paths, no_time_steps))
+    w_s_i = np.zeros(no_paths)
+    rho_inv = np.sqrt(1.0 - rho * rho)
+
+    v_i_1[:, 0] = v0
+    paths[:, 0] = s0
+
+    for j in range(1, no_time_steps):
+        sigma_v_t = np.power(delta_i_s[j - 1], h) * nu
+        z_i_1 = np.log(v_i_1[:, j - 1] / v0)
+        # v_i_1[:, j] = v0 * np.exp(exp_delta_i_s[j - 1] * z_i_1 + sigma_v_t * z_v_i[:, j - 1])
+        v_i_1[:, j] = v0 * np.exp(np.power(delta_i_s[j - 1], h - 0.5) * np.exp() * z_i_1 + sigma_v_t * z_v_i[:, j - 1])
+
+        np.copyto(w_s_i, np.sqrt(delta_i_s[j - 1]) * (rho * z_v_i[:, j - 1] + rho_inv * z_s_i[:, j - 1]))
+        paths[:, j] = paths[:, j - 1] * np.exp(-0.25 * (v_i_1[:, j] + v_i_1[:, j - 1]) * delta_i_s[j - 1] +
+                                               v_i_1[:, j - 1] * w_s_i)
+
+    return paths
+

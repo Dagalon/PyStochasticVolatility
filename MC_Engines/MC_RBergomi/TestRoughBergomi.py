@@ -4,6 +4,8 @@ from time import time
 from MC_Engines.MC_RBergomi import ToolsVariance, RBergomi_Engine
 from Tools import RNG
 from Tools.Types import TYPE_STANDARD_NORMAL_SAMPLING
+from scipy import integrate
+from scipy.special import gamma
 
 hurst_parameter = 0.3
 
@@ -34,16 +36,32 @@ end_time = time()
 diff = end_time - start_time
 print(diff)
 
+# start_time = time()
+# paths = RBergomi_Engine.get_path_multi_step(t0,
+#                                             t1,
+#                                             [nu, rho, h],
+#                                             f0,
+#                                             v0,
+#                                             no_paths,
+#                                             no_time_steps,
+#                                             TYPE_STANDARD_NORMAL_SAMPLING.ANTITHETIC,
+#                                             rng_generator)
+#
+# end_time = time()
+# diff = end_time - start_time
+# print(diff)
+
+
 start_time = time()
-paths = RBergomi_Engine.get_path_multi_step(t0,
-                                            t1,
-                                            [nu, rho, h],
-                                            f0,
-                                            v0,
-                                            no_paths,
-                                            no_time_steps,
-                                            TYPE_STANDARD_NORMAL_SAMPLING.ANTITHETIC,
-                                            rng_generator)
+paths = RBergomi_Engine.get_path_multi_step_affine_method(t0,
+                                                          t1,
+                                                          [nu, rho, h],
+                                                          f0,
+                                                          v0,
+                                                          no_paths,
+                                                          no_time_steps,
+                                                          TYPE_STANDARD_NORMAL_SAMPLING.ANTITHETIC,
+                                                          rng_generator)
 
 end_time = time()
 diff = end_time - start_time
