@@ -7,7 +7,6 @@ from tabulate import tabulate
 
 import time
 
-
 alpha = 0.4
 nu = 1.1
 rho = -0.8

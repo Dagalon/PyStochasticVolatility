@@ -91,6 +91,14 @@ def generate_paths(s0: float,
     return paths
 
 
+@nb.jit("f8(f8, f8)", nopython=True, nogil=True)
+def beta(t, m):
+    if t < 1.0e-05:
+        return t
+    else:
+        return (1.0 - np.exp(- m * t)) / m
+
+
 def generate_paths_affine_method(s0: float,
                                  v0: float,
                                  nu: float,
@@ -101,10 +109,11 @@ def generate_paths_affine_method(s0: float,
                                  t_i_s: ndarray,
                                  no_paths: int):
     no_time_steps = len(t_i_s)
+    u_mean = 0.5 - h
 
     delta_i_s = np.diff(t_i_s)
-    exp_delta_i_s = np.exp(- delta_i_s)
     paths = np.zeros(shape=(no_paths, no_time_steps))
+    y_t_u = np.zeros(shape=(no_paths, no_time_steps))
     v_i_1 = np.zeros(shape=(no_paths, no_time_steps))
     w_s_i = np.zeros(no_paths)
     rho_inv = np.sqrt(1.0 - rho * rho)
@@ -113,14 +122,19 @@ def generate_paths_affine_method(s0: float,
     paths[:, 0] = s0
 
     for j in range(1, no_time_steps):
-        sigma_v_t = np.power(delta_i_s[j - 1], h) * nu
-        z_i_1 = np.log(v_i_1[:, j - 1] / v0)
-        # v_i_1[:, j] = v0 * np.exp(exp_delta_i_s[j - 1] * z_i_1 + sigma_v_t * z_v_i[:, j - 1])
-        v_i_1[:, j] = v0 * np.exp(np.power(delta_i_s[j - 1], h - 0.5) * np.exp() * z_i_1 + sigma_v_t * z_v_i[:, j - 1])
+        y_t_u[:, j] = np.exp(- u_mean) * y_t_u[:, j - 1] + \
+                      np.sqrt(beta(delta_i_s[j-1], 2.0 * u_mean / delta_i_s[j-1])) * z_v_i[:, j - 1]
+
+        v_i_1[:, j] = v_i_1[:, j-1] * np.exp(
+            - h * nu * nu * np.power(t_i_s[j - 1] + 0.5 * delta_i_s[j-1], 2.0 * h - 1.0) * delta_i_s[j - 1] +
+            np.power(delta_i_s[j - 1], h - 0.5) * y_t_u[:, j - 1] - np.log(v_i_1[:, j-1]/v0) + nu * np.power(delta_i_s[j - 1], h) * z_v_i[:, j - 1])
 
         np.copyto(w_s_i, np.sqrt(delta_i_s[j - 1]) * (rho * z_v_i[:, j - 1] + rho_inv * z_s_i[:, j - 1]))
+        print(j)
         paths[:, j] = paths[:, j - 1] * np.exp(-0.25 * (v_i_1[:, j] + v_i_1[:, j - 1]) * delta_i_s[j - 1] +
                                                v_i_1[:, j - 1] * w_s_i)
 
-    return paths
+    empirical_variance = np.std(np.log(v_i_1 / v0), axis=0)**2
+    analytic_variance = get_volterra_variance(t_i_s, h) * nu * nu
 
+    return paths

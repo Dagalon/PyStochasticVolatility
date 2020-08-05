@@ -57,6 +57,18 @@ class TypeGreeks(Enum):
         return self.value
 
 
+class TypeModel(Enum):
+    ROUGH_BERGOMI = 0
+    SABR = 1
+    HESTON = 2
+    BERGOMI_1F = 3,
+    BERGOMI_2F = 4,
+    UNKNOWN = -1
+
+    def __str__(self):
+        return self.value
+
+
 class EULER_SCHEME_TYPE(Enum):
     STANDARD = 1
     LOG_NORMAL = 2

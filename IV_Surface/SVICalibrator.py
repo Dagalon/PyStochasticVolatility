@@ -1,6 +1,6 @@
 import numpy as np
 from scipy import optimize
-from IV_Surface import SVITools
+from Tools import SVITools
 from functools import partial
 
 atm_sigma = 0.07
