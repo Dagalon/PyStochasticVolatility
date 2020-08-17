@@ -1,6 +1,6 @@
 import numpy as np
 
-from Meshes import Mesh, finite_volume_mesh, uniform_mesh
+from Solvers.PDE_Solver.Meshes import Mesh, finite_volume_mesh, uniform_mesh
 
 x_max = 1.0
 x_min = -1.0

@@ -46,7 +46,8 @@ def get_path_multi_step(t0: float,
         z_f = rnd_generator.normal(0.0, 1.0, no_paths, type_random_numbers)
 
         np.copyto(v_t_paths[:, i],
-                  VarianceMC.get_variance(k, theta, epsilon, 1.5, t_i[i - 1], t_i[i], v_t_paths[:, i - 1], u_variance))
+                  VarianceMC.get_variance(k, theta, epsilon, 1.5, t_i[i - 1], t_i[i], v_t_paths[:, i - 1],
+                                          u_variance, no_paths))
         np.copyto(int_v_t_paths[:, i - 1], HestonTools.get_integral_variance(t_i[i - 1], t_i[i], v_t_paths[:, i - 1],
                                                                              v_t_paths[:, i], 0.5, 0.5))
 

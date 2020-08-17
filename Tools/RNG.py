@@ -6,7 +6,9 @@ from Tools.Types import TYPE_STANDARD_NORMAL_SAMPLING
 from ncephes import ndtri
 
 
-@nb.jit("f8[:](f8,f8,f8[:])", nopython=False, nogil=True)
+# mirar aqui el ndtri
+#@nb.jit("f8[:](f8,f8,f8[:])", nopython=False)
+@nb.jit(nopython=True)
 def norm_inv(mu, sigma, z):
     size_z = len(z)
     normal_narray = np.empty(size_z)

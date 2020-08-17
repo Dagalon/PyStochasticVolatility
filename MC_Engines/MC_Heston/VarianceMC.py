@@ -1,12 +1,12 @@
 import numpy as np
-import numba as nb
+from numba import jit
 
 from Tools.Types import ndarray
 from MC_Engines.MC_Heston import HestonTools
 from ncephes import ndtri
 
 
-@nb.jit("f8[:](f8,f8,f8,f8,f8,f8,f8[:],f8[:])", nopython=True, nogil=True)
+@jit("f8[:](f8,f8,f8,f8,f8,f8,f8[:],f8[:], i8)", nopython=True, nogil=True)
 def get_variance(k: float,
                  theta: float,
                  epsilon: float,
@@ -14,9 +14,10 @@ def get_variance(k: float,
                  t_i_1: float,
                  t_i: float,
                  v_t_i_1: ndarray,
-                 u_i: ndarray):
+                 u_i: ndarray,
+                 no_paths: int):
 
-    no_paths = len(v_t_i_1)
+    # no_paths = len(v_t_i_1)
     paths = np.zeros(no_paths)
 
     for i in range(0, no_paths):
@@ -26,7 +27,8 @@ def get_variance(k: float,
 
         if phi < phi_switch_level:
             parameters = HestonTools.matching_qe_moments_qg(m_i, s_2_i)
-            paths[i] = parameters[1] * np.power(parameters[0] + ndtri(u_i[i]), 2.0)
+            z_i = ndtri(u_i[i])
+            paths[i] = parameters[1] * np.power(parameters[0] + z_i, 2.0)
         else:
             parameters = HestonTools.matching_qe_moments_exp(m_i, s_2_i)
             paths[i] = HestonTools.inv_exp_heston(parameters[0], parameters[1], u_i[i])

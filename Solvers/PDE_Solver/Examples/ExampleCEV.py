@@ -1,11 +1,11 @@
 import numpy as np
-import PDESolvers
-import PDEOperators
 
-from Types import ndarray
-from Meshes import uniform_mesh, Mesh
-from PDEs import CEV_forward_PDE, PDE
-from TerminalConditions import TerminalCondition
+from Solvers.PDE_Solver import PDEOperators
+
+from Tools.Types import ndarray
+from Solvers.PDE_Solver.Meshes import uniform_mesh, Mesh
+from Solvers.PDE_Solver.PDEs import CEV_forward_PDE, PDE
+from Solvers.PDE_Solver.TerminalConditions import TerminalCondition
 
 
 def delta_terminal_condition(x: ndarray, x0: float, h: float):

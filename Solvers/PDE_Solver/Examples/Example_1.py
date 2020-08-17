@@ -1,14 +1,13 @@
 import numpy as np
-import PDESolvers
-import PDEOperators
-
 import time
 
+from Solvers.PDE_Solver import PDESolvers
+from Solvers.PDE_Solver import  PDEOperators
 from scipy.interpolate import interp1d
-from Meshes import uniform_mesh, Mesh, LnUnderlyingMesh
-from PDEs import LN_BS_PDE, PDE
-from Types import BoundaryConditionType, np_ndarray, SchemeType
-from TerminalConditions import TerminalCondition
+from Solvers.PDE_Solver.Meshes import uniform_mesh, Mesh, LnUnderlyingMesh
+from Solvers.PDE_Solver.PDEs import LN_BS_PDE, PDE
+from Solvers.PDE_Solver.Types import BoundaryConditionType, np_ndarray, SchemeType
+from Solvers.PDE_Solver.TerminalConditions import TerminalCondition
 from py_vollib.black_scholes_merton import black_scholes_merton
 
 try:
