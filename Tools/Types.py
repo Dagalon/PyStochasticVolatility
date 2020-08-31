@@ -77,3 +77,13 @@ class EULER_SCHEME_TYPE(Enum):
     def __str__(self):
         return self.value
 
+
+class ESTIMATOR_TYPE(Enum):
+    INTEGRATED_VARIANCE_FOURIER = 1,
+    INTEGRATED_VARIANCE_EMPIRICAL = 2,
+    SPOT_VARIANCE_FOURIER = 3,
+    UNKNOWN = -1
+
+    def __str__(self):
+        return self.value
+
