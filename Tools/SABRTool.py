@@ -9,7 +9,7 @@ def get_variance_swap(sigma0t: float, nu: float, t: float):
     return sigma_t / np.sqrt(t)
 
 
-@nb.jit("f8(f8,f8,f8)", nopython=True, nogil=True)
+# @nb.jit("f8(f8,f8,f8)", nopython=True, nogil=True)
 def get_rho_term_var_swap(alpha: float, nu: float, t: float):
     exp_nu_t = np.exp(nu * nu * t)
     result = np.power(alpha / nu, 3.0) * (2.0 + np.power(exp_nu_t, 3.0) - 3.0 * exp_nu_t)

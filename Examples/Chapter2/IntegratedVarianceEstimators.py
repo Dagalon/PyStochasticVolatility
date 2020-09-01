@@ -2,7 +2,7 @@ import numpy as np
 import numba as nb
 import matplotlib.pylab as plt
 
-from ncephes import ndtri
+from ncephes import ndtri, ndtr
 from Tools import VolatilityEstimators
 from Tools import Types
 
@@ -46,10 +46,10 @@ k = 0.2962
 p0 = np.log(100)
 sigma0 = np.sqrt(0.6365)
 
-t = (1.0 / 365.0) * 0.25
+t = 1
 seed = 123456
 
-no_time_steps = 6 * 720
+no_time_steps = 365
 no_paths = 5000
 
 # Simulated integrated variance
@@ -70,6 +70,18 @@ empirical_estimator = VolatilityEstimators.get_integrated_variance_estimator(pat
                                                                              no_paths,
                                                                              t_i_s,
                                                                              Types.ESTIMATOR_TYPE.INTEGRATED_VARIANCE_EMPIRICAL)
+# Estimator's Statistics
+# From simulation
+mean_simulation = np.mean(model_integrated_variance)
+std_simulation = np.std(model_integrated_variance)
+
+# Fourier
+mean_fourier = np.mean(fourier_estimator)
+std_fourier = np.std(fourier_estimator)
+
+# RV
+mean_rv = np.mean(empirical_estimator)
+std_rv = np.std(empirical_estimator)
 
 # bias
 bias_empirical = (empirical_estimator - model_integrated_variance) / model_integrated_variance
@@ -88,14 +100,12 @@ b = np.max([b_fourier, b_empirical])
 
 bins = np.linspace(a, b, 25)
 
-plt.hist(bias_fourier, bins, alpha=0.5, label='bias fourier integrated variance')
-plt.hist(bias_empirical, bins, alpha=0.5, label='bias RV integrated variance')
-
-plt.title("Bias Estimator Histogram")
+plt.hist(bias_fourier, bins, density=True, color="white", ec="black", label='Bias Fourier estimator histogram')
+# plt.hist(bias_empirical, bins, alpha=0.5, label='bias RV integrated variance')
+plt.grid()
 plt.legend()
 plt.show()
 
-# Spot variance estimator
 
 
 

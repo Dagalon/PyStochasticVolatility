@@ -29,13 +29,13 @@ no_dt = len(dt)
 for i in range(0, no_dt):
     no_time_steps = int(dt[i] / delta_time)
     rnd_generator.set_seed(seed)
-    european_option = EuropeanOption(f0, 1, TypeSellBuy.BUY, TypeEuropeanOption.CALL, f0, dt[i])
-    map_output = SABR_Engine.get_path_multi_step(0.0, dt[i], parameters, f0, no_paths, no_time_steps,
-                                                 Types.TYPE_STANDARD_NORMAL_SAMPLING.ANTITHETIC,
-                                                 rnd_generator)
-
-    results = european_option.get_price(map_output[Types.SABR_OUTPUT.PATHS])
-    mc_option_price.append(results[0])
+    # european_option = EuropeanOption(f0, 1, TypeSellBuy.BUY, TypeEuropeanOption.CALL, f0, dt[i])
+    # map_output = SABR_Engine.get_path_multi_step(0.0, dt[i], parameters, f0, no_paths, no_time_steps,
+    #                                              Types.TYPE_STANDARD_NORMAL_SAMPLING.ANTITHETIC,
+    #                                              rnd_generator)
+    #
+    # results = european_option.get_price(map_output[Types.SABR_OUTPUT.PATHS])
+    # mc_option_price.append(results[0])
 
     # price the option with var swap approximation
     analytic_price = EuropeanOptionExpansion.get_var_swap_apprx_price(f0, 1.0, TypeSellBuy.BUY, TypeEuropeanOption.CALL,

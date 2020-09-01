@@ -101,7 +101,7 @@ def get_spot_variance_fourier(path: Types.ndarray, t_k: Types.ndarray, no_paths:
     return sigma_n
 
 
-@nb.jit("f8[:](f8[:,:],f8[:], i8, i8)", nopython=True, nogil=True, parallel=True)
+@nb.jit("f8[:](f8[:,:],f8[:], i8, i8)", nopython=True, nogil=True)
 def get_fourier_coefficient(path: Types.ndarray, t_k: Types.ndarray, no_paths: int, s: int):
     no_time_steps = len(t_k)
     n_kernel = int(0.5 * no_time_steps)
