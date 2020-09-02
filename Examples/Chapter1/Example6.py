@@ -5,7 +5,7 @@ from py_vollib.black_scholes_merton import black_scholes_merton
 from py_vollib.black_scholes_merton.greeks import analytical
 
 T = 2.0
-no_time_steps = 100
+no_time_steps = int(T * 365)
 t_i_s = np.linspace(0.0, T, no_time_steps)
 diff_t_i_s = np.diff(t_i_s)
 
