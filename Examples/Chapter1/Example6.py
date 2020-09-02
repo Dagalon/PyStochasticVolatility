@@ -47,8 +47,8 @@ for i in range(1, no_time_steps):
     alpha_t_i_1 = alpha_t_i
     s_t_i_1 = s_t_i
 
-plt.plot(t_i_s, portfolio_t_i, label='hedge')
-plt.plot(t_i_s, option_t_i, label='call option')
+plt.plot(t_i_s, portfolio_t_i, label='hedge', linestyle='dashed', color='black')
+plt.plot(t_i_s, option_t_i, label='call option', color='black')
 
 plt.legend()
 plt.title('Dynamic Hedge')

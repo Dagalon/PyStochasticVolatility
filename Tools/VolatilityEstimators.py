@@ -68,7 +68,8 @@ def get_integrated_variance_empirical(path: Types.ndarray, t_k: Types.ndarray, n
 def get_spot_variance_fourier(path: Types.ndarray, t_k: Types.ndarray, no_paths: int, t: float):
     no_time_steps = len(t_k)
     n_kernel = int(0.5 * no_time_steps)
-    m_kernel = int(0.125 * (0.5 / np.pi) * np.sqrt(no_time_steps) * np.log(no_time_steps))
+    b = 0.125
+    m_kernel = int(b * (0.5 / np.pi) * np.sqrt(no_time_steps) * np.log(no_time_steps)) + 4.2
     sigma_n = np.zeros(no_paths)
     # coefficients = np.zeros(shape=(no_paths, 2 * m_kernel + 1))
 

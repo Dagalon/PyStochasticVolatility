@@ -32,7 +32,7 @@ def get_paths(p0: float, sigma0: float, t: float, theta: float, w: float, k: flo
             z_s_i = ndtri(u_s[j])
             exp_t = np.exp(- theta * delta_time)
             v_t[i, j] = v_t[i, j - 1] * exp_t + w * (1.0 - exp_t) + \
-                        nu * np.sqrt(0.5 * delta_time * ((1.0 - exp_t * exp_t) / theta)) * v_t[i, j - 1] * z_sigma_i
+                        nu * np.sqrt(0.5 * ((1.0 - exp_t * exp_t) / theta)) * v_t[i, j - 1] * z_sigma_i
             paths[i, j] = paths[i, j - 1] + np.sqrt(v_t[i, j - 1]) * np.sqrt(delta_time) * z_s_i
 
     return paths, v_t, t_i_s

@@ -8,13 +8,6 @@ from scipy.integrate import quad
 from functools import partial
 
 
-# Compute analytic variance of the underlying process at time t_i_s[-1]
-def get_analytic_variance(t: float, b0: float, b1: float, b2: float):
-    f = partial(VolatilityEstimators.get_mean_sigma, b0=beta0, b1=beta1, b2=beta2)
-    integral_value = quad(f, 0.0, t)
-    return integral_value[0]
-
-
 # numba function to get market paths
 @nb.jit("(f8,f8,f8,f8,f8,f8,i8,i8,i8)", nopython=True, nogil=True)
 def get_paths(p0: float, sigma0: float, t: float, theta: float, w: float, k: float,
@@ -40,7 +33,7 @@ def get_paths(p0: float, sigma0: float, t: float, theta: float, w: float, k: flo
             z_s_i = ndtri(u_s[j])
             exp_t = np.exp(- theta * delta_time)
             v_t[i, j] = v_t[i, j - 1] * exp_t + w * (1.0 - exp_t) + \
-                        nu * np.sqrt(0.5 * delta_time * ((1.0 - exp_t * exp_t) / theta)) * v_t[i, j - 1] * z_sigma_i
+                        nu * np.sqrt(0.5 * ((1.0 - exp_t * exp_t) / theta)) * v_t[i, j - 1] * z_sigma_i
             paths[i, j] = paths[i, j - 1] + np.sqrt(v_t[i, j - 1]) * np.sqrt(delta_time) * z_s_i
 
     return paths, v_t, t_i_s
@@ -57,7 +50,7 @@ sigma0 = np.sqrt(0.6365)
 t = 1.0
 seed = 123456
 
-no_time_steps = 365 * 4
+no_time_steps = 365 * 2
 no_paths = 1
 
 # Simulated integrated variance
@@ -68,13 +61,13 @@ spot_volatility_estimator = []
 simulated_path_vol = []
 t_j = []
 
-for i in range(1, no_time_steps, 2):
+for i in range(1, no_time_steps):
     t_j.append(t_i_s[i])
     estimator = VolatilityEstimators.get_spot_variance_fourier(paths, t_i_s, no_paths, t_i_s[i])
     simulated_path_vol.append(v_t[0, i])
     spot_volatility_estimator.append(estimator)
 
-plt.plot(t_j, np.array(spot_volatility_estimator), label='estimator_path')
-plt.plot(t_j, np.array(simulated_path_vol), label='simulated_path')
+plt.plot(t_j, np.array(spot_volatility_estimator), color='black', label='estimator_path')
+plt.plot(t_j, np.array(simulated_path_vol), linestyle='dashed', color='black', label='simulated_path',)
 plt.legend()
 plt.show()
