@@ -39,6 +39,13 @@ class SABR_OUTPUT(Enum):
         return self.value
 
 
+class LOCAL_VOL_OUTPUT(Enum):
+    PATHS = 0,
+
+    def __str__(self):
+        return self.value
+
+
 class TYPE_STANDARD_NORMAL_SAMPLING(Enum):
     REGULAR_WAY = 1,
     ANTITHETIC = 2
