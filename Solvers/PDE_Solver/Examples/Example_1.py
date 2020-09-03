@@ -2,12 +2,13 @@ import numpy as np
 import time
 
 from Solvers.PDE_Solver import PDESolvers
-from Solvers.PDE_Solver import  PDEOperators
+from Solvers.PDE_Solver import PDEOperators
 from scipy.interpolate import interp1d
 from Solvers.PDE_Solver.Meshes import uniform_mesh, Mesh, LnUnderlyingMesh
 from Solvers.PDE_Solver.PDEs import LN_BS_PDE, PDE
 from Solvers.PDE_Solver.Types import BoundaryConditionType, np_ndarray, SchemeType
 from Solvers.PDE_Solver.TerminalConditions import TerminalCondition
+from Solvers.PDE_Solver.BoundariesConditions import Zero_Laplacian_BC
 from py_vollib.black_scholes_merton import black_scholes_merton
 
 try:
@@ -40,7 +41,7 @@ print(analytic_price)
 mesh_x = LnUnderlyingMesh(r, q, sigma, S0, T, 0.999, uniform_mesh, 100)
 
 bs_pde = PDE.from_ipde_terms(LN_BS_PDE(r, q, sigma))
-bc = PDEOperators.ZeroLaplacianBC()
+bc = Zero_Laplacian_BC()
 
 operator_exp = PDEOperators.LinearPDEOperator(mesh_x, bs_pde, bc)
 operator_impl = PDEOperators.LinearPDEOperator(mesh_x, bs_pde, bc)

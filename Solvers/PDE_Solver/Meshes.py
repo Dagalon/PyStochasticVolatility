@@ -1,7 +1,7 @@
 import numpy as np
 
 from typing import Callable
-from Types import np_ndarray
+from Tools.Types import ndarray
 from scipy.stats import norm
 
 
@@ -25,7 +25,7 @@ def finite_volume_mesh(no_points: int, T0: float, T1: float):
 
 class Mesh(object):
     def __init__(self,
-                 generator: Callable[[int, float, float], np_ndarray],
+                 generator: Callable[[int, float, float], ndarray],
                  no_points: int,
                  T0=0.0,
                  T1=0.0,
@@ -74,7 +74,7 @@ class Mesh(object):
     def get_shift(self):
         return self._shift
 
-    def update_mesh(self, T0: float, T1: float, no_points: int, generator: Callable[[int, float, float], np_ndarray]):
+    def update_mesh(self, T0: float, T1: float, no_points: int, generator: Callable[[int, float, float], ndarray]):
         self._T0 = T0
         self._T1 = T1
         self._no_points = no_points
@@ -93,7 +93,7 @@ class LnUnderlyingMesh(Mesh):
                  s0: float,
                  T: float,
                  alpha: float,
-                 generator: Callable[[int, float, float], np_ndarray],
+                 generator: Callable[[int, float, float], ndarray],
                  no_points: int):
         Mesh.__init__(self, generator, no_points)
 

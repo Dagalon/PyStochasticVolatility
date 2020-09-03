@@ -1,10 +1,11 @@
 import numpy as np
 
-from Operators import Operator
-from Types import np_ndarray, SchemeType
+from Solvers.PDE_Solver.Operators import Operator
+from Solvers.PDE_Solver.Types import SchemeType
+from Tools.Types import ndarray
 from typing import List
 from abc import abstractmethod
-from Meshes import Mesh
+from Solvers.PDE_Solver.Meshes import Mesh
 from functools import partial
 
 
@@ -13,7 +14,7 @@ class Scheme(object):
         self._operator = operator
 
     @abstractmethod
-    def step_solver(self, mesh: Mesh, t_i_1: float, t_i: float, u_i_1: np_ndarray, u_i: np_ndarray):
+    def step_solver(self, mesh: Mesh, t_i_1: float, t_i: float, u_i_1: ndarray, u_i: ndarray):
         pass
 
     def modify_operators(self, **kwargs):
@@ -27,7 +28,7 @@ class ImplicitScheme(Scheme):
     def __init__(self, operator: Operator):
         Scheme.__init__(self, [operator])
 
-    def step_solver(self, mesh: Mesh, t_i_1: float, t_i: float, u_i_1: np_ndarray, u_i: np_ndarray):
+    def step_solver(self, mesh: Mesh, t_i_1: float, t_i: float, u_i_1: ndarray, u_i: ndarray):
         delta_i_1_i = (t_i - t_i_1)
         self._operator[0].update_operator(t_i_1, mesh)
         self._operator[0].apply_boundary_condition(t_i_1=t_i_1, t_i=t_i, operator=self._operator[0],
@@ -41,7 +42,7 @@ class ExplicitScheme(Scheme):
     def __init__(self, operator: Operator):
         Scheme.__init__(self, [operator])
 
-    def step_solver(self, mesh: Mesh, t_i_1: float, t_i: float, u_i_1: np_ndarray, u_i: np_ndarray):
+    def step_solver(self, mesh: Mesh, t_i_1: float, t_i: float, u_i_1: ndarray, u_i: ndarray):
         delta_i_1_i = (t_i - t_i_1)
         self._operator[0].update_operator(t_i, mesh)
         self._operator[0].apply_boundary_condition(t_i_1=t_i_1, t_i=t_i, operator=self._operator[0],
@@ -60,7 +61,7 @@ class ThetaScheme(Scheme):
         return self._theta
 
     def modify_operators(self, **kwargs):
-        def f(x: np_ndarray, alpha: float):
+        def f(x: ndarray, alpha: float):
             np.multiply(x, alpha, out=x)
 
         self._operator[0].modify_operator(partial(f, alpha=self._theta))
@@ -69,7 +70,7 @@ class ThetaScheme(Scheme):
     def set_parameters(self, **kwargs):
         self._theta = kwargs['theta']
 
-    def step_solver(self, mesh: Mesh, t_i_1: float, t_i: float, u_i_1: np_ndarray, u_i: np_ndarray):
+    def step_solver(self, mesh: Mesh, t_i_1: float, t_i: float, u_i_1: ndarray, u_i: ndarray):
         delta_i_1_i = (t_i - t_i_1)
         u_i_1_explicit = np.zeros(mesh.get_size())
 

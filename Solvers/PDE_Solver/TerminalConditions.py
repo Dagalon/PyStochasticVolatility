@@ -1,13 +1,13 @@
-from Meshes import Mesh
-from Types import np_ndarray
+from Solvers.PDE_Solver.Meshes import Mesh
+from Tools.Types import ndarray
 from typing import Callable
 
 
 class TerminalCondition(object):
-    def __init__(self, functional: Callable[[Mesh], np_ndarray]):
+    def __init__(self, functional: Callable[[Mesh], ndarray]):
         self._functional = functional
 
-    def get_value(self, mesh: Mesh) -> np_ndarray:
+    def get_value(self, mesh: Mesh) -> ndarray:
         return self._functional(mesh)
 
 

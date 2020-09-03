@@ -1,11 +1,11 @@
 import numpy as np
-import Schemes
 
-from PDEOperators import LinearPDEOperator
-from BoundariesConditions import BoundaryCondition
-from TerminalConditions import TerminalCondition
-from Types import SchemeType, BoundaryConditionType
-from Meshes import Mesh
+from Solvers.PDE_Solver.PDEOperators import LinearPDEOperator
+from Solvers.PDE_Solver.BoundariesConditions import BoundaryCondition
+from Solvers.PDE_Solver.TerminalConditions import TerminalCondition
+from Solvers.PDE_Solver.Types import SchemeType, BoundaryConditionType
+from Solvers.PDE_Solver.Meshes import Mesh
+from Solvers.PDE_Solver import Schemes
 from typing import List
 
 

@@ -1,7 +1,7 @@
 import numpy as np
-from Meshes import Mesh
-from Types import np_ndarray
-from BoundariesConditions import BoundaryCondition
+from Solvers.PDE_Solver.Meshes import Mesh
+from Solvers.PDE_Solver.Types import np_ndarray
+from Solvers.PDE_Solver.BoundariesConditions import BoundaryCondition
 from typing import Callable
 
 

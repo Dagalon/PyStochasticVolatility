@@ -1,11 +1,10 @@
-import Tools
-import numpy as np
+from Solvers.PDE_Solver import Tools
 
-from Operators import Operator, Laplacian, Gradient
-from PDEs import PDE
-from Types import BoundaryConditionType, np_ndarray
-from Meshes import Mesh
-from BoundariesConditions import BoundaryCondition
+from Solvers.PDE_Solver.Operators import Operator, Laplacian, Gradient
+from Solvers.PDE_Solver.PDEs import PDE
+from Solvers.PDE_Solver.Types import BoundaryConditionType, np_ndarray
+from Solvers.PDE_Solver.Meshes import Mesh
+from Solvers.PDE_Solver.BoundariesConditions import BoundaryCondition
 
 
 class LinearPDEOperator(Operator):
@@ -39,7 +38,7 @@ class LinearPDEOperator(Operator):
 
     def update_operator(self, t: float, mesh: Mesh):
         diffusion = self._pde.diffusion(t, mesh.get_points())
-        convection = self._pde.convection(t, mesh.get_points())
+        convection = self._pde.convection(t, mesh.get_points(), diffusion)
         source = self._pde.source(t, mesh.get_points())
 
         self._laplacian.update_operator(t, mesh)

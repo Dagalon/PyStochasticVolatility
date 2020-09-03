@@ -1,5 +1,5 @@
 from abc import abstractmethod
-from Types import BoundaryConditionType
+from Solvers.PDE_Solver.Types import BoundaryConditionType
 
 
 class BoundaryCondition(object):
