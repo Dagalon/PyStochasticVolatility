@@ -10,5 +10,8 @@ class TerminalCondition(object):
     def get_value(self, mesh: Mesh) -> ndarray:
         return self._functional(mesh)
 
+    def update(self, functional: Callable[[Mesh], ndarray]):
+        self._functional = functional
+
 
 

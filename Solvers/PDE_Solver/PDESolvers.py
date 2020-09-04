@@ -57,6 +57,9 @@ class FDSolver(object):
             np.copyto(u_i, u_i_1)
             np.copyto(self._u_grid[:, i], u_i_1)
 
+    def update_terminal_condition(self, tc: TerminalCondition):
+        self._tc = tc
+
 
 
 
