@@ -3,11 +3,10 @@ import QuantLib as ql
 import numpy as np
 
 from typing import List, Dict
-from functools import partial
-from IV_Calibrators.Core_IV_Calibrators.SurfaceVolatility.IVParametric import SABR, SVI
-from IV_Calibrators.Core_IV_Calibrators.SpecialTypes import GeneralTypes
-from IV_Calibrators.Core_IV_Calibrators.SurfaceVolatility.Tools import ParameterTools, SabrTools
-from MDRM.ToolsReadFromFilesEquityData import FromInfoToQL
+from VolatilitySurface.IVParametric import SABR, SVI
+from Tools import Types
+from VolatilitySurface.Tools import ParameterTools, SABRTools
+# from MDRM.ToolsReadFromFilesEquityData import FromInfoToQL
 
 
 class ImpliedVolatilitySurface(object):
@@ -30,7 +29,7 @@ class ImpliedVolatilitySurface(object):
         pass
 
     @abc.abstractmethod
-    def get_local_vol_derivative(self, z_t: GeneralTypes.nd_array, t=None):
+    def get_local_vol_derivative(self, z_t: Types.ndarray, t=None):
         pass
 
     def get_parameters(self, *args):
@@ -168,14 +167,14 @@ class SABRImpliedVolatilitySurface(ImpliedVolatilitySurface):
 
         return SABR.get_implied_volatility(alpha, rho, v, f=f, k=k, t=delta_T)
 
-    def get_local_vol_derivative(self, z_t: GeneralTypes.nd_array, t=None):
+    def get_local_vol_derivative(self, z_t: Types.ndarray, t=None):
         delta_t_T = self._day_counter.yearFraction(self._value_date, t)
         rho_t = self._f_rho(delta_t_T)
         nu_t = self._f_v(delta_t_T)
         atm_vol_t = self.get_atm_volatility(t)[0]
         alpha_t = ParameterTools.alpha_atm_sabr(rho_t, nu_t, atm_vol_t, delta_t_T)
 
-        return SabrTools.f_partial_der_parameters(z_t, delta_t_T, alpha_t, rho_t, nu_t)
+        return SABRTools.f_partial_der_parameters(z_t, delta_t_T, alpha_t, rho_t, nu_t)
 
     def get_index_neighbor_slices(self, t=None):
         if t <= self._date_atm_vol[0]:
@@ -281,17 +280,6 @@ class SVIImpliedVolatilitySurface(ImpliedVolatilitySurface):
 
             alpha_t = delta_T_i_1_t / delta_T_i_1_T_i
 
-            # no_parameters = len(params_lower)
-            # interpolated_params = np.zeros(no_parameters)
-            # for i in range(0, no_parameters):
-            #     interpolated_params[i] = alpha_t * params_upper[i] + (1.0 - alpha_t) * params_lower[i]
-            #
-            # interpolated_var = SVI.svi_total_imp_var(interpolated_params[0], interpolated_params[1],
-            #                                          interpolated_params[2], interpolated_params[3],
-            #                                          interpolated_params[4], z=z, t=delta_t0_t)
-            #
-            # interp_vol = np.sqrt(interpolated_var / delta_t0_t)
-
             var_t_i_1 = SVI.svi_total_imp_var(params_lower[0], params_lower[1], params_lower[2], params_lower[3],
                                               params_lower[4], z=z)
 
@@ -319,5 +307,5 @@ class SVIImpliedVolatilitySurface(ImpliedVolatilitySurface):
             index_right = np.array(self._slice_date).searchsorted(t, side='right')
             return index_right - 1, index_right
 
-    def get_local_vol_derivative(self, z_t: GeneralTypes.nd_array, t=None):
+    def get_local_vol_derivative(self, z_t: Types.ndarray, t=None):
         pass

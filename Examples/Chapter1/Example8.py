@@ -5,7 +5,7 @@ import matplotlib.pylab as plt
 import QuantLib as ql
 
 from pathlib import Path
-from VolatilitySurface.Tools import SABRTool
+from VolatilitySurface.Tools import SABRTools
 
 current_directory = os.path.dirname(os.path.realpath(__file__))
 folder_directory = Path(current_directory)
@@ -25,7 +25,7 @@ for i in range(1, no_dates):
     dti = (float(parameters['date'][i]) - float(parameters['value_date'][i])) / 365.0
     iv = []
     for j in range(0, no_z_i):
-        iv.append(SABRTool.ln_hagan_vol(alpha_i, rho_i, nu_i, z_i[j], dti))
+        iv.append(SABRTools.ln_hagan_vol(alpha_i, rho_i, nu_i, z_i[j], dti))
     sabr_iv_map[int(parameters['date'][i])] = iv
 
 nu_param = []
@@ -35,14 +35,6 @@ for i in range(1, no_dates):
     delta_time.append((float(parameters['date'][i]) - float(parameters['value_date'][i])) / 365.0)
     nu_param.append(float(parameters['nu'][i]))
     rho_param.append(float(parameters['rho'][i]))
-
-# plt.plot(delta_time, nu_param, label='vol-of-vol parameter', linestyle='dashed', color='black')
-# plt.xlabel('t')
-# # plt.plot(delta_time, rho_param, label='correlation parameter')
-#
-# plt.legend()
-# plt.show()
-
 
 fig, axs = plt.subplots(2, 3)
 index = [0, 3, 6, 8, 12, 18]

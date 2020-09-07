@@ -1,9 +1,7 @@
-import time
 import numpy as np
 import matplotlib.pylab as plt
 
 from functools import partial
-from Instruments.EuropeanInstruments import EuropeanOption, TypeSellBuy, TypeEuropeanOption
 from MC_Engines.MC_LocalVolEngine import LocalVolFunctionals,LocalVolEngine
 from scipy.interpolate import interp1d
 from Solvers.PDE_Solver import PDESolvers

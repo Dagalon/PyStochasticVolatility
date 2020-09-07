@@ -2,9 +2,9 @@ import abc
 import QuantLib as ql
 import numpy as np
 
-from IV_Calibrators.Core_IV_Calibrators.SurfaceVolatility.TermStructureVolatility import ImpliedVolatilitySurface
-from IV_Calibrators.Core_IV_Calibrators.SpecialTypes import GeneralTypes
-from IV_Calibrators.Core_IV_Calibrators.SurfaceVolatility.Tools import SabrTools, SVITools
+from VolatilitySurface.TermStructureVolatility import ImpliedVolatilitySurface
+from Tools import Types
+from VolatilitySurface.Tools import SABRTools, SVITools
 
 
 class LocalVol(object):
@@ -15,11 +15,11 @@ class LocalVol(object):
         self._day_counter = iv_surface.day_counter
 
     @abc.abstractmethod
-    def get_vol(self, t: int, x_t: GeneralTypes.nd_array, f0_t):
+    def get_vol(self, t: int, x_t: Types.ndarray, f0_t):
         pass
 
     @abc.abstractmethod
-    def get_pathwise_derive(self, t: float, x_t: GeneralTypes.nd_array):
+    def get_pathwise_derive(self, t: float, x_t: Types.ndarray):
         pass
 
     def update_iv_surface(self, iv_surface: ImpliedVolatilitySurface):
@@ -31,14 +31,14 @@ class SABRLocalVol(LocalVol):
     def __init__(self, iv_surface: ImpliedVolatilitySurface):
         LocalVol.__init__(self, iv_surface)
 
-    def get_vol(self, t: int, x_t: GeneralTypes.nd_array, f0_t):
+    def get_vol(self, t: int, x_t: Types.ndarray, f0_t):
         d_t = self._day_counter.yearFraction(self._iv_surface._value_date, ql.Date(t))
 
         if d_t > 0:
             parameters = self._iv_surface.get_parameters()
             atm_info = self._iv_surface.get_atm_volatility(ql.Date(t))
 
-            return SabrTools.get_sabr_loc_vol(np.array(parameters['nu']),  # Esto hay que modificarlo
+            return SABRTools.get_sabr_loc_vol(np.array(parameters['nu']),  # Esto hay que modificarlo
                                               np.array(parameters['rho']),  # Esto hay que modificarlo
                                               atm_info[0],
                                               atm_info[1],
@@ -48,7 +48,7 @@ class SABRLocalVol(LocalVol):
         else:
             return np.zeros(x_t.shape)
 
-    def get_pathwise_derive(self, t: float, x_t: GeneralTypes.nd_array):
+    def get_pathwise_derive(self, t: float, x_t: Types.ndarray):
         pass
 
 
@@ -56,7 +56,7 @@ class SVILocalVol(LocalVol):
     def __init__(self, iv_surface: ImpliedVolatilitySurface):
         LocalVol.__init__(self, iv_surface)
 
-    def get_vol(self, t: int, x_t: GeneralTypes.nd_array, f0_t):
+    def get_vol(self, t: int, x_t: Types.ndarray, f0_t):
         d_t = self._day_counter.yearFraction(self._iv_surface._value_date, ql.Date(t))
         index = self._iv_surface.get_index_neighbor_slices(t)
         dates = self._iv_surface._slice_date
@@ -83,5 +83,5 @@ class SVILocalVol(LocalVol):
 
         return SVITools.get_svi_loc_vol(p_i_1, p_i, d_t_j_1, d_t, d_t_j, f0_t, x_t)
 
-    def get_pathwise_derive(self, t: float, x_t: GeneralTypes.nd_array):
+    def get_pathwise_derive(self, t: float, x_t: Types.ndarray):
         pass

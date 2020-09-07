@@ -1,7 +1,7 @@
 import matplotlib.pylab as plt
 
 from Tools import RNG, Types
-from VolatilitySurface.Tools import SABRTool
+from VolatilitySurface.Tools import SABRTools
 from Instruments.EuropeanInstruments import TypeSellBuy, TypeEuropeanOption
 from AnalyticEngines.MalliavinMethod import EuropeanOptionExpansion
 from py_vollib.black_scholes_merton import black_scholes_merton
@@ -43,7 +43,7 @@ for i in range(0, no_dt):
     var_swap_apprx_price.append(analytic_price)
 
     # hagan's price
-    iv_hagan = SABRTool.ln_hagan_vol(parameters[0], parameters[1], parameters[2], 0.0, dt[i])
+    iv_hagan = SABRTools.ln_hagan_vol(parameters[0], parameters[1], parameters[2], 0.0, dt[i])
     hagan_price = black_scholes_merton('c', f0, f0, dt[i], 0.0, iv_hagan, 0.0)
     hagan_apprx_price.append(hagan_price)
 

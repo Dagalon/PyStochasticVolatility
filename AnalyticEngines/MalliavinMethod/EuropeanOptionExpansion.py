@@ -2,7 +2,7 @@ import numpy as np
 import numba as nb
 from typing import List
 from Tools import Types, Functionals, HestonTool
-from VolatilitySurface.Tools import SABRTool
+from VolatilitySurface.Tools import SABRTools
 from Instruments.EuropeanInstruments import TypeSellBuy, TypeEuropeanOption
 from py_vollib.black_scholes_merton import black_scholes_merton
 
@@ -30,11 +30,11 @@ def get_var_swap_apprx_price(strike: float,
         alpha = parameters[0]
         rho = parameters[1]
         nu = parameters[2]
-        var_swap = SABRTool.get_variance_swap(alpha, nu, delta_time)
+        var_swap = SABRTools.get_variance_swap(alpha, nu, delta_time)
         if option_type == TypeEuropeanOption.CALL:
             bs0 = black_scholes_merton('c', spot, strike, delta_time, 0.0, var_swap, 0.0)
             h_0 = delta_vega(strike, spot, var_swap, delta_time)
-            rho_term = SABRTool.get_rho_term_var_swap(alpha, nu, delta_time) * h_0
+            rho_term = SABRTools.get_rho_term_var_swap(alpha, nu, delta_time) * h_0
             if buy_sell == TypeSellBuy.BUY:
                 return notional * (bs0 + 0.5 * rho * rho_term)
             else:
@@ -42,7 +42,7 @@ def get_var_swap_apprx_price(strike: float,
         else:
             bs0 = black_scholes_merton('p', spot, strike, delta_time, 0.0, var_swap, 0.0)
             h_0 = delta_vega(strike, spot, var_swap, delta_time)
-            rho_term = SABRTool.get_rho_term_var_swap(alpha, nu, delta_time) * h_0
+            rho_term = SABRTools.get_rho_term_var_swap(alpha, nu, delta_time) * h_0
             forward = (spot - strike)
             call_price = notional * (bs0 + 0.5 * rho * rho_term)
             if buy_sell == TypeSellBuy.BUY:

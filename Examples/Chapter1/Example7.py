@@ -4,9 +4,7 @@ import pandas as pd
 import matplotlib.pylab as plt
 import statsmodels.api as sm
 # import seaborn as sbn
-import pylab
 from pathlib import Path
-from scipy import stats
 
 current_directory = os.path.dirname(os.path.realpath(__file__))
 folder_directory = Path(current_directory)

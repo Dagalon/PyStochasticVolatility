@@ -1,7 +1,7 @@
 import abc
 import numpy as np
 
-from IV_Calibrators.Core_IV_Calibrators.SurfaceVolatility.Tools import SVITools, SabrTools
+from VolatilitySurface.Tools import SVITools, SABRTools
 
 
 class ParametricImpliedVolatility(object):
@@ -66,7 +66,7 @@ class SABR(ParametricImpliedVolatility):
 
     @staticmethod
     def get_implied_volatility(*args, f=0.0, k=0.0, t=0.0):
-        return SabrTools.sabr_vol_jit(args[0], args[1], args[2], np.log(f / k), t)
+        return SABRTools.sabr_vol_jit(args[0], args[1], args[2], np.log(f / k), t)
 
     @staticmethod
     def get_variance(*args, f=0.0, k=0.0, t=None):
