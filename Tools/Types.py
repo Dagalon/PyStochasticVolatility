@@ -7,6 +7,7 @@ Vector = List[float]
 ndarray = NewType('ndarray', type(np.ndarray))
 min_value = 1e-08
 
+MIN_VALUE_LOG_MONEYNESS = 0.00001
 
 class HESTON_OUTPUT(Enum):
     PATHS = 0,

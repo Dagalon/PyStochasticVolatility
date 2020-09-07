@@ -2,8 +2,9 @@ import os
 import numpy as np
 import pandas as pd
 import matplotlib.pylab as plt
-import seaborn as sbn
-
+import statsmodels.api as sm
+# import seaborn as sbn
+import pylab
 from pathlib import Path
 from scipy import stats
 
@@ -27,11 +28,15 @@ bins = np.linspace(log_increments_normalized.min(), log_increments_normalized.ma
 #     cdf_normal[i] = stats.norm.cdf((bins[i] - mean_log_increments) / std_log_increments)
 
 
-sbn.distplot(log_increments_normalized, kde=True, bins=bins, fit=stats.norm, hist=True, norm_hist=True,
-             kde_kws={"color": "black", "lw": 1, "label": "Market density", 'linestyle': '--'},
-             fit_kws={"label": "Normal density"},
-             hist_kws={"histtype": "bar", "linewidth": 2, "alpha": 1, "color": "grey"})
+# sbn.distplot(log_increments_normalized, kde=True, bins=bins, fit=stats.norm, hist=True, norm_hist=True,
+#              kde_kws={"color": "black", "lw": 1, "label": "Market density", 'linestyle': '--'},
+#              fit_kws={"label": "Normal density"},
+#              hist_kws={"histtype": "bar", "linewidth": 2, "alpha": 1, "color": "grey"})
 
 # plt.plot(bins, cdf_normal, color='black', label='Normal distribution')
-plt.legend()
+pp = sm.ProbPlot(log_increments_normalized, fit=True)
+qq = pp.qqplot(marker='.', markerfacecolor='k', markeredgecolor='k', alpha=0.3)
+sm.qqline(qq.axes[0], line='45', fmt='k--')
+
+# plt.legend()
 plt.show()

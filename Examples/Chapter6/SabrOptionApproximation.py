@@ -1,8 +1,8 @@
 import matplotlib.pylab as plt
 
-from MC_Engines.MC_SABR import SABR_Engine
-from Tools import RNG, Types, SABRTool
-from Instruments.EuropeanInstruments import EuropeanOption, TypeSellBuy, TypeEuropeanOption
+from Tools import RNG, Types
+from VolatilitySurface.Tools import SABRTool
+from Instruments.EuropeanInstruments import TypeSellBuy, TypeEuropeanOption
 from AnalyticEngines.MalliavinMethod import EuropeanOptionExpansion
 from py_vollib.black_scholes_merton import black_scholes_merton
 

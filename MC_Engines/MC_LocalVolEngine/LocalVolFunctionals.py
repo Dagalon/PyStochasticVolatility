@@ -19,6 +19,6 @@ def log_cev_diffusion(t: float, x: Types.ndarray, beta: float, sigma: float):
     no_elements = len(x)
     output = np.zeros(no_elements)
     for i in range(0, no_elements):
-        output[i] = sigma * np.power(np.exp(x[i]), beta)
+        output[i] = sigma * np.power(np.exp(np.maximum(x[i], 0.00001)), beta)
 
     return output

@@ -21,13 +21,13 @@ def get_integrated_variance_from_sim(v_paths_paths: Types.ndarray, t_i_s: Types.
     return variance
 
 
-def get_integrated_variance_estimator(paths: Types.ndarray, no_paths: int, t_i: Types.ndarray,
+def get_integrated_variance_estimator(paths: Types.ndarray, no_paths: int, freq_sampling: int, t_i: Types.ndarray,
                                       method: Types.ESTIMATOR_TYPE):
     if method == Types.ESTIMATOR_TYPE.INTEGRATED_VARIANCE_FOURIER:
-        return get_integrated_variance_fourier(paths, t_i, no_paths)
+        return get_integrated_variance_fourier(paths, t_i, freq_sampling, no_paths)
 
     elif method == Types.ESTIMATOR_TYPE.INTEGRATED_VARIANCE_EMPIRICAL:
-        return get_integrated_variance_empirical(paths, t_i, no_paths)
+        return get_integrated_variance_empirical(paths, t_i, freq_sampling, no_paths)
 
     elif method == Types.ESTIMATOR_TYPE.INTEGRATED_VARIANCE_EMPIRICAL:
         pass
@@ -35,30 +35,30 @@ def get_integrated_variance_estimator(paths: Types.ndarray, no_paths: int, t_i: 
         print("The estimator %s" % (str(method)))
 
 
-@nb.jit("f8[:](f8[:,:],f8[:], i8)", nopython=True, nogil=True, parallel=True)
-def get_integrated_variance_fourier(path: Types.ndarray, t_k: Types.ndarray, no_paths: int):
+@nb.jit("f8[:](f8[:,:],f8[:],i8,i8)", nopython=True, nogil=True, parallel=True)
+def get_integrated_variance_fourier(path: Types.ndarray, t_k: Types.ndarray, freq_sampling: int, no_paths: int):
     no_time_steps = len(t_k)
     sigma_n = np.zeros(no_paths)
     n_kernel = int(len(t_k) * 0.5)
     for k in range(0, no_paths):
-        for i in range(0, no_time_steps - 1):
-            delta_x_i = path[k, i + 1] - path[k, i]
-            for j in range(0, no_time_steps - 1):
+        for i in range(0, no_time_steps - freq_sampling, freq_sampling):
+            delta_x_i = path[k, i + freq_sampling] - path[k, i]
+            for j in range(0, no_time_steps - freq_sampling, freq_sampling):
                 diff = (t_k[i] - t_k[j]) * (2.0 * np.pi / t_k[-1])
-                delta_x_j = path[k, j + 1] - path[k, j]
+                delta_x_j = path[k, j + freq_sampling] - path[k, j]
                 sigma_n[k] += Functionals.dirichlet_kernel(diff, n_kernel) * delta_x_i * delta_x_j
 
     return sigma_n
 
 
-@nb.jit("f8[:](f8[:,:],f8[:], i8)", nopython=True, nogil=True)
-def get_integrated_variance_empirical(path: Types.ndarray, t_k: Types.ndarray, no_paths: int):
+@nb.jit("f8[:](f8[:,:],f8[:],i8,i8)", nopython=True, nogil=True)
+def get_integrated_variance_empirical(path: Types.ndarray, t_k: Types.ndarray, freq_sampling: int, no_paths: int):
     no_time_steps = len(t_k)
     sigma_n = np.zeros(no_paths)
 
     for k in range(0, no_paths):
-        for j in range(1, no_time_steps):
-            diff = path[k, j] - path[k, j - 1]
+        for j in range(freq_sampling, no_time_steps, freq_sampling):
+            diff = path[k, j] - path[k, j - freq_sampling]
             sigma_n[k] += (diff * diff)
 
     return sigma_n

@@ -1,7 +1,8 @@
 import numpy as np
 import numba as nb
 from typing import List
-from Tools import Types, SABRTool, Functionals, HestonTool
+from Tools import Types, Functionals, HestonTool
+from VolatilitySurface.Tools import SABRTool
 from Instruments.EuropeanInstruments import TypeSellBuy, TypeEuropeanOption
 from py_vollib.black_scholes_merton import black_scholes_merton
 

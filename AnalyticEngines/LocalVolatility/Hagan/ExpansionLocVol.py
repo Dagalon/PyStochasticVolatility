@@ -1,0 +1,44 @@
+import numpy as np
+
+from typing import Callable
+
+
+class hagan_loc_vol(object):
+    def __init__(self, a_t: Callable[[float], float],
+                 loc_vol: Callable[[float], float],
+                 loc_vol_first_derive: Callable[[float], float],
+                 loc_vol_second_derive: Callable[[float], float]):
+        self._a_t = a_t
+        self._loc_vol = loc_vol
+        self._loc_vol_derive = loc_vol_first_derive
+        self._loc_vol_second_derive = loc_vol_second_derive
+
+    def get_implied_vol(self, t: float, f0: float, k: float) -> float:
+        f_av = 0.5 * (f0 + k)
+        loc_vol_value = self._loc_vol(f_av)
+        r1 = self._loc_vol_derive(f_av) / loc_vol_value
+        r2 = self._loc_vol_second_derive(f_av) / loc_vol_value
+        a_t = self._a_t(t)
+
+        multiplier = a_t * loc_vol_value / f_av
+        order0 = (1.0 / 24.0) * (2.0 * r2 - r1 * r1 + 1.0 / (f_av * f_av)) * np.power(a_t * loc_vol_value, 2.0) * t
+        order1 = (1.0 / 24.0) * (r2 - 2.0 * r1 * r1 + 2.0 / (f_av * f_av))
+
+        # caso cev
+        # alpha = 0.5
+        # m = a_t / np.power(f_av, 1.0 - alpha)
+        # order0_cev = (1.0 / 24.0) * a_t * a_t * t * (1.0 - alpha) * (1.0 - alpha) / np.power(f_av, 2.0 * (1.0 - alpha))
+        # order1_cev = (1.0 / 24.0) * (1 - alpha)*(2+alpha)* np.power((f0 - k) / f_av, 2.0)
+        return multiplier * (1.0 + order0 + order1 * (f0 - k) * (f0 - k))
+
+    def update_a(self, a_t: Callable[[float], float]):
+        self._a_t = a_t
+
+    def loc_vol(self,
+                loc_vol: Callable[[float], float],
+                loc_vol_first_derive: Callable[[float], float],
+                loc_vol_second_derive: Callable[[float], float]):
+
+        self._loc_vol = loc_vol
+        self._loc_vol_derive = loc_vol_first_derive
+        self._loc_vol_second_derive = loc_vol_second_derive

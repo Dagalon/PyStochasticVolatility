@@ -2,10 +2,9 @@ import numpy as np
 import numba as nb
 import matplotlib.pylab as plt
 
-from ncephes import ndtri
+from ncephes import ndtri, ndtr
 from Tools import VolatilityEstimators
-from scipy.integrate import quad
-from functools import partial
+from Tools import Types
 
 
 # numba function to get market paths
@@ -47,27 +46,71 @@ k = 0.2962
 p0 = np.log(100)
 sigma0 = np.sqrt(0.6365)
 
-t = 1.0
+t = 1
 seed = 123456
 
-no_time_steps = 365 * 2
-no_paths = 1
-
+no_time_steps = 365*4
+no_paths = 5000
+freq_sampling = 4
 # Simulated integrated variance
 paths, v_t, t_i_s = get_paths(p0, sigma0, t, theta, w, k, no_paths, no_time_steps, seed)
 
-# We compute the fourier spot volatility estimator and we will compare with the simulated path.
-spot_volatility_estimator = []
-simulated_path_vol = []
-t_j = []
 
-for i in range(1, no_time_steps):
-    t_j.append(t_i_s[i])
-    estimator = VolatilityEstimators.get_spot_variance_fourier(paths, t_i_s, no_paths, t_i_s[i])
-    simulated_path_vol.append(v_t[0, i])
-    spot_volatility_estimator.append(estimator)
+# Integrated variance estimator
+model_integrated_variance = VolatilityEstimators.get_integrated_variance_from_sim(v_t,
+                                                                                  t_i_s,
+                                                                                  no_paths)
 
-plt.plot(t_j, np.array(spot_volatility_estimator), color='black', label='estimator_path')
-plt.plot(t_j, np.array(simulated_path_vol), linestyle='dashed', color='black', label='simulated_path',)
-plt.legend()
+fourier_estimator = VolatilityEstimators.get_integrated_variance_estimator(paths,
+                                                                           no_paths,
+                                                                           freq_sampling,
+                                                                           t_i_s,
+                                                                           Types.ESTIMATOR_TYPE.INTEGRATED_VARIANCE_FOURIER)
+
+empirical_estimator = VolatilityEstimators.get_integrated_variance_estimator(paths,
+                                                                             no_paths,
+                                                                             freq_sampling,
+                                                                             t_i_s,
+                                                                             Types.ESTIMATOR_TYPE.INTEGRATED_VARIANCE_EMPIRICAL)
+# Estimator's Statistics
+# From simulation
+mean_simulation = np.mean(model_integrated_variance)
+std_simulation = np.std(model_integrated_variance)
+
+# Fourier
+mean_fourier = np.mean(fourier_estimator)
+std_fourier = np.std(fourier_estimator)
+
+# RV
+mean_rv = np.mean(empirical_estimator)
+std_rv = np.std(empirical_estimator)
+
+# bias
+bias_empirical = (empirical_estimator - model_integrated_variance) / model_integrated_variance
+bias_fourier = (fourier_estimator - model_integrated_variance) / model_integrated_variance
+
+# Histogram of the integrated variance estimator
+
+a_fourier = bias_fourier.min()
+b_fourier = bias_fourier.max()
+
+a_empirical = bias_empirical.min()
+b_empirical = bias_empirical.max()
+
+a = np.min([a_fourier, a_empirical])
+b = np.max([b_fourier, b_empirical])
+
+bins = np.linspace(a, b, 20)
+
+fig, axs = plt.subplots(1, 2)
+
+axs[0].hist(bias_fourier, bins, density=True, color="white", ec="black", label="Bias Fourier estimator")
+axs[0].legend(loc="upper right")
+axs[1].hist(bias_empirical, bins, density=True, color="white", ec="black", label="Bias RV estimator")
+axs[1].legend(loc="upper right")
+# plt.hist(bias_empirical, bins, alpha=0.5, label='bias RV integrated variance')
 plt.show()
+
+
+
+
