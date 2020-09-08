@@ -51,7 +51,7 @@ seed = 123456
 
 no_time_steps = 365*4
 no_paths = 5000
-freq_sampling = 4
+freq_sampling = 1
 # Simulated integrated variance
 paths, v_t, t_i_s = get_paths(p0, sigma0, t, theta, w, k, no_paths, no_time_steps, seed)
 
@@ -87,7 +87,12 @@ std_rv = np.std(empirical_estimator)
 
 # bias
 bias_empirical = (empirical_estimator - model_integrated_variance) / model_integrated_variance
+rbias_empirical = np.mean(bias_empirical)
+rrmse_empirical = np.sqrt(np.mean(bias_empirical * bias_empirical))
+
 bias_fourier = (fourier_estimator - model_integrated_variance) / model_integrated_variance
+rbias_fourier = np.mean(bias_fourier)
+rrmse_fourier = np.sqrt(np.mean(bias_fourier * bias_fourier))
 
 # Histogram of the integrated variance estimator
 
@@ -100,17 +105,31 @@ b_empirical = bias_empirical.max()
 a = np.min([a_fourier, a_empirical])
 b = np.max([b_fourier, b_empirical])
 
-bins = np.linspace(a, b, 20)
+bins = np.linspace(a, b, 30)
 
-fig, axs = plt.subplots(1, 2)
+fig, axs = plt.subplots(1, 2, figsize=(12, 4))
 
-axs[0].hist(bias_fourier, bins, density=True, color="white", ec="black", label="Bias Fourier estimator")
-axs[0].legend(loc="upper right")
+axs[0].hist(bias_fourier, bins, density=True, color="white", ec="black")
+axs[0].set_title("RV estimator")
+axs[0].set_ylabel("Observation frequency four times per day")
 axs[1].hist(bias_empirical, bins, density=True, color="white", ec="black", label="Bias RV estimator")
-axs[1].legend(loc="upper right")
+axs[1].set_title("Fourier estimator")
+axs[1].set_ylabel("Observation frequency four times per day")
 # plt.hist(bias_empirical, bins, alpha=0.5, label='bias RV integrated variance')
+
+
+plt.text(0.8, 0.8, 'RBIAS='+str("{:e}".format(rbias_empirical)), fontsize=10, horizontalalignment='center',
+         verticalalignment='center', transform=axs[0].transAxes)
+
+plt.text(0.8, 0.9, 'RRMSE='+str("{:e}".format(rrmse_empirical)), fontsize=10, horizontalalignment='center',
+         verticalalignment='center', transform=axs[0].transAxes)
+
+plt.text(0.8, 0.8, 'RBIAS='+str("{:e}".format(rbias_fourier)), fontsize=10, horizontalalignment='center',
+         verticalalignment='center', transform=axs[1].transAxes)
+
+plt.text(0.8, 0.9, 'RRMSE='+str("{:e}".format(rrmse_fourier)), fontsize=10, horizontalalignment='center',
+         verticalalignment='center', transform=axs[1].transAxes)
+
 plt.show()
-
-
 
 
