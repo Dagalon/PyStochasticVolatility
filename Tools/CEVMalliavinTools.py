@@ -1,12 +1,12 @@
 import numba as nb
-from Type import nd_array
+from Tools.Types import ndarray
 import numpy as np
 
 
 @nb.jit("f8[:,:](f8, f8[:,:], f8[:,:])", nopython=True, nogil=True)
 def transform_cev_malliavin(rho: float,
-                            z_t_paths: nd_array,
-                            d_z_t: nd_array):
+                            z_t_paths: ndarray,
+                            d_z_t: ndarray):
     dim = z_t_paths.shape
     path_d_z_t = np.empty(shape=dim)
 

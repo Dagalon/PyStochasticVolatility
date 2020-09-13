@@ -4,8 +4,6 @@ import matplotlib.pylab as plt
 
 from ncephes import ndtri
 from Tools import VolatilityEstimators
-from scipy.integrate import quad
-from functools import partial
 
 
 # numba function to get market paths

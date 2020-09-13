@@ -9,6 +9,7 @@ min_value = 1e-08
 
 MIN_VALUE_LOG_MONEYNESS = 0.00001
 
+
 class HESTON_OUTPUT(Enum):
     PATHS = 0,
     INTEGRAL_VARIANCE_PATHS = 1,
