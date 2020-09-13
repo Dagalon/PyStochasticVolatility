@@ -46,6 +46,6 @@ b = 10.0
 
 cf_heston = partial(HestonCharesticFunction.get_cf, t=T, x=x0, v=v0, theta=theta, rho=rho, epsilon=epsilon, b=b2, u=u2)
 start_time = time.time()
-cos_price = COSRepresentation.get_european_option_price(TypeEuropeanOption.CALL, a, b, 32, f0, k_s, T, cf_heston)
+cos_price = COSRepresentation.get_european_option_price(TypeEuropeanOption.CALL, a, b, 32, f0, k_s, cf_heston)
 end_time = time.time()
 
