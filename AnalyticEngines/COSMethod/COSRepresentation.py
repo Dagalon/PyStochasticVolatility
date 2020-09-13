@@ -43,22 +43,24 @@ def get_cos_coefficients_jit(a: float, b: float, no_terms: int, cf_k: Types.ndar
     return a_k
 
 
-def get_european_option_price(option_type: TypeEuropeanOption, a: float, b: float, no_terms: int, f0: float, strikes: Types.ndarray, cf: Callable[[Types.ndarray], Types.ndarray]):
+def get_european_option_price(option_type: TypeEuropeanOption, a: float, b: float, no_terms: int, strikes: Types.ndarray, cf: Callable[[Types.ndarray], Types.ndarray]):
     k_s = np.arange(0, no_terms, 1)
     cf_k = cf((np.pi / (b - a)) * k_s)
     a_k = get_cos_coefficients_jit(a, b, no_terms, cf_k)
-    x_s = np.log(f0 / strikes)
 
     if option_type == TypeEuropeanOption.CALL:
         chi_k_s = CosBlocksOptions.call_put_block(a, b, 0.0, b, k_s)
         phi_k_s = CosBlocksOptions.digital_block(a, b, 0.0, b, k_s)
         v_k = (2.0 / (b - a)) * (chi_k_s - phi_k_s)
-        return 0.5 * v_k[0] * a_k[0] + Functionals.scalar_product(v_k[1:], a_k[1:])
+        price_no_strike = 0.5 * v_k[0] * a_k[0] + Functionals.scalar_product(v_k[1:], a_k[1:])
+        return price_no_strike * strikes
+
     else:
         chi_k_s = CosBlocksOptions.call_put_block(a, b, a, 0.0, k_s)
         phi_k_s = CosBlocksOptions.digital_block(a, b, a, 0.0, k_s)
         v_k = (2.0 / (b - a)) * (- chi_k_s + phi_k_s)
-        return 0.5 * v_k[0] * a_k[0] + Functionals.scalar_product(v_k[1:], a_k[1:])
+        price_no_strike = 0.5 * v_k[0] * a_k[0] + Functionals.scalar_product(v_k[1:], a_k[1:])
+        return price_no_strike * strikes
 
 
 
