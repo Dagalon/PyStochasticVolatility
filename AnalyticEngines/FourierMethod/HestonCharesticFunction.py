@@ -2,7 +2,7 @@ import numba as nb
 import numpy as np
 
 
-# @nb.jit("c16[:](f8[:], f8, f8, f8, f8, f8, f8, f8, f8, f8, f8)", nopython=True, nogil=True)
+@nb.jit("c16[:](f8[:], f8, f8, f8, f8, f8, f8, f8, f8, f8, f8)", nopython=True, nogil=True)
 def get_cf(w, t, x, v, r_t, theta, rho, k, epsilon, b, u):
     a = k * theta
 
@@ -19,10 +19,6 @@ def get_cf(w, t, x, v, r_t, theta, rho, k, epsilon, b, u):
 
     aux_c_t = (1.0 - g * np.exp(d * t)) / (1.0 - g)
     c_t = r_t * 1j * t * w + (a / (epsilon * epsilon)) * (aux_b_t * t - 2.0 * np.log(aux_c_t))
-
-    # approx phi zero
-    # c_t_aux = 2 * k * k * t * theta / (epsilon * epsilon)
-    # d_t_aux = 2 * k * (1.0 - np.exp(k * t)) / (epsilon * epsilon)
 
     return np.exp(c_t + d_t * v + 1j * w * x)
 
@@ -43,10 +39,6 @@ def get_trap_cf(w, t, x, v, r_t, theta, rho, k, epsilon, b, u):
 
     aux_c_t = (1.0 - c * np.exp(-d * t)) / (1.0 - c)
     c_t = r_t * 1j * t * w + (a / (epsilon * epsilon)) * ((aux_b_t - 2.0 * d) * t - 2.0 * np.log(aux_c_t))
-
-    # approx phi zero
-    # c_t_aux = 2 * k * k * t * theta / (epsilon * epsilon)
-    # d_t_aux = 2 * k * (1.0 - np.exp(k * t)) / (epsilon * epsilon)
 
     return np.exp(c_t + d_t * v + 1j * w * x)
 

@@ -9,7 +9,7 @@ import numpy as np
 import matplotlib.pylab as plt
 
 # parameters
-nu = 1.5
+nu = 1.1
 alpha = 0.4
 rho = - 0.6
 parameters = [alpha, nu, rho]
@@ -17,7 +17,7 @@ parameters = [alpha, nu, rho]
 f0 = 100
 seed = 123456789
 no_paths = 1000000
-T = 0.25
+T = 3.0
 delta = 1.0 / 100.0
 no_time_steps = int(T / delta)
 
@@ -50,13 +50,15 @@ for i in range(0, no_options):
 
 pdf_hagan = []
 pdf_mc = []
+plt.figure(figsize=(8, 5))
 for i in range(1, no_options - 1):
     pdf_hagan.append((option_prices_hagan[i+1] - 2.0 * option_prices_hagan[i] + option_prices_hagan[i-1]) / (delta_strike * delta_strike))
     pdf_mc.append((option_prices_mc[i+1] - 2.0 * option_prices_mc[i] + option_prices_mc[i-1]) / (delta_strike * delta_strike))
 
-plt.plot(k_s[1:no_options-1], pdf_hagan, label="Hagan's density", linestyle='--', color='black')
-plt.plot(k_s[1:no_options-1], pdf_mc, label="MC's density", linestyle='--', marker='.', color='black')
+plt.plot(k_s[1:no_options-1], pdf_hagan, label="Hagan's density", linestyle='--', color='black',  linewidth=0.5)
+plt.plot(k_s[1:no_options-1], pdf_mc, label="MC's density", marker='.', linestyle='-', markersize=3, color='black',  linewidth=0.5)
 
-plt.title("Negative values for Hangan's density")
+plt.xlabel("strike")
+plt.title("Negative values for Hagan's density")
 plt.legend()
 plt.show()

@@ -1,265 +1,112 @@
+import matplotlib.pylab as plt
 import numpy as np
 
-from Instruments.EuropeanInstruments import EuropeanOption, TypeSellBuy, TypeEuropeanOption
 from Tools import Types
-from typing import List
-from py_vollib.black_scholes_merton.implied_volatility import implied_volatility
-import matplotlib.pylab as plt
+from VolatilitySurface.Tools import SABRTools
 
 
-def get_smile_for_differents_rho(rho_s: Types.ndarray,
-                                 epsilon: float,
-                                 k: float,
-                                 v0: float,
-                                 theta: float,
-                                 european_options: List[EuropeanOption]):
-    heston_iv = []
-    no_rho_s = len(rho_s)
-    for i in range(0, no_rho_s):
-        rho_i = rho_s[i]
-        rho_i_iv = []
-        for option in european_options:
-            price = option.get_analytic_value(0.0, theta, rho_i, k, epsilon, v0, 0.0,
-                                              model_type=Types.ANALYTIC_MODEL.HESTON_MODEL_REGULAR,
-                                              compute_greek=False)
-            if option._option_type == TypeEuropeanOption.CALL:
-                iv = implied_volatility(price, option._spot, option._strike, option._delta_time, 0.0, 0.0, 'c')
-            else:
-                iv = implied_volatility(price, option._spot, option._strike, option._delta_time, 0.0, 0.0, 'p')
+def get_smile_for_differents_rho(alpha: float,
+                                 rho_s: Types.ndarray,
+                                 nu: float,
+                                 k_s: Types.ndarray,
+                                 f0: float,
+                                 T: float):
+    no_strikes = len(k_s)
 
-            rho_i_iv.append(iv)
+    iv_hagan = []
+    for rho_i in rho_s:
+        iv_list = []
+        for i in range(0, no_strikes):
+            z = np.log(f0 / k_s[i])
+            iv_list.append(SABRTools.sabr_vol_jit(alpha, rho_i, nu, z, T))
 
-        heston_iv.append((rho_i, rho_i_iv))
+        iv_hagan.append((rho_i, iv_list))
 
-    return heston_iv
+    return iv_hagan
 
 
-def get_smile_for_differents_epsilon(rho: float,
-                                     epsilon_s: Types.ndarray,
-                                     k: float,
-                                     v0: float,
-                                     theta: float,
-                                     european_options: List[EuropeanOption]):
-    heston_iv = []
-    no_epsilon_s = len(epsilon_s)
-    for i in range(0, no_epsilon_s):
-        epsilon_i = epsilon_s[i]
-        epsilon_i_iv = []
-        for option in european_options:
-            price = option.get_analytic_value(0.0, theta, rho, k, epsilon_i, v0, 0.0,
-                                              model_type=Types.ANALYTIC_MODEL.HESTON_MODEL_REGULAR,
-                                              compute_greek=False)
-            if option._option_type == TypeEuropeanOption.CALL:
-                iv = implied_volatility(price, option._spot, option._strike, option._delta_time, 0.0, 0.0, 'c')
-            else:
-                iv = implied_volatility(price, option._spot, option._strike, option._delta_time, 0.0, 0.0, 'p')
+def get_smile_for_differents_nu(alpha: float,
+                                 rho: float,
+                                 nu_s: Types.ndarray,
+                                 k_s: Types.ndarray,
+                                 f0: float,
+                                 T: float):
+    no_strikes = len(k_s)
 
-            epsilon_i_iv.append(iv)
+    iv_hagan = []
+    for nu_i in nu_s:
+        iv_list = []
+        for i in range(0, no_strikes):
+            z = np.log(f0 / k_s[i])
+            iv_list.append(SABRTools.sabr_vol_jit(alpha, rho, nu_i, z, T))
 
-        heston_iv.append((epsilon_i, epsilon_i_iv))
+        iv_hagan.append((nu_i, iv_list))
 
-    return heston_iv
+    return iv_hagan
 
 
-def get_smile_for_differents_k(rho: float,
-                               epsilon: float,
-                               k_s: Types.ndarray,
-                               v0: float,
-                               theta: float,
-                               european_options: List[EuropeanOption]):
-    heston_iv = []
-    no_k_s = len(k_s)
-    for i in range(0, no_k_s):
-        k_i = k_s[i]
-        k_i_iv = []
-        for option in european_options:
-            price = option.get_analytic_value(0.0, theta, rho, k_i, epsilon, v0, 0.0,
-                                              model_type=Types.ANALYTIC_MODEL.HESTON_MODEL_REGULAR,
-                                              compute_greek=False)
-            if option._option_type == TypeEuropeanOption.CALL:
-                iv = implied_volatility(price, option._spot, option._strike, option._delta_time, 0.0, 0.0, 'c')
-            else:
-                iv = implied_volatility(price, option._spot, option._strike, option._delta_time, 0.0, 0.0, 'p')
+def get_smile_for_differents_alpha(alpha_s: Types.ndarray,
+                                    rho: float,
+                                    nu: float,
+                                    k: float,
+                                    f0: float,
+                                    T: float):
+    no_strikes = len(k_s)
 
-            k_i_iv.append(iv)
+    iv_hagan = []
+    for alpha_i in alpha_s:
+        iv_list = []
+        for i in range(0, no_strikes):
+            z = np.log(f0 / k_s[i])
+            iv_list.append(SABRTools.sabr_vol_jit(alpha_i, rho, nu, z, T))
 
-        heston_iv.append((k_i, k_i_iv))
+        iv_hagan.append((alpha_i, iv_list))
 
-    return heston_iv
-
-
-def get_smile_for_differents_theta(rho: float,
-                                   epsilon: float,
-                                   k: float,
-                                   v0: float,
-                                   theta_s: Types.ndarray,
-                                   european_options: List[EuropeanOption]):
-    heston_iv = []
-    no_v0_s = len(theta_s)
-    for i in range(0, no_v0_s):
-        theta_i = theta_s[i]
-        theta_i_iv = []
-        for option in european_options:
-            price = option.get_analytic_value(0.0, theta_i, rho, k, epsilon, v0, 0.0,
-                                              model_type=Types.ANALYTIC_MODEL.HESTON_MODEL_REGULAR,
-                                              compute_greek=False)
-            if option._option_type == TypeEuropeanOption.CALL:
-                iv = implied_volatility(price, option._spot, option._strike, option._delta_time, 0.0, 0.0, 'c')
-            else:
-                iv = implied_volatility(price, option._spot, option._strike, option._delta_time, 0.0, 0.0, 'p')
-
-            theta_i_iv.append(iv)
-
-        heston_iv.append((k_i, theta_i_iv))
-
-    return heston_iv
-
-
-def get_smile_for_differents_k(rho: float,
-                               epsilon: float,
-                               k_s: Types.ndarray,
-                               v0: float,
-                               theta: float,
-                               european_options: List[EuropeanOption]):
-    heston_iv = []
-    no_k_s = len(k_s)
-    for i in range(0, no_k_s):
-        k_i_iv = []
-        for option in european_options:
-            price = option.get_analytic_value(0.0, theta, rho, k_s[i], epsilon, v0, 0.0,
-                                              model_type=Types.ANALYTIC_MODEL.HESTON_MODEL_REGULAR,
-                                              compute_greek=False)
-
-            if option._option_type == TypeEuropeanOption.CALL:
-                iv = implied_volatility(price, option._spot, option._strike, option._delta_time, 0.0, 0.0, 'c')
-            else:
-                iv = implied_volatility(price, option._spot, option._strike, option._delta_time, 0.0, 0.0, 'p')
-
-            k_i_iv.append(iv)
-
-        heston_iv.append((k_i, k_i_iv))
-
-    return heston_iv
-
-
-def get_smile_for_differents_v0(rho: float,
-                                epsilon: float,
-                                k: float,
-                                v0_s: Types.ndarray,
-                                theta: float,
-                                european_options: List[EuropeanOption]):
-    heston_iv = []
-    no_v0_s = len(v0_s)
-    for i in range(0, no_v0_s):
-        v0_i_iv = []
-        for option in european_options:
-            price = option.get_analytic_value(0.0, theta, rho, k, epsilon, v0_s[i], 0.0,
-                                              model_type=Types.ANALYTIC_MODEL.HESTON_MODEL_REGULAR,
-                                              compute_greek=False)
-
-            if option._option_type == TypeEuropeanOption.CALL:
-                iv = implied_volatility(price, option._spot, option._strike, option._delta_time, 0.0, 0.0, 'c')
-            else:
-                iv = implied_volatility(price, option._spot, option._strike, option._delta_time, 0.0, 0.0, 'p')
-
-            v0_i_iv.append(iv)
-
-        heston_iv.append((k_i, v0_i_iv))
-
-    return heston_iv
+    return iv_hagan
 
 
 # parameters
-epsilon = 0.1
-k = 0.1
-v0 = 0.05
-theta = 0.1
-rho = -0.75
+alpha = 0.3
+nu = 0.9
+rho = -0.85
 
-# options
-strikes = np.arange(40.0, 200.0, 10.0)
-t_s = np.arange(0.25, 20, 0.5)
-f0 = 100
-T = 2.0
-notional = 1.0
-options_strike = []
-options_time = []
-for k_i in strikes:
-    options_strike.append(EuropeanOption(k_i, notional, TypeSellBuy.BUY, TypeEuropeanOption.CALL, f0, T))
-
-for t_i in t_s:
-    options_time.append(EuropeanOption(f0, notional, TypeSellBuy.BUY, TypeEuropeanOption.CALL, f0, t_i))
-
-
-# v0 effect in the smile
-# v0_s = [0.05, 0.1, 1.0, 2.0]
-# style_markers = ['*', '.', 'x', '^']
-# out_v0_s = get_smile_for_differents_v0(rho, epsilon, k, v0_s, theta, options_time)
-#
-# no_outputs = len(out_v0_s)
-# for i in range(0, no_outputs):
-#     plt.plot(t_s, out_v0_s[i][1], label="v0="+str(v0_s[i]), linestyle='dashed', color='black',
-#              marker=style_markers[i])
-#
-# plt.xlabel("t")
-
-# k effect in the smile
-# k_s = [0.1, 0.5, 1.0, 2.0]
-# style_markers = ['*', '.', 'x', '^']
-# out_k_s = get_smile_for_differents_k(rho, epsilon, k_s, v0, theta, options_strike)
-#
-# no_outputs = len(out_k_s)
-# for i in range(0, no_outputs):
-#     plt.plot(strikes, out_k_s[i][1], label="k="+str(k_s[i]), linestyle='dashed', color='black',
-#              marker=style_markers[i])
-#
-# plt.xlabel("strike")
-
-# k effect in time dimension
-# k_s = [0.1, 0.5, 1.0, 2.0]
-# style_markers = ['*', '.', 'x', '^']
-# out_k_s = get_smile_for_differents_k(rho, epsilon, k_s, v0, theta, options_time)
-#
-# no_outputs = len(out_k_s)
-# for i in range(0, no_outputs):
-#     plt.plot(t_s, out_k_s[i][1], label="k="+str(k_s[i]), linestyle='dashed', color='black',
-#              marker=style_markers[i])
-#
-# plt.xlabel("t")
+# option information
+f0 = 100.0
+k_s = np.arange(40.0, 200.0, 10.0)
+T = 1.0
 
 # rho effect in the smile
-# rho_s = np.array([-0.9, -0.5, -0.25, -0.0])
 # style_markers = ['*', '.', 'x', '^']
-#
-# out_rho_s = get_smile_for_differents_rho(rho_s, epsilon, k, v0, theta, options_strike)
+# rho_s = np.array([-0.9, -0.5, -0.25, -0.0])
+# out_rho_s = get_smile_for_differents_rho(alpha, rho_s, nu, k_s, f0, T)
 #
 # no_outputs = len(out_rho_s)
 # for i in range(0, no_outputs):
-#     plt.plot(strikes, out_rho_s[i][1], label="rho="+str(rho_s[i]), linestyle='dashed', color='black',
+#     plt.plot(k_s, out_rho_s[i][1], label="rho="+str(rho_s[i]), linestyle='-', linewidth=0.5, color='black',
 #              marker=style_markers[i])
-#
-# plt.xlabel("strike")
 
-# epsilon effect in the smile
-# epsilon_s = np.array([0.1, 0.3, 0.5, 0.9])
+
+# epilon effect in the smile
 # style_markers = ['*', '.', 'x', '^']
-# out_epsilon_s = get_smile_for_differents_epsilon(rho, epsilon_s, k, v0, theta, options_strike)
+# nu_s = np.array([0.5, 0.7, 0.9, 1.2])
+# out_nu_s = get_smile_for_differents_nu(alpha, rho, nu_s, k_s, f0, T)
 #
-# no_outputs = len(out_epsilon_s)
+# no_outputs = len(out_nu_s)
 # for i in range(0, no_outputs):
-#     plt.plot(strikes, out_epsilon_s[i][1], label="epsilon="+str(epsilon_s[i]), linestyle='dashed',
-#              color='black', marker=style_markers[i])
-#
-# plt.xlabel("strike")
+#     plt.plot(k_s, out_nu_s[i][1], label="nu="+str(nu_s[i]), linestyle='-', linewidth=0.5, color='black',
+#              marker=style_markers[i])
 
-# theta effect in the smile
-theta_s = np.array([0.1, 0.07, 0.05, 0.03])
+# alpha effect in the smile
 style_markers = ['*', '.', 'x', '^']
-out_theta_s = get_smile_for_differents_theta(rho, epsilon, k, v0, theta_s, options_strike)
-no_outputs = len(out_theta_s)
-for i in range(0, no_outputs):
-    plt.plot(strikes, out_theta_s[i][1], label="theta=" + str(theta_s[i]), linestyle='dashed',
-             color='black', marker=style_markers[i])
+alpha_s = np.array([0.4, 0.7, 0.8, 1.0])
+out_alpha_s = get_smile_for_differents_alpha(alpha_s, rho, nu, k_s, f0, T)
 
+no_outputs = len(out_alpha_s)
+for i in range(0, no_outputs):
+    plt.plot(k_s, out_alpha_s[i][1], label="alpha="+str(alpha_s[i]), linestyle='-', linewidth=0.5, color='black',
+             marker=style_markers[i])
+
+
+plt.xlabel("strike")
 plt.legend()
 plt.show()

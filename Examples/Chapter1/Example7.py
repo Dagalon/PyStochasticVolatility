@@ -32,6 +32,7 @@ bins = np.linspace(log_increments_normalized.min(), log_increments_normalized.ma
 #              hist_kws={"histtype": "bar", "linewidth": 2, "alpha": 1, "color": "grey"})
 
 # plt.plot(bins, cdf_normal, color='black', label='Normal distribution')
+plt.figure(figsize=(20, 10))
 pp = sm.ProbPlot(log_increments_normalized, fit=True)
 qq = pp.qqplot(marker='.', markerfacecolor='k', markeredgecolor='k', alpha=0.3)
 sm.qqline(qq.axes[0], line='45', fmt='k--')

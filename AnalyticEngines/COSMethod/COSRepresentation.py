@@ -2,7 +2,7 @@ import numpy as np
 import numba as nb
 from typing import Callable
 from Tools import Types
-from AnalyticEngines.COSMethod import CosBlocksOptions
+from AnalyticEngines.COSMethod import COSBlocksOptions
 from Instruments.EuropeanInstruments import TypeEuropeanOption
 from Tools import Functionals
 
@@ -33,34 +33,46 @@ def get_cos_density(a: float, b: float, no_terms: int, cf: Callable[[Types.ndarr
     return get_cos_estimation_density_jit(a, b, no_terms, no_x, cf_k, x)
 
 
-@nb.jit("f8[:](f8,f8,i8,c16[:])", nopython=True, nogil=True, parallel=True)
+# @nb.jit("c16[:](f8,f8,i8,c16[:])", nopython=True, nogil=True, parallel=True)
 def get_cos_coefficients_jit(a: float, b: float, no_terms: int, cf_k: Types.ndarray):
-    a_k = np.zeros(no_terms)
+    a_k = np.zeros(no_terms, dtype=np.complex_)
     beta = np.pi / (b - a)
     for i in range(0, no_terms):
-        a_k[i] = (cf_k[i] * np.exp(-1j * i * a * beta)).real
+        a_k[i] = cf_k[i] * np.exp(-1j * i * a * beta)
 
     return a_k
 
 
-def get_european_option_price(option_type: TypeEuropeanOption, a: float, b: float, no_terms: int, strikes: Types.ndarray, cf: Callable[[Types.ndarray], Types.ndarray]):
-    k_s = np.arange(0, no_terms, 1)
-    cf_k = cf((np.pi / (b - a)) * k_s)
+def apply_adjustment_strike_cf(a_k: Types.ndarray, v_k: Types.ndarray, k_s: Types.ndarray, strikes: Types.ndarray, no_terms: int):
+    no_strikes = len(strikes)
+    prices = np.zeros(no_strikes)
+    log_strikes = np.log(strikes)
+
+    for i in range(0, no_strikes):
+        prices[i] = 0.5 * (a_k[0] * np.exp(- 1j * k_s[0] * log_strikes[i])).real * v_k[0]
+        for j in range(0, no_terms):
+            prices[i] += (a_k[j] * np.exp(- 1j * k_s[j] * log_strikes[i])).real * v_k[j]
+
+    return prices * strikes
+
+
+def get_european_option_price(option_type: TypeEuropeanOption, a: float, b: float, no_terms: int,
+                              strikes: Types.ndarray, cf: Callable[[Types.ndarray], Types.ndarray]):
+    k_s = np.arange(0, no_terms, 1) * (np.pi / (b - a))
+    cf_k = cf(k_s)
     a_k = get_cos_coefficients_jit(a, b, no_terms, cf_k)
 
     if option_type == TypeEuropeanOption.CALL:
-        chi_k_s = CosBlocksOptions.call_put_block(a, b, 0.0, b, k_s)
-        phi_k_s = CosBlocksOptions.digital_block(a, b, 0.0, b, k_s)
+        chi_k_s = COSBlocksOptions.call_put_block(a, b, 0.0, b, k_s)
+        phi_k_s = COSBlocksOptions.digital_block(a, b, 0.0, b, k_s)
         v_k = (2.0 / (b - a)) * (chi_k_s - phi_k_s)
-        price_no_strike = 0.5 * v_k[0] * a_k[0] + Functionals.scalar_product(v_k[1:], a_k[1:])
-        return price_no_strike * strikes
+        return apply_adjustment_strike_cf(a_k, v_k, k_s, strikes, no_terms)
 
     else:
-        chi_k_s = CosBlocksOptions.call_put_block(a, b, a, 0.0, k_s)
-        phi_k_s = CosBlocksOptions.digital_block(a, b, a, 0.0, k_s)
+        chi_k_s = COSBlocksOptions.call_put_block(a, b, a, 0.0, k_s)
+        phi_k_s = COSBlocksOptions.digital_block(a, b, a, 0.0, k_s)
         v_k = (2.0 / (b - a)) * (- chi_k_s + phi_k_s)
-        price_no_strike = 0.5 * v_k[0] * a_k[0] + Functionals.scalar_product(v_k[1:], a_k[1:])
-        return price_no_strike * strikes
+        return apply_adjustment_strike_cf(a_k, v_k, k_s, strikes, no_terms)
 
 
 

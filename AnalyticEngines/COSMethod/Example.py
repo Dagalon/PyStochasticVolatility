@@ -1,29 +1,13 @@
 import numpy as np
 from AnalyticEngines.FourierMethod import HestonCharesticFunction
 from functools import partial
+from Tools import Types
 from Instruments.EuropeanInstruments import TypeEuropeanOption
 from AnalyticEngines.COSMethod import COSRepresentation
+from Instruments.EuropeanInstruments import EuropeanOption, TypeSellBuy, TypeEuropeanOption
 from scipy.stats import norm
 
 import time
-
-
-# def normal_phi(u: Types.ndarray):
-#     return np.exp(-0.5 * u * u) + 0.0 * 1j
-#
-#
-# x = np.arange(-6.0, 6.0, 0.1)
-# normal_pdf = norm.pdf(x, 0.0, 1.0)
-# start_time = time.time()
-# cos_normal_pdf = COSRepresentation.get_cos_density(-10.0, 10.0, 32, normal_phi, x)
-# end_time = time.time()
-# diff_time = end_time - start_time
-
-# plt.plot(x, normal_pdf, label="normal pdf")
-# plt.plot(x, cos_normal_pdf, label="COS normal pdf")
-
-# plt.legend()
-# plt.show()
 
 # European option price
 k_s = np.array([80.0, 90.0, 100.0, 110.0, 120.0])
@@ -41,11 +25,22 @@ b2 = k
 u2 = -0.5
 
 # Upper and lower bound for cos integral
-a = -10.0
-b = 10.0
+a = -2.0
+b = 0.7
 
-cf_heston = partial(HestonCharesticFunction.get_cf, t=T, x=x0, v=v0, theta=theta, rho=rho, epsilon=epsilon, b=b2, u=u2)
+cf_heston = partial(HestonCharesticFunction.get_trap_cf, t=T, r_t=0.0, x=x0, v=v0, theta=theta, rho=rho, k=k, epsilon=epsilon, b=b2, u=u2)
 start_time = time.time()
-cos_price = COSRepresentation.get_european_option_price(TypeEuropeanOption.CALL, a, b, 32, k_s, cf_heston)
+cos_price = COSRepresentation.get_european_option_price(TypeEuropeanOption.CALL, a, b, 64, k_s, cf_heston)
 end_time = time.time()
+
+# Integration Heston´s charestic function
+price_cf_integration = []
+no_strikes = len(k_s)
+
+for i in range(0, no_strikes):
+    european_option = EuropeanOption(k_s[i], 1.0, TypeSellBuy.BUY, TypeEuropeanOption.CALL, f0, T)
+    price_cf_integration.append(european_option.get_analytic_value(0.0, theta, rho, k, epsilon, v0, 0.0,
+                                                                   model_type=Types.ANALYTIC_MODEL.HESTON_MODEL_REGULAR,
+                                                                   compute_greek=False))
+
 
