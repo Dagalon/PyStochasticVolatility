@@ -2,7 +2,7 @@ import numpy as np
 import numba as nb
 from typing import Callable
 from Tools import Types
-from AnalyticEngines.COSMethod import COSBlocksOptions
+from AnalyticEngines.FourierMethod.COSMethod import COSBlocksOptions
 from Instruments.EuropeanInstruments import TypeEuropeanOption
 
 

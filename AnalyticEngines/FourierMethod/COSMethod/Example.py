@@ -1,9 +1,9 @@
 import numpy as np
 import matplotlib.pylab as plt
-from AnalyticEngines.FourierMethod import HestonCharesticFunction
+from AnalyticEngines.FourierMethod.CharesticFunctions import HestonCharesticFunction
 from functools import partial
 from Tools import Types
-from AnalyticEngines.COSMethod import COSRepresentation
+from AnalyticEngines.FourierMethod.COSMethod import COSRepresentation
 from Instruments.EuropeanInstruments import EuropeanOption, TypeSellBuy, TypeEuropeanOption
 
 import time
