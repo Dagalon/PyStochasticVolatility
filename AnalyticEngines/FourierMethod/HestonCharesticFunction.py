@@ -23,7 +23,7 @@ def get_cf(w, t, x, v, r_t, theta, rho, k, epsilon, b, u):
     return np.exp(c_t + d_t * v + 1j * w * x)
 
 
-# @nb.jit("c16[:](f8[:], f8, f8, f8, f8, f8, f8, f8, f8, f8, f8)", nopython=True, nogil=True)
+@nb.jit("c16[:](f8[:], f8, f8, f8, f8, f8, f8, f8, f8, f8, f8)", nopython=True, nogil=True)
 def get_trap_cf(w, t, x, v, r_t, theta, rho, k, epsilon, b, u):
     a = k * theta
 
@@ -46,14 +46,14 @@ def get_trap_cf(w, t, x, v, r_t, theta, rho, k, epsilon, b, u):
 # @nb.jit("f8[:](f8[:], f8, f8, f8, f8, f8, f8, f8, f8, f8, f8, f8)", nopython=True, nogil=True)
 def f_heston(w, t, x, v, r_t, theta, rho, k, epsilon, b, u, strike):
     k_log = np.log(strike)
-    y = get_trap_cf(w, t, x, v, r_t, theta, rho, k, epsilon, b, u)
+    y = get_trap_cf(np.asfortranarray(w), t, x, v, r_t, theta, rho, k, epsilon, b, u)
     return (np.cos(k_log * w) * y.imag - np.sin(k_log * w) * y.real) / w
 
 
 # @nb.jit("f8[:](f8[:], f8, f8, f8, f8, f8, f8, f8, f8, f8, f8, f8)", nopython=True, nogil=True)
 def f_gamma_heston(w, t, x, v, r_t, theta, rho, k, epsilon, b, u, strike):
     k_log = np.log(strike)
-    y = get_trap_cf(w, t, x, v, r_t, theta, rho, k, epsilon, b, u)
+    y = get_trap_cf(np.asfortranarray(w), t, x, v, r_t, theta, rho, k, epsilon, b, u)
     return np.cos(k_log * w) * y.real + np.sin(k_log * w) * y.imag
 
 
@@ -72,11 +72,11 @@ def f_attari_heston(w, t, v, spot, r_t, theta, rho, k, epsilon, b, u, strike):
     return (a1_u + a2_u) / (1.0 + np.power(w, 2.0))
 
 
-# @nb.jit("f8[:](f8[:], f8, f8, f8, f8, f8, f8, f8, f8, f8, f8, f8)", nopython=True, nogil=True)
+@nb.jit("f8[:](f8[:], f8, f8, f8, f8, f8, f8, f8, f8, f8, f8, f8)", nopython=True, nogil=True)
 def f_delta_attari_heston(w, t, v, spot, r_t, theta, rho, k, epsilon, b, u, strike):
     df = np.exp(- r_t * t)
     x = np.log(spot)
-    f2 = get_trap_cf(w, t, x, v, r_t, theta, rho, k, epsilon, b, u)
+    f2 = get_trap_cf(np.asfortranarray(w), t, x, v, r_t, theta, rho, k, epsilon, b, u)
     phi2 = f2 * np.exp(- 1j * w * (x + r_t * t))
     l = np.log(df * strike / spot)
     r2_u = phi2.real
@@ -87,11 +87,11 @@ def f_delta_attari_heston(w, t, v, spot, r_t, theta, rho, k, epsilon, b, u, stri
     return (a1_u + a2_u) / ((1.0 + np.power(w, 2.0)) * spot)
 
 
-# @nb.jit("f8[:](f8[:], f8, f8, f8, f8, f8, f8, f8, f8, f8, f8, f8)", nopython=True, nogil=True)
+@nb.jit("f8[:](f8[:], f8, f8, f8, f8, f8, f8, f8, f8, f8, f8, f8)", nopython=True, nogil=True)
 def f_dual_delta_attari_heston(w, t, v, spot, r_t, theta, rho, k, epsilon, b, u, strike):
     df = np.exp(- r_t * t)
     x = np.log(spot)
-    f2 = get_trap_cf(w, t, x, v, r_t, theta, rho, k, epsilon, b, u)
+    f2 = get_trap_cf(np.asfortranarray(w), t, x, v, r_t, theta, rho, k, epsilon, b, u)
     phi2 = f2 * np.exp(- 1j * w * (x + r_t * t))
     l = np.log(df * strike / spot)
     r2_u = phi2.real
@@ -102,11 +102,11 @@ def f_dual_delta_attari_heston(w, t, v, spot, r_t, theta, rho, k, epsilon, b, u,
     return w * (a1_u + a2_u) / (strike * (1.0 + np.power(w, 2.0)))
 
 
-# @nb.jit("f8[:](f8[:], f8, f8, f8, f8, f8, f8, f8, f8, f8, f8, f8)", nopython=True, nogil=True)
+@nb.jit("f8[:](f8[:], f8, f8, f8, f8, f8, f8, f8, f8, f8, f8, f8)", nopython=True, nogil=True)
 def f_gamma_attari_heston(w, t, v, spot, r_t, theta, rho, k, epsilon, b, u, strike):
     df = np.exp(- r_t * t)
     x = np.log(spot)
-    f2 = get_trap_cf(w, t, x, v, r_t, theta, rho, k, epsilon, b, u)
+    f2 = get_trap_cf(np.asfortranarray(w), t, x, v, r_t, theta, rho, k, epsilon, b, u)
     phi2 = f2 * np.exp(- 1j * w * (x + r_t * t))
     l = np.log(df * strike / spot)
     r2_u = phi2.real

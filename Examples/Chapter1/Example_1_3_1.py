@@ -19,23 +19,9 @@ mean_log_increments = log_increments.mean()
 std_log_increments = log_increments.std()
 log_increments_normalized = (log_increments - mean_log_increments) / std_log_increments
 
-no_bins = 25
-bins = np.linspace(log_increments_normalized.min(), log_increments_normalized.max(), no_bins)
-# cdf_normal = np.zeros(no_bins)
-# for i in range(0, no_bins):
-#     cdf_normal[i] = stats.norm.cdf((bins[i] - mean_log_increments) / std_log_increments)
-
-
-# sbn.distplot(log_increments_normalized, kde=True, bins=bins, fit=stats.norm, hist=True, norm_hist=True,
-#              kde_kws={"color": "black", "lw": 1, "label": "Market density", 'linestyle': '--'},
-#              fit_kws={"label": "Normal density"},
-#              hist_kws={"histtype": "bar", "linewidth": 2, "alpha": 1, "color": "grey"})
-
-# plt.plot(bins, cdf_normal, color='black', label='Normal distribution')
 plt.figure(figsize=(20, 10))
 pp = sm.ProbPlot(log_increments_normalized, fit=True)
 qq = pp.qqplot(marker='.', markerfacecolor='k', markeredgecolor='k', alpha=0.3)
 sm.qqline(qq.axes[0], line='45', fmt='k--')
 
-# plt.legend()
 plt.show()

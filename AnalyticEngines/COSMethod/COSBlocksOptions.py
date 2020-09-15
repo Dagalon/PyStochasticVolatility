@@ -1,16 +1,14 @@
 import numpy as np
 import numba as nb
-from Tools import Types
 
 
-# @nb.jit("f8[:](f8,f8,f8,f8,f8[:])", nopython=True, nogil=True, parallel=True)
-def digital_block(a: float, b: float, c: float, d: float, k_s: Types.ndarray):
+@nb.jit("f8[:](f8,f8,f8,f8,i8)", nopython=True, nogil=True, parallel=True)
+def digital_block(a: float, b: float, c: float, d: float, no_terms: int):
     alpha_d = (d - a) / (b - a)
     alpha_c = (c - a) / (b - a)
-    no_k_s = len(k_s)
-    output = np.zeros(no_k_s)
-    for i in range(0, no_k_s):
-        if k_s[i] == 0:
+    output = np.zeros(no_terms)
+    for i in range(0, no_terms):
+        if i == 0:
             output[i] = d - c
         else:
             output[i] = (np.sin(i * np.pi * alpha_d) - np.sin(i * np.pi * alpha_c)) * (b - a) / (i * np.pi)
@@ -18,15 +16,14 @@ def digital_block(a: float, b: float, c: float, d: float, k_s: Types.ndarray):
     return output
 
 
-# @nb.jit("f8[:](f8,f8,f8,f8,f8[:])", nopython=True, nogil=True, parallel=True)
-def call_put_block(a: float, b: float, c: float, d: float, k_s: Types.ndarray):
-    no_k_s = len(k_s)
+@nb.jit("f8[:](f8,f8,f8,f8,i8)", nopython=True, nogil=True, parallel=True)
+def call_put_block(a: float, b: float, c: float, d: float, no_terms: int):
     alpha_d = (d - a) / (b - a)
     alpha_c = (c - a) / (b - a)
     exp_d = np.exp(d)
     exp_c = np.exp(c)
-    output = np.zeros(no_k_s)
-    for i in range(0, no_k_s):
+    output = np.zeros(no_terms)
+    for i in range(0, no_terms):
         beta = np.pi * i / (b - a)
         a_k_1 = np.cos(i * np.pi * alpha_d) * exp_d - np.cos(i * np.pi * alpha_c) * exp_c
         a_k_2 = beta * (np.sin(i * np.pi * alpha_d) * exp_d - np.sin(i * np.pi * alpha_c) * exp_c)

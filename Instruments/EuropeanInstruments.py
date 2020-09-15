@@ -1,7 +1,5 @@
 import numpy as np
-# import quadpy as qp
-
-from scipy.integrate import quad
+from scipy.integrate import quad_vec, quad
 from functools import partial
 from typing import Callable, List
 from enum import Enum
@@ -107,7 +105,7 @@ class EuropeanOption(object):
                                  u=u2,
                                  strike=self._strike)
 
-            integral_value = quad(integrator, 0.0, np.inf)
+            integral_value = quad_vec(integrator, 0.0, np.inf)
             df = np.exp(- r * self._delta_time)
             discrete_value = self._spot - 0.5 * self._strike * df
             stochastic_adjustment = (self._strike * df / np.pi) * integral_value[0]
@@ -153,9 +151,9 @@ class EuropeanOption(object):
                                            u=u2,
                                            strike=self._strike)
 
-                delta_integral = quad(delta_integrator, 0.0, np.inf)
-                dual_delta = quad(dual_delta_integrator, 0.0, np.inf)
-                gamma_integral = quad(gamma_integrator, 0.0, np.inf)
+                delta_integral = quad_vec(delta_integrator, 0.0, np.inf)
+                dual_delta = quad_vec(dual_delta_integrator, 0.0, np.inf)
+                gamma_integral = quad_vec(gamma_integrator, 0.0, np.inf)
 
                 aux_dual_delta = (discrete_value - price) / self._strike
 
@@ -213,11 +211,11 @@ class EuropeanOption(object):
                                   u=u2,
                                   strike=self._strike)
 
-            int_val_1 = quad(integrator1, 0.0, np.inf)
+            int_val_1 = quad_vec(integrator1, 0.0, np.inf)
             value_1_aux = 0.5 + (1.0/np.pi) * int_val_1[0]
             p1 = 0.5 * (1 - phi) + phi * value_1_aux
 
-            int_val_2 = quad(integrator2, 0.0, np.inf)
+            int_val_2 = quad_vec(integrator2, 0.0, np.inf)
             value_2_aux = 0.5 + (1.0/np.pi) * int_val_2[0]
             p2 = 0.5 * (1 - phi) + phi * value_2_aux
             df = np.exp(- r * self._delta_time)
@@ -238,7 +236,7 @@ class EuropeanOption(object):
                                            u=u2,
                                            strike=self._strike)
 
-                gamma_output = quad(gamma_integrator, 0.0, np.inf)
+                gamma_output = quad_vec(gamma_integrator, 0.0, np.inf)
                 gamma = gamma_output[0] / (np.pi * self._spot)
                 greeks_map = {TypeGreeks.DELTA: phi * p1, TypeGreeks.GAMMA: gamma,
                               TypeGreeks.DUAL_DELTA: - phi * df * p2}

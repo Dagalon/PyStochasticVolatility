@@ -19,7 +19,7 @@ seed = 123456789
 
 delta = 1.0 / 32.0
 no_time_steps = int(T / delta)
-no_paths = 1000000
+no_paths = 250
 strike = 120.0
 
 rnd_generator = RNG.RndGenerator(seed)

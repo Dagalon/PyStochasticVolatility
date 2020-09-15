@@ -32,8 +32,8 @@ s_t_i = 0.0
 alpha_t_i = 0.0
 z_s = np.random.normal(0.0, 1.0, no_time_steps - 1)
 
-rebalanced_index = list(map(lambda x: int(x), list(np.arange(0.0, no_time_steps, 30))))
-
+# rebalanced_index = list(map(lambda x: int(x), list(np.arange(0.0, no_time_steps, 30))))
+rebalanced_index = np.arange(1, no_time_steps)
 
 for i in range(1, no_time_steps):
     z = np.random.normal(0.0, 1.0, 1)

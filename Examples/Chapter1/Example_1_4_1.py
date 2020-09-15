@@ -25,7 +25,7 @@ for i in range(1, no_dates):
     dti = (float(parameters['date'][i]) - float(parameters['value_date'][i])) / 365.0
     iv = []
     for j in range(0, no_z_i):
-        iv.append(SABRTools.ln_hagan_vol(alpha_i, rho_i, nu_i, z_i[j], dti))
+        iv.append(SABRTools.sabr_vol_jit(alpha_i, rho_i, nu_i, z_i[j], dti))
     sabr_iv_map[int(parameters['date'][i])] = iv
 
 nu_param = []
@@ -36,7 +36,7 @@ for i in range(1, no_dates):
     nu_param.append(float(parameters['nu'][i]))
     rho_param.append(float(parameters['rho'][i]))
 
-fig, axs = plt.subplots(2, 3)
+fig, axs = plt.subplots(2, 3, figsize=(10, 5))
 index = [0, 3, 6, 8, 12, 18]
 for i in range(0, 3):
     date_str = str(ql.Date(int(parameters['date'][index[i] + 1])))

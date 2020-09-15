@@ -24,7 +24,8 @@ for date in sampling_dates:
     spot_vol += [spot_vol[-1]] + list(np.diff(np.cumsum(np.power(np.diff(log_price_intraday), 2.0))) * alpha_t_min)
     sum_rv_i_1 = rv_i_s[-1]
 
-fig, axs = plt.subplots(1, 2)
+fig, axs = plt.subplots(2, 1)
+plt.figure(figsize=(30, 15))
 
 min_time_vol = np.arange(0, len(rv_i_s), 1)
 axs[0].plot(min_time_vol, rv_i_s, label="rv_t", color="black")
