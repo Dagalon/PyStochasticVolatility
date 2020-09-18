@@ -6,6 +6,7 @@ import QuantLib as ql
 
 from pathlib import Path
 from VolatilitySurface.Tools import SABRTools
+from scipy.optimize import curve_fit
 
 current_directory = os.path.dirname(os.path.realpath(__file__))
 folder_directory = Path(current_directory)
@@ -36,6 +37,23 @@ for i in range(1, no_dates):
     nu_param.append(float(parameters['nu'][i]))
     rho_param.append(float(parameters['rho'][i]))
 
+# To plot the skew for diferent maturities
+# plt.plot(delta_time, nu_param, label="vol-of_vol parameter", color="black", linestyle="dashed")
+#
+#
+# def f_law(x, a, b):
+#     return a * np.power(x, -b)
+#
+#
+# popt, pcov = curve_fit(f_law, delta_time, nu_param)
+# y_fit_values = f_law(delta_time, *popt)
+#
+# plt.plot(delta_time, y_fit_values, label="%s * t^-%s)" % (round(popt[0], 5), round(popt[1], 5)), color="black", linestyle="dashed",
+#          marker='.')
+#
+# plt.legend()
+# plt.show()
+
 fig, axs = plt.subplots(2, 3, figsize=(10, 5))
 index = [0, 3, 6, 8, 12, 18]
 for i in range(0, 3):
@@ -49,7 +67,7 @@ for i in range(0, 3):
     date_str = str(ql.Date(int(parameters['date'][index[i + 3] + 1])))
     axs[1, i].set(xlabel='z', ylabel='iv')
     axs[1, i].plot(z_i, sabr_iv_map[int(parameters['date'][index[i + 3] + 1])],
-                   label=parameters['date'][index[i + 3] + 1],  linestyle='dashed', color='black')
+                   label=parameters['date'][index[i + 3] + 1], linestyle='dashed', color='black')
     axs[1, i].set_title(date_str)
 
 plt.show()
