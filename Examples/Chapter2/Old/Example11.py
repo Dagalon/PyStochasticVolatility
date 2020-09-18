@@ -3,7 +3,7 @@ import numba as nb
 import matplotlib.pylab as plt
 
 from ncephes import ndtri
-from Tools import VolatilityEstimators
+from Tools.VolatilityTools import VolatilityEstimators
 
 
 # numba function to get market paths

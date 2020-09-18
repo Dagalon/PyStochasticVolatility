@@ -68,6 +68,7 @@ def get_path_multi_step(t0: float,
     map_out_put[HESTON_OUTPUT.PATHS] = np.exp(ln_x_t_paths)
     map_out_put[HESTON_OUTPUT.INTEGRAL_VARIANCE_PATHS] = int_v_t_paths
     map_out_put[HESTON_OUTPUT.DELTA_MALLIAVIN_WEIGHTS_PATHS_TERMINAL] = np.multiply(delta_weight, 1.0 / (np.sqrt(1.0 - rho * rho) * t1 * f0))
+    map_out_put[HESTON_OUTPUT.SPOT_VARIANCE_PATHS] = v_t_paths
 
     HestonTools.get_gamma_weight(delta_weight, var_weight, inv_variance, rho, t1, gamma_weight)
 

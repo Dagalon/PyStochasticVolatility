@@ -3,7 +3,7 @@ import numpy as np
 
 from MC_Engines.GenericSDE.SDE import cev_sigma, cev_drift, z_sigma, z_drift
 from MC_Engines.GenericSDE.SDESimulation import sde_euler_simulation
-from Tools.CEVMalliavinTools import get_error
+from Tools.VolatilityTools.CEVMalliavinTools import get_error
 from Tools.Types import EULER_SCHEME_TYPE
 
 mu = 0.0

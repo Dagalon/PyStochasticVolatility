@@ -2,8 +2,8 @@ import numpy as np
 import numba as nb
 import matplotlib.pylab as plt
 
-from ncephes import ndtri, ndtr
-from Tools import VolatilityEstimators
+from ncephes import ndtri
+from Tools.VolatilityTools import VolatilityEstimators
 from Tools import Types
 
 
