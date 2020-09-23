@@ -3,6 +3,7 @@ import matplotlib.pylab as plt
 
 from py_vollib.black_scholes_merton import black_scholes_merton
 from py_vollib.black_scholes_merton.greeks import analytical
+from Tools import RNG
 
 T = 2.0
 no_time_steps = int(T * 365)
@@ -13,7 +14,7 @@ diff_t_i_s = np.diff(t_i_s)
 k = 100.0
 spot = 120.0
 r = 0.02
-q = 0.01
+q = 0.00
 sigma = 0.7
 delta_time = T
 notional = 1000.0
@@ -30,13 +31,15 @@ portfolio_t_i[0] = (alpha_t_i_1 * spot + beta_t)
 s_t_i_1 = spot
 s_t_i = 0.0
 alpha_t_i = 0.0
-z_s = np.random.normal(0.0, 1.0, no_time_steps - 1)
 
-# rebalanced_index = list(map(lambda x: int(x), list(np.arange(0.0, no_time_steps, 30))))
-rebalanced_index = np.arange(1, no_time_steps)
+
+rebalanced_index = list(map(lambda x: int(x), list(np.arange(0.0, no_time_steps, 30))))
+# rebalanced_index = np.arange(1, no_time_steps)
+
+rng = RNG.RndGenerator(123)
+z_s = rng.normal(0.0, 1.0, no_time_steps - 1)
 
 for i in range(1, no_time_steps):
-    z = np.random.normal(0.0, 1.0, 1)
     s_t_i = s_t_i_1 * np.exp((r - q) * diff_t_i_s[i - 1] - 0.5 * sigma * sigma * diff_t_i_s[i - 1] +
                              np.sqrt(diff_t_i_s[i - 1]) * sigma * z_s[i - 1])
 

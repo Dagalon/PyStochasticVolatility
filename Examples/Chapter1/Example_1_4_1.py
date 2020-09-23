@@ -38,21 +38,21 @@ for i in range(1, no_dates):
     rho_param.append(float(parameters['rho'][i]))
 
 # To plot the skew for diferent maturities
-# plt.plot(delta_time, nu_param, label="vol-of_vol parameter", color="black", linestyle="dashed")
-#
-#
-# def f_law(x, a, b):
-#     return a * np.power(x, -b)
-#
-#
-# popt, pcov = curve_fit(f_law, delta_time, nu_param)
-# y_fit_values = f_law(delta_time, *popt)
-#
-# plt.plot(delta_time, y_fit_values, label="%s * t^-%s)" % (round(popt[0], 5), round(popt[1], 5)), color="black", linestyle="dashed",
-#          marker='.')
-#
-# plt.legend()
-# plt.show()
+plt.plot(delta_time, nu_param, label="vol-of_vol parameter", color="black", linestyle="dashed")
+
+
+def f_law(x, a, b):
+    return a * np.power(x, -b)
+
+
+popt, pcov = curve_fit(f_law, delta_time, nu_param)
+y_fit_values = f_law(delta_time, *popt)
+
+plt.plot(delta_time, y_fit_values, label="%s * t^-%s)" % (round(popt[0], 5), round(popt[1], 5)), color="black", linestyle="dashed",
+         marker='.')
+
+plt.legend()
+plt.show()
 
 fig, axs = plt.subplots(2, 3, figsize=(10, 5))
 index = [0, 3, 6, 8, 12, 18]

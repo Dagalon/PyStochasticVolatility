@@ -51,7 +51,7 @@ seed = 123456
 
 no_time_steps = 365*4
 no_paths = 5000
-freq_sampling = 1
+freq_sampling = 4
 # Simulated integrated variance
 paths, v_t, t_i_s = get_paths(p0, sigma0, t, theta, w, k, no_paths, no_time_steps, seed)
 
