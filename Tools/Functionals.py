@@ -71,16 +71,16 @@ def apply_lower_tridiagonal_matrix(a, b):
     return output
 
 
-@nb.jit("f8(f8,i8)", nopython=True, nogil=True)
-def dirichlet_kernel(t: float, n: int):
+@nb.jit("f8(f8,f8)", nopython=True, nogil=True)
+def dirichlet_kernel(t: float, n: float):
     if np.abs(t) > 0.0:
         return np.sin((n + 0.5) * t) / (np.sin(0.5 * t) * (2.0 * n + 1.0))
     else:
         return 1.0
 
 
-@nb.jit("f8(f8,i8)", nopython=True, nogil=True)
-def fejer_kernel(t: float, n: int):
+@nb.jit("f8(f8,f8)", nopython=True, nogil=True)
+def fejer_kernel(t: float, n: float):
     if np.abs(t) > 0.0:
         return (1.0 / n) * np.power(np.sin(0.5 * n * t) / np.sin(0.5 * t), 2.0)
     else:
