@@ -78,7 +78,7 @@ def get_vetor_iv_cev(nu: float, alpha: float, T: float):
 # CEV parameter
 alpha_lower_s = [0.1, 0.3, 0.5, 0.7]
 alpha_upper_s = [1.1, 1.2, 1.3, 1.4]
-nu = 0.4
+nu = 0.2
 fig, axs = plt.subplots(2, 1)
 
 styles = ['o', '*', 'x', '+']
@@ -88,10 +88,14 @@ for i in range(0, 4):
     axs[0].plot(z_s, iv_fd, label="gamma = " + str(alpha_lower_s[i]), linestyle='--', marker=styles[i], color="black")
 
 axs[0].legend(loc="upper left")
+axs[0].set_xlabel("ln(k/f)")
+
 
 for i in range(0, 4):
     z_s, iv_fd, iv_hagan = get_vetor_iv_cev(nu, alpha_upper_s[i], T)
     axs[1].plot(z_s, iv_fd, label="gamma = " + str(alpha_upper_s[i]), linestyle='--', marker=styles[i], color="black")
 
 axs[1].legend(loc="upper left")
+axs[1].set_xlabel("ln(k/f)")
+
 plt.show()

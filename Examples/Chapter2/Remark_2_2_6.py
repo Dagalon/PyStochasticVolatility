@@ -71,9 +71,11 @@ styles = ['o', '*', 'x', '^', '.']
 f0_s = [10.0, 10.25, 10.5, 10.75, 11.0]
 no_f0 = len(f0_s)
 plt.figure()
+plt.title("CEV smile dynamic for gamma = %s" % nu)
 for i in range(0, no_f0):
     z_s, iv_fd = get_vetor_iv_cev(nu, alpha, T, f0_s[i])
-    plt.plot(z_s, iv_fd, label="f0=" + str(f0_s[i]), linestyle='--', marker=styles[i], color='black')
+    plt.plot(z_s, iv_fd, label="S0=" + str(f0_s[i]), linestyle='--', marker=styles[i], color='black')
 
+plt.xlabel("ln(k/f)")
 plt.legend()
 plt.show()
