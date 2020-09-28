@@ -16,17 +16,15 @@ def get_sabr_moments(parameters: Types.ndarray, t: float):
     return output
 
 
-@nb.jit("f8[:](f8[:,:],f8[:],f8[:],i8,i8)", nopython=True, nogil=True)
+@nb.jit("Tuple((f8[:], f8))(f8[:,:],f8[:],f8[:],i8,i8)", nopython=True, nogil=True)
 def get_sabr_asymptotic(sigma_t: Types.ndarray, t_s: Types.ndarray, parameters: Types.ndarray,
                         no_paths: int, no_time_steps: int):
     alpha = parameters[0]
     nu = parameters[1]
     rho = parameters[2]
-    output = np.zeros(3)
     mean_output = np.zeros(no_paths)
 
     sabr_int_moments = get_sabr_moments(parameters, t_s[-1])
-    output[1] = 4.0 * sabr_int_moments[1]
 
     for i in range(0, no_paths):
         for j in range(1, no_time_steps):
@@ -34,13 +32,10 @@ def get_sabr_asymptotic(sigma_t: Types.ndarray, t_s: Types.ndarray, parameters: 
             mean_output[i] += (0.25 * delta_time * np.power(sigma_t[i, j - 1], 4.0) -
                                0.5 * nu * rho * delta_time * np.power(sigma_t[i, j - 1], 3.0))
 
-    output[0] = np.mean(mean_output)
-    output[2] = np.std(mean_output) / np.sqrt(no_paths)
-
-    return output
+    return mean_output, 4.0 * sabr_int_moments[1]
 
 
-# @nb.jit("f8[:](f8[:,:],f8[:],f8[:],i8,i8)", nopython=True, nogil=True)
+# @nb.jit("Tuple((f8[:], f8[:]))(f8[:,:],f8[:],f8[:],i8,i8)", nopython=True, nogil=True)
 def get_discretization(s_t: Types.ndarray, t_s: Types.ndarray, parameters: Types.ndarray,
                        no_paths: int, no_time_steps: int):
 
@@ -57,7 +52,4 @@ def get_discretization(s_t: Types.ndarray, t_s: Types.ndarray, parameters: Types
         mean_log_returns[i] -= sabr_int_moments[0]
         variance_log_returns[i] = np.power(mean_log_returns[i], 2.0)
 
-    output[0] = np.mean(mean_log_returns)
-    output[1] = np.mean(variance_log_returns)
-
-    return output
+    return mean_log_returns, variance_log_returns
