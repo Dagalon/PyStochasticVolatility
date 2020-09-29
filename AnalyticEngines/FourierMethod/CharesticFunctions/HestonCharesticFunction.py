@@ -61,7 +61,7 @@ def f_gamma_heston(w, t, x, v, r_t, theta, rho, k, epsilon, b, u, strike):
 def f_attari_heston(w, t, v, spot, r_t, theta, rho, k, epsilon, b, u, strike):
     df = np.exp(- r_t * t)
     x = np.log(spot)
-    f2 = get_trap_cf(w, t, x, v, r_t, theta, rho, k, epsilon, b, u)
+    f2 = get_trap_cf(np.asfortranarray(w), t, x, v, r_t, theta, rho, k, epsilon, b, u)
     phi2 = f2 * np.exp(- 1j * w * (x + r_t * t))
     l = np.log(df * strike / spot)
     r2_u = phi2.real
