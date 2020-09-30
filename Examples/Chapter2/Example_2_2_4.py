@@ -71,8 +71,7 @@ for i in range(0, no_dates):
     for j in range(0, no_z_i_s):
         m_iv[i, j] = SABRTools.sabr_vol_jit(alpha_i, rho_i, nu_i, z_i_s[j], delta_time[i])
 
-fig_surface = plt.figure(figsize=(12, 4))
-fig_surface.suptitle('STOXX50 Implied Vol Vs Local Vol')
+fig_surface = plt.figure(figsize=(13, 5))
 ax = fig_surface.add_subplot(121, projection='3d')
 
 t, z = np.meshgrid(delta_time, z_i_s)
@@ -86,9 +85,10 @@ surf = ax.plot_surface(t,
                        linewidth=0,
                        antialiased=False)
 
-ax.set_xlabel('Time')
-ax.set_ylabel('Log-Moneyness')
-ax.set_zlabel('Implied Volatility')
+ax.set_xlabel('t(years)')
+ax.set_ylabel('ln(F/K)')
+ax.set_zlabel('volatility')
+ax.set_title('STOX50E implied volatility surface')
 
 ax = fig_surface.add_subplot(122, projection='3d')
 
@@ -101,8 +101,9 @@ surf_local_vol = ax.plot_surface(t,
                                  linewidth=0,
                                  antialiased=False)
 
-ax.set_xlabel('Time')
-ax.set_ylabel('Log-Moneyness')
-ax.set_zlabel('Local Vol')
+ax.set_xlabel('t(years)')
+ax.set_ylabel('ln(F/K)')
+ax.set_zlabel('volatility')
+ax.set_title('STOX50E local volatility surface')
 
 plt.show()
