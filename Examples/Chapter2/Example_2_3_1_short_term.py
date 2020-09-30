@@ -191,17 +191,29 @@ for t_i in t_s:
     options_time.append(EuropeanOption(f0, notional, TypeSellBuy.BUY, TypeEuropeanOption.CALL, f0, t_i))
 
 
+# v0 effect in time dimension
+# v0_s = [0.05, 0.1, 1.0, 2.0]
+# style_markers = ['*', '.', 'x', '^']
+# out_v0_s = get_smile_for_differents_v0(rho, epsilon, k, v0_s, theta, options_time)
+#
+# no_outputs = len(out_v0_s)
+# for i in range(0, no_outputs):
+#     plt.plot(t_s, out_v0_s[i][1], label="v0="+str(v0_s[i]), linestyle='dashed', color='black',
+#              marker=style_markers[i])
+#
+# plt.xlabel("t")
+
 # v0 effect in the smile
-v0_s = [0.05, 0.1, 1.0, 2.0]
-style_markers = ['*', '.', 'x', '^']
-out_v0_s = get_smile_for_differents_v0(rho, epsilon, k, v0_s, theta, options_time)
-
-no_outputs = len(out_v0_s)
-for i in range(0, no_outputs):
-    plt.plot(t_s, out_v0_s[i][1], label="v0="+str(v0_s[i]), linestyle='dashed', color='black',
-             marker=style_markers[i])
-
-plt.xlabel("t")
+# v0_s = [0.05, 0.1, 1.0, 2.0]
+# style_markers = ['*', '.', 'x', '^']
+# out_v0_s = get_smile_for_differents_v0(rho, epsilon, k, v0_s, theta, options_strike)
+#
+# no_outputs = len(out_v0_s)
+# for i in range(0, no_outputs):
+#     plt.plot(strikes, out_v0_s[i][1], label="v0="+str(v0_s[i]), linestyle='dashed', color='black',
+#              marker=style_markers[i])
+#
+# plt.xlabel("strike")
 
 # k effect in the smile
 # k_s = [0.1, 0.5, 1.0, 2.0]
@@ -214,6 +226,7 @@ plt.xlabel("t")
 #              marker=style_markers[i])
 #
 # plt.xlabel("strike")
+
 
 # k effect in time dimension
 # k_s = [0.1, 0.5, 1.0, 2.0]
@@ -240,6 +253,19 @@ plt.xlabel("t")
 #
 # plt.xlabel("strike")
 
+# rho effect in time dimension
+# rho_s = np.array([-0.9, -0.5, -0.25, -0.0])
+# style_markers = ['*', '.', 'x', '^']
+#
+# out_rho_s = get_smile_for_differents_rho(rho_s, epsilon, k, v0, theta, options_time)
+#
+# no_outputs = len(out_rho_s)
+# for i in range(0, no_outputs):
+#     plt.plot(t_s, out_rho_s[i][1], label="rho="+str(rho_s[i]), linestyle='dashed', color='black',
+#              marker=style_markers[i])
+#
+# plt.xlabel("t")
+
 # epsilon effect in the smile
 # epsilon_s = np.array([0.1, 0.3, 0.5, 0.9])
 # style_markers = ['*', '.', 'x', '^']
@@ -252,6 +278,18 @@ plt.xlabel("t")
 #
 # plt.xlabel("strike")
 
+# epsilon effect in time dimension
+# epsilon_s = np.array([0.1, 0.3, 0.5, 0.9])
+# style_markers = ['*', '.', 'x', '^']
+# out_epsilon_s = get_smile_for_differents_epsilon(rho, epsilon_s, k, v0, theta, options_time)
+#
+# no_outputs = len(out_epsilon_s)
+# for i in range(0, no_outputs):
+#     plt.plot(t_s, out_epsilon_s[i][1], label="epsilon="+str(epsilon_s[i]), linestyle='dashed',
+#              color='black', marker=style_markers[i])
+#
+# plt.xlabel("t")
+
 # theta effect in the smile
 # theta_s = np.array([0.1, 0.07, 0.05, 0.03])
 # style_markers = ['*', '.', 'x', '^']
@@ -260,6 +298,15 @@ plt.xlabel("t")
 # for i in range(0, no_outputs):
 #     plt.plot(strikes, out_theta_s[i][1], label="theta=" + str(theta_s[i]), linestyle='dashed',
 #              color='black', marker=style_markers[i])
+
+# theta effect in the smile
+theta_s = np.array([0.1, 0.07, 0.05, 0.03])
+style_markers = ['*', '.', 'x', '^']
+out_theta_s = get_smile_for_differents_theta(rho, epsilon, k, v0, theta_s, options_time)
+no_outputs = len(out_theta_s)
+for i in range(0, no_outputs):
+    plt.plot(t_s, out_theta_s[i][1], label="theta=" + str(theta_s[i]), linestyle='dashed',
+             color='black', marker=style_markers[i])
 
 plt.legend()
 plt.show()
