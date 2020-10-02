@@ -55,7 +55,7 @@ def get_covariance_matrix(t_i_s: ndarray, h: float, rho: float):
     return cov
 
 
-@nb.jit("f8[:,:](f8, f8, f8, f8, f8[:,:], f8[:,:], f8[:], i8)", nopython=True, nogil=True)
+@nb.jit("Tuple(f8[:,:], f8[:,:], f8[:,:])(f8, f8, f8, f8, f8[:,:], f8[:,:], f8[:], i8)", nopython=True, nogil=True)
 def generate_paths(s0: float,
                    v0: float,
                    nu: float,
@@ -64,9 +64,11 @@ def generate_paths(s0: float,
                    cholk_cov: ndarray,
                    t_i_s: ndarray,
                    no_paths: int):
+
     no_time_steps = len(t_i_s)
 
     paths = np.zeros(shape=(no_paths, no_time_steps))
+    int_v_t = np.zeros(shape=(no_paths, no_time_steps - 1))
     v_i_1 = np.zeros(shape=(no_paths, no_time_steps))
 
     v_i_1[:, 0] = v0
@@ -82,13 +84,13 @@ def generate_paths(s0: float,
         for j in range(1, no_time_steps):
             delta_i_s = t_i_s[j] - t_i_s[j - 1]
             v_i_1[k, j] = v0 * np.exp(- 0.5 * nu * nu * var_w_t[j - 1] + nu * w_i_s[j + no_time_steps - 2])
-
+            int_v_t[k, j] = delta_i_s * 0.5 * (v_i_1[k, j - 1] + v_i_1[k, j])
             d_w_i_1_i = (w_i_s[j - 1] - w_i_1)
             paths[k, j] = paths[k, j - 1] * np.exp(-0.25 * (v_i_1[k, j] + v_i_1[k, j - 1]) * delta_i_s +
                                                    v_i_1[k, j - 1] * d_w_i_1_i)
             w_i_1 = w_i_s[j - 1]
 
-    return paths
+    return paths, v_i_1, int_v_t
 
 
 @nb.jit("f8(f8, f8)", nopython=True, nogil=True)

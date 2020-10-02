@@ -22,6 +22,15 @@ class HESTON_OUTPUT(Enum):
         return self.value
 
 
+class RBERGOMI_OUTPUT(Enum):
+    PATHS = 0,
+    INTEGRAL_VARIANCE_PATHS = 1,
+    SPOT_VARIANCE_PATHS = 4,
+
+    def __str__(self):
+        return self.value
+
+
 class ANALYTIC_MODEL(Enum):
     HESTON_MODEL_ATTARI = 0,
     HESTON_MODEL_REGULAR = 1,
