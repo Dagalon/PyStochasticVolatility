@@ -267,16 +267,16 @@ for t_i in t_s:
 # plt.xlabel("t")
 
 # epsilon effect in the smile
-# epsilon_s = np.array([0.1, 0.3, 0.5, 0.9])
-# style_markers = ['*', '.', 'x', '^']
-# out_epsilon_s = get_smile_for_differents_epsilon(rho, epsilon_s, k, v0, theta, options_strike)
-#
-# no_outputs = len(out_epsilon_s)
-# for i in range(0, no_outputs):
-#     plt.plot(strikes, out_epsilon_s[i][1], label="epsilon="+str(epsilon_s[i]), linestyle='dashed',
-#              color='black', marker=style_markers[i])
-#
-# plt.xlabel("strike")
+epsilon_s = np.array([0.1, 0.3, 0.5, 0.9])
+style_markers = ['*', '.', 'x', '^']
+out_epsilon_s = get_smile_for_differents_epsilon(rho, epsilon_s, k, v0, theta, options_strike)
+
+no_outputs = len(out_epsilon_s)
+for i in range(0, no_outputs):
+    plt.plot(strikes, out_epsilon_s[i][1], label="nu="+str(epsilon_s[i]), linestyle='dashed',
+             color='black', marker=style_markers[i])
+
+plt.xlabel("strike")
 
 # epsilon effect in time dimension
 # epsilon_s = np.array([0.1, 0.3, 0.5, 0.9])
@@ -285,7 +285,7 @@ for t_i in t_s:
 #
 # no_outputs = len(out_epsilon_s)
 # for i in range(0, no_outputs):
-#     plt.plot(t_s, out_epsilon_s[i][1], label="epsilon="+str(epsilon_s[i]), linestyle='dashed',
+#     plt.plot(t_s, out_epsilon_s[i][1], label="nu="+str(epsilon_s[i]), linestyle='dashed',
 #              color='black', marker=style_markers[i])
 #
 # plt.xlabel("t")
@@ -300,13 +300,13 @@ for t_i in t_s:
 #              color='black', marker=style_markers[i])
 
 # theta effect in the smile
-theta_s = np.array([0.1, 0.07, 0.05, 0.03])
-style_markers = ['*', '.', 'x', '^']
-out_theta_s = get_smile_for_differents_theta(rho, epsilon, k, v0, theta_s, options_time)
-no_outputs = len(out_theta_s)
-for i in range(0, no_outputs):
-    plt.plot(t_s, out_theta_s[i][1], label="theta=" + str(theta_s[i]), linestyle='dashed',
-             color='black', marker=style_markers[i])
+# theta_s = np.array([0.1, 0.07, 0.05, 0.03])
+# style_markers = ['*', '.', 'x', '^']
+# out_theta_s = get_smile_for_differents_theta(rho, epsilon, k, v0, theta_s, options_time)
+# no_outputs = len(out_theta_s)
+# for i in range(0, no_outputs):
+#     plt.plot(t_s, out_theta_s[i][1], label="theta=" + str(theta_s[i]), linestyle='dashed',
+#              color='black', marker=style_markers[i])
 
 plt.legend()
 plt.show()

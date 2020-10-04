@@ -44,7 +44,7 @@ def get_covariance_matrix(t_i_s: ndarray, h: float, rho: float):
 
     for i in range(0, no_time_steps):
         for j in range(no_time_steps, 2 * no_time_steps):
-            cov[i, j] = get_covariance_w_v_w_t(t_i_s[i], t_i_s[j - no_time_steps], h, rho)
+            cov[i, j] = get_covariance_w_v_w_t(t_i_s[i], t_i_s[j - no_time_steps], rho, h)
             cov[j, i] = cov[i, j]
 
     for i in range(0, no_time_steps):
@@ -55,7 +55,8 @@ def get_covariance_matrix(t_i_s: ndarray, h: float, rho: float):
     return cov
 
 
-@nb.jit("Tuple(f8[:,:], f8[:,:], f8[:,:])(f8, f8, f8, f8, f8[:,:], f8[:,:], f8[:], i8)", nopython=True, nogil=True)
+# @nb.jit("Tuple(f8[:,:], f8[:,:], f8[:,:])(f8, f8, f8, f8, f8[:,:], f8[:,:], f8[:], i8)", nopython=True, nogil=True)
+@nb.jit("(f8, f8, f8, f8, f8[:,:], f8[:,:], f8[:], i8)", nopython=True, nogil=True)
 def generate_paths(s0: float,
                    v0: float,
                    nu: float,
@@ -83,11 +84,10 @@ def generate_paths(s0: float,
         w_i_1 = 0.0
         for j in range(1, no_time_steps):
             delta_i_s = t_i_s[j] - t_i_s[j - 1]
-            v_i_1[k, j] = v0 * np.exp(- 0.5 * nu * nu * var_w_t[j - 1] + nu * w_i_s[j + no_time_steps - 2])
-            int_v_t[k, j] = delta_i_s * 0.5 * (v_i_1[k, j - 1] + v_i_1[k, j])
+            v_i_1[k, j] = v0 * np.exp(- nu * nu * h * var_w_t[j - 1] + nu * w_i_s[j + no_time_steps - 2])
+            int_v_t[k, j - 1] = delta_i_s * 0.5 * (v_i_1[k, j - 1] + v_i_1[k, j])
             d_w_i_1_i = (w_i_s[j - 1] - w_i_1)
-            paths[k, j] = paths[k, j - 1] * np.exp(-0.25 * (v_i_1[k, j] + v_i_1[k, j - 1]) * delta_i_s +
-                                                   v_i_1[k, j - 1] * d_w_i_1_i)
+            paths[k, j] = paths[k, j - 1] * np.exp(- 0.5 * int_v_t[k, j - 1] + np.sqrt(v_i_1[k, j - 1]) * d_w_i_1_i)
             w_i_1 = w_i_s[j - 1]
 
     return paths, v_i_1, int_v_t
@@ -101,42 +101,3 @@ def beta(t, m):
         return (1.0 - np.exp(- m * t)) / m
 
 
-def generate_paths_affine_method(s0: float,
-                                 v0: float,
-                                 nu: float,
-                                 rho: float,
-                                 h: float,
-                                 z_s_i: ndarray,
-                                 z_v_i: ndarray,
-                                 t_i_s: ndarray,
-                                 no_paths: int):
-    no_time_steps = len(t_i_s)
-    u_mean = 0.5 - h
-
-    delta_i_s = np.diff(t_i_s)
-    paths = np.zeros(shape=(no_paths, no_time_steps))
-    y_t_u = np.zeros(shape=(no_paths, no_time_steps))
-    v_i_1 = np.zeros(shape=(no_paths, no_time_steps))
-    w_s_i = np.zeros(no_paths)
-    rho_inv = np.sqrt(1.0 - rho * rho)
-
-    v_i_1[:, 0] = v0
-    paths[:, 0] = s0
-
-    for j in range(1, no_time_steps):
-        y_t_u[:, j] = np.exp(- u_mean) * y_t_u[:, j - 1] + \
-                      np.sqrt(beta(delta_i_s[j-1], 2.0 * u_mean / delta_i_s[j-1])) * z_v_i[:, j - 1]
-
-        v_i_1[:, j] = v_i_1[:, j-1] * np.exp(
-            - h * nu * nu * np.power(t_i_s[j - 1] + 0.5 * delta_i_s[j-1], 2.0 * h - 1.0) * delta_i_s[j - 1] +
-            np.power(delta_i_s[j - 1], h - 0.5) * y_t_u[:, j - 1] - np.log(v_i_1[:, j-1]/v0) + nu * np.power(delta_i_s[j - 1], h) * z_v_i[:, j - 1])
-
-        np.copyto(w_s_i, np.sqrt(delta_i_s[j - 1]) * (rho * z_v_i[:, j - 1] + rho_inv * z_s_i[:, j - 1]))
-        print(j)
-        paths[:, j] = paths[:, j - 1] * np.exp(-0.25 * (v_i_1[:, j] + v_i_1[:, j - 1]) * delta_i_s[j - 1] +
-                                               v_i_1[:, j - 1] * w_s_i)
-
-    empirical_variance = np.std(np.log(v_i_1 / v0), axis=0)**2
-    analytic_variance = get_volterra_variance(t_i_s, h) * nu * nu
-
-    return paths

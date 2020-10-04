@@ -76,14 +76,14 @@ k_s = np.arange(40.0, 200.0, 10.0)
 T = 0.1
 
 # rho effect in the smile
-# style_markers = ['*', '.', 'x', '^']
-# rho_s = np.array([-0.9, -0.5, -0.25, -0.0])
-# out_rho_s = get_smile_for_differents_rho(alpha, rho_s, nu, k_s, f0, T)
-#
-# no_outputs = len(out_rho_s)
-# for i in range(0, no_outputs):
-#     plt.plot(k_s, out_rho_s[i][1], label="rho="+str(rho_s[i]), linestyle='-', linewidth=0.5, color='black',
-#              marker=style_markers[i])
+style_markers = ['*', '.', 'x', '^']
+rho_s = np.array([-0.9, -0.5, -0.25, -0.0])
+out_rho_s = get_smile_for_differents_rho(alpha, rho_s, nu, k_s, f0, T)
+
+no_outputs = len(out_rho_s)
+for i in range(0, no_outputs):
+    plt.plot(k_s, out_rho_s[i][1], label="rho="+str(rho_s[i]), linestyle='-', linewidth=0.5, color='black',
+             marker=style_markers[i])
 
 
 # epilon effect in the smile
@@ -93,20 +93,21 @@ T = 0.1
 #
 # no_outputs = len(out_nu_s)
 # for i in range(0, no_outputs):
-#     plt.plot(k_s, out_nu_s[i][1], label="nu="+str(nu_s[i]), linestyle='-', linewidth=0.5, color='black',
+#     plt.plot(k_s, out_nu_s[i][1], label="alpha="+str(nu_s[i]), linestyle='-', linewidth=0.5, color='black',
 #              marker=style_markers[i])
 
 # alpha effect in the smile
-style_markers = ['*', '.', 'x', '^']
-alpha_s = np.array([0.4, 0.7, 0.8, 1.0])
-out_alpha_s = get_smile_for_differents_alpha(alpha_s, rho, nu, k_s, f0, T)
+# style_markers = ['*', '.', 'x', '^']
+# alpha_s = np.array([0.4, 0.7, 0.8, 1.0])
+# out_alpha_s = get_smile_for_differents_alpha(alpha_s, rho, nu, k_s, f0, T)
+#
+# no_outputs = len(out_alpha_s)
+# for i in range(0, no_outputs):
+#     plt.plot(k_s, out_alpha_s[i][1], label="alpha="+str(alpha_s[i]), linestyle='-', linewidth=0.5, color='black',
+#              marker=style_markers[i])
+#
+#
+# plt.xlabel("strike")
 
-no_outputs = len(out_alpha_s)
-for i in range(0, no_outputs):
-    plt.plot(k_s, out_alpha_s[i][1], label="alpha="+str(alpha_s[i]), linestyle='-', linewidth=0.5, color='black',
-             marker=style_markers[i])
-
-
-plt.xlabel("strike")
 plt.legend()
 plt.show()

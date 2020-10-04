@@ -73,7 +73,7 @@ rho = -0.85
 # option information
 f0 = 100.0
 k_s = np.arange(40.0, 200.0, 10.0)
-T = 1.0
+T = 2.0
 
 # rho effect in the smile
 style_markers = ['*', '.', 'x', '^']
@@ -93,7 +93,7 @@ for i in range(0, no_outputs):
 #
 # no_outputs = len(out_nu_s)
 # for i in range(0, no_outputs):
-#     plt.plot(k_s, out_nu_s[i][1], label="nu="+str(nu_s[i]), linestyle='-', linewidth=0.5, color='black',
+#     plt.plot(k_s, out_nu_s[i][1], label="alpha="+str(nu_s[i]), linestyle='-', linewidth=0.5, color='black',
 #              marker=style_markers[i])
 
 # alpha effect in the smile

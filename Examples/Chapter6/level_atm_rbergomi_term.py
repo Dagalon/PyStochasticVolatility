@@ -16,11 +16,12 @@ h = 0.3
 nu = 0.7
 rho = -0.6
 v0 = 0.05
+sigma_0 = np.sqrt(v0)
 
 parameters = [nu, rho, h]
 
 seed = 123456789
-no_paths = 300000
+no_paths = 1000000
 delta_time = 1.0 / 365.0
 
 # random number generator
@@ -49,24 +50,28 @@ for i in range(0, no_dt_s):
 
     mc_option_price = options[i].get_price(map_output[Types.RBERGOMI_OUTPUT.PATHS][:, -1])
 
-    # implied_vol_approx.append(ExpansionTools.get_iv_atm_heston_approximation(np.array(parameters), dt[i]))
-
-    implied_vol_atm.append(implied_volatility(mc_option_price, f0, f0, dt[i], 0.0, 0.0, 'c'))
-    vol_swap_mc.append(np.sqrt(np.mean(np.sum(map_output[Types.RBERGOMI_OUTPUT.INTEGRAL_VARIANCE_PATHS], 1)) / dt[i]))
+    implied_vol_atm.append(implied_volatility(mc_option_price[0], f0, f0, dt[i], 0.0, 0.0, 'c'))
+    vol_swap_mc.append(np.mean(np.sqrt(np.sum(map_output[Types.RBERGOMI_OUTPUT.INTEGRAL_VARIANCE_PATHS], 1) / dt[i])))
+    error_mc_vol_swap = np.std(np.sqrt(np.sum(map_output[Types.RBERGOMI_OUTPUT.INTEGRAL_VARIANCE_PATHS], 1) / dt[i])) / np.sqrt(no_paths)
+    implied_vol_approx.append(ExpansionTools.get_iv_atm_rbergomi_approximation(parameters, vol_swap_mc[-1], sigma_0, dt[i]))
     output.append((implied_vol_atm[-1] - vol_swap_mc[-1]))
 
 # curve fit
 
 
-def f_law(x, a, b):
-    return a + b * x
+# def f_law(x, b, c):
+#     return b * np.power(x, -2.0 * c)
+#
+#
+# popt, pcov = curve_fit(f_law, dt, output)
+# y_fit_values = f_law(dt, *popt)
+#
+# plt.plot(dt, output, label='(I(t,f0) - E(v_t))', linestyle='--')
+plt.plot(dt, vol_swap_mc, label='E(v_t)', linestyle='--', marker='.')
+# plt.plot(dt, y_fit_values, label="%s * t^(-2 * %s)" % (round(popt[0], 5), round(popt[1], 5)), marker='.', linestyle='--')
 
-
-popt, pcov = curve_fit(f_law, dt, output)
-y_fit_values = f_law(dt, *popt)
-
-plt.plot(dt, output, label='(I(t,f0) - E(v_t))', linestyle='--')
-plt.plot(dt, y_fit_values, label="%s + %s * t" % (round(popt[0], 5), round(popt[1], 5)), marker='.', linestyle='--')
+# plt.plot(dt, implied_vol_approx, label='approximation iv', linestyle='--')
+# plt.plot(dt, implied_vol_atm, label='mc iv', linestyle='--')
 
 plt.xlabel('t')
 plt.legend()

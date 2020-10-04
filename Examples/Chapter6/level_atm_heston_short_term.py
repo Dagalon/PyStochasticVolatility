@@ -22,7 +22,7 @@ theta = 0.06
 parameters = [k, theta, epsilon, rho, v0]
 
 seed = 123456789
-no_paths = 10
+no_paths = 400000
 delta_time = 1.0 / 365.0
 
 # random number generator
@@ -56,7 +56,7 @@ for i in range(0, no_dt_s):
 
     implied_vol_approx.append(ExpansionTools.get_iv_atm_heston_approximation(np.array(parameters), dt[i]))
     implied_vol_atm.append(implied_volatility(option_price, f0, f0, dt[i], 0.0, 0.0, 'c'))
-    vol_swap_mc.append(np.sqrt(np.mean(np.sum(map_output[Types.HESTON_OUTPUT.INTEGRAL_VARIANCE_PATHS], 1)) / dt[i]))
+    vol_swap_mc.append(np.mean(np.sqrt(np.sum(map_output[Types.HESTON_OUTPUT.INTEGRAL_VARIANCE_PATHS], 1) / dt[i])))
     output.append((implied_vol_atm[-1] - vol_swap_mc[-1]))
 
 # curve fit
