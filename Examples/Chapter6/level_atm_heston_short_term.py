@@ -8,6 +8,7 @@ from py_vollib.black_scholes_merton.implied_volatility import implied_volatility
 from scipy.optimize import curve_fit
 from AnalyticEngines.MalliavinMethod import ExpansionTools
 
+
 dt = np.arange(7, 30, 1) * 1.0 / 365.0
 no_dt_s = len(dt)
 

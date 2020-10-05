@@ -21,6 +21,20 @@ def get_vol_swap_approximation_heston(parameters: Types.ndarray, t0: float, t1: 
     return sigma_t0 + (t1 - t0) * adjusment
 
 
+def get_vol_swap_local_vol(t0: float, t1: float, f0: float, lv_f0: float,
+                           fd_lv_f0: float, sd_lv_f0: float):
+    adjustment = f0 * f0 * (0.25 * sd_lv_f0 * lv_f0 + fd_lv_f0 * fd_lv_f0 * (0.25 * lv_f0 * lv_f0 - 2.0 / 3.0))
+    return lv_f0 * (1.0 + (t1 - t0) * adjustment)
+
+
+def get_iv_atm_local_vol_approximation(f0: float, lv_f0: float, fd_lv_f0: float, sd_lv_f0: float, t: float):
+    vol_swap_approx = get_vol_swap_local_vol(0.0, t, f0, lv_f0, fd_lv_f0, sd_lv_f0)
+    adjustment = - 0.125 * fd_lv_f0 * fd_lv_f0 * lv_f0 * f0 - (1.0 / 6.0) * sd_lv_f0 * lv_f0 * lv_f0 * f0 + \
+                 (1.0 / 12.0) * fd_lv_f0 * lv_f0 * lv_f0
+
+    return vol_swap_approx + f0 * t * adjustment
+
+
 @nb.jit("f8(f8[:],f8)", nopython=True, nogil=True)
 def get_iv_atm_heston_approximation(parameters: Types.ndarray, t: float):
     epsilon = parameters[2]
@@ -44,5 +58,5 @@ def get_iv_atm_rbergomi_approximation(parameters: Types.ndarray, vol_swap: float
     h_3_2 = (h + 1.5)
     h_1 = (h + 1.0)
     adjustment = sigma_0 * np.power(nu * rho, 2.0) * (h / h_1_2) * (
-                0.75 / (h_1_2 * h_3_2 * h_3_2) - 0.125 / (h_1 * h_1_2) - 1.0 / h_1)
+            0.75 / (h_1_2 * h_3_2 * h_3_2) - 0.75 / (h_1 * h_1_2))
     return vol_swap + adjustment * np.power(t, 2.0 * h)

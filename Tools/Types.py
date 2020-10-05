@@ -25,7 +25,8 @@ class HESTON_OUTPUT(Enum):
 class RBERGOMI_OUTPUT(Enum):
     PATHS = 0,
     INTEGRAL_VARIANCE_PATHS = 1,
-    SPOT_VARIANCE_PATHS = 4,
+    SPOT_VARIANCE_PATHS = 2,
+    UNKNOWN = -1
 
     def __str__(self):
         return self.value
@@ -48,7 +49,8 @@ class SABR_OUTPUT(Enum):
     DELTA_MALLIAVIN_WEIGHTS_PATHS_TERMINAL = 2,
     GAMMA_MALLIAVIN_WEIGHTS_PATHS_TERMINAL = 3,
     SIGMA_PATHS = 4,
-    TIMES = 5
+    TIMES = 5,
+    UNKNOWN = -1
 
     def __str__(self):
         return self.value
@@ -56,6 +58,9 @@ class SABR_OUTPUT(Enum):
 
 class LOCAL_VOL_OUTPUT(Enum):
     PATHS = 0,
+    INTEGRAL_VARIANCE_PATHS = 1,
+    SPOT_VARIANCE_PATHS = 2,
+    UNKNOWN = -1
 
     def __str__(self):
         return self.value
