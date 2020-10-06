@@ -12,7 +12,7 @@ dt = np.linspace(0.01, 0.1, 10)
 no_dt_s = len(dt)
 
 # simulation info
-h = 0.3
+h = 0.2
 nu = 0.7
 rho = -0.6
 v0 = 0.05
@@ -45,17 +45,20 @@ output = []
 for i in range(0, no_dt_s):
     # no_time_steps = int(dt[i] / delta_time)
     rnd_generator.set_seed(seed)
-    map_output = RBergomi_Engine .get_path_multi_step(0.0, dt[i], parameters, f0, v0, no_paths,
-                                                      no_time_steps, Types.TYPE_STANDARD_NORMAL_SAMPLING.ANTITHETIC,
-                                                      rnd_generator)
+    map_output = RBergomi_Engine.get_path_multi_step(0.0, dt[i], parameters, f0, v0, no_paths,
+                                                     no_time_steps, Types.TYPE_STANDARD_NORMAL_SAMPLING.ANTITHETIC,
+                                                     rnd_generator)
 
     mc_option_price = options[i].get_price(map_output[Types.RBERGOMI_OUTPUT.PATHS][:, -1])
 
     implied_vol_atm.append(implied_volatility(mc_option_price[0], f0, f0, dt[i], 0.0, 0.0, 'c'))
     vol_swap_mc.append(np.mean(np.sqrt(np.sum(map_output[Types.RBERGOMI_OUTPUT.INTEGRAL_VARIANCE_PATHS], 1) / dt[i])))
-    error_mc_vol_swap = np.std(np.sqrt(np.sum(map_output[Types.RBERGOMI_OUTPUT.INTEGRAL_VARIANCE_PATHS], 1) / dt[i])) / np.sqrt(no_paths)
-    implied_vol_approx.append(ExpansionTools.get_iv_atm_rbergomi_approximation(parameters, vol_swap_mc[i], sigma_0, dt[i]))
+    error_mc_vol_swap = np.std(
+        np.sqrt(np.sum(map_output[Types.RBERGOMI_OUTPUT.INTEGRAL_VARIANCE_PATHS], 1) / dt[i])) / np.sqrt(no_paths)
+    implied_vol_approx.append(
+        ExpansionTools.get_iv_atm_rbergomi_approximation(parameters, vol_swap_mc[i], sigma_0, dt[i]))
     output.append((implied_vol_atm[i] - vol_swap_mc[i]))
+
 
 # curve fit
 

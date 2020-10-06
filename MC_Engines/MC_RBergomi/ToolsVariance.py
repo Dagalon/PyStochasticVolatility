@@ -77,6 +77,7 @@ def generate_paths(s0: float,
 
     # we compute before a loop of variance of the variance process
     var_w_t = get_volterra_variance(t_i_s[1:], h)
+    sqrt_h = np.sqrt(2.0 * h)
 
     for k in range(0, no_paths):
         w_i_s = Functionals.apply_lower_tridiagonal_matrix(cholk_cov, noise[:, k])
@@ -84,7 +85,7 @@ def generate_paths(s0: float,
         w_i_1 = 0.0
         for j in range(1, no_time_steps):
             delta_i_s = t_i_s[j] - t_i_s[j - 1]
-            v_i_1[k, j] = v0 * np.exp(- nu * nu * h * var_w_t[j - 1] + nu * w_i_s[j + no_time_steps - 2])
+            v_i_1[k, j] = v0 * np.exp(- 0.5 * nu * nu * var_w_t[j - 1] + nu * w_i_s[j + no_time_steps - 2])
             int_v_t[k, j - 1] = delta_i_s * 0.5 * (v_i_1[k, j - 1] + v_i_1[k, j])
             d_w_i_1_i = (w_i_s[j - 1] - w_i_1)
             paths[k, j] = paths[k, j - 1] * np.exp(- 0.5 * int_v_t[k, j - 1] + np.sqrt(v_i_1[k, j - 1]) * d_w_i_1_i)
