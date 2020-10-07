@@ -20,7 +20,8 @@ def cev_sigma(sigma: float, rho: float, t: float, x: ndarray):
 
 
 def z_drift(mu: float, rho: float, sigma: float, t: float, x: ndarray):
-    return (1.0 - rho) * np.add(mu * x, np.divide(-0.5 * rho * sigma * sigma, x))
+    x_epsilon = np.maximum(min_value, x)
+    return (1.0 - rho) * np.add(mu * x_epsilon, np.divide(-0.5 * rho * sigma * sigma, x_epsilon))
 
 
 def z_sigma(sigma: float, rho: float, t: float, x: ndarray):

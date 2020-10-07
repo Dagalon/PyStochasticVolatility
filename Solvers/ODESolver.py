@@ -1,6 +1,6 @@
 import numpy as np
 
-from Type import nd_array
+from Tools.Types import ndarray
 from typing import Callable
 
 
@@ -8,7 +8,7 @@ def ode_euler_solver_malliavin(s: float,
                                t: float,
                                s0: float,
                                no_steps: int,
-                               z_t: nd_array,
+                               z_t: ndarray,
                                a_f: Callable[[float, float], float]):
     path = np.empty(z_t.shape)
     path[:, 0] = s0

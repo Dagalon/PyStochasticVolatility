@@ -88,5 +88,5 @@ plt.plot(n_i, mean_by_no_steps, label='mean error', color='black')
 plt.plot(n_i, mean_transform_by_no_steps, label='mean error with transform', linestyle='dashed', color='black')
 
 plt.legend()
-plt.title('mean (d_y_t - d_y_n_t) evolution with each number of time steps')
+# plt.title('mean (d_y_t - d_y_n_t) evolution with each number of time steps')
 plt.show()

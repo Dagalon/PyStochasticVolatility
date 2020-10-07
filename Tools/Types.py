@@ -5,7 +5,7 @@ from enum import Enum
 
 Vector = List[float]
 ndarray = NewType('ndarray', type(np.ndarray))
-min_value = 1e-08
+min_value = 1e-05
 
 MIN_VALUE_LOG_MONEYNESS = 0.00001
 

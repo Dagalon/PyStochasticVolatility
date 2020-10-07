@@ -17,7 +17,7 @@ def transform_cev_malliavin(rho: float,
     return path_d_z_t
 
 
-# @nb.jit("f8[:](f8[:], f8[:])", nopython=True, nogil=True)
+@nb.jit("f8[:](f8[:], f8[:])", nopython=True, nogil=True)
 def get_error(y_t_n, y_t):
     n = len(y_t_n)
     error = np.zeros(n)
