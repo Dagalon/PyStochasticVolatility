@@ -1,0 +1,131 @@
+import matplotlib.pylab as plt
+import numpy as np
+import csv
+
+from MC_Engines.MC_RBergomi import RBergomi_Engine
+from Tools import RNG, Types
+from Instruments.EuropeanInstruments import EuropeanOption, TypeSellBuy, TypeEuropeanOption
+from py_vollib.black_scholes_merton.implied_volatility import implied_volatility
+from scipy.optimize import curve_fit
+from AnalyticEngines.MalliavinMethod import ExpansionTools
+
+dt = np.arange(7, 180, 1) * 2.0 / 365.0
+no_dt_s = len(dt)
+
+# simulation info
+h_s = np.arange(0.1, 1.0, 0.1)
+no_h_s = len(h_s)
+nu = 0.5
+rho = -0.6
+v0 = 0.05
+sigma_0 = np.sqrt(v0)
+
+
+seed = 123456789
+no_paths = 500000
+
+delta_time = 1.0 / 365.0
+no_time_steps = 75
+
+# random number generator
+rnd_generator = RNG.RndGenerator(seed)
+
+# option information
+f0 = 100.0
+options = []
+implied_vol_atm = []
+for d_i in dt:
+    options.append(EuropeanOption(f0, 1.0, TypeSellBuy.BUY, TypeEuropeanOption.CALL, f0, d_i))
+
+
+# power law to fit
+def f_law(x, b, c):
+    return b * np.power(x, c)
+
+
+def f_linear(x, b, c):
+    return b + c * x
+
+
+# outputs
+variance_swap = []
+vol_swap_approx = []
+vol_swap_mc = []
+implied_vol_atm = []
+implied_vol_approx = []
+output_vol_swap = []
+output_variance_swap = []
+
+h_output_log_estimated = []
+h_output_power_law_estimated = []
+
+for h in h_s:
+    rnd_generator.set_seed(seed)
+    parameters = [nu, rho, h]
+
+    # outputs for each h
+    variance_swap = []
+    vol_swap_approx = []
+    vol_swap_mc = []
+    implied_vol_atm = []
+    implied_vol_approx = []
+    output_vol_swap = []
+    output_variance_swap = []
+
+    for i in range(0, no_dt_s):
+        map_output = RBergomi_Engine.get_path_multi_step(0.0, dt[i], parameters, f0, v0, no_paths,
+                                                         no_time_steps, Types.TYPE_STANDARD_NORMAL_SAMPLING.ANTITHETIC,
+                                                         rnd_generator)
+
+        mc_option_price = options[i].get_price(map_output[Types.RBERGOMI_OUTPUT.PATHS][:, -1])
+
+        implied_vol_atm.append(implied_volatility(mc_option_price[0], f0, f0, dt[i], 0.0, 0.0, 'c'))
+        vol_swap_mc.append(np.mean(np.sqrt(np.sum(map_output[Types.RBERGOMI_OUTPUT.INTEGRAL_VARIANCE_PATHS], 1) / dt[i])))
+        error_mc_vol_swap = np.std(
+            np.sqrt(np.sum(map_output[Types.RBERGOMI_OUTPUT.INTEGRAL_VARIANCE_PATHS], 1) / dt[i])) / np.sqrt(no_paths)
+        vol_swap_approx.append(ExpansionTools.get_vol_swap_rbergomi(parameters, sigma_0, dt[i]))
+        implied_vol_approx.append(
+            ExpansionTools.get_iv_atm_rbergomi_approximation(parameters, vol_swap_mc[i], sigma_0, dt[i], 'vol_swap'))
+        variance_swap.append(ExpansionTools.get_variance_swap_rbergomi(parameters, sigma_0, dt[i]))
+        output_vol_swap.append(implied_vol_atm[i] - vol_swap_mc[i])
+        output_variance_swap.append(implied_vol_atm[i] - variance_swap[i])
+
+    # csv parser
+    headers = ["time", "iv_atm", "iv_atm_approx", "vol_swap_mc", "vol_swap_approx", "variance_swap", "out_variance_swap", "out_vol_swap"]
+    rows = []
+    for k in range(0, no_dt_s):
+        rows.append({"time": str(dt[k]), "iv_atm": str(implied_vol_atm[k]),
+                     "iv_atm_approx": str(implied_vol_approx[k]), "vol_swap_mc": str(vol_swap_mc[k]),
+                     "vol_swap_approx": str(vol_swap_approx[k]), "variance_swap": str(variance_swap[k]),
+                     "out_variance_swap": str(output_variance_swap[k]), "out_vol_swap": str(output_vol_swap[k])})
+
+    id_file = "output_rbergomi_h_" + "".join(str(h).split('.')) + ".csv"
+    file = open("D:/GitHubRepository/Python/SV_Engines/Examples/Chapter6/%s" % id_file, 'w')
+    csv_writer = csv.DictWriter(file, fieldnames=headers, lineterminator='\n', delimiter=';')
+    csv_writer.writeheader()
+    csv_writer.writerows(rows)
+    file.close()
+
+    # curve fit
+    popt_linear_var_swap, pcov_linear_var_swap = curve_fit(f_law, np.log(dt), np.log(np.abs(output_variance_swap)))
+    y_fit_values_linear_var_swap = f_law(dt, *popt_linear_var_swap)
+    h_output_log_estimated.append(popt_linear_var_swap[1])
+
+    popt_variance_swap, pcov_variance_swap = curve_fit(f_law, dt, output_variance_swap)
+    y_fit_values_variance_swap = f_law(dt, *popt_variance_swap)
+    h_output_power_law_estimated.append(popt_variance_swap[1])
+
+id_file = "table_h_s.csv"
+file_for_h_s = open('D:/GitRepository/Python/SV_Engines/Examples/Chapter6/%s' % id_file, 'w')
+headers = ["time", "log_time", "linear_h_estimated", "power_law_h_estimated"]
+
+rows = []
+for i in range(0, no_h_s):
+    rows.append({"time": str(dt[i]), "log_time": str(np.log(dt[i])),
+                 "linear_h_estimated": str(h_output_log_estimated[i]),
+                 "power_law_h_estimated": str(h_output_power_law_estimated[i])})
+
+csv_writer = csv.DictWriter(file, fieldnames=headers, lineterminator='\n', delimiter=';')
+csv_writer.writeheader()
+csv_writer.writerows(rows)
+file_for_h_s.close()
