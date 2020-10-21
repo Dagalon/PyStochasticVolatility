@@ -3,6 +3,7 @@ import numba as nb
 from Tools.Types import ndarray
 from ncephes import hyp2f1
 from Tools import Functionals
+from scipy.integrate import quad_vec
 
 
 @nb.jit("f8(f8, f8, f8)", nopython=True, nogil=True)
@@ -30,7 +31,11 @@ def get_volterra_variance(t: ndarray, h: float):
 @nb.jit("f8(f8, f8, f8, f8)", nopython=True, nogil=True)
 def get_covariance_w_v_w_t(s: float, t: float, rho: float, h: float):
     d_h = np.sqrt(2.0 * h) / (h + 0.5)
-    return rho * d_h * (np.power(t, h + 0.5) - np.power(t - np.minimum(s, t), h + 0.5))
+    if s > t:
+        return rho * d_h * np.power(t, h + 0.5)
+
+    else:
+        return rho * d_h * (np.power(t, h + 0.5) - np.power(t - s, h + 0.5))
 
 
 @nb.jit("f8[:,:](f8[:], f8, f8)", nopython=True, nogil=True)
@@ -55,7 +60,6 @@ def get_covariance_matrix(t_i_s: ndarray, h: float, rho: float):
     return cov
 
 
-# @nb.jit("Tuple(f8[:,:], f8[:,:], f8[:,:])(f8, f8, f8, f8, f8[:,:], f8[:,:], f8[:], i8)", nopython=True, nogil=True)
 @nb.jit("(f8, f8, f8, f8, f8[:,:], f8[:,:], f8[:], i8)", nopython=True, nogil=True)
 def generate_paths(s0: float,
                    v0: float,
@@ -77,7 +81,6 @@ def generate_paths(s0: float,
 
     # we compute before a loop of variance of the variance process
     var_w_t = get_volterra_variance(t_i_s[1:], h)
-    sqrt_h = np.sqrt(2.0 * h)
 
     for k in range(0, no_paths):
         w_i_s = Functionals.apply_lower_tridiagonal_matrix(cholk_cov, noise[:, k])

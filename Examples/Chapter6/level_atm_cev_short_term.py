@@ -75,15 +75,15 @@ def f_law(x, a, b):
 popt, pcov = curve_fit(f_law, dt, output)
 y_fit_values = f_law(dt, *popt)
 
-plt.plot(dt, output, label='(I(t,f0) - E(v_t))', linestyle='--')
+plt.plot(dt, output, label='(I(t,f0) - E(v_t))', linestyle='--', color='black')
 # plt.plot(dt, vol_swap_mc, label='E(v_t)', linestyle='--', marker='.')
 # plt.plot(dt, implied_vol_atm, label='implied volatility atm', linestyle='--', marker='x')
-plt.plot(dt, y_fit_values, label="%s + %s * t" % (popt[0], popt[1]),
-          marker='.', linestyle='--')
+plt.plot(dt, y_fit_values, label="%s + %s * t" % (round(popt[0], 10), round(popt[1], 10)),
+          marker='.', linestyle='--', color='black')
 
 # plt.plot(dt, implied_vol_approx, label='approximation iv', linestyle='--')
 # plt.plot(dt, implied_vol_atm, label='mc iv', linestyle='--')
 
-plt.xlabel('t')
+plt.xlabel('T')
 plt.legend()
 plt.show()

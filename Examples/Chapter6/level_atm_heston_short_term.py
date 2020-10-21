@@ -9,12 +9,12 @@ from scipy.optimize import curve_fit
 from AnalyticEngines.MalliavinMethod import ExpansionTools
 
 
-dt = np.arange(7, 30, 1) * 1.0 / 365.0
+dt = np.arange(5, 30, 1) * 1.0 / 365.0
 no_dt_s = len(dt)
 
 # simulation info
-epsilon = 0.5
-k = 0.5
+epsilon = 0.3
+k = 1.0
 rho = -0.9
 v0 = 0.05
 sigma_0 = np.sqrt(0.05)
@@ -23,14 +23,15 @@ theta = 0.06
 parameters = [k, theta, epsilon, rho, v0]
 
 seed = 123456789
-no_paths = 400000
+no_paths = 250000
 delta_time = 1.0 / 365.0
+no_time_steps = 100
 
 # random number generator
 rnd_generator = RNG.RndGenerator(seed)
 
 # option information
-f0 = 100.0
+f0 = 200.0
 options = []
 implied_vol_atm = []
 for d_i in dt:
@@ -44,7 +45,7 @@ implied_vol_approx = []
 output = []
 
 for i in range(0, no_dt_s):
-    no_time_steps = int(dt[i] / delta_time)
+    # no_time_steps = int(dt[i] / delta_time)
     rnd_generator.set_seed(seed)
     map_output = Heston_Engine.get_path_multi_step(0.0, dt[i], parameters, f0, v0, no_paths,
                                                    no_time_steps, Types.TYPE_STANDARD_NORMAL_SAMPLING.ANTITHETIC,
@@ -57,8 +58,9 @@ for i in range(0, no_dt_s):
 
     implied_vol_approx.append(ExpansionTools.get_iv_atm_heston_approximation(np.array(parameters), dt[i]))
     implied_vol_atm.append(implied_volatility(option_price, f0, f0, dt[i], 0.0, 0.0, 'c'))
+    vol_swap_approximation.append(ExpansionTools.get_vol_swap_approximation_heston(np.array(parameters), 0.0, dt[i], sigma_0))
     vol_swap_mc.append(np.mean(np.sqrt(np.sum(map_output[Types.HESTON_OUTPUT.INTEGRAL_VARIANCE_PATHS], 1) / dt[i])))
-    output.append((implied_vol_atm[-1] - vol_swap_mc[-1]))
+    output.append((implied_vol_atm[i] - vol_swap_mc[i]))
 
 # curve fit
 
@@ -70,9 +72,10 @@ def f_law(x, a, b):
 popt, pcov = curve_fit(f_law, dt, output)
 y_fit_values = f_law(dt, *popt)
 
-plt.plot(dt, output, label='(I(t,f0) - E(v_t))', linestyle='--')
-plt.plot(dt, y_fit_values, label="%s + %s * t" % (round(popt[0], 5), round(popt[1], 5)), marker='.', linestyle='--')
+plt.plot(dt, output, label='(I(t,f0) - E(v_t))', linestyle='--', color='black')
+plt.plot(dt, y_fit_values, label="%s + %s * t" % (round(popt[0], 5), round(popt[1], 5)), marker='.',
+         linestyle='--', color='black')
 
-plt.xlabel('t')
+plt.xlabel('T')
 plt.legend()
 plt.show()

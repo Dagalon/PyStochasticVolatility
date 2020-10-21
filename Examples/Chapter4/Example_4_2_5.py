@@ -5,6 +5,8 @@ from Tools import Types
 from Tools import RNG
 from prettytable import PrettyTable
 
+from time import time
+
 
 epsilon = 1.1
 k = 0.5
@@ -19,7 +21,7 @@ seed = 123456789
 
 delta = 1.0 / 32.0
 no_time_steps = int(T / delta)
-no_paths = 250
+no_paths = 100000
 strike = 120.0
 
 rnd_generator = RNG.RndGenerator(seed)
@@ -31,11 +33,15 @@ european_option = EuropeanOption(strike, notional, TypeSellBuy.BUY, TypeEuropean
 parameters_option_price = [0.0, theta, rho, k, epsilon, v0, 0.0]
 
 # Compute price, delta and gamma by numerical integration in Heston model
+start_time_analytic = time()
 analytic_output = european_option.get_analytic_value(0.0, theta, rho, k, epsilon, v0, 0.0,
                                                      model_type=Types.ANALYTIC_MODEL.HESTON_MODEL_REGULAR,
                                                      compute_greek=True)
+end_time_analytic = time()
+diff_time_analytic = end_time_analytic - start_time_analytic
 
 # Compute price, delta and gamma by MC and Malliavin in Heston model
+start_time_heston = time()
 map_heston_output = Heston_Engine.get_path_multi_step(0.0, T, parameters, f0, v0, no_paths,
                                                       no_time_steps, Types.TYPE_STANDARD_NORMAL_SAMPLING.ANTITHETIC,
                                                       rnd_generator)
@@ -47,12 +53,14 @@ malliavin_delta = european_option.get_malliavin_delta(map_heston_output[Types.HE
 
 malliavin_gamma = european_option.get_malliavin_gamma(map_heston_output[Types.HESTON_OUTPUT.PATHS],
                                                       map_heston_output[Types.HESTON_OUTPUT.GAMMA_MALLIAVIN_WEIGHTS_PATHS_TERMINAL])
-
+end_time_malliavin = time()
+diff_time_malliavin = end_time_malliavin - start_time_heston
 # Compute delta and gamma by bumping in Heston model
 delta_shift = 0.0001
 f0_shift = f0 * (1.0 + delta_shift)
 f0_shift_left = f0 * (1.0 - delta_shift)
 
+start_time_shift = time()
 rnd_generator.set_seed(seed)
 map_heston_output_shift = Heston_Engine.get_path_multi_step(0.0, T, parameters, f0_shift, v0,
                                                             no_paths, no_time_steps, Types.TYPE_STANDARD_NORMAL_SAMPLING.ANTITHETIC,
@@ -68,16 +76,19 @@ map_heston_output_shift_left = Heston_Engine.get_path_multi_step(0.0, T, paramet
 
 result_shift_left = european_option.get_price(map_heston_output_shift_left[Types.HESTON_OUTPUT.PATHS])
 heston_gamma_fd = (result_shift[0] - 2 * result[0] + result_shift_left[0]) / (delta_shift * f0)**2
+end_time_shift = time()
+diff_time_shift = end_time_shift - start_time_shift
 
 # Outputs
 table = PrettyTable()
-table.field_names = ["Numerical Method", "Price", "Delta", "Gamma"]
+table.field_names = ["Numerical Method", "Price", "Delta", "Gamma", "CPU Time (sg)"]
 table.add_row(["Numerical Integration", '{0:.5g}'.format(analytic_output[0]), '{0:.5g}'.format(analytic_output[1][Types.TypeGreeks.DELTA]),
-               '{0:.5g}'.format(analytic_output[1][Types.TypeGreeks.GAMMA])])
+               '{0:.5g}'.format(analytic_output[1][Types.TypeGreeks.GAMMA][0]), str(diff_time_analytic)])
 table.add_row(["MC and Malliavin", ['{0:.5g}'.format(result[0]), '{0:.5g}'.format(result[1])],
                ['{0:.5g}'.format(malliavin_delta[0]), '{0:.5g}'.format(malliavin_delta[1])],
-               ['{0:.5g}'.format(malliavin_gamma[0]), '{0:.6g}'.format(malliavin_gamma[1])]])
-table.add_row(["MC and Finite Differences", ['{0:.5g}'.format(result[0]), '{0:.5g}'.format(result[1])], '{0:.5g}'.format(heston_delta_fd), '{0:.5g}'.format(heston_gamma_fd)])
+               ['{0:.5g}'.format(malliavin_gamma[0]), '{0:.6g}'.format(malliavin_gamma[1])], diff_time_malliavin])
+table.add_row(["MC and Finite Differences", ['{0:.5g}'.format(result[0]), '{0:.5g}'.format(result[1])],
+               '{0:.5g}'.format(heston_delta_fd), '{0:.5g}'.format(heston_gamma_fd), diff_time_shift])
 
 print(tabulate(table, tablefmt="latex"))
 

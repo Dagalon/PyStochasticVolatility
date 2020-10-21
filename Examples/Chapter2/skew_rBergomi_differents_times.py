@@ -13,7 +13,7 @@ no_dt_s = len(dt)
 nu = 0.8
 rho = -0.2
 v0 = 0.05
-h = 0.05
+h = 0.2
 sigma_0 = np.sqrt(v0)
 parameters = [nu, rho, h]
 
