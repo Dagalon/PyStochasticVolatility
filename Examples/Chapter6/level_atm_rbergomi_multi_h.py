@@ -14,7 +14,8 @@ dt = np.arange(7, 180, 1) * 2.0 / 365.0
 no_dt_s = len(dt)
 
 # simulation info
-h_s = np.arange(0.1, 1.0, 0.1)
+h_s = [0.1]
+# h_s = [0.05, 0.1, 0.2, 0.3, 0.4, 0.45]
 no_h_s = len(h_s)
 nu = 0.5
 rho = -0.6
@@ -23,7 +24,7 @@ sigma_0 = np.sqrt(v0)
 
 no_paths = 500000
 delta_time = 1.0 / 365.0
-no_time_steps = 75
+no_time_steps = 50
 
 
 # option information
@@ -102,7 +103,7 @@ def estimated_set_h_level_iv(hurst_parameter: float):
                      "out_variance_swap": str(output_variance_swap[k]), "out_vol_swap": str(output_vol_swap[k])})
 
     id_file = "output_rbergomi_h_" + "".join(str(hurst_parameter).split('.')) + ".csv"
-    file = open("D:/GitRepository/Python/SV_Engines/Examples/Chapter6/%s" % id_file, 'w')
+    file = open("D:/GitHubRepository/Python/SV_Engines/Examples/Chapter6/%s" % id_file, 'w')
     csv_writer = csv.DictWriter(file, fieldnames=headers, lineterminator='\n', delimiter=';')
     csv_writer.writeheader()
     csv_writer.writerows(rows)
@@ -127,8 +128,8 @@ def estimated_set_h_level_iv(hurst_parameter: float):
 if __name__ == '__main__':
     # parallel computing
     no_cores = mp.cpu_count()
-    effective_no_cores = int(no_cores / 2.0)
-    pool = mp.Pool(effective_no_cores)
+    effective_no_cores = no_cores
+    pool = mp.Pool(1)
     outputs = pool.map(estimated_set_h_level_iv, h_s)
     pool.close()
     pool.join()
@@ -136,7 +137,7 @@ if __name__ == '__main__':
     map_output = dict((out[0], [out[1], out[2]]) for out in outputs)
 
     id_file = "table_h_s.csv"
-    file_for_h_s = open('D:/GitRepository/Python/SV_Engines/Examples/Chapter6/%s' % id_file, 'w')
+    file_for_h_s = open("D:/GitHubRepository/Python/SV_Engines/Examples/Chapter6/%s" % id_file, 'w')
     headers = ["real_value_h", "linear_h_estimated", "power_law_h_estimated"]
 
     rows = []
