@@ -25,7 +25,7 @@ seed = 123456789
 no_paths = 1000000
 
 delta_time = 1.0 / 365.0
-no_time_steps = 200
+no_time_steps = 50
 
 # random number generator
 rnd_generator = RNG.RndGenerator(seed)
@@ -67,7 +67,8 @@ for i in range(0, no_dt_s):
     output_variance_swap.append(implied_vol_atm[i] - variance_swap[i])
 
 # csv parser
-headers = ["time", "iv_atm", "iv_atm_approx", "vol_swap_mc", "vol_swap_approx", "variance_swap", "out_variance_swap", "out_vol_swap"]
+headers = ["time", "iv_atm", "iv_atm_approx", "vol_swap_mc", "vol_swap_approx", "variance_swap", "out_variance_swap",
+           "out_vol_swap"]
 rows = []
 for i in range(0, no_dt_s):
     rows.append({"time": str(dt[i]), "iv_atm": str(implied_vol_atm[i]),
@@ -75,7 +76,7 @@ for i in range(0, no_dt_s):
                  "vol_swap_approx": str(vol_swap_approx[i]), "variance_swap": str(variance_swap[i]),
                  "out_variance_swap": str(output_variance_swap[i]), "out_vol_swap": str(output_vol_swap[i])})
 
-file = open('D://GitRepository//Python//SV_Engines//Examples//Chapter6//output_rbergomi_h_05.csv', 'w')
+file = open("D://GitHubRepository//Python//SV_Engines//Examples//Chapter6//output_rbergomi_h_05.csv", 'w')
 csv_writer = csv.DictWriter(file, fieldnames=headers, lineterminator='\n')
 csv_writer.writeheader()
 csv_writer.writerows(rows)
