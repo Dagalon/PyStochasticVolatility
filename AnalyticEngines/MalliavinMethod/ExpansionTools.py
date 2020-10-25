@@ -1,8 +1,7 @@
 import numba as nb
 import numpy as np
-from scipy.integrate import quad_vec
 from Tools import Types
-
+from scipy.special import beta
 
 @nb.jit("f8(f8[:],f8,f8,f8)", nopython=True, nogil=True)
 def get_vol_swap_approximation_sabr(parameters: Types.ndarray, t0: float, t1: float, sigma_t0: float):
@@ -76,12 +75,17 @@ def get_iv_atm_rbergomi_approximation(parameters: Types.ndarray, vol_swap: float
     h_1 = (h + 1.0)
 
     if type == 'var_swap':
-        adjustment = sigma_0 * np.power(nu * rho, 2.0) * (h / h_1_2) * (
-                0.375 / (h_1_2 * h_3_2 * h_3_2) - 0.125 / (h_1_2 * h_1) - 0.5 * h_1_2 / (
-                    h_3_2 * h_1)) - 0.125 * nu * nu * h * sigma_0 / (h_1_2 * h_1_2 * h_1)
+        part_1 = 0.75 / (h_3_2 * h_3_2)
+        part_2 = 0.5 * beta(h_3_2, h_3_2)
+        part_3 = 3.0 / (8.0 * h_1)
+        rho_term = 0.25 * rho * sigma_0 * sigma_0 * np.sqrt(2.0 * h) / (h_1_2 + h_3_2)
+        adjustment = sigma_0 * np.power(nu * rho, 2.0) * (h / (h_1_2 * h_1_2)) * (part_1 - part_2 - part_3)
+
     else:
-        adjustment = sigma_0 * np.power(nu * rho, 2.0) * (h / h_1_2) * (
-                0.375 / (h_1_2 * h_3_2 * h_3_2) - 0.125 / (h_1_2 * h_1) - 0.5 * h_1_2 / (h_3_2 * h_1))
+        part_1 = 0.75 / (h_3_2 * h_3_2)
+        part_2 = 0.5 * beta(h_3_2, h_3_2)
+        part_3 = 0.25 * h_1
+        adjustment = sigma_0 * np.power(nu * rho, 2.0) * (h / (h_1_2 * h_1_2)) * (part_1 - part_2 - part_3)
 
     return vol_swap + adjustment * np.power(t, 2.0 * h)
 

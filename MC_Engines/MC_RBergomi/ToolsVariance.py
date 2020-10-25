@@ -10,10 +10,12 @@ from scipy.integrate import quad_vec
 def get_volterra_covariance(s: float, t: float, h: float):
     # We suppose that t > s
     if s > 0.0:
-        gamma = 0.5 - h
+        # gamma = 0.5 - h
         x = s / t
-        alpha = ((1.0 - 2.0 * gamma) / (1.0 - gamma)) * np.power(x, gamma) * hyp2f1(1.0, gamma, 2.0 - gamma, x)
-        return np.power(s, 2.0 * h) * alpha
+        # alpha = ((1.0 - 2.0 * gamma) / (1.0 - gamma)) * np.power(x, gamma) * hyp2f1(1.0, gamma, 2.0 - gamma, x)
+        # return np.power(s, 2.0 * h) * alpha
+        alpha = 2.0 * np.power(s, h + 0.5) * np.power(t, h - 0.5) * h / (h + 0.5)
+        return alpha * hyp2f1(0.5 - h, 1.0, h + 1.5, x)
 
     else:
         return 0.0
