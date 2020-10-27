@@ -67,8 +67,8 @@ for i in range(0, no_dt_s):
 
 asymptotic_limit = 0.25 * rho * epsilon / sigma_0
 
-plt.plot(dt, skew_atm, label='skew atm heston')
-plt.plot(dt, np.ones(len(dt)) * asymptotic_limit, label='asymptotic limit')
+plt.plot(dt, skew_atm, label='skew atm heston', color='black')
+plt.plot(dt, np.ones(len(dt)) * asymptotic_limit, label='asymptotic limit', color='black', marker='.')
 
 
 plt.xlabel('T')

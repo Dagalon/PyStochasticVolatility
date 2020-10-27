@@ -58,8 +58,8 @@ for i in range(0, no_dt_s):
 
 asymptotic_limit = 0.5 * rho * nu
 
-plt.plot(dt, skew_atm_mc, label='skew atm SABR')
-plt.plot(dt, np.ones(len(dt)) * asymptotic_limit, label='asymptotic limit')
+plt.plot(dt, skew_atm_mc, label='skew atm SABR', color='black')
+plt.plot(dt, np.ones(len(dt)) * asymptotic_limit, label='asymptotic limit', color='black', marker='.')
 
 plt.xlabel('T')
 plt.legend()
