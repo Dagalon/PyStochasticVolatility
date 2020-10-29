@@ -11,7 +11,7 @@ dt = np.linspace(0.001, 0.01, 20)
 no_dt_s = len(dt)
 
 # simulation info
-h = 0.6
+h = 0.3
 nu = 0.5
 rho = -0.6
 v0 = 0.05
