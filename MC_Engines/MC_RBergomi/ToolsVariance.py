@@ -4,7 +4,7 @@ from Tools.Types import ndarray
 from ncephes import hyp2f1
 from Tools import Functionals
 from scipy.integrate import quad_vec
-from scipy.special import gamma
+from math import gamma
 
 
 @nb.jit("f8(f8, f8, f8)", nopython=True, nogil=True)
@@ -24,7 +24,7 @@ def get_volterra_covariance(s: float, t: float, h: float):
 
 @nb.jit("f8(f8, f8, f8)", nopython=True, nogil=True)
 def get_fbm_covariance(s: float, t: float, h: float):
-    return 0.5 * (np.power(np.abs(t), 2.0 * h) + np.power(np.abs(s), 2.0 * h) + np.power(np.abs(t - s), 2.0 * h))
+    return 0.5 * (np.power(np.abs(t), 2.0 * h) + np.power(np.abs(s), 2.0 * h) - np.power(np.abs(t - s), 2.0 * h))
 
 
 @nb.jit("f8[:](f8[:], f8)", nopython=True, nogil=True)
@@ -32,7 +32,7 @@ def get_fbm_variance(t: float, h: float):
     return np.power(t, 2.0 * h)
 
 
-# @nb.jit("f8(f8, f8, f8, f8)", nopython=False, nogil=True)
+@nb.jit("f8(f8, f8, f8, f8)", nopython=False, nogil=True)
 def get_covariance_fbm_w_t(s: float, t: float, rho: float, h: float):
     h_3_2 = h + 1.5
     h_1_2 = h + 0.5
@@ -83,10 +83,11 @@ def get_covariance_matrix(t_i_s: ndarray, h: float, rho: float):
     return cov
 
 
-@nb.jit("(f8, f8, f8, f8, f8[:,:], f8[:,:], f8[:], i8)", nopython=True, nogil=True)
+@nb.jit("(f8, f8, f8, f8, f8, f8[:,:], f8[:,:], f8[:], i8)", nopython=True, nogil=True)
 def generate_paths(s0: float,
                    v0: float,
                    nu: float,
+                   rho: float,
                    h: float,
                    noise: ndarray,
                    cholk_cov: ndarray,
@@ -97,6 +98,7 @@ def generate_paths(s0: float,
     paths = np.zeros(shape=(no_paths, no_time_steps))
     int_v_t = np.zeros(shape=(no_paths, no_time_steps - 1))
     v_i_1 = np.zeros(shape=(no_paths, no_time_steps))
+    rho_inv = np.sqrt(1.0 - rho * rho)
 
     v_i_1[:, 0] = v0
     paths[:, 0] = s0
@@ -105,25 +107,30 @@ def generate_paths(s0: float,
     var_w_t = get_volterra_variance(t_i_s[1:], h)
 
     for k in range(0, no_paths):
-        w_i_s = Functionals.apply_lower_tridiagonal_matrix(cholk_cov, noise[:, k])
+        w_t_k = Functionals.apply_lower_tridiagonal_matrix(cholk_cov, noise[:, k])
 
-        w_i_1 = 0.0
+        w_i_s_1 = 0.0
+        w_i_h_1 = 0.0
         var_w_t_i_1 = 0.0
-        w_h_i_1 = 0.0
+        w_v_i_1 = 0.0
         for j in range(1, no_time_steps):
             delta_i_s = t_i_s[j] - t_i_s[j - 1]
-            # v_i_1[k, j] = v0 * np.exp(- 0.5 * nu * nu * var_w_t[j - 1] + nu * w_i_s[j + no_time_steps - 2])
-            # rho_i_j = get_volterra_covariance(t_i_s[j - 1], t_i_s[j], h)
-            v_i_1[k, j] = v_i_1[k, j - 1] * np.exp(- 0.5 * nu * nu * (var_w_t[j - 1] - var_w_t_i_1) +
-                                                   nu * (w_i_s[j + no_time_steps - 2] - w_h_i_1))
-            # int_v_t[k, j - 1] = delta_i_s * 0.5 * (v_i_1[k, j - 1] + v_i_1[k, j])
-            int_v_t[k, j - 1] = delta_i_s * v_i_1[k, j - 1]
-            d_w_i_1_i = (w_i_s[j - 1] - w_i_1)
-            paths[k, j] = paths[k, j - 1] * np.exp(- 0.5 * int_v_t[k, j - 1] + np.sqrt(v_i_1[k, j - 1]) * d_w_i_1_i)
+            d_w_i_s = w_t_k[j - 1] - w_i_s_1
+            w_v_i = noise[j + no_time_steps - 2, k] * np.sqrt(t_i_s[j])
+            d_w_i_v = w_v_i - w_v_i_1
+            d_w_i_h = w_t_k[j + no_time_steps - 2] - w_i_h_1
 
-            # keep the last brownians and variance of the RL prcess
-            w_i_1 = w_i_s[j - 1]
-            w_h_i_1 = w_i_s[j + no_time_steps - 2]
+            v_i_1[k, j] = v_i_1[k, j - 1] * np.exp(- 0.5 * nu * nu * (var_w_t[j - 1] - var_w_t_i_1) +
+                                                   nu * d_w_i_h)
+            int_v_t[k, j - 1] = delta_i_s * v_i_1[k, j - 1]
+            paths[k, j] = paths[k, j - 1] * np.exp(- 0.5 * int_v_t[k, j - 1] +
+                                                   np.sqrt(v_i_1[k, j - 1]) * (rho * d_w_i_v +
+                                                                               rho_inv * d_w_i_s))
+
+            # keep the last brownians and variance of the RL process
+            w_i_s_1 = w_t_k[j - 1]
+            w_v_i_1 = w_v_i
+            w_i_h_1 = w_t_k[j + no_time_steps - 2]
             var_w_t_i_1 = var_w_t[j - 1]
 
     return paths, v_i_1, int_v_t

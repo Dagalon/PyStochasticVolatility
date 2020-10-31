@@ -9,13 +9,13 @@ from py_vollib.black_scholes_merton.implied_volatility import implied_volatility
 from scipy.optimize import curve_fit
 from AnalyticEngines.MalliavinMethod import ExpansionTools
 
-dt = np.arange(1.0, 182, 2) * 1.0 / 365.0
+dt = np.arange(1, 180, 2) * 1.0 / 365.0
 no_dt_s = len(dt)
 
 # simulation info
-h = 0.5
+h = 0.3
 nu = 0.5
-rho = -0.6
+rho = 0.0
 v0 = 0.05
 sigma_0 = np.sqrt(v0)
 
@@ -49,9 +49,9 @@ output_variance_swap = []
 for i in range(0, no_dt_s):
     if i < 0:
         no_time_steps = 150
-        no_paths = 1500000
+        no_paths = 1000000
     else:
-        no_paths = 1500000
+        no_paths = 1000000
         no_time_steps = 100
 
     rnd_generator.set_seed(seed)

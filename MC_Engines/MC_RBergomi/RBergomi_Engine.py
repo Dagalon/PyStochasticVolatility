@@ -33,12 +33,13 @@ def get_path_multi_step(t0: float,
     s_t = np.empty((no_paths, no_time_steps))
     s_t[:, 0] = f0
 
-    z_i_s = rnd_generator.normal(mu=0.0, sigma=1.0, size=(2 * (no_time_steps - 1), no_paths))
+    z_i_s = rnd_generator.normal(mu=0.0, sigma=1.0, size=(2 * (no_time_steps - 1), no_paths),
+                                 sampling_type=TYPE_STANDARD_NORMAL_SAMPLING.ANTITHETIC)
     map_out_put = {}
-    # cov_matrix = ToolsVariance.get_covariance_matrix(t_i_s[1:], h, rho)
     outputs = ToolsVariance.generate_paths(f0,
                                            v0,
                                            nu,
+                                           rho,
                                            h,
                                            z_i_s,
                                            np.linalg.cholesky(ToolsVariance.get_covariance_matrix(t_i_s[1:], h, rho)),
@@ -48,15 +49,6 @@ def get_path_multi_step(t0: float,
     map_out_put[RBERGOMI_OUTPUT.PATHS] = outputs[0]
     map_out_put[RBERGOMI_OUTPUT.SPOT_VARIANCE_PATHS] = outputs[1]
     map_out_put[RBERGOMI_OUTPUT.INTEGRAL_VARIANCE_PATHS] = outputs[2]
-
-    # test cov
-    # variance = ToolsVariance.get_volterra_variance(t_i_s[1:no_time_steps], h)
-    # for i in range(1, no_time_steps):
-    #     for j in range(1, no_time_steps):
-    #         w_i = np.log(outputs[1][:, i] / v0) + 0.5 * nu * nu * variance[i - 1]
-    #         w_j = np.log(outputs[1][:, j] / v0) + 0.5 * nu * nu * variance[j - 1]
-    #         rho_i_j = np.mean(w_i * w_j) - np.mean(w_i) * np.mean(w_j)
-    #         rho_model = cov_matrix[no_time_steps + i - 2, no_time_steps + j - 2] * nu * nu
 
     return map_out_put
 
