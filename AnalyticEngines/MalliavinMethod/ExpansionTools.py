@@ -79,7 +79,7 @@ def get_iv_atm_rbergomi_approximation(parameters: Types.ndarray, vol_swap: float
         part_1 = 0.75 / (h_3_2 * h_3_2)
         part_2 = 0.5 * beta(h_3_2, h_3_2)
         part_3 = 0.25 / h_1
-        part_var_swap = 0.125 * nu * nu * h * sigma_0 / h_1
+        part_var_swap = 0.125 * nu * nu * h * sigma_0 / (h_1 * h_1_2 * h_1_2)
         rho_term = 0.25 * rho * sigma_0 * sigma_0 * np.sqrt(2.0 * h) / (h_1_2 + h_3_2)
         adjustment = sigma_0 * np.power(nu * rho, 2.0) * (h / (h_1_2 * h_1_2)) * (part_1 - part_2 - part_3) \
                      - part_var_swap

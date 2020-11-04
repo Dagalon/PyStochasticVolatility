@@ -54,6 +54,9 @@ class EuropeanOption(object):
         else:
             self._payoff = EuropeanPayoff(lambda x: mult_buy_sell * notional * put_operator(x, strike))
 
+    def update_strike(self, strike: float):
+        self._strike = strike
+
     def get_price(self, x: ndarray) -> ndarray:
         if len(x.shape) == 1:
             return self._payoff.get_value(x)

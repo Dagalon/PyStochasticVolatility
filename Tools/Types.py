@@ -26,6 +26,7 @@ class RBERGOMI_OUTPUT(Enum):
     PATHS = 0,
     INTEGRAL_VARIANCE_PATHS = 1,
     SPOT_VARIANCE_PATHS = 2,
+    BS_BY_PATH = 3,
     UNKNOWN = -1
 
     def __str__(self):

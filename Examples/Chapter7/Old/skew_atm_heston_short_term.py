@@ -7,7 +7,7 @@ from Instruments.EuropeanInstruments import EuropeanOption, TypeSellBuy, TypeEur
 from py_vollib.black_scholes_merton.implied_volatility import implied_volatility
 
 
-dt = np.linspace(0.01, 0.1, 15)
+dt = np.linspace(0.01, 0.1, 20)
 no_dt_s = len(dt)
 
 # simulation info
@@ -23,23 +23,25 @@ parameters = [k, theta, epsilon, rho, v0]
 seed = 123456789
 no_paths = 1000000
 delta_time = 1.0 / 365.0
-no_time_steps = 10
+no_time_steps = 100
 
 
 # option information
-f0 = 120.0
+f0 = 100.0
 options = []
 options_shift_right = []
 options_shift_left = []
-shift_spot = 0.0001
+shift_spot = 0.000001
 
 # random number generator
 rnd_generator = RNG.RndGenerator(seed)
 
 for d_i in dt:
     options.append(EuropeanOption(f0, 1.0, TypeSellBuy.BUY, TypeEuropeanOption.CALL, f0, d_i))
-    options_shift_right.append(EuropeanOption(f0 * (1.0 + shift_spot), 1.0, TypeSellBuy.BUY, TypeEuropeanOption.CALL, f0, d_i))
-    options_shift_left.append(EuropeanOption(f0 * (1.0 - shift_spot), 1.0, TypeSellBuy.BUY, TypeEuropeanOption.CALL, f0, d_i))
+    options_shift_right.append(EuropeanOption(f0 * (1.0 + shift_spot), 1.0, TypeSellBuy.BUY, TypeEuropeanOption.CALL,
+                                              0, d_i))
+    options_shift_left.append(EuropeanOption(f0 * (1.0 - shift_spot), 1.0, TypeSellBuy.BUY, TypeEuropeanOption.CALL,
+                                             f0, d_i))
 
 # outputs
 implied_vol_atm = []
@@ -58,15 +60,18 @@ for i in range(0, no_dt_s):
     option_price_left_mc = options_shift_left[i].get_price(map_output[Types.HESTON_OUTPUT.PATHS][:, -1])
 
     implied_vol_atm.append(implied_volatility(option_price_mc[0], f0, f0, dt[i], 0.0, 0.0, 'c'))
-    implied_vol_atm_shift_right.append(implied_volatility(option_price_right_mc[0], f0, f0 * (1.0 + shift_spot), dt[i], 0.0, 0.0, 'c'))
-    implied_vol_atm_shift_left.append(implied_volatility(option_price_left_mc[0], f0, f0 * (1.0 - shift_spot), dt[i], 0.0, 0.0, 'c'))
-    skew_atm.append(f0 * (implied_vol_atm_shift_right[i] - implied_vol_atm_shift_left[i]) / (2.0 * shift_spot * f0))
-
+    implied_vol_atm_shift_right.append(implied_volatility(option_price_right_mc[0], f0, f0 * (1.0 + shift_spot), dt[i],
+                                                          0.0, 0.0, 'c'))
+    implied_vol_atm_shift_left.append(implied_volatility(option_price_left_mc[0], f0, f0 * (1.0 - shift_spot), dt[i],
+                                                         0.0, 0.0, 'c'))
+    # skew_atm.append(f0 * (implied_vol_atm_shift_right[i] - implied_vol_atm_shift_left[i]) / (2.0 * shift_spot * f0))
+    skew_atm.append(f0 * (implied_vol_atm_shift_right[i] - implied_vol_atm[i]) / (shift_spot * f0))
 
 asymptotic_limit = 0.25 * rho * epsilon / sigma_0
 
-plt.plot(dt, skew_atm, label='skew atm heston', color='black')
-plt.plot(dt, np.ones(len(dt)) * asymptotic_limit, label='asymptotic limit', color='black', marker='.')
+plt.plot(dt, skew_atm, label='skew atm heston', color='black', linestyle='--')
+plt.plot(dt, np.ones(len(dt))  * asymptotic_limit, label='asymptotic limit',
+         color='black', marker='.', linestyle='--')
 
 
 plt.xlabel('T')

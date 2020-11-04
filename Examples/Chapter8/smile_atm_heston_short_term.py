@@ -45,7 +45,7 @@ for d_i in dt:
 implied_vol_atm = []
 implied_vol_atm_shift_right = []
 implied_vol_atm_shift_left = []
-skew_atm = []
+smile_atm = []
 
 for i in range(0, no_dt_s):
     rnd_generator.set_seed(seed)
@@ -60,12 +60,13 @@ for i in range(0, no_dt_s):
     implied_vol_atm.append(implied_volatility(option_price_mc[0], f0, f0, dt[i], 0.0, 0.0, 'c'))
     implied_vol_atm_shift_right.append(implied_volatility(option_price_right_mc[0], f0, f0 * (1.0 + shift_spot), dt[i], 0.0, 0.0, 'c'))
     implied_vol_atm_shift_left.append(implied_volatility(option_price_left_mc[0], f0, f0 * (1.0 - shift_spot), dt[i], 0.0, 0.0, 'c'))
-    skew_atm.append(f0 * (implied_vol_atm_shift_right[i] - implied_vol_atm_shift_left[i]) / (2.0 * shift_spot * f0))
+    smile_atm.append(f0 * (implied_vol_atm_shift_right[i] - 2.0 * implied_vol_atm[i] +
+                     implied_vol_atm_shift_left[i]) / (shift_spot * shift_spot))
 
 
-asymptotic_limit = 0.25 * rho * epsilon / sigma_0
+asymptotic_limit = (1.0 - rho * rho * 2.5) * epsilon * epsilon / (12.0 * np.power(sigma_0, 3.0))
 
-plt.plot(dt, skew_atm, label='skew atm heston', color='black')
+plt.plot(dt, smile_atm, label='smile atm heston', color='black')
 plt.plot(dt, np.ones(len(dt)) * asymptotic_limit, label='asymptotic limit', color='black', marker='.')
 
 

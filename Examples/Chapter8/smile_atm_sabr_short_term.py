@@ -54,9 +54,10 @@ for i in range(0, no_dt_s):
                                                  0.0, 0.0, 'c')
     implied_vol_shift_left = implied_volatility(mc_option_price_shift_left[0], f0, f0 * (1.0 - shift_spot), dt[i], 0.0,
                                                 0.0, 'c')
-    skew_atm_mc.append(f0 * (implied_vol_shift_right - implied_vol_shift_left) / (2.0 * shift_spot * f0))
+    skew_atm_mc.append((implied_vol_shift_right - 2.0 * implied_vol_base -
+                       implied_vol_shift_left) / (shift_spot * shift_spot))
 
-asymptotic_limit = 0.5 * rho * nu
+asymptotic_limit = (1.0 / 3.0 - 0.5 * rho * rho) * 0.25 * nu * nu / alpha
 
 plt.plot(dt, skew_atm_mc, label='skew atm SABR', color='black')
 plt.plot(dt, np.ones(len(dt)) * asymptotic_limit, label='asymptotic limit', color='black', marker='.')

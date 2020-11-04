@@ -42,7 +42,7 @@ for d_i in dt:
         EuropeanOption(f0 * (1.0 + shift_spot), 1.0, TypeSellBuy.BUY, TypeEuropeanOption.CALL, f0, d_i))
 
 # outputs
-skew_atm_mc = []
+smile_atm_mc = []
 
 for i in range(0, no_dt_s):
     rnd_generator.set_seed(seed)
@@ -58,14 +58,15 @@ for i in range(0, no_dt_s):
     implied_vol_atm_shift_right = implied_volatility(mc_option_price_shift_right[0], f0, f0 * (1.0 + shift_spot),  dt[i], 0.0, 0.0, 'c')
     implied_vol_atm_shift_left = implied_volatility(mc_option_price_shift_left[0], f0, f0 * (1.0 - shift_spot), dt[i], 0.0, 0.0, 'c')
 
-    skew_atm_mc.append(f0 * (implied_vol_atm_shift_right - implied_vol_atm_shift_left) / (shift_spot * f0))
+    smile_atm_mc.append((implied_vol_atm_shift_right - 2.0 * implied_vol_atm +
+                        implied_vol_atm_shift_left) / (shift_spot * shift_spot))
 
 
 def f_law(x, a, b):
     return a * np.power(x, -b)
 
 
-popt, pcov = curve_fit(f_law, dt, skew_atm_mc)
+popt, pcov = curve_fit(f_law, dt, smile_atm_mc)
 y_fit_values = f_law(dt, *popt)
 
 plt.plot(dt, skew_atm_mc, label='skew atm rBergomi', color='black', linestyle='--')
