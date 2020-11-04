@@ -6,7 +6,7 @@ from Tools import RNG, Types
 from Instruments.EuropeanInstruments import EuropeanOption, TypeSellBuy, TypeEuropeanOption
 from py_vollib.black_scholes_merton.implied_volatility import implied_volatility
 
-dt = np.linspace(0.01, 0.1, 100)
+dt = np.linspace(0.01, 0.1, 30)
 no_dt_s = len(dt)
 
 # simulation info
@@ -17,7 +17,7 @@ parameters = [alpha, nu, rho]
 no_time_steps = 100
 
 seed = 123456789
-no_paths = 1000000
+no_paths = 750000
 delta_time = 1.0 / 365.0
 
 # random number generator

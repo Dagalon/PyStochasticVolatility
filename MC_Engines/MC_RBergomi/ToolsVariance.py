@@ -4,7 +4,6 @@ from Tools.Types import ndarray
 from ncephes import hyp2f1
 from Tools import Functionals
 from math import gamma
-from py_vollib.black_scholes_merton import  black_scholes_merton
 
 
 @nb.jit("f8(f8, f8, f8)", nopython=True, nogil=True)
@@ -73,7 +72,7 @@ def get_covariance_matrix(t_i_s: ndarray, h: float, rho: float):
     for i in range(0, no_time_steps):
         for j in range(no_time_steps, 2 * no_time_steps):
             cov[i, j] = get_covariance_w_v_w_t(t_i_s[i], t_i_s[j - no_time_steps], rho, h)
-            # para comprobar que cuadra con kenichyro
+            # This is for checking the Kenichyros's scheme
             # cov[i, j] = get_covariance_w_v_w_t(t_i_s[i], t_i_s[j - no_time_steps], 0.0, h)
             cov[j, i] = cov[i, j]
 
@@ -99,7 +98,6 @@ def generate_paths(s0: float,
     no_time_steps = len(t_i_s)
 
     paths = np.zeros(shape=(no_paths, no_time_steps))
-    # bs_paths = np.zeros(no_paths)
     int_v_t = np.zeros(shape=(no_paths, no_time_steps - 1))
     v_i_1 = np.zeros(shape=(no_paths, no_time_steps))
     rho_inv = np.sqrt(1.0 - rho * rho)
@@ -109,14 +107,6 @@ def generate_paths(s0: float,
 
     # we compute before a loop of variance of the variance process
     var_w_t = get_volterra_variance(t_i_s[1:], h)
-    # var_w_t = get_fbm_variance(t_i_s[1:], h)
-
-    # A = np.matmul(cholk_cov, noise)
-    # size = A.shape
-    # for i in range(0, no_time_steps - 1):
-    #     for j in range(0, no_time_steps - 1):
-    #         rho_empirica = np.mean(A[i, :] * A[j + no_time_steps - 1, :])
-    #         rho_real = rho * np.minimum(t_i_s[i + 1], t_i_s[j + 1])
 
     for k in range(0, no_paths):
         w_t_k = Functionals.apply_lower_tridiagonal_matrix(cholk_cov, noise[:, k])
@@ -124,30 +114,28 @@ def generate_paths(s0: float,
         w_i_s_1 = 0.0
         w_i_h_1 = 0.0
         var_w_t_i_1 = 0.0
-        # var_swap = 0.0
         # w_v_i_1 = 0.0
+
         for j in range(1, no_time_steps):
             delta_i_s = t_i_s[j] - t_i_s[j - 1]
+            # w_v_i = noise[j + no_time_steps - 2, k] * np.sqrt(t_i_s[j])
+
+            # Brownian and Gaussian increments
             d_w_i_s = w_t_k[j - 1] - w_i_s_1
-            w_v_i = noise[j + no_time_steps - 2, k] * np.sqrt(t_i_s[j])
             # d_w_i_v = w_v_i - w_v_i_1
             d_w_i_h = w_t_k[j + no_time_steps - 2] - w_i_h_1
 
             v_i_1[k, j] = v_i_1[k, j - 1] * np.exp(- 0.5 * nu * nu * (var_w_t[j - 1] - var_w_t_i_1) +
                                                    nu * d_w_i_h)
             int_v_t[k, j - 1] = delta_i_s * v_i_1[k, j - 1]
-            # var_swap += int_v_t[k, j - 1]
             paths[k, j] = paths[k, j - 1] * np.exp(- 0.5 * int_v_t[k, j - 1] +
                                                    np.sqrt(v_i_1[k, j - 1]) * d_w_i_s)
 
-            # keep the last brownians and variance of the RL process
+            # Keep the last brownians and variance of the RL process
             w_i_s_1 = w_t_k[j - 1]
             # w_v_i_1 = w_v_i
             w_i_h_1 = w_t_k[j + no_time_steps - 2]
             var_w_t_i_1 = var_w_t[j - 1]
-
-        # vol_swap = np.sqrt(var_swap / t_i_s[-1])
-        # bs_paths[k] = black_scholes_merton('c', s0, s0, t_i_s[-1], 0.0, vol_swap, 0.0)
 
     return paths, v_i_1, int_v_t
 

@@ -13,7 +13,7 @@ dt = np.arange(0.01, 182, 2) * 1.0 / 365.0
 no_dt_s = len(dt)
 
 # simulation info
-h = 0.5
+h = 0.3
 nu = 0.5
 rho = -0.6
 v0 = 0.05
@@ -94,7 +94,7 @@ file.close()
 
 
 def f_law(x, b, c):
-    return b + c * x
+    return b * np.power(x, c)
 
 
 # popt_vol_swap, pcov_vols_swap = curve_fit(f_law, dt, output_vol_swap)
