@@ -2,7 +2,6 @@ import os
 import numpy as np
 import pandas as pd
 import matplotlib.pylab as plt
-import QuantLib as ql
 
 from pathlib import Path
 from VolatilitySurface.Tools import SABRTools
@@ -51,6 +50,7 @@ y_fit_values = f_law(delta_time, *popt)
 plt.plot(delta_time, y_fit_values, label="%s * t^-%s)" % (round(popt[0], 5), round(popt[1], 5)), color="black", linestyle="dashed",
          marker='.')
 
+plt.plot("T")
 plt.legend()
 plt.show()
 

@@ -9,7 +9,7 @@ from py_vollib.black_scholes_merton.implied_volatility import implied_volatility
 from scipy.optimize import curve_fit
 from AnalyticEngines.MalliavinMethod import ExpansionTools
 
-dt = np.arange(0.01, 182, 2) * 1.0 / 365.0
+dt = np.arange(0.01, 362, 2) * 1.0 / 365.0
 no_dt_s = len(dt)
 
 # simulation info
@@ -83,7 +83,7 @@ for i in range(0, no_dt_s):
                  "vol_swap_approx": str(vol_swap_approx[i]), "variance_swap": str(variance_swap[i]),
                  "out_variance_swap": str(output_variance_swap[i]), "out_vol_swap": str(output_vol_swap[i])})
 
-file = open('D://GitRepository//Python//SV_Engines//Examples//Chapter6//output_rbergomi_h_05.csv', 'w')
+file = open('D://GitHubRepository//Python//SV_Engines//Examples//Chapter6//output_rbergomi_h_03_rho__06.csv', 'w')
 csv_writer = csv.DictWriter(file, fieldnames=headers, lineterminator='\n')
 csv_writer.writeheader()
 csv_writer.writerows(rows)

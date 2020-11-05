@@ -42,6 +42,7 @@ for i in range(0, no_strikes):
 plt.plot(strikes, iv_vol_rho, label="rho=%s" % rho, marker=".", linestyle="--", color="black")
 plt.plot(strikes, iv_rho_rho_zero, label="rho=0.0", marker="+", linestyle="--", color="black")
 
+plt.xlabel("K")
 plt.legend()
 plt.show()
 

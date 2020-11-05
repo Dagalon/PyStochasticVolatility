@@ -78,5 +78,6 @@ for i in range(0, no_maturities):
 plt.plot(d_t_i, skew_rho_no_zero, label="atm skew rho=%s" % rho, marker=".", linestyle="--", color="black")
 plt.plot(d_t_i, skew_rho_zero, label="atm skew rho=0.0", marker="+", linestyle="--", color="black")
 
+plt.xlabel("T")
 plt.legend()
 plt.show()
