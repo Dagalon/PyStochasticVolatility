@@ -16,7 +16,7 @@ def get_path_multi_step(t0: float,
                         t1: float,
                         parameters: Vector,
                         f0: float,
-                        v0: float,
+                        sigma_0: float,
                         no_paths: int,
                         no_time_steps: int,
                         type_random_number: TYPE_STANDARD_NORMAL_SAMPLING,
@@ -37,7 +37,7 @@ def get_path_multi_step(t0: float,
                                  sampling_type=type_random_number)
     map_out_put = {}
     outputs = ToolsVariance.generate_paths(f0,
-                                           v0,
+                                           sigma_0,
                                            nu,
                                            rho,
                                            h,
@@ -47,8 +47,7 @@ def get_path_multi_step(t0: float,
                                            no_paths)
 
     map_out_put[RBERGOMI_OUTPUT.PATHS] = outputs[0]
-    map_out_put[RBERGOMI_OUTPUT.SPOT_VARIANCE_PATHS] = outputs[1]
-    # map_out_put[RBERGOMI_OUTPUT.BS_BY_PATH] = outputs[3]
+    map_out_put[RBERGOMI_OUTPUT.SPOT_VOLATILITY_PATHS] = outputs[1]
     map_out_put[RBERGOMI_OUTPUT.INTEGRAL_VARIANCE_PATHS] = outputs[2]
 
     return map_out_put

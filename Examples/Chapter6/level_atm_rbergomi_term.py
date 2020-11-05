@@ -9,13 +9,13 @@ from py_vollib.black_scholes_merton.implied_volatility import implied_volatility
 from scipy.optimize import curve_fit
 from AnalyticEngines.MalliavinMethod import ExpansionTools
 
-dt = np.arange(0.01, 362, 2) * 1.0 / 365.0
+dt = np.arange(0.01, 182, 2) * 1.0 / 365.0
 no_dt_s = len(dt)
 
 # simulation info
-h = 0.3
+h = 0.1
 nu = 0.5
-rho = -0.6
+rho = 0.0
 v0 = 0.05
 sigma_0 = np.sqrt(v0)
 
@@ -56,7 +56,7 @@ for i in range(0, no_dt_s):
         no_time_steps = 100
 
     rnd_generator.set_seed(seed)
-    map_output = RBergomi_Engine.get_path_multi_step(0.0, dt[i], parameters, f0, v0, no_paths,
+    map_output = RBergomi_Engine.get_path_multi_step(0.0, dt[i], parameters, f0, sigma_0, no_paths,
                                                      no_time_steps, Types.TYPE_STANDARD_NORMAL_SAMPLING.REGULAR_WAY,
                                                      rnd_generator)
 
@@ -83,7 +83,7 @@ for i in range(0, no_dt_s):
                  "vol_swap_approx": str(vol_swap_approx[i]), "variance_swap": str(variance_swap[i]),
                  "out_variance_swap": str(output_variance_swap[i]), "out_vol_swap": str(output_vol_swap[i])})
 
-file = open('D://GitHubRepository//Python//SV_Engines//Examples//Chapter6//output_rbergomi_h_03_rho__06.csv', 'w')
+file = open('D://GitRepository//Python//SV_Engines//Examples//output_rbergomi_h_02_rho_0.csv', 'w')
 csv_writer = csv.DictWriter(file, fieldnames=headers, lineterminator='\n')
 csv_writer.writeheader()
 csv_writer.writerows(rows)

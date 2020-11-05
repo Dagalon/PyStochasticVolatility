@@ -87,7 +87,7 @@ def get_covariance_matrix(t_i_s: ndarray, h: float, rho: float):
 
 @nb.jit("(f8, f8, f8, f8, f8, f8[:,:], f8[:,:], f8[:], i8)", nopython=True, nogil=True)
 def generate_paths(s0: float,
-                   v0: float,
+                   sigma_0: float,
                    nu: float,
                    rho: float,
                    h: float,
@@ -99,10 +99,9 @@ def generate_paths(s0: float,
 
     paths = np.zeros(shape=(no_paths, no_time_steps))
     int_v_t = np.zeros(shape=(no_paths, no_time_steps - 1))
-    v_i_1 = np.zeros(shape=(no_paths, no_time_steps))
-    rho_inv = np.sqrt(1.0 - rho * rho)
+    sigma_i_1 = np.zeros(shape=(no_paths, no_time_steps))
 
-    v_i_1[:, 0] = v0
+    sigma_i_1[:, 0] = sigma_0
     paths[:, 0] = s0
 
     # we compute before a loop of variance of the variance process
@@ -125,11 +124,11 @@ def generate_paths(s0: float,
             # d_w_i_v = w_v_i - w_v_i_1
             d_w_i_h = w_t_k[j + no_time_steps - 2] - w_i_h_1
 
-            v_i_1[k, j] = v_i_1[k, j - 1] * np.exp(- 0.5 * nu * nu * (var_w_t[j - 1] - var_w_t_i_1) +
-                                                   nu * d_w_i_h)
-            int_v_t[k, j - 1] = delta_i_s * v_i_1[k, j - 1]
+            sigma_i_1[k, j] = sigma_i_1[k, j - 1] * np.exp(- 0.5 * nu * nu * (var_w_t[j - 1] - var_w_t_i_1) +
+                                                           nu * d_w_i_h)
+            int_v_t[k, j - 1] = delta_i_s * sigma_i_1[k, j - 1] * sigma_i_1[k, j - 1]
             paths[k, j] = paths[k, j - 1] * np.exp(- 0.5 * int_v_t[k, j - 1] +
-                                                   np.sqrt(v_i_1[k, j - 1]) * d_w_i_s)
+                                                   sigma_i_1[k, j - 1] * d_w_i_s)
 
             # Keep the last brownians and variance of the RL process
             w_i_s_1 = w_t_k[j - 1]
@@ -137,7 +136,7 @@ def generate_paths(s0: float,
             w_i_h_1 = w_t_k[j + no_time_steps - 2]
             var_w_t_i_1 = var_w_t[j - 1]
 
-    return paths, v_i_1, int_v_t
+    return paths, sigma_i_1, int_v_t
 
 
 @nb.jit("f8(f8, f8)", nopython=True, nogil=True)

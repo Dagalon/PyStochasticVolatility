@@ -2,6 +2,7 @@ import numba as nb
 import numpy as np
 from Tools import Types
 from scipy.special import beta
+from scipy.integrate import quad_vec
 
 
 @nb.jit("f8(f8[:],f8,f8,f8)", nopython=True, nogil=True)
@@ -37,7 +38,10 @@ def get_iv_atm_local_vol_approximation(f0: float, lv_f0: float, fd_lv_f0: float,
 
 
 def get_variance_swap_rbergomi(parameters: Types.ndarray, sigma_0: float, t: float):
-    return sigma_0
+    nu = parameters[0]
+    h = parameters[2]
+    integral_result = quad_vec(lambda s: sigma_0 * sigma_0 * np.exp(nu * nu * np.power(s, 2.0 * h)), 0.0, t)
+    return np.sqrt(integral_result[0] / t)
 
 
 def get_vol_swap_rbergomi(parameters: Types.ndarray, sigma_0: float, t: float):
