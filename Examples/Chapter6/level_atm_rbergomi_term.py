@@ -13,9 +13,9 @@ dt = np.arange(1.0, 182, 2) * 1.0 / 365.0
 no_dt_s = len(dt)
 
 # simulation info
-h = 0.2
+h = 0.3
 nu = 0.5
-rho = -0.4
+rho = 0.0
 v0 = 0.05
 sigma_0 = np.sqrt(v0)
 
@@ -50,9 +50,9 @@ aux_output = []
 for i in range(0, no_dt_s):
     if dt[i] < 0.1:
         no_time_steps = 100
-        no_paths = 1000000
+        no_paths = 500000
     else:
-        no_paths = 1000000
+        no_paths = 500000
         no_time_steps = 100
 
     rnd_generator.set_seed(seed)
@@ -83,7 +83,7 @@ for i in range(0, no_dt_s):
                  "vol_swap_approx": str(vol_swap_approx[i]), "variance_swap": str(variance_swap[i]),
                  "out_variance_swap": str(output_variance_swap[i]), "out_vol_swap": str(output_vol_swap[i])})
 
-file = open('D://GitHubRepository//Python//SV_Engines//Examples//Chapter6//output_rbergomi_h_03_rho__06.csv', 'w')
+file = open('D://GitRepository//Python//SV_Engines//Examples//Chapter6//output_rbergomi_h_03_rho_0.csv', 'w')
 csv_writer = csv.DictWriter(file, fieldnames=headers, lineterminator='\n')
 csv_writer.writeheader()
 csv_writer.writerows(rows)
