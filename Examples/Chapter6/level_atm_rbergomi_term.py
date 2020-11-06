@@ -9,13 +9,13 @@ from py_vollib.black_scholes_merton.implied_volatility import implied_volatility
 from scipy.optimize import curve_fit
 from AnalyticEngines.MalliavinMethod import ExpansionTools
 
-dt = np.arange(0.01, 182, 2) * 1.0 / 365.0
+dt = np.arange(1.0, 182, 2) * 1.0 / 365.0
 no_dt_s = len(dt)
 
 # simulation info
-h = 0.1
+h = 0.2
 nu = 0.5
-rho = 0.0
+rho = -0.4
 v0 = 0.05
 sigma_0 = np.sqrt(v0)
 
@@ -57,7 +57,7 @@ for i in range(0, no_dt_s):
 
     rnd_generator.set_seed(seed)
     map_output = RBergomi_Engine.get_path_multi_step(0.0, dt[i], parameters, f0, sigma_0, no_paths,
-                                                     no_time_steps, Types.TYPE_STANDARD_NORMAL_SAMPLING.REGULAR_WAY,
+                                                     no_time_steps, Types.TYPE_STANDARD_NORMAL_SAMPLING.ANTITHETIC,
                                                      rnd_generator)
 
     mc_option_price = options[i].get_price(map_output[Types.RBERGOMI_OUTPUT.PATHS][:, -1])
@@ -68,7 +68,7 @@ for i in range(0, no_dt_s):
         np.sqrt(np.sum(map_output[Types.RBERGOMI_OUTPUT.INTEGRAL_VARIANCE_PATHS], 1) / dt[i])) / np.sqrt(no_paths)
     vol_swap_approx.append(ExpansionTools.get_vol_swap_rbergomi(parameters, sigma_0, dt[i]))
     implied_vol_approx.append(
-        ExpansionTools.get_iv_atm_rbergomi_approximation(parameters, vol_swap_mc[i], sigma_0, dt[i], 'vol_swap'))
+        ExpansionTools.get_iv_atm_rbergomi_approximation(parameters, vol_swap_mc[i], sigma_0, dt[i], 'var_swap'))
     variance_swap.append(ExpansionTools.get_variance_swap_rbergomi(parameters, sigma_0, dt[i]))
     output_vol_swap.append(implied_vol_atm[i] - vol_swap_mc[i])
     output_variance_swap.append(implied_vol_atm[i] - variance_swap[i])
@@ -83,7 +83,7 @@ for i in range(0, no_dt_s):
                  "vol_swap_approx": str(vol_swap_approx[i]), "variance_swap": str(variance_swap[i]),
                  "out_variance_swap": str(output_variance_swap[i]), "out_vol_swap": str(output_vol_swap[i])})
 
-file = open('D://GitRepository//Python//SV_Engines//Examples//output_rbergomi_h_02_rho_0.csv', 'w')
+file = open('D://GitHubRepository//Python//SV_Engines//Examples//Chapter6//output_rbergomi_h_03_rho__06.csv', 'w')
 csv_writer = csv.DictWriter(file, fieldnames=headers, lineterminator='\n')
 csv_writer.writeheader()
 csv_writer.writerows(rows)
@@ -111,7 +111,7 @@ plt.plot(dt, output_variance_swap, label='I(t,f0) - var_swap_t', linestyle='--',
 # plt.plot(dt, y_fit_values_vol_swap, label="%s * t^%s" % (round(popt_vol_swap[0], 5), round(popt_vol_swap[1], 5)),
 #          marker='.', linestyle='--', color='black')
 
-plt.plot(dt, y_fit_values_variance_swap, label=" %s + t * %s" % (round(popt_variance_swap[0], 5),
+plt.plot(dt, y_fit_values_variance_swap, label=" %s * t^(%s)" % (round(popt_variance_swap[0], 5),
          round(popt_variance_swap[1], 5)), marker='+', linestyle='--', color='black')
 
 # plt.plot(dt, implied_vol_approx, label='approximation iv', linestyle='--')

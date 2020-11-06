@@ -53,11 +53,12 @@ def get_volterra_variance(t: ndarray, h: float):
 @nb.jit("f8(f8, f8, f8, f8)", nopython=True, nogil=True)
 def get_covariance_w_v_w_t(s: float, t: float, rho: float, h: float):
     d_h = np.sqrt(2.0 * h) / (h + 0.5)
-    if s < t:
-        return rho * d_h * np.power(s, h + 0.5)
-
-    else:
-        return rho * d_h * (np.power(s, h + 0.5) - np.power(s - t, h + 0.5))
+    return rho * d_h * (np.power(s, h + 0.5) - (np.power(s - np.minimum(s, t), h + 0.5)))
+    # if s < t:
+    #     return rho * d_h * np.power(s, h + 0.5)
+    #
+    # else:
+    #     return rho * d_h * (np.power(s, h + 0.5) - np.power(s - t, h + 0.5))
 
 
 @nb.jit("f8[:,:](f8[:], f8, f8)", nopython=True, nogil=True)
@@ -71,9 +72,7 @@ def get_covariance_matrix(t_i_s: ndarray, h: float, rho: float):
 
     for i in range(0, no_time_steps):
         for j in range(no_time_steps, 2 * no_time_steps):
-            cov[i, j] = get_covariance_w_v_w_t(t_i_s[i], t_i_s[j - no_time_steps], rho, h)
-            # This is for checking the Kenichyros's scheme
-            # cov[i, j] = get_covariance_w_v_w_t(t_i_s[i], t_i_s[j - no_time_steps], 0.0, h)
+            cov[i, j] = get_covariance_w_v_w_t(t_i_s[j - no_time_steps], t_i_s[i], rho, h)
             cov[j, i] = cov[i, j]
 
     for i in range(0, no_time_steps):
@@ -113,15 +112,12 @@ def generate_paths(s0: float,
         w_i_s_1 = 0.0
         w_i_h_1 = 0.0
         var_w_t_i_1 = 0.0
-        # w_v_i_1 = 0.0
 
         for j in range(1, no_time_steps):
             delta_i_s = t_i_s[j] - t_i_s[j - 1]
-            # w_v_i = noise[j + no_time_steps - 2, k] * np.sqrt(t_i_s[j])
 
             # Brownian and Gaussian increments
             d_w_i_s = w_t_k[j - 1] - w_i_s_1
-            # d_w_i_v = w_v_i - w_v_i_1
             d_w_i_h = w_t_k[j + no_time_steps - 2] - w_i_h_1
 
             sigma_i_1[k, j] = sigma_i_1[k, j - 1] * np.exp(- 0.5 * nu * nu * (var_w_t[j - 1] - var_w_t_i_1) +
@@ -132,7 +128,6 @@ def generate_paths(s0: float,
 
             # Keep the last brownians and variance of the RL process
             w_i_s_1 = w_t_k[j - 1]
-            # w_v_i_1 = w_v_i
             w_i_h_1 = w_t_k[j + no_time_steps - 2]
             var_w_t_i_1 = var_w_t[j - 1]
 
