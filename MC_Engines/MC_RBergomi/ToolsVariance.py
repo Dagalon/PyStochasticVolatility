@@ -9,18 +9,19 @@ from math import gamma
 @nb.jit("f8(f8, f8, f8)", nopython=True, nogil=True)
 def get_volterra_covariance(s: float, t: float, h: float):
     # We suppose that t > s
-    if s > 0.0:
-        if s < t:
-            x = s / t
-            alpha = 2.0 * np.power(s, h + 0.5) * np.power(t, h - 0.5) * h / (h + 0.5)
-            return alpha * hyp2f1(0.5 - h, 1.0, h + 1.5, x)
-        else:
-            x = t / s
-            alpha = 2.0 * np.power(t, h + 0.5) * np.power(s, h - 0.5) * h / (h + 0.5)
-            return alpha * hyp2f1(0.5 - h, 1.0, h + 1.5, x)
+
+    if s < t:
+        x = s / t
+        alpha = 2.0 * np.power(s, h + 0.5) * np.power(t, h - 0.5) * h / (h + 0.5)
+        return alpha * hyp2f1(0.5 - h, 1.0, h + 1.5, x)
+
+    elif t < s:
+        x = t / s
+        alpha = 2.0 * np.power(t, h + 0.5) * np.power(s, h - 0.5) * h / (h + 0.5)
+        return alpha * hyp2f1(0.5 - h, 1.0, h + 1.5, x)
 
     else:
-        return 0.0
+        return np.power(s, 2.0 * h)
 
 
 @nb.jit("f8(f8, f8, f8)", nopython=True, nogil=True)
@@ -68,9 +69,9 @@ def get_covariance_matrix(t_i_s: ndarray, h: float, rho: float):
     no_time_steps = len(t_i_s)
     cov = np.zeros(shape=(2 * no_time_steps, 2 * no_time_steps))
     for i in range(0, no_time_steps):
-        for j in range(0, i + 1):
-            cov[i, j] = t_i_s[j]
-            cov[j, i] = cov[i, j]
+        for j in range(0, no_time_steps):
+            cov[i, j] = np.minimum(t_i_s[i], t_i_s[j])
+            # cov[j, i] = cov[i, j]
 
     for i in range(0, no_time_steps):
         for j in range(no_time_steps, 2 * no_time_steps):
@@ -78,10 +79,10 @@ def get_covariance_matrix(t_i_s: ndarray, h: float, rho: float):
             cov[j, i] = cov[i, j]
 
     for i in range(0, no_time_steps):
-        for j in range(0, i + 1):
+        # for j in range(0, i + 1):
+        for j in range(0, no_time_steps):
             cov[i + no_time_steps, j + no_time_steps] = get_volterra_covariance(t_i_s[i], t_i_s[j], h)
             # cov[i + no_time_steps, j + no_time_steps] = get_fbm_covariance(t_i_s[j], t_i_s[i], h)
-            cov[j + no_time_steps, i + no_time_steps] = cov[i + no_time_steps, j + no_time_steps]
 
     return cov
 
