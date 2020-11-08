@@ -50,9 +50,9 @@ for i in range(0, no_dt_s):
                                                      no_time_steps, Types.TYPE_STANDARD_NORMAL_SAMPLING.ANTITHETIC,
                                                      rnd_generator)
 
-    mc_option_price = options[i].get_price(map_output[Types.RBERGOMI_OUTPUT.PATHS][:, -1])
-    mc_option_price_shift_left = options_shift_left[i].get_price(map_output[Types.RBERGOMI_OUTPUT.PATHS][:, -1])
-    mc_option_price_shift_right = options_shift_right[i].get_price(map_output[Types.RBERGOMI_OUTPUT.PATHS][:, -1])
+    mc_option_price = options[i].get_price(map_output[Types.REXPOU1F_OUTPUT.PATHS][:, -1])
+    mc_option_price_shift_left = options_shift_left[i].get_price(map_output[Types.REXPOU1F_OUTPUT.PATHS][:, -1])
+    mc_option_price_shift_right = options_shift_right[i].get_price(map_output[Types.REXPOU1F_OUTPUT.PATHS][:, -1])
 
     implied_vol_atm = implied_volatility(mc_option_price[0], f0, f0, dt[i], 0.0, 0.0, 'c')
     implied_vol_atm_shift_right = implied_volatility(mc_option_price_shift_right[0], f0, f0 * (1.0 + shift_spot),  dt[i], 0.0, 0.0, 'c')

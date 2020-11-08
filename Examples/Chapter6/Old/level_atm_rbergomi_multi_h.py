@@ -78,13 +78,13 @@ def estimated_set_h_level_iv(hurst_parameter: float):
                                                          no_time_steps, Types.TYPE_STANDARD_NORMAL_SAMPLING.ANTITHETIC,
                                                          rnd_generator)
 
-        mc_option_price = options[i].get_price(map_output[Types.RBERGOMI_OUTPUT.PATHS][:, -1])
+        mc_option_price = options[i].get_price(map_output[Types.REXPOU1F_OUTPUT.PATHS][:, -1])
 
         implied_vol_atm.append(implied_volatility(mc_option_price[0], f0, f0, dt[i], 0.0, 0.0, 'c'))
         vol_swap_mc.append(
-            np.mean(np.sqrt(np.sum(map_output[Types.RBERGOMI_OUTPUT.INTEGRAL_VARIANCE_PATHS], 1) / dt[i])))
+            np.mean(np.sqrt(np.sum(map_output[Types.REXPOU1F_OUTPUT.INTEGRAL_VARIANCE_PATHS], 1) / dt[i])))
         error_mc_vol_swap = np.std(
-            np.sqrt(np.sum(map_output[Types.RBERGOMI_OUTPUT.INTEGRAL_VARIANCE_PATHS], 1) / dt[i])) / np.sqrt(no_paths)
+            np.sqrt(np.sum(map_output[Types.REXPOU1F_OUTPUT.INTEGRAL_VARIANCE_PATHS], 1) / dt[i])) / np.sqrt(no_paths)
         vol_swap_approx.append(ExpansionTools.get_vol_swap_rbergomi(parameters, sigma_0, dt[i]))
         implied_vol_approx.append(
             ExpansionTools.get_iv_atm_rbergomi_approximation(parameters, vol_swap_mc[i], sigma_0, dt[i], 'vol_swap'))

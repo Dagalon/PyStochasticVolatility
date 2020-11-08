@@ -44,6 +44,7 @@ def get_variance_swap_rbergomi(parameters: Types.ndarray, sigma_0: float, t: flo
     return np.sqrt(integral_result[0] / t)
 
 
+# tengo que corregir esto
 def get_vol_swap_rbergomi(parameters: Types.ndarray, sigma_0: float, t: float):
     nu = parameters[0]
     h = parameters[2]
@@ -68,9 +69,9 @@ def get_iv_atm_heston_approximation(parameters: Types.ndarray, t: float):
     return vol_swap + t * adjustment
 
 
-# @nb.jit("f8(f8[:],f8)", nopython=True, nogil=True)
+@nb.jit("f8(f8[:],f8,f8,f8,i1[:])", nopython=True, nogil=True)
 def get_iv_atm_rbergomi_approximation(parameters: Types.ndarray, vol_swap: float, sigma_0: float, t: float,
-                                      type='var_swap'):
+                                      approximation_type: str = 'var_swap'):
     nu = parameters[0]
     rho = parameters[1]
     h = parameters[2]
@@ -79,19 +80,21 @@ def get_iv_atm_rbergomi_approximation(parameters: Types.ndarray, vol_swap: float
     h_3_2 = (h + 1.5)
     h_1 = (h + 1.0)
 
-    if type == 'var_swap':
+    if approximation_type == 'var_swap':
         part_1 = 3.0 / (h_3_2 * h_3_2)
         part_2 = 2.0 * beta(h_3_2, h_3_2)
         part_3 = 1.0 / h_1
-        part_var_swap = 0.125 * nu * nu * h * sigma_0 / (h_1 * h_1_2 * h_1_2)
-        rho_term = 0.25 * rho * sigma_0 * sigma_0 * np.sqrt(2.0 * h) / (h_1_2 + h_3_2)
+        part_var_swap = 0.5 * nu * nu * h * sigma_0 / (h_1 * h_1_2 * h_1_2)
+        # rho_term = 0.25 * rho * sigma_0 * sigma_0 * np.sqrt(2.0 * h) / (h_1_2 + h_3_2)
+
         adjustment = sigma_0 * np.power(nu * rho, 2.0) * (h / (h_1_2 * h_1_2)) * (part_1 - part_2 - part_3) \
                      - part_var_swap
 
     else:
-        part_1 = 0.75 / (h_3_2 * h_3_2)
-        part_2 = 0.5 * beta(h_3_2, h_3_2)
-        part_3 = 0.25 / h_1
+        part_1 = 3.0 / (h_3_2 * h_3_2)
+        part_2 = 2.0 * beta(h_3_2, h_3_2)
+        part_3 = 1.0 / h_1
+
         adjustment = sigma_0 * np.power(nu * rho, 2.0) * (h / (h_1_2 * h_1_2)) * (part_1 - part_2 - part_3)
 
     return vol_swap + adjustment * np.power(t, 2.0 * h)

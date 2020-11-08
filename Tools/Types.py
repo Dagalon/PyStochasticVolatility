@@ -33,6 +33,17 @@ class RBERGOMI_OUTPUT(Enum):
         return self.value
 
 
+class REXPOU1F_OUTPUT(Enum):
+    PATHS = 0,
+    INTEGRAL_VARIANCE_PATHS = 1,
+    SPOT_VOLATILITY_PATHS = 2,
+    BS_BY_PATH = 3,
+    UNKNOWN = -1
+
+    def __str__(self):
+        return self.value
+
+
 class ANALYTIC_MODEL(Enum):
     HESTON_MODEL_ATTARI = 0,
     HESTON_MODEL_REGULAR = 1,
@@ -111,6 +122,22 @@ class ESTIMATOR_TYPE(Enum):
     INTEGRATED_VARIANCE_EMPIRICAL = 2,
     SPOT_VARIANCE_FOURIER = 3,
     UNKNOWN = -1
+
+    def __str__(self):
+        return self.value
+
+
+class TypeEuropeanOption(Enum):
+    CALL = 1
+    PUT = -1
+
+    def __str__(self):
+        return self.value
+
+
+class TypeSellBuy(Enum):
+    SELL = -1
+    BUY = 1
 
     def __str__(self):
         return self.value

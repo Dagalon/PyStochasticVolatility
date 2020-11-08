@@ -52,7 +52,7 @@ for i in range(0, no_T_s):
 
     implied_vol = []
     for j in range(0, no_k_s):
-        mc_option_price = options[j].get_price(map_output[Types.RBERGOMI_OUTPUT.PATHS][:, -1])
+        mc_option_price = options[j].get_price(map_output[Types.REXPOU1F_OUTPUT.PATHS][:, -1])
         implied_vol.append(implied_volatility(mc_option_price[0], f0, k_s[j], T_s[i], 0.0, 0.0, 'c'))
 
     plt.plot(k_s, implied_vol, label="T=%s" % round(T_s[i], 5), linestyle='--', marker=markers[i], color='black')

@@ -2,21 +2,11 @@ import numpy as np
 from scipy.integrate import quad_vec
 from functools import partial
 from typing import Callable, List
-from enum import Enum
+from Tools.Types import TypeSellBuy, TypeEuropeanOption
 from MCPricers.EuropeanPricers import call_operator, put_operator, malliavin_delta_call_put, malliavin_gamma_call_put
 from Tools.Types import ndarray, ANALYTIC_MODEL, TypeGreeks
 from AnalyticEngines.FourierMethod.CharesticFunctions.HestonCharesticFunction import f_attari_heston, f_delta_attari_heston, \
     f_dual_delta_attari_heston, f_heston, f_gamma_heston, f_gamma_attari_heston
-
-
-class TypeEuropeanOption(Enum):
-    CALL = 1
-    PUT = -1
-
-
-class TypeSellBuy(Enum):
-    SELL = -1
-    BUY = 1
 
 
 class EuropeanPayoff(object):
