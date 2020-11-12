@@ -37,7 +37,6 @@ def get_path_multi_step(t0: float,
     outputs = ToolsVariance.generate_paths_rbergomi(f0,
                                                     sigma_0,
                                                     nu,
-                                                    rho,
                                                     h,
                                                     z_i_s,
                                                     np.linalg.cholesky(

@@ -15,7 +15,7 @@ no_dt_s = len(dt)
 # simulation info
 h = 0.3
 nu = 0.5
-rho = 0.0
+rho = -0.6
 v0 = 0.05
 sigma_0 = np.sqrt(v0)
 
