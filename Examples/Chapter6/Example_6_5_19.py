@@ -9,13 +9,13 @@ from py_vollib.black_scholes_merton.implied_volatility import implied_volatility
 from scipy.optimize import curve_fit
 from AnalyticEngines.MalliavinMethod import ExpansionTools
 
-dt = np.arange(0.01, 182, 2) * 1.0 / 365.0
+dt = np.arange(0.1, 182, 2) * 1.0 / 365.0
 no_dt_s = len(dt)
 
 # simulation info
 h = 0.3
 nu = 0.5
-rho = 0.0
+rho = -0.6
 v0 = 0.05
 sigma_0 = np.sqrt(v0)
 
@@ -50,10 +50,10 @@ variance_swap_mc = []
 
 for i in range(0, no_dt_s):
     if dt[i] < 0.1:
-        no_time_steps = 200
+        no_time_steps = 100
         no_paths = 1000000
     else:
-        no_time_steps = 200
+        no_time_steps = 100
         no_paths = 1000000
 
     rnd_generator.set_seed(seed)
@@ -61,19 +61,19 @@ for i in range(0, no_dt_s):
                                                      no_time_steps, Types.TYPE_STANDARD_NORMAL_SAMPLING.REGULAR_WAY,
                                                      rnd_generator)
 
-    mc_option_price = options[i].get_price(map_output[Types.REXPOU1F_OUTPUT.PATHS][:, -1])
+    mc_option_price = options[i].get_price(map_output[Types.RBERGOMI_OUTPUT.PATHS][:, -1])
 
     implied_vol_atm.append(implied_volatility(mc_option_price[0], f0, f0, dt[i], 0.0, 0.0, 'c'))
-    vol_swap_mc.append(np.mean(np.sqrt(np.sum(map_output[Types.REXPOU1F_OUTPUT.INTEGRAL_VARIANCE_PATHS], 1) / dt[i])))
+    vol_swap_mc.append(np.mean(np.sqrt(np.sum(map_output[Types.RBERGOMI_OUTPUT.INTEGRAL_VARIANCE_PATHS], 1) / dt[i])))
     error_mc_vol_swap = np.std(
-        np.sqrt(np.sum(map_output[Types.REXPOU1F_OUTPUT.INTEGRAL_VARIANCE_PATHS], 1) / dt[i])) / np.sqrt(no_paths)
+        np.sqrt(np.sum(map_output[Types.RBERGOMI_OUTPUT.INTEGRAL_VARIANCE_PATHS], 1) / dt[i])) / np.sqrt(no_paths)
     vol_swap_approx.append(ExpansionTools.get_vol_swap_rbergomi(parameters, sigma_0, dt[i]))
     implied_vol_approx.append(
-        ExpansionTools.get_iv_atm_rbergomi_approximation(parameters, vol_swap_mc[i], sigma_0, dt[i], 'var_swap'))
+        ExpansionTools.get_iv_atm_rbergomi_approximation(parameters, vol_swap_mc[i], sigma_0, dt[i], 'vol_swap'))
     variance_swap.append(ExpansionTools.get_variance_swap_rbergomi(parameters, sigma_0, dt[i]))
-    variance_swap_mc.append(np.sqrt(np.mean(np.sum(map_output[Types.REXPOU1F_OUTPUT.INTEGRAL_VARIANCE_PATHS], 1) / dt[i])))
+    variance_swap_mc.append(np.sqrt(np.mean(np.sum(map_output[Types.RBERGOMI_OUTPUT.INTEGRAL_VARIANCE_PATHS], 1) / dt[i])))
     output_vol_swap.append(implied_vol_atm[i] - vol_swap_mc[i])
-    output_variance_swap.append(implied_vol_atm[i] - variance_swap[i])
+    output_variance_swap.append(implied_vol_atm[i] - vol_swap_approx[i])
 
 # csv parser
 headers = ["time", "iv_atm", "iv_atm_approx", "vol_swap_mc", "vol_swap_approx", "variance_swap", "out_variance_swap",
@@ -85,7 +85,7 @@ for i in range(0, no_dt_s):
                  "vol_swap_approx": str(vol_swap_approx[i]), "variance_swap": str(variance_swap[i]),
                  "out_variance_swap": str(output_variance_swap[i]), "out_vol_swap": str(output_vol_swap[i])})
 
-file = open('D://GitHubRepository//Python//SV_Engines//Examples//Chapter6//output_rbergomi_h_03_rho_0.csv', 'w')
+file = open('D://GitRepository//Python//SV_Engines//Examples//Chapter6//output_rbergomi_h_03_rho_0.csv', 'w')
 csv_writer = csv.DictWriter(file, fieldnames=headers, lineterminator='\n')
 csv_writer.writeheader()
 csv_writer.writerows(rows)

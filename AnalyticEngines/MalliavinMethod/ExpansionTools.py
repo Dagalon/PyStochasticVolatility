@@ -69,7 +69,7 @@ def get_iv_atm_heston_approximation(parameters: Types.ndarray, t: float):
     return vol_swap + t * adjustment
 
 
-@nb.jit("f8(f8[:],f8,f8,f8,i1[:])", nopython=True, nogil=True)
+# @nb.jit("f8(f8[:],f8,f8,f8,i1[:])", nopython=True, nogil=True)
 def get_iv_atm_rbergomi_approximation(parameters: Types.ndarray, vol_swap: float, sigma_0: float, t: float,
                                       approximation_type: str = 'var_swap'):
     nu = parameters[0]

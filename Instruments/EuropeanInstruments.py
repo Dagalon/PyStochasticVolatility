@@ -3,7 +3,8 @@ from scipy.integrate import quad_vec
 from functools import partial
 from typing import Callable, List
 from Tools.Types import TypeSellBuy, TypeEuropeanOption
-from MCPricers.EuropeanPricers import call_operator, put_operator, malliavin_delta_call_put, malliavin_gamma_call_put
+from MCPricers.EuropeanPricers import call_operator, put_operator, malliavin_delta_call_put, malliavin_gamma_call_put, \
+    call_operator_control_variate, put_operator_control_variate
 from Tools.Types import ndarray, ANALYTIC_MODEL, TypeGreeks
 from AnalyticEngines.FourierMethod.CharesticFunctions.HestonCharesticFunction import f_attari_heston, f_delta_attari_heston, \
     f_dual_delta_attari_heston, f_heston, f_gamma_heston, f_gamma_attari_heston
@@ -14,7 +15,7 @@ class EuropeanPayoff(object):
                  f_price: Callable[[List[float]], List[float]]):
         self._f_price = f_price
 
-    def get_value(self, x: List[float]):
+    def get_value(self, x: ndarray):
         return self._f_price(x)
 
 
@@ -33,6 +34,7 @@ class EuropeanOption(object):
         self._buy_sell = buy_sell
         self._spot = spot
         self._delta_time = delta_time
+        # self._payoff_control_variate
 
         if buy_sell == TypeSellBuy.BUY:
             mult_buy_sell = 1.0
@@ -52,6 +54,20 @@ class EuropeanOption(object):
             return self._payoff.get_value(x)
         else:
             return self._payoff.get_value(x[:, -1])
+
+    def get_price_control_variate(self, x: ndarray, int_v_t: ndarray):
+        vol_swap_t_i = np.sqrt(np.sum(int_v_t, axis=1) / self._delta_time)
+        if self._option_type == TypeEuropeanOption.CALL:
+            price = call_operator_control_variate(x, self._spot, vol_swap_t_i, self._strike, self._delta_time)
+        else:
+            price = put_operator_control_variate(x, self._spot, vol_swap_t_i, self._strike, self._delta_time)
+
+        if self._buy_sell == TypeSellBuy.BUY:
+            alpha = 1.0
+        else:
+            alpha = -1.0
+
+        return self._notional * alpha * price
 
     def get_malliavin_delta(self, x: ndarray, delta_weight: ndarray):
         if self._option_type == TypeEuropeanOption.CALL:

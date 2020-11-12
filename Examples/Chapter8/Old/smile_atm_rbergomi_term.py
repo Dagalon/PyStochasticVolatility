@@ -7,7 +7,7 @@ from Instruments.EuropeanInstruments import EuropeanOption, TypeSellBuy, TypeEur
 from py_vollib.black_scholes_merton.implied_volatility import implied_volatility
 from scipy.optimize import curve_fit
 
-dt = np.linspace(0.001, 0.01, 20)
+dt = np.linspace(0.01, 0.2, 200)
 no_dt_s = len(dt)
 
 # simulation info
@@ -23,7 +23,7 @@ seed = 123456789
 no_paths = 1000000
 
 delta_time = 1.0 / 365.0
-no_time_steps = 50
+no_time_steps = 30
 
 # random number generator
 rnd_generator = RNG.RndGenerator(seed)
@@ -50,16 +50,18 @@ for i in range(0, no_dt_s):
                                                      no_time_steps, Types.TYPE_STANDARD_NORMAL_SAMPLING.ANTITHETIC,
                                                      rnd_generator)
 
-    mc_option_price = options[i].get_price(map_output[Types.REXPOU1F_OUTPUT.PATHS][:, -1])
-    mc_option_price_shift_left = options_shift_left[i].get_price(map_output[Types.REXPOU1F_OUTPUT.PATHS][:, -1])
-    mc_option_price_shift_right = options_shift_right[i].get_price(map_output[Types.REXPOU1F_OUTPUT.PATHS][:, -1])
+    mc_option_price = options[i].get_price(map_output[Types.RBERGOMI_OUTPUT.PATHS][:, -1])
+    mc_option_price_shift_left = options_shift_left[i].get_price(map_output[Types.RBERGOMI_OUTPUT.PATHS][:, -1])
+    mc_option_price_shift_right = options_shift_right[i].get_price(map_output[Types.RBERGOMI_OUTPUT.PATHS][:, -1])
 
     implied_vol_atm = implied_volatility(mc_option_price[0], f0, f0, dt[i], 0.0, 0.0, 'c')
-    implied_vol_atm_shift_right = implied_volatility(mc_option_price_shift_right[0], f0, f0 * (1.0 + shift_spot),  dt[i], 0.0, 0.0, 'c')
-    implied_vol_atm_shift_left = implied_volatility(mc_option_price_shift_left[0], f0, f0 * (1.0 - shift_spot), dt[i], 0.0, 0.0, 'c')
+    implied_vol_atm_shift_right = implied_volatility(mc_option_price_shift_right[0], f0, f0 * (1.0 + shift_spot),  dt[i],
+                                                     0.0, 0.0, 'c')
+    implied_vol_atm_shift_left = implied_volatility(mc_option_price_shift_left[0], f0, f0 * (1.0 - shift_spot), dt[i],
+                                                    0.0, 0.0, 'c')
 
     smile_atm_mc.append((implied_vol_atm_shift_right - 2.0 * implied_vol_atm +
-                        implied_vol_atm_shift_left) / (shift_spot * shift_spot))
+                        implied_vol_atm_shift_left) / (f0 * f0 * shift_spot * shift_spot))
 
 
 def f_law(x, a, b):
@@ -69,8 +71,8 @@ def f_law(x, a, b):
 popt, pcov = curve_fit(f_law, dt, smile_atm_mc)
 y_fit_values = f_law(dt, *popt)
 
-plt.plot(dt, skew_atm_mc, label='skew atm rBergomi', color='black', linestyle='--')
-plt.plot(dt, y_fit_values, label='%s t^%s'% (round(popt[0], 5), round(popt[1], 5)), color='black', linestyle='--', marker='.')
+plt.plot(dt, smile_atm_mc, label='curvature atm rBergomi', color='black', linestyle='--')
+plt.plot(dt, y_fit_values, label='%s t^%s' % (round(popt[0], 5), round(popt[1], 5)), color='black', linestyle='--', marker='.')
 
 plt.xlabel('T')
 plt.legend()
