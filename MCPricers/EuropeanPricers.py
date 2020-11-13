@@ -1,7 +1,15 @@
 import numba as nb
 import numpy as np
 
-from py_lets_be_rational.lets_be_rational import black
+from ncephes import ndtr
+
+
+@nb.jit("f8(f8,f8,f8,f8,i8)", nopython=True, nogil=True)
+def black_scholes(f0: float, k: float, sigma: float, t: float, is_call: int):
+    sqtr_t = np.sqrt(t)
+    d_1 = (np.log(f0 / k) / (sigma * sqtr_t)) + 0.5 * sigma * sqtr_t
+    d_2 = d_1 - sigma * sqtr_t
+    return f0 * ndtr(d_1) - k * ndtr(d_2)
 
 
 @nb.jit("f8[:](f8[:], f8)", nopython=True, nogil=True)
@@ -21,7 +29,7 @@ def call_operator(x, strike):
     return results
 
 
-# @nb.jit("f8[:](f8[:],f8,f8[:],f8,f8)", nopython=True, nogil=True)
+@nb.jit("f8[:](f8[:],f8,f8[:],f8,f8)", nopython=True, nogil=True)
 def call_operator_control_variate(x, x0, vol_swap_t, k, t):
     no_paths = len(x)
     bs_prices = np.zeros(no_paths)
@@ -33,7 +41,7 @@ def call_operator_control_variate(x, x0, vol_swap_t, k, t):
     acum_pow = 0.0
 
     for i in range(0, no_paths):
-        bs_prices[i] = black(x0, k, vol_swap_t[i], t, 1)
+        bs_prices[i] = black_scholes(x0, k, vol_swap_t[i], t, 1)
         v_prices[i] = np.maximum(x[i] - k, 0.0)
 
     mean_bs_price = np.sum(bs_prices) / no_paths

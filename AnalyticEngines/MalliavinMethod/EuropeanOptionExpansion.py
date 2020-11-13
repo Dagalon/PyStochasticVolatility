@@ -1,7 +1,7 @@
 import numpy as np
 import numba as nb
 from typing import List
-from Tools import Types, Functionals
+from Tools import Types, AnalyticTools
 from Tools.VolatilityTools import HestonTool
 from VolatilitySurface.Tools import SABRTools
 from Instruments.EuropeanInstruments import TypeSellBuy, TypeEuropeanOption
@@ -15,7 +15,7 @@ def delta_vega(k: float, spot: float, sigma: float, t: float):
     sqrt_t = np.sqrt(t)
     d_1 = (x - k_lg) / (sigma * sqrt_t) + 0.5 * sigma * sqrt_t
     partial_sigma_d_1 = - (x - k_lg) / (sigma * sigma * sqrt_t) + 0.5 * sqrt_t
-    return spot * Functionals.normal_pdf(0.0, 1.0, d_1) * partial_sigma_d_1 / (sigma * t)
+    return spot * AnalyticTools.normal_pdf(0.0, 1.0, d_1) * partial_sigma_d_1 / (sigma * t)
 
 
 def get_var_swap_apprx_price(strike: float,

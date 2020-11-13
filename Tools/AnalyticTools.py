@@ -1,8 +1,6 @@
 import numba as nb
 import numpy as np
 
-from Tools import Types
-
 
 @nb.jit("f8(f8, f8, f8)", nopython=True, nogil=True)
 def normal_pdf(mean=0.0, sigma=1.0, x=0.0):

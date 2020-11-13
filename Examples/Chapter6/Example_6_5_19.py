@@ -61,7 +61,9 @@ for i in range(0, no_dt_s):
                                                      no_time_steps, Types.TYPE_STANDARD_NORMAL_SAMPLING.REGULAR_WAY,
                                                      rnd_generator)
 
-    mc_option_price = options[i].get_price(map_output[Types.RBERGOMI_OUTPUT.PATHS][:, -1])
+    # mc_option_price = options[i].get_price(map_output[Types.RBERGOMI_OUTPUT.PATHS][:, -1])
+    mc_option_price = options[i].get_price_control_variate(map_output[Types.RBERGOMI_OUTPUT.PATHS][:, -1],
+                                                           map_output[Types.RBERGOMI_OUTPUT.INTEGRAL_VARIANCE_PATHS])
 
     implied_vol_atm.append(implied_volatility(mc_option_price[0], f0, f0, dt[i], 0.0, 0.0, 'c'))
     vol_swap_mc.append(np.mean(np.sqrt(np.sum(map_output[Types.RBERGOMI_OUTPUT.INTEGRAL_VARIANCE_PATHS], 1) / dt[i])))
@@ -73,7 +75,7 @@ for i in range(0, no_dt_s):
     variance_swap.append(ExpansionTools.get_variance_swap_rbergomi(parameters, sigma_0, dt[i]))
     variance_swap_mc.append(np.sqrt(np.mean(np.sum(map_output[Types.RBERGOMI_OUTPUT.INTEGRAL_VARIANCE_PATHS], 1) / dt[i])))
     output_vol_swap.append(implied_vol_atm[i] - vol_swap_mc[i])
-    output_variance_swap.append(implied_vol_atm[i] - vol_swap_approx[i])
+    output_variance_swap.append(implied_vol_atm[i] - vol_swap_mc[i])
 
 # csv parser
 headers = ["time", "iv_atm", "iv_atm_approx", "vol_swap_mc", "vol_swap_approx", "variance_swap", "out_variance_swap",
@@ -85,7 +87,7 @@ for i in range(0, no_dt_s):
                  "vol_swap_approx": str(vol_swap_approx[i]), "variance_swap": str(variance_swap[i]),
                  "out_variance_swap": str(output_variance_swap[i]), "out_vol_swap": str(output_vol_swap[i])})
 
-file = open('D://GitRepository//Python//SV_Engines//Examples//Chapter6//output_rbergomi_h_03_rho_0.csv', 'w')
+file = open('D://GitHubRepository//Python//SV_Engines//Examples//Chapter6//output_rbergomi_h_03_rho_0.csv', 'w')
 csv_writer = csv.DictWriter(file, fieldnames=headers, lineterminator='\n')
 csv_writer.writeheader()
 csv_writer.writerows(rows)

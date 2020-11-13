@@ -1,7 +1,7 @@
 import numpy as np
 import numba as nb
 
-from Tools import Types, Functionals
+from Tools import Types, AnalyticTools
 
 
 def get_mean_sigma(t: float, b0: float, b1: float, b2: float):
@@ -46,7 +46,7 @@ def get_integrated_variance_fourier(path: Types.ndarray, t_k: Types.ndarray, fre
             for j in range(0, no_time_steps - freq_sampling, freq_sampling):
                 diff = (t_k[i] - t_k[j]) * (2.0 * np.pi / t_k[-1])
                 delta_x_j = path[k, j + freq_sampling] - path[k, j]
-                sigma_n[k] += Functionals.dirichlet_kernel(diff, n_kernel) * delta_x_i * delta_x_j
+                sigma_n[k] += AnalyticTools.dirichlet_kernel(diff, n_kernel) * delta_x_i * delta_x_j
 
     return sigma_n
 
@@ -96,8 +96,8 @@ def get_spot_variance_fourier(path: Types.ndarray, t_k: Types.ndarray, no_paths:
                 diff = (t_k[j] - t_k[i]) * (2.0 * np.pi / t_k[-1])
                 diff_t = (t - t_k[j]) * (2.0 * np.pi / t_k[-1])
                 delta_x_j = path[k, j + 1] - path[k, j]
-                dirichlet_kernel = Functionals.dirichlet_kernel(diff, n_kernel)
-                fejer_kernel = Functionals.fejer_kernel(diff_t, m_kernel)
+                dirichlet_kernel = AnalyticTools.dirichlet_kernel(diff, n_kernel)
+                fejer_kernel = AnalyticTools.fejer_kernel(diff_t, m_kernel)
                 sigma_n[k] += (dirichlet_kernel * fejer_kernel * delta_x_i * delta_x_j)
 
     # return 0.5 * sigma_n / np.pi
@@ -117,7 +117,7 @@ def get_fourier_coefficient(path: Types.ndarray, t_k: Types.ndarray, no_paths: i
             for j in range(0, no_time_steps - 1):
                 diff = (t_k[j] - t_k[i]) * (2.0 * np.pi / t_k[-1])
                 delta_x_j = path[k, j + 1] - path[k, j]
-                dirichlet_kernel = Functionals.dirichlet_kernel(diff, n_kernel)
+                dirichlet_kernel = AnalyticTools.dirichlet_kernel(diff, n_kernel)
                 aux_value += delta_x_i * delta_x_j * dirichlet_kernel * np.exp(-1j * (2.0 * np.pi / t_k[-1]) * t_k[j] * s)
 
         coefficients[k] = aux_value.real

@@ -1,6 +1,6 @@
 import numpy as np
 import numba as nb
-from Tools import Types, Functionals
+from Tools import Types, AnalyticTools
 
 
 @nb.jit("f8[:](f8[:],f8)", nopython=True, nogil=True)
@@ -28,7 +28,7 @@ def gaussian_kernel_estimator_slv(v_t: Types.ndarray, x_t: Types.ndarray, x: Typ
 
     for i in range(0, no_x):
         k_x_i = gaussian_kernel(x_t - x[i], h)
-        estimator[i] = Functionals.scalar_product(v_t, k_x_i) / np.sum(k_x_i)
+        estimator[i] = AnalyticTools.scalar_product(v_t, k_x_i) / np.sum(k_x_i)
 
     return estimator
 
@@ -40,6 +40,6 @@ def quartic_kernel_estimator_slv(v_t: Types.ndarray, x_t: Types.ndarray, x: Type
 
     for i in range(0, no_x):
         k_x_i = quartic_kernel(x_t - x[i], h)
-        estimator[i] = Functionals.scalar_product(v_t, k_x_i) / np.sum(k_x_i)
+        estimator[i] = AnalyticTools.scalar_product(v_t, k_x_i) / np.sum(k_x_i)
 
     return estimator

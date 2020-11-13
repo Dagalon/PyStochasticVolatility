@@ -3,6 +3,7 @@ import numba as nb
 
 from Tools.Types import ndarray, TYPE_STANDARD_NORMAL_SAMPLING
 from Tools.RNG import RndGenerator
+from MC_Engines.MC_RBergomi import ToolsVariance
 
 
 @nb.jit("f8(f8, f8)", nopython=True, nogil=True)
@@ -67,6 +68,46 @@ def cholesky_method(t0: float,
                                sampling_type=TYPE_STANDARD_NORMAL_SAMPLING.ANTITHETIC)
 
     return cholesky_method_jit(t_i, z0, z_i, hurst_parameter, no_paths, no_time_steps)
+
+
+@nb.jit("f8[:,:](f8[:],f8, f8[:,:], f8, i8, i8)", nopython=True, nogil=True)
+def truncated_fbm_jit(t_i: ndarray, z0: float, z: ndarray,  hurst_parameter: float, no_paths: int, no_time_steps):
+    paths = np.zeros(shape=(no_paths, no_time_steps))
+    sigma = np.zeros(shape=(no_time_steps - 1, no_time_steps - 1))
+
+    paths[:, 0] = z0
+
+    for i in range(0, no_time_steps - 1):
+        for j in range(0, i + 1):
+            sigma[i, j] = ToolsVariance.get_volterra_covariance(t_i[i + 1], t_i[j + 1], hurst_parameter)
+            sigma[j, i] = sigma[i, j]
+
+    lower_diag = np.linalg.cholesky(sigma)
+
+    for i in range(0, no_paths):
+        for i_time in range(1, no_time_steps):
+            for j in range(0, i_time):
+                paths[i, i_time] += z[i, j] * lower_diag[i_time - 1, j]
+
+    return paths
+
+
+def truncated_fbm(t0: float,
+                  t1: float,
+                  z0: float,
+                  rng_generator: RndGenerator,
+                  hurst_parameter: float,
+                  no_paths: int,
+                  no_time_steps: int):
+
+    t_i = np.linspace(t0, t1, no_time_steps)
+    z_i = rng_generator.normal(mu=0.0, sigma=1.0, size=(no_paths, no_time_steps),
+                               sampling_type=TYPE_STANDARD_NORMAL_SAMPLING.ANTITHETIC)
+
+    return cholesky_method_jit(t_i, z0, z_i, hurst_parameter, no_paths, no_time_steps)
+
+
+
 
 
 

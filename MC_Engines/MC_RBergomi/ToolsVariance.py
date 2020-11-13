@@ -2,7 +2,7 @@ import numpy as np
 import numba as nb
 from Tools.Types import ndarray
 from ncephes import hyp2f1
-from Tools import Functionals
+from Tools import AnalyticTools
 from math import gamma
 
 
@@ -106,7 +106,7 @@ def generate_paths_rbergomi(s0: float,
     var_w_t = get_volterra_variance(t_i_s[1:], h)
 
     for k in range(0, no_paths):
-        w_t_k = Functionals.apply_lower_tridiagonal_matrix(cholk_cov, noise[:, k])
+        w_t_k = AnalyticTools.apply_lower_tridiagonal_matrix(cholk_cov, noise[:, k])
 
         w_i_s_1 = 0.0
         w_i_h_1 = 0.0
@@ -156,7 +156,7 @@ def generate_paths_rexpou1f(s0: float,
     var_w_t = get_volterra_variance(t_i_s[1:], h)
 
     for k in range(0, no_paths):
-        w_t_k = Functionals.apply_lower_tridiagonal_matrix(cholk_cov, noise[:, k])
+        w_t_k = AnalyticTools.apply_lower_tridiagonal_matrix(cholk_cov, noise[:, k])
 
         w_i_s_1 = 0.0
         w_i_h_1 = 0.0

@@ -2,7 +2,7 @@ import numpy as np
 
 from Tools.Types import Vector, ndarray, HESTON_OUTPUT
 from MC_Engines.MC_ExpOUModels1F import ExpGaussianTools, VarianceMC
-from Tools import Functionals, Types
+from Tools import AnalyticTools, Types
 
 
 def get_path_multi_step(t0: float,

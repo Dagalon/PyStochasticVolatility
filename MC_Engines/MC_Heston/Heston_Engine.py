@@ -2,7 +2,7 @@ import numpy as np
 
 from Tools.Types import Vector, ndarray, HESTON_OUTPUT
 from MC_Engines.MC_Heston import HestonTools, VarianceMC
-from Tools import Functionals, Types
+from Tools import AnalyticTools, Types
 
 
 def get_path_multi_step(t0: float,
@@ -63,7 +63,7 @@ def get_path_multi_step(t0: float,
         k3 = 0.5 * delta_t_i[i - 1] * (1.0 - rho * rho)
 
         np.copyto(ln_x_t_paths[:, i], ln_x_t_paths[:, i - 1] + k0 + k1 * v_t_paths[:, i - 1] + k2 * v_t_paths[:, i] +
-                  np.sqrt(k3) * Functionals.dot_wise(np.sqrt(v_t_paths[:, i - 1] + v_t_paths[:, i]), z_f))
+                  np.sqrt(k3) * AnalyticTools.dot_wise(np.sqrt(v_t_paths[:, i - 1] + v_t_paths[:, i]), z_f))
 
     map_out_put[HESTON_OUTPUT.PATHS] = np.exp(ln_x_t_paths)
     map_out_put[HESTON_OUTPUT.INTEGRAL_VARIANCE_PATHS] = int_v_t_paths

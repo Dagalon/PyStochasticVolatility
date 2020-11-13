@@ -1,6 +1,6 @@
 import numpy as np
 
-from Tools import Types, Functionals
+from Tools import Types, AnalyticTools
 from typing import Callable
 
 
@@ -42,7 +42,7 @@ def get_path_multi_step(t0: float,
         int_v_t[:, i_step - 1] = v_t[:, i_step] * delta_t_i[i_step - 1]
         x_t[:, i_step] = np.add(x_t[:, i_step - 1],
                                 - 0.5 * v_t[:, i_step] * delta_t_i[i_step - 1] +
-                                np.sqrt(delta_t_i[i_step - 1]) * Functionals.dot_wise(sigma_t, z_i))
+                                np.sqrt(delta_t_i[i_step - 1]) * AnalyticTools.dot_wise(sigma_t, z_i))
 
     map_output[Types.LOCAL_VOL_OUTPUT.PATHS] = np.exp(x_t)
     map_output[Types.LOCAL_VOL_OUTPUT.SPOT_VARIANCE_PATHS] = v_t

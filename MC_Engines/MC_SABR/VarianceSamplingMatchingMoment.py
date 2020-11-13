@@ -2,7 +2,7 @@ import numpy as np
 import numba as nb
 
 from scipy.special import ndtr
-from Tools.Functionals import normal_pdf
+from Tools.AnalyticTools import normal_pdf
 
 
 def get_conditional_moment_order_one(alpha_t,

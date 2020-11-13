@@ -1,7 +1,7 @@
 import numpy as np
 import numba as nb
 
-from Tools.Functionals import dot_wise
+from Tools.AnalyticTools import dot_wise
 
 
 def get_variance(alpha,

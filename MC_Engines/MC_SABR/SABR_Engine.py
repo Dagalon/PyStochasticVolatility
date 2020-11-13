@@ -2,7 +2,7 @@ import numpy as np
 import numba as nb
 
 from MC_Engines.MC_SABR import VarianceMC
-from Tools import Functionals
+from Tools import AnalyticTools
 from Tools.Types import Vector, ndarray, SABR_OUTPUT, TYPE_STANDARD_NORMAL_SAMPLING
 from MC_Engines.MC_SABR import SABRTools
 
@@ -125,7 +125,7 @@ def get_path_multi_step(t0: float,
                                               sigma_t_i * sigma_t_i * delta_t_i[i_step - 1])
 
         diff_sigma = (rho / nu) * (sigma_t_i - sigma_t_i_1)
-        noise_sigma = Functionals.dot_wise(np.sqrt(int_sigma_t_i[:, i_step - 1]), z_i)
+        noise_sigma = AnalyticTools.dot_wise(np.sqrt(int_sigma_t_i[:, i_step - 1]), z_i)
         SABRTools.get_delta_weight(t_i[i_step - 1], t_i[i_step], sigma_t_i_1, sigma_t_i, z_sigma, delta_weight)
         SABRTools.get_var_weight(t_i[i_step - 1], t_i[i_step], sigma_t_i_1, sigma_t_i, z_sigma, var_weight)
 
@@ -136,8 +136,8 @@ def get_path_multi_step(t0: float,
                                                                                 sigma_t_i_1, sigma_t_i, 0.5, 0.5))
 
         sigma_t_i_1 = sigma_t_i.copy()
-        s_t[:, i_step] = Functionals.dot_wise(s_t[:, i_step - 1],
-                                              np.exp(- 0.5 * int_sigma_t_i[:, i_step - 1] +
+        s_t[:, i_step] = AnalyticTools.dot_wise(s_t[:, i_step - 1],
+                                                np.exp(- 0.5 * int_sigma_t_i[:, i_step - 1] +
                                                      diff_sigma + rho_inv * noise_sigma))
 
         map_output[SABR_OUTPUT.DELTA_MALLIAVIN_WEIGHTS_PATHS_TERMINAL] = delta_weight

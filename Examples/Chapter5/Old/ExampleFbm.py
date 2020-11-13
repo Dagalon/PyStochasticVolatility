@@ -1,5 +1,5 @@
 import numpy as np
-from Tools import RNG, Functionals
+from Tools import RNG, AnalyticTools
 from FractionalBrownian import fBM
 
 no_paths = 100000
@@ -30,7 +30,7 @@ exact_covariance = np.zeros(shape=(no_time_steps, no_full_time_steps))
 
 for i in range(0, no_time_steps):
     for j in range(0, i):
-        empirical_covariance[i, j] = np.mean(Functionals.dot_wise(paths[:, i], paths[:, j])) - \
+        empirical_covariance[i, j] = np.mean(AnalyticTools.dot_wise(paths[:, i], paths[:, j])) - \
                                      empirical_mean[i] * empirical_mean[j]
         exact_covariance[i, j] = fBM.covariance(t[i], t[j], hurst_parameter)
         empirical_covariance[j, i] = empirical_covariance[i, j]
