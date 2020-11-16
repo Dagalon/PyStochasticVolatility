@@ -57,7 +57,7 @@ def get_covariance_w_v_w_t(s: float, t: float, rho: float, h: float):
     return rho * d_h * (np.power(s, h + 0.5) - (np.power(s - np.minimum(s, t), h + 0.5)))
 
 
-# @nb.jit("f8[:,:](f8[:], f8, f8)", nopython=True, nogil=True)
+@nb.jit("f8[:,:](f8[:], f8, f8)", nopython=True, nogil=True)
 def get_covariance_matrix(t_i_s: ndarray, h: float, rho: float):
     no_time_steps = len(t_i_s)
     cov = np.zeros(shape=(2 * no_time_steps, 2 * no_time_steps))
@@ -69,11 +69,11 @@ def get_covariance_matrix(t_i_s: ndarray, h: float, rho: float):
     for i in range(0, no_time_steps):
         for j in range(no_time_steps, 2 * no_time_steps):
             cov[i, j] = get_covariance_w_v_w_t(t_i_s[j - no_time_steps], t_i_s[i], rho, h)
-            # cov[j, i] = cov[i, j]
+            cov[j, i] = cov[i, j]
 
-    for i in range(no_time_steps, 2 * no_time_steps):
-        for j in range(0, no_time_steps):
-            cov[i, j] = get_covariance_w_v_w_t(t_i_s[j], t_i_s[i - no_time_steps], rho, h)
+    # for i in range(no_time_steps, 2 * no_time_steps):
+    #     for j in range(0, no_time_steps):
+    #         cov[i, j] = get_covariance_w_v_w_t(t_i_s[i - no_time_steps], t_i_s[j], rho, h)
 
     for i in range(0, no_time_steps):
         # for j in range(0, i + 1):
@@ -123,6 +123,7 @@ def generate_paths_rbergomi(s0: float,
                                                            nu * d_w_i_h)
             int_v_t[k, j - 1] = delta_i_s * 0.5 * (sigma_i_1[k, j - 1] * sigma_i_1[k, j - 1] +
                                                    sigma_i_1[k, j] * sigma_i_1[k, j])
+            # int_v_t[k, j - 1] = delta_i_s * sigma_i_1[k, j - 1] * sigma_i_1[k, j - 1]
             paths[k, j] = paths[k, j - 1] * np.exp(- 0.5 * int_v_t[k, j - 1] +
                                                    sigma_i_1[k, j - 1] * d_w_i_s)
 
