@@ -180,7 +180,6 @@ def get_sabr_loc_vol(p_nu, p_rho, sigma_atm_t, partial_sigma_atm, t, f0_t, x_t):
     loc_vol = np.zeros(no_paths)
     epsilon_t = (0.25 * alpha_t * nu_t * rho_t + nu_t * nu_t * (2.0 - 3.0 * rho_t * rho_t) / 24.0) * t
     log_f0_t = np.log(f0_t)
-    sqrt_t = np.sqrt(t)
 
     # derivative parameters with respect t
     partial_alpha_t = partial_sigma_atm

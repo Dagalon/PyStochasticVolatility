@@ -24,11 +24,6 @@ class hagan_loc_vol(object):
         order0 = (1.0 / 24.0) * (2.0 * r2 - r1 * r1 + 1.0 / (f_av * f_av)) * np.power(a_t * loc_vol_value, 2.0) * t
         order1 = (1.0 / 24.0) * (r2 - 2.0 * r1 * r1 + 2.0 / (f_av * f_av))
 
-        # caso cev
-        # alpha = 0.5
-        # m = a_t / np.power(f_av, 1.0 - alpha)
-        # order0_cev = (1.0 / 24.0) * a_t * a_t * t * (1.0 - alpha) * (1.0 - alpha) / np.power(f_av, 2.0 * (1.0 - alpha))
-        # order1_cev = (1.0 / 24.0) * (1 - alpha)*(2+alpha)* np.power((f0 - k) / f_av, 2.0)
         return multiplier * (1.0 + order0 + order1 * (f0 - k) * (f0 - k))
 
     def update_a(self, a_t: Callable[[float], float]):
