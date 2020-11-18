@@ -47,18 +47,19 @@ output_vol_swap = []
 output_variance_swap = []
 aux_output = []
 variance_swap_mc = []
+diff_vol_swap_var_swap = []
 
 for i in range(0, no_dt_s):
     if dt[i] < 0.1:
         no_time_steps = 100
-        no_paths = 1
+        no_paths = 1000000
     else:
         no_time_steps = 100
-        no_paths = 1
+        no_paths = 1000000
 
     rnd_generator.set_seed(seed)
     map_output = RBergomi_Engine.get_path_multi_step(0.0, dt[i], parameters, f0, sigma_0, no_paths,
-                                                     no_time_steps, Types.TYPE_STANDARD_NORMAL_SAMPLING.ANTITHETIC,
+                                                     no_time_steps, Types.TYPE_STANDARD_NORMAL_SAMPLING.REGULAR_WAY,
                                                      rnd_generator)
 
     # mc_option_price = options[i].get_price(map_output[Types.RBERGOMI_OUTPUT.PATHS][:, -1])
@@ -75,7 +76,8 @@ for i in range(0, no_dt_s):
     variance_swap.append(ExpansionTools.get_variance_swap_rbergomi(parameters, sigma_0, dt[i]))
     variance_swap_mc.append(np.sqrt(np.mean(np.sum(map_output[Types.RBERGOMI_OUTPUT.INTEGRAL_VARIANCE_PATHS], 1) / dt[i])))
     output_vol_swap.append(implied_vol_atm[i] - vol_swap_mc[i])
-    output_variance_swap.append(implied_vol_atm[i] - vol_swap_mc[i])
+    output_variance_swap.append(implied_vol_atm[i] - variance_swap[i])
+    diff_vol_swap_var_swap.append(variance_swap[i] - vol_swap_mc[i])
 
 # csv parser
 headers = ["time", "iv_atm", "iv_atm_approx", "vol_swap_mc", "vol_swap_approx", "variance_swap", "out_variance_swap",
@@ -101,22 +103,26 @@ def f_law(x, b, c):
     return b * np.power(x, c)
 
 
+popt_diff_vol_swap, pcov_diff_vols_swap = curve_fit(f_law, dt, diff_vol_swap_var_swap)
+y_fit_values_vol_swap = f_law(dt, *popt_diff_vol_swap)
+
 # popt_vol_swap, pcov_vols_swap = curve_fit(f_law, dt, output_vol_swap)
 # y_fit_values_vol_swap = f_law(dt, *popt_vol_swap)
 
-popt_variance_swap, pcov_variance_swap = curve_fit(f_law, dt, output_variance_swap)
-y_fit_values_variance_swap = f_law(dt, *popt_variance_swap)
+# popt_variance_swap, pcov_variance_swap = curve_fit(f_law, dt, output_variance_swap)
+# y_fit_values_variance_swap = f_law(dt, *popt_variance_swap)
 
 #
 # plt.plot(dt, output_vol_swap, label='I(t,f0) - E(v_t)', linestyle='--', color='black')
-plt.plot(dt, output_variance_swap, label='I(t,f0) - var_swap_t', linestyle='--', color='black')
+plt.plot(dt, diff_vol_swap_var_swap, label='var_swap_t - E(v_t)', linestyle='--', color='black')
+# plt.plot(dt, output_variance_swap, label='I(t,f0) - var_swap_t', linestyle='--', color='black')
 # plt.plot(dt, vol_swap_mc, label='E(v_t)', linestyle='--', marker='.')
 # plt.plot(dt, implied_vol_atm, label='implied volatility atm', linestyle='--', marker='x')
-# plt.plot(dt, y_fit_values_vol_swap, label="%s * t^%s" % (round(popt_vol_swap[0], 5), round(popt_vol_swap[1], 5)),
-#          marker='.', linestyle='--', color='black')
+plt.plot(dt, y_fit_values_vol_swap, label="%s * t^%s" % (round(popt_diff_vol_swap[0], 5), round(popt_diff_vol_swap[1], 5)),
+         marker='.', linestyle='--', color='black')
 
-plt.plot(dt, y_fit_values_variance_swap, label=" %s * t^(%s)" % (round(popt_variance_swap[0], 5),
-         round(popt_variance_swap[1], 5)), marker='+', linestyle='--', color='black')
+# plt.plot(dt, y_fit_values_variance_swap, label=" %s * t^(%s)" % (round(popt_variance_swap[0], 5),
+#          round(popt_variance_swap[1], 5)), marker='+', linestyle='--', color='black')
 
 # plt.plot(dt, implied_vol_approx, label='approximation iv', linestyle='--')
 # plt.plot(dt, implied_vol_atm, label='mc iv', linestyle='--')

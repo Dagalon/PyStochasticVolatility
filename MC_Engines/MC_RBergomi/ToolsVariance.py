@@ -57,7 +57,7 @@ def get_covariance_w_v_w_t(s: float, t: float, rho: float, h: float):
     return rho * d_h * (np.power(s, h + 0.5) - (np.power(s - np.minimum(s, t), h + 0.5)))
 
 
-@nb.jit("f8[:,:](f8[:], f8, f8)", nopython=True, nogil=True)
+# @nb.jit("f8[:,:](f8[:], f8, f8)", nopython=True, nogil=True)
 def get_covariance_matrix(t_i_s: ndarray, h: float, rho: float):
     no_time_steps = len(t_i_s)
     cov = np.zeros(shape=(2 * no_time_steps, 2 * no_time_steps))
