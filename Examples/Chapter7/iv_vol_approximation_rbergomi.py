@@ -11,7 +11,7 @@ dt = np.linspace(0.01, 0.1, 100)
 no_dt_s = len(dt)
 
 # simulation info
-h = 0.7
+h = 0.5
 nu = 0.5
 rho = -0.6
 v0 = 0.25
@@ -77,7 +77,7 @@ plt.plot(dt, skew_atm_mc, label='skew atm rBergomi', color='black', linestyle='-
 plt.plot(dt, y_fit_values, label='%s t^(%s)' % (round(popt[0], 5), round(popt[1], 5)), color='black',
           linestyle='--', marker='.')
 
-plt.ylim([-0.003, 0.0])
+plt.ylim([-0.004, 0.0])
 plt.xlabel('T')
 plt.legend()
 plt.show()

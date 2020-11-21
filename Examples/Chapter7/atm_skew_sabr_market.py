@@ -37,7 +37,7 @@ for i in range(1, no_dates):
     rho_param.append(float(parameters['rho'][i]))
 
 # To plot the skew for diferent maturities
-plt.plot(delta_time, nu_param, label="atm implied volatility", color="black", linestyle="dashed")
+plt.plot(delta_time, nu_param, label="skew atm", color="black", linestyle="dashed")
 
 
 def f_law(x, a, b):
@@ -47,10 +47,10 @@ def f_law(x, a, b):
 popt, pcov = curve_fit(f_law, delta_time, nu_param)
 y_fit_values = f_law(delta_time, *popt)
 
-plt.plot(delta_time, y_fit_values, label="%s * t^-%s)" % (round(popt[0], 5), round(popt[1], 5)), color="black", linestyle="dashed",
+plt.plot(delta_time, y_fit_values, label="%s * T^-%s)" % (round(popt[0], 5), round(popt[1], 5)), color="black", linestyle="dashed",
          marker='.')
 
-plt.plot("T")
+plt.xlabel("T")
 plt.legend()
 plt.show()
 

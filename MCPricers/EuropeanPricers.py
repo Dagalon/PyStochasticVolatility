@@ -65,7 +65,7 @@ def call_operator_control_variate(x, x0, vol_swap_t, k, t):
     return results
 
 
-# @nb.jit("f8[:](f8[:],f8,f8[:],f8,f8)", nopython=True, nogil=True)
+@nb.jit("f8[:](f8[:],f8,f8[:],f8,f8)", nopython=True, nogil=True)
 def put_operator_control_variate(x, x0, vol_swap_t, k, t):
     no_paths = len(x)
     bs_prices = np.zeros(no_paths)
@@ -77,7 +77,7 @@ def put_operator_control_variate(x, x0, vol_swap_t, k, t):
     acum_pow = 0.0
 
     for i in range(0, no_paths):
-        bs_prices[i] = black(x0, k, vol_swap_t[i], t, -1)
+        bs_prices[i] = black_scholes(x0, k, vol_swap_t[i], t, -1)
         v_prices[i] = np.maximum(k - x[i], 0.0)
 
     mean_bs_price = np.sum(bs_prices) / no_paths

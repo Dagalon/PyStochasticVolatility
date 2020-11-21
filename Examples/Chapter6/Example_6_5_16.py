@@ -67,4 +67,5 @@ plt.plot(dt, y_fit_values, label="%s + %s * t" % (round(popt[0], 5), round(popt[
 
 plt.xlabel('T')
 plt.legend()
+
 plt.show()

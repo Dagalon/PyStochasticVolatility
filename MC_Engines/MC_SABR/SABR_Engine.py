@@ -53,6 +53,16 @@ def get_vol_sampling(t0: float,
     return drift * noise
 
 
+def get_time_steps(t0: float, t1: float, no_time_steps: int, **kwargs):
+    if kwargs is not None:
+        extra_points = kwargs['extra_sampling_points']
+        basis_sampling_dates = np.linspace(t0, t1, no_time_steps).tolist()
+        full_points = np.array(list(set(extra_points + basis_sampling_dates)))
+        return full_points
+    else:
+        return np.linspace(t0, t1, no_time_steps)
+
+
 def get_underlying_sampling(f0: float,
                             alpha: float,
                             rho: float,
@@ -86,7 +96,8 @@ def get_path_multi_step(t0: float,
                         no_paths: int,
                         no_time_steps: int,
                         type_random_number: TYPE_STANDARD_NORMAL_SAMPLING,
-                        rnd_generator) -> map:
+                        rnd_generator,
+                        **kwargs) -> map:
     alpha = parameters[0]
     nu = parameters[1]
     rho = parameters[2]
@@ -94,7 +105,9 @@ def get_path_multi_step(t0: float,
 
     no_paths = 2 * no_paths if type_random_number == TYPE_STANDARD_NORMAL_SAMPLING.ANTITHETIC else no_paths
 
-    t_i = np.linspace(t0, t1, no_time_steps)
+    t_i = get_time_steps(t0, t1, no_time_steps, **kwargs)
+    no_time_steps = len(t_i)
+
     delta_t_i = np.diff(t_i)
 
     s_t = np.empty((no_paths, no_time_steps))

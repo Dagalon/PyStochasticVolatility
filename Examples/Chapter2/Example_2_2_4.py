@@ -85,6 +85,7 @@ surf = ax.plot_surface(t,
                        linewidth=0,
                        antialiased=False)
 
+ax.set_zlim(0.0, 3.0)
 ax.set_xlabel('t(years)')
 ax.set_ylabel('ln(F/K)')
 ax.set_zlabel('volatility')
@@ -100,7 +101,7 @@ surf_local_vol = ax.plot_surface(t,
                                  cmap=cm.gray,
                                  linewidth=0,
                                  antialiased=False)
-
+ax.set_zlim(0.0, 3.0)
 ax.set_xlabel('t(years)')
 ax.set_ylabel('ln(F/K)')
 ax.set_zlabel('volatility')

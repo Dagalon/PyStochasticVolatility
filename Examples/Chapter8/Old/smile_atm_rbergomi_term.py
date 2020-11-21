@@ -65,7 +65,7 @@ for i in range(0, no_dt_s):
 
 
 def f_law(x, a, b):
-    return a * np.power(x, -b)
+    return a * np.power(x, b)
 
 
 popt, pcov = curve_fit(f_law, dt, smile_atm_mc)

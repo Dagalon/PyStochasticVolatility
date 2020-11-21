@@ -69,7 +69,7 @@ for i in range(0, no_dt_s):
     implied_vol_atm.append(implied_volatility(mc_option_price[0], f0, f0, dt[i], 0.0, 0.0, 'c'))
     vol_swap_mc.append(np.mean(np.sqrt(np.sum(map_output[Types.RBERGOMI_OUTPUT.INTEGRAL_VARIANCE_PATHS], 1) / dt[i])))
     implied_vol_approx.append(
-        ExpansionTools.get_iv_atm_rbergomi_approximation(parameters, vol_swap_mc[i], sigma_0, dt[i], 'vol_swap'))
+        ExpansionTools.get_iv_atm_rbergomi_approximation(parameters, vol_swap_mc[i], sigma_0, dt[i], 'var_swap'))
     error_mc_vol_swap = np.std(
         np.sqrt(np.sum(map_output[Types.RBERGOMI_OUTPUT.INTEGRAL_VARIANCE_PATHS], 1) / dt[i])) / np.sqrt(no_paths)
     vol_swap_approx.append(ExpansionTools.get_vol_swap_rbergomi(parameters, sigma_0, dt[i]))
@@ -104,7 +104,7 @@ def f_law(x, b, c):
 
 
 popt_diff_vol_swap, pcov_diff_vols_swap = curve_fit(f_law, dt, diff_vol_swap_var_swap)
-y_fit_values_vol_swap = f_law(dt, *popt_diff_vol_swap)
+y_fit_diff_values_vol_swap_var_swap = f_law(dt, *popt_diff_vol_swap)
 
 # popt_vol_swap, pcov_vols_swap = curve_fit(f_law, dt, output_vol_swap)
 # y_fit_values_vol_swap = f_law(dt, *popt_vol_swap)
@@ -114,15 +114,18 @@ y_fit_values_vol_swap = f_law(dt, *popt_diff_vol_swap)
 
 #
 # plt.plot(dt, output_vol_swap, label='I(t,f0) - E(v_t)', linestyle='--', color='black')
-plt.plot(dt, diff_vol_swap_var_swap, label='var_swap_t - E(v_t)', linestyle='--', color='black')
-# plt.plot(dt, output_variance_swap, label='I(t,f0) - var_swap_t', linestyle='--', color='black')
+plt.plot(dt, diff_vol_swap_var_swap, label='sqrt(var_swap_t) - E(v_t)', linestyle='--', color='black')
+#plt.plot(dt, output_variance_swap, label='I(t,f0) - sqrt(var_swap_t)', linestyle='--', color='black')
 # plt.plot(dt, vol_swap_mc, label='E(v_t)', linestyle='--', marker='.')
 # plt.plot(dt, implied_vol_atm, label='implied volatility atm', linestyle='--', marker='x')
-plt.plot(dt, y_fit_values_vol_swap, label="%s * t^%s" % (round(popt_diff_vol_swap[0], 5), round(popt_diff_vol_swap[1], 5)),
-         marker='.', linestyle='--', color='black')
+# plt.plot(dt, y_fit_values_vol_swap, label="%s * t^%s" % (round(popt_vol_swap[0], 5), round(popt_vol_swap[1], 5)),
+#          marker='.', linestyle='--', color='black')
 
 # plt.plot(dt, y_fit_values_variance_swap, label=" %s * t^(%s)" % (round(popt_variance_swap[0], 5),
 #          round(popt_variance_swap[1], 5)), marker='+', linestyle='--', color='black')
+
+plt.plot(dt, y_fit_diff_values_vol_swap_var_swap, label=" %s * t^(%s)" % (round(popt_diff_vol_swap[0], 5),
+         round(popt_diff_vol_swap[1], 5)), marker='+', linestyle='--', color='black')
 
 # plt.plot(dt, implied_vol_approx, label='approximation iv', linestyle='--')
 # plt.plot(dt, implied_vol_atm, label='mc iv', linestyle='--')
