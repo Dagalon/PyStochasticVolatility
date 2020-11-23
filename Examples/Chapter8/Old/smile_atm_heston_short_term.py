@@ -13,7 +13,7 @@ no_dt_s = len(dt)
 # simulation info
 epsilon = 0.3
 k = 1.0
-rho = -0.9
+rho = -0.6
 v0 = 0.05
 sigma_0 = np.sqrt(0.05)
 theta = 0.06
@@ -53,15 +53,20 @@ for i in range(0, no_dt_s):
                                                    no_time_steps, Types.TYPE_STANDARD_NORMAL_SAMPLING.ANTITHETIC,
                                                    rnd_generator)
 
-    option_price_mc = options[i].get_price(map_output[Types.HESTON_OUTPUT.PATHS][:, -1])
-    option_price_right_mc = options_shift_right[i].get_price(map_output[Types.HESTON_OUTPUT.PATHS][:, -1])
-    option_price_left_mc = options_shift_left[i].get_price(map_output[Types.HESTON_OUTPUT.PATHS][:, -1])
+    option_price_mc = options[i].get_price_control_variate(map_output[Types.HESTON_OUTPUT.PATHS][:, -1],
+                                                           map_output[Types.HESTON_OUTPUT.INTEGRAL_VARIANCE_PATHS])
+
+    option_price_right_mc = options_shift_right[i].get_price_control_variate(map_output[Types.HESTON_OUTPUT.PATHS][:, -1],
+                                                                             map_output[Types.HESTON_OUTPUT.INTEGRAL_VARIANCE_PATHS])
+
+    option_price_left_mc = options_shift_left[i].get_price_control_variate(map_output[Types.HESTON_OUTPUT.PATHS][:, -1],
+                                                                           map_output[Types.HESTON_OUTPUT.INTEGRAL_VARIANCE_PATHS])
 
     implied_vol_atm.append(implied_volatility(option_price_mc[0], f0, f0, dt[i], 0.0, 0.0, 'c'))
     implied_vol_atm_shift_right.append(implied_volatility(option_price_right_mc[0], f0, f0 * (1.0 + shift_spot), dt[i], 0.0, 0.0, 'c'))
     implied_vol_atm_shift_left.append(implied_volatility(option_price_left_mc[0], f0, f0 * (1.0 - shift_spot), dt[i], 0.0, 0.0, 'c'))
-    smile_atm.append(f0 * (implied_vol_atm_shift_right[i] - 2.0 * implied_vol_atm[i] +
-                     implied_vol_atm_shift_left[i]) / (shift_spot * shift_spot))
+    smile_atm.append((implied_vol_atm_shift_right[i] - 2.0 * implied_vol_atm[i] +
+                     implied_vol_atm_shift_left[i]) / (f0 * f0 * shift_spot * shift_spot))
 
 
 asymptotic_limit = (1.0 - rho * rho * 2.5) * epsilon * epsilon / (12.0 * np.power(sigma_0, 3.0))
