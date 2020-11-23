@@ -43,21 +43,21 @@ def get_trap_cf(w, t, x, v, r_t, theta, rho, k, epsilon, b, u):
     return np.exp(c_t + d_t * v + 1j * w * x)
 
 
-# @nb.jit("f8[:](f8[:], f8, f8, f8, f8, f8, f8, f8, f8, f8, f8, f8)", nopython=True, nogil=True)
+# nb.jit("f8[:](f8[:], f8, f8, f8, f8, f8, f8, f8, f8, f8, f8, f8)", nopython=True, nogil=True)
 def f_heston(w, t, x, v, r_t, theta, rho, k, epsilon, b, u, strike):
     k_log = np.log(strike)
     y = get_trap_cf(np.asfortranarray(w), t, x, v, r_t, theta, rho, k, epsilon, b, u)
     return (np.cos(k_log * w) * y.imag - np.sin(k_log * w) * y.real) / w
 
 
-# @nb.jit("f8[:](f8[:], f8, f8, f8, f8, f8, f8, f8, f8, f8, f8, f8)", nopython=True, nogil=True)
+@nb.jit("f8[:](f8[:], f8, f8, f8, f8, f8, f8, f8, f8, f8, f8, f8)", nopython=True, nogil=True)
 def f_gamma_heston(w, t, x, v, r_t, theta, rho, k, epsilon, b, u, strike):
     k_log = np.log(strike)
     y = get_trap_cf(np.asfortranarray(w), t, x, v, r_t, theta, rho, k, epsilon, b, u)
     return np.cos(k_log * w) * y.real + np.sin(k_log * w) * y.imag
 
 
-# @nb.jit("f8[:](f8[:], f8, f8, f8, f8, f8, f8, f8, f8, f8, f8, f8)", nopython=True, nogil=True)
+@nb.jit("f8[:](f8[:], f8, f8, f8, f8, f8, f8, f8, f8, f8, f8, f8)", nopython=True, nogil=True)
 def f_attari_heston(w, t, v, spot, r_t, theta, rho, k, epsilon, b, u, strike):
     df = np.exp(- r_t * t)
     x = np.log(spot)

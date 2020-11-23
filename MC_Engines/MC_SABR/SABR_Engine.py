@@ -54,7 +54,7 @@ def get_vol_sampling(t0: float,
 
 
 def get_time_steps(t0: float, t1: float, no_time_steps: int, **kwargs):
-    if kwargs is not None:
+    if len(kwargs) > 0:
         extra_points = kwargs['extra_sampling_points']
         basis_sampling_dates = np.linspace(t0, t1, no_time_steps).tolist()
         full_points = np.array(list(set(extra_points + basis_sampling_dates)))
