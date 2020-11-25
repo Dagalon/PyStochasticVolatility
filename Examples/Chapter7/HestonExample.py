@@ -5,7 +5,6 @@ from functools import partial
 from AnalyticEngines.FourierMethod.COSMethod import COSRepresentation
 from py_vollib.black_scholes_merton.implied_volatility import implied_volatility
 from Instruments.EuropeanInstruments import EuropeanOption, TypeSellBuy, TypeEuropeanOption
-from Tools import Types
 
 # European option price
 no_strikes = 22

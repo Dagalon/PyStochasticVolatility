@@ -24,18 +24,17 @@ for k_i in strikes:
     options.append(EuropeanOption(k_i, notional, TypeSellBuy.BUY, TypeEuropeanOption.CALL, f0, T))
 
 
-iv_vol_rho = []
-iv_rho_rho_zero = []
+iv_vol = []
 
 for i in range(0, no_strikes):
-    price_rho_no_zero = options[i].get_analytic_value(0.0, theta, rho, k, epsilon, v0, 0.0,
-                                                      model_type=Types.ANALYTIC_MODEL.HESTON_MODEL_ATTARI,
-                                                      compute_greek=False)
+    price = options[i].get_analytic_value(0.0, theta, rho, k, epsilon, v0, 0.0,
+                                          model_type=Types.ANALYTIC_MODEL.HESTON_MODEL_ATTARI,
+                                          compute_greek=False)
 
-    iv_vol_rho.append(implied_volatility(price_rho_no_zero, f0, strikes[i], T, 0.0, 0.0, 'c'))
+    iv_vol.append(implied_volatility(price, f0, strikes[i], T, 0.0, 0.0, 'c'))
 
 
-plt.plot(strikes, iv_vol_rho, label="rho=%s" % rho, marker=".", linestyle="--", color="black")
+plt.plot(strikes, iv_vol, label="rho=%s" % rho, marker=".", linestyle="--", color="black")
 
 plt.xlabel("K")
 plt.legend()

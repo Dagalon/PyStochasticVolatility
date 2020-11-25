@@ -61,6 +61,8 @@ for i in range(0, 3):
     axs[0, i].set(xlabel='z', ylabel='iv')
     axs[0, i].plot(z_i, sabr_iv_map[int(parameters['date'][index[i] + 1])], label=parameters['date'][index[i] + 1],
                    linestyle='dashed', color='black')
+
+    axs[0, i].set_ylim([0.0, 0.7])
     axs[0, i].set_title(date_str)
 
 
@@ -69,8 +71,7 @@ for i in range(0, 3):
     axs[1, i].set(xlabel='z', ylabel='iv')
     axs[1, i].plot(z_i, sabr_iv_map[int(parameters['date'][index[i + 3] + 1])],
                    label=parameters['date'][index[i + 3] + 1], linestyle='dashed', color='black')
+    axs[1, i].set_ylim([0.0, 0.7])
     axs[1, i].set_title(date_str)
 
-
-plt.ylim([0.0, 0.7])
 plt.show()
