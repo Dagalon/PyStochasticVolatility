@@ -58,7 +58,7 @@ def get_time_steps(t0: float, t1: float, no_time_steps: int, **kwargs):
         extra_points = kwargs['extra_sampling_points']
         basis_sampling_dates = np.linspace(t0, t1, no_time_steps).tolist()
         full_points = np.array(list(set(extra_points + basis_sampling_dates)))
-        return full_points
+        return sorted(full_points)
     else:
         return np.linspace(t0, t1, no_time_steps)
 
@@ -98,6 +98,7 @@ def get_path_multi_step(t0: float,
                         type_random_number: TYPE_STANDARD_NORMAL_SAMPLING,
                         rnd_generator,
                         **kwargs) -> map:
+
     alpha = parameters[0]
     nu = parameters[1]
     rho = parameters[2]
@@ -153,15 +154,15 @@ def get_path_multi_step(t0: float,
                                                 np.exp(- 0.5 * int_sigma_t_i[:, i_step - 1] +
                                                      diff_sigma + rho_inv * noise_sigma))
 
-        map_output[SABR_OUTPUT.DELTA_MALLIAVIN_WEIGHTS_PATHS_TERMINAL] = delta_weight
-        map_output[SABR_OUTPUT.PATHS] = s_t
-        map_output[SABR_OUTPUT.INTEGRAL_VARIANCE_PATHS] = int_v_t_paths
-        map_output[SABR_OUTPUT.INTEGRAL_VARIANCE_PATHS] = int_sigma_t_i
-        map_output[SABR_OUTPUT.SIGMA_PATHS] = sigma_t
-        map_output[SABR_OUTPUT.TIMES] = t_i
+    map_output[SABR_OUTPUT.DELTA_MALLIAVIN_WEIGHTS_PATHS_TERMINAL] = delta_weight
+    map_output[SABR_OUTPUT.PATHS] = s_t
+    map_output[SABR_OUTPUT.INTEGRAL_VARIANCE_PATHS] = int_v_t_paths
+    map_output[SABR_OUTPUT.INTEGRAL_VARIANCE_PATHS] = int_sigma_t_i
+    map_output[SABR_OUTPUT.SIGMA_PATHS] = sigma_t
+    map_output[SABR_OUTPUT.TIMES] = t_i
 
-        SABRTools.get_gamma_weight(delta_weight, var_weight, inv_variance, rho, t1, gamma_weight)
-        map_output[SABR_OUTPUT.GAMMA_MALLIAVIN_WEIGHTS_PATHS_TERMINAL] = np.multiply(gamma_weight, 1.0 / (
+    SABRTools.get_gamma_weight(delta_weight, var_weight, inv_variance, rho, t1, gamma_weight)
+    map_output[SABR_OUTPUT.GAMMA_MALLIAVIN_WEIGHTS_PATHS_TERMINAL] = np.multiply(gamma_weight, 1.0 / (
                 (1.0 - rho * rho) * np.power(t1 * f0, 2.0)))
 
     return map_output

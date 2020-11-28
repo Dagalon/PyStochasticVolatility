@@ -41,20 +41,11 @@ gaussian_estimator_t = NonParametricEstimatorSLV.gaussian_kernel_estimator_slv(m
                                                                                x,
                                                                                h)
 
-# quartic_estimator_t = NonParametricEstimatorSLV.quartic_kernel_estimator_slv(map_heston_output[Types.HESTON_OUTPUT.SPOT_VARIANCE_PATHS][:, -1],
-#                                                                              map_heston_output[Types.HESTON_OUTPUT.PATHS][:, -1],
-#                                                                              x,
-#                                                                              h)
-
 
 plt.plot(x, gaussian_estimator_t, label="gaussian kernel estimator", color="black", linestyle="dotted")
 plt.xlabel("S_t")
 plt.ylabel("E(V_t|S_t=x)")
-# plt.scatter(map_heston_output[Types.HESTON_OUTPUT.PATHS][:, -1],
-#             map_heston_output[Types.HESTON_OUTPUT.SPOT_VARIANCE_PATHS][:, -1],
-#             marker='o',
-#             sizes=[10])
-# plt.plot(x, quartic_estimator_t, label="quartic kernel estimator", color="blue", linestyle="dashed")
+
 
 plt.legend()
 plt.show()

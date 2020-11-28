@@ -1,6 +1,7 @@
 import numpy as np
 from Tools.Types import TypeSellBuy, TypeEuropeanOption, ndarray
-from MCPricers.ForwardStartEuropeanPricers import forward_start_call_operator, forward_start_put_operator
+from MCPricers.ForwardStartEuropeanPricers import forward_start_call_operator, forward_start_put_operator, \
+    forward_call_operator_control_variate, forward_put_operator_control_variate
 from Tools.Types import ndarray
 from typing import Callable, List
 
@@ -48,21 +49,29 @@ class ForwardStartEuropeanOption(object):
     def update_strike(self, strike: float):
         self._strike = strike
 
-    def get_forward_start_date_index(self, sampling_dates: ndarray):
-        index = np.searchsorted(sampling_dates, self._forward_start_time, side='right')
-        if sampling_dates[index] == self._forward_start_time:
-            self._forward_start_index = index
+    def get_price_control_variate(self, x: ndarray, int_v_t: ndarray):
+        delta_time = (self._delta_time - self._forward_start_time)
+        vol_swap_t_i = np.sqrt(np.sum(int_v_t[:, self._forward_start_index:], axis=1) / delta_time)
 
-            return sampling_dates
-
+        if self._option_type == TypeEuropeanOption.CALL:
+            price = forward_call_operator_control_variate(x[:, -1], x[:, self._forward_start_index],
+                                                          vol_swap_t_i, self._strike, self._forward_start_time,
+                                                          self._delta_time)
         else:
-            no_dates = len(sampling_dates)
-            full_sampling_dates = np.zeros(no_dates)
-            full_sampling_dates[index] = self._forward_start_time
-            full_sampling_dates[0:index] = sampling_dates[0:index]
-            full_sampling_dates[index:] = sampling_dates[index:]
+            price = forward_put_operator_control_variate(x[:, -1], x[:, self._forward_start_index],
+                                                         vol_swap_t_i, self._strike, self._forward_start_time,
+                                                         self._delta_time)
 
-            return full_sampling_dates
+        if self._buy_sell == TypeSellBuy.BUY:
+            alpha = 1.0
+        else:
+            alpha = -1.0
+
+        return self._notional * alpha * price
+
+    def update_forward_start_date_index(self, sampling_dates: ndarray):
+        index = np.searchsorted(sampling_dates, self._forward_start_time, side='left')
+        self._forward_start_index = index
 
     def get_price(self, x: ndarray) -> ndarray:
         return self._payoff.get_value(self._forward_start_index, x)

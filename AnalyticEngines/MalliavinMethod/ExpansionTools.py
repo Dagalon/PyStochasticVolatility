@@ -5,10 +5,14 @@ from scipy.special import beta
 from scipy.integrate import quad_vec
 
 
-@nb.jit("f8(f8[:],f8,f8,f8)", nopython=True, nogil=True)
+# @nb.jit("f8(f8[:],f8,f8,f8)", nopython=True, nogil=True)
 def get_vol_swap_approximation_sabr(parameters: Types.ndarray, t0: float, t1: float, sigma_t0: float):
+    alpha = parameters[0]
     nu = parameters[1]
-    return sigma_t0 * (1.0 + nu * nu * (t1 - t0) / 12.0)
+    rho = parameters[2]
+
+    return sigma_t0 * (1.0 + (nu * nu / 12.0 + 0.25 * (rho * nu * alpha) -
+                       0.125 * np.power(rho * nu, 2.0)) * (t1 - t0))
 
 
 @nb.jit("f8(f8[:],f8,f8,f8)", nopython=True, nogil=True)
@@ -100,7 +104,7 @@ def get_iv_atm_rbergomi_approximation(parameters: Types.ndarray, vol_swap: float
     return vol_swap + adjustment * np.power(t, 2.0 * h)
 
 
-@nb.jit("f8(f8[:],f8)", nopython=True, nogil=True)
+# @nb.jit("f8(f8[:],f8)", nopython=True, nogil=True)
 def get_iv_atm_sabr_approximation(parameters: Types.ndarray, t: float):
     alpha = parameters[0]
     nu = parameters[1]
@@ -109,3 +113,19 @@ def get_iv_atm_sabr_approximation(parameters: Types.ndarray, t: float):
     vol_swap = get_vol_swap_approximation_sabr(parameters, 0.0, t, alpha)
     adjustment = (0.25 * rho * nu * alpha * alpha - 0.125 * rho * rho * nu * nu * alpha)
     return vol_swap + t * adjustment
+
+
+# @nb.jit("f8(f8[:],f8, f8, f8)", nopython=True, nogil=True)
+def get_iv_sabr_approximation(parameters: Types.ndarray, t: float, k: float, f0: float):
+    alpha = parameters[0]
+    nu = parameters[1]
+    rho = parameters[2]
+
+    vol_swap = get_vol_swap_approximation_sabr(parameters, 0.0, t, alpha)
+    diff = np.log(k / f0)
+    var_swap_term = vol_swap
+    first_term = 0.5 * rho * nu * diff
+    second_term = (nu * nu / alpha) * (1.0 / 3.0 - 0.5 * rho * rho) * diff * diff
+
+    return var_swap_term + first_term + second_term
+

@@ -72,6 +72,7 @@ class LOCAL_VOL_OUTPUT(Enum):
     PATHS = 0,
     INTEGRAL_VARIANCE_PATHS = 1,
     SPOT_VARIANCE_PATHS = 2,
+    TIMES = 3,
     UNKNOWN = -1
 
     def __str__(self):

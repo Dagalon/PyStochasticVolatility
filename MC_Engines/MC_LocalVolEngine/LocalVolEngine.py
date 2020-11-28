@@ -11,9 +11,13 @@ def get_path_multi_step(t0: float,
                         no_time_steps: int,
                         type_random_number: Types.TYPE_STANDARD_NORMAL_SAMPLING,
                         local_vol: Callable[[float, Types.ndarray], Types.ndarray],
-                        rnd_generator) -> map:
+                        rnd_generator,
+                        **kwargs) -> map:
 
     no_paths = 2 * no_paths if type_random_number == Types.TYPE_STANDARD_NORMAL_SAMPLING.ANTITHETIC else no_paths
+
+    t_i = get_time_steps(t0, t1, no_time_steps, **kwargs)
+    no_time_steps = len(t_i)
 
     t_i = np.linspace(t0, t1, no_time_steps)
     delta_t_i = np.diff(t_i)
@@ -44,9 +48,21 @@ def get_path_multi_step(t0: float,
                                 - 0.5 * v_t[:, i_step] * delta_t_i[i_step - 1] +
                                 np.sqrt(delta_t_i[i_step - 1]) * AnalyticTools.dot_wise(sigma_t, z_i))
 
+    map_output[Types.LOCAL_VOL_OUTPUT.TIMES] = t_i
+
     map_output[Types.LOCAL_VOL_OUTPUT.PATHS] = np.exp(x_t)
     map_output[Types.LOCAL_VOL_OUTPUT.SPOT_VARIANCE_PATHS] = v_t
     map_output[Types.LOCAL_VOL_OUTPUT.INTEGRAL_VARIANCE_PATHS] = int_v_t
 
     return map_output
+
+
+def get_time_steps(t0: float, t1: float, no_time_steps: int, **kwargs):
+    if len(kwargs) > 0:
+        extra_points = kwargs['extra_sampling_points']
+        basis_sampling_dates = np.linspace(t0, t1, no_time_steps).tolist()
+        full_points = np.array(list(set(extra_points + basis_sampling_dates)))
+        return sorted(full_points)
+    else:
+        return np.linspace(t0, t1, no_time_steps)
 
