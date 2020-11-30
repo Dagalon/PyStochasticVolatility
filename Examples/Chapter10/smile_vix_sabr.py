@@ -10,7 +10,7 @@ alpha = 0.5
 nu = 0.7
 rho = -0.4
 parameters = [alpha, nu, rho]
-no_time_steps = 200
+no_time_steps = 100
 f0 = 100
 
 seed = 123456789
@@ -32,7 +32,7 @@ for i in range(0, len(T_VIX)):
     map_output = SABR_Engine.get_path_multi_step(0.0, T_VIX[i], parameters, f0, no_paths, no_time_steps,
                                                  Types.TYPE_STANDARD_NORMAL_SAMPLING.ANTITHETIC, rnd_generator)
     t_i_vix = T_VIX[i] + delta_vix
-    beta_vix = np.sqrt(np.exp(nu * nu * delta_vix) - 1) / np.sqrt(delta_vix) * nu
+    beta_vix = np.sqrt(np.exp(nu * nu * delta_vix) - 1) / (np.sqrt(delta_vix) * nu)
     vix_t0 = alpha * beta_vix
     # strikes = np.linspace(0.8, 1.2) * vix_t0
 
