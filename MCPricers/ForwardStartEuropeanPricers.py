@@ -21,7 +21,7 @@ def forward_start_call_operator(k: float, index_strike: int, x: Types.ndarray):
     acum = 0.0
     acum_pow = 0.0
     for i in range(0, no_paths):
-        val = np.maximum((x[i, no_time_steps - 1] / x[i, index_strike]) - k, 0.0)
+        val = np.maximum((x[i, no_time_steps - 1] - x[i, index_strike] * k), 0.0)
         acum += val
         acum_pow += val * val
 
@@ -38,7 +38,7 @@ def forward_start_put_operator(k: float, index_strike: int, x: Types.ndarray):
     acum = 0.0
     acum_pow = 0.0
     for i in range(0, no_paths):
-        val = np.maximum(k - (x[i, no_time_steps - 1] / x[i, index_strike]), 0.0)
+        val = np.maximum(k * x[i, index_strike] - x[i, no_time_steps - 1], 0.0)
         acum += val
         acum_pow += val * val
 

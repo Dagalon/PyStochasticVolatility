@@ -10,7 +10,7 @@ from py_vollib.black_scholes_merton.implied_volatility import implied_volatility
 # simulation info
 alpha = 0.5
 nu = 0.7
-rho = -0.4
+rho = 0.6
 parameters = [alpha, nu, rho]
 no_time_steps = 200
 
@@ -46,7 +46,7 @@ map_output = SABR_Engine.get_path_multi_step(0.0, T, parameters, f0, no_paths, n
 
 for i in range(0, no_strikes):
     index_normal_option = np.searchsorted(np.array(map_output[Types.SABR_OUTPUT.TIMES]), T)
-    mc_normal_options_price = normal_options[i].get_price_control_variate(map_output[Types.SABR_OUTPUT.PATHS][:, index_normal_option],
+    mc_normal_options_price = normal_options[i].get_price_control_variate(map_output[Types.SABR_OUTPUT.PATHS][:, -1],
                                                                           map_output[Types.SABR_OUTPUT.INTEGRAL_VARIANCE_PATHS])
 
     options[i].update_forward_start_date_index(np.array(map_output[Types.SABR_OUTPUT.TIMES]))

@@ -19,14 +19,16 @@ def get_path_multi_step(t0: float,
                         no_paths: int,
                         no_time_steps: int,
                         type_random_number: TYPE_STANDARD_NORMAL_SAMPLING,
-                        rnd_generator):
+                        rnd_generator,
+                        **kwargs) -> map:
     nu = parameters[0]
     rho = parameters[1]
     h = parameters[2]
 
     no_paths = 2 * no_paths if type_random_number == TYPE_STANDARD_NORMAL_SAMPLING.ANTITHETIC else no_paths
 
-    t_i_s = np.linspace(t0, t1, no_time_steps)
+    t_i_s = np.array(get_time_steps(t0, t1, no_time_steps, **kwargs))
+    no_time_steps = len(t_i_s)
 
     s_t = np.empty((no_paths, no_time_steps))
     s_t[:, 0] = f0
@@ -40,12 +42,23 @@ def get_path_multi_step(t0: float,
                                                     h,
                                                     z_i_s,
                                                     np.linalg.cholesky(
-                                                        ToolsVariance.get_covariance_matrix(t_i_s[1:], h, rho)),
+                                                    ToolsVariance.get_covariance_matrix(t_i_s[1:], h, rho)),
                                                     t_i_s,
                                                     no_paths)
 
     map_out_put[RBERGOMI_OUTPUT.PATHS] = outputs[0]
     map_out_put[RBERGOMI_OUTPUT.SPOT_VOLATILITY_PATHS] = outputs[1]
     map_out_put[RBERGOMI_OUTPUT.INTEGRAL_VARIANCE_PATHS] = outputs[2]
+    map_out_put[RBERGOMI_OUTPUT.TIMES] = t_i_s
 
     return map_out_put
+
+
+def get_time_steps(t0: float, t1: float, no_time_steps: int, **kwargs):
+    if len(kwargs) > 0:
+        extra_points = kwargs['extra_sampling_points']
+        basis_sampling_dates = np.linspace(t0, t1, no_time_steps).tolist()
+        full_points = np.array(list(set(extra_points + basis_sampling_dates)))
+        return sorted(full_points)
+    else:
+        return np.linspace(t0, t1, no_time_steps)
