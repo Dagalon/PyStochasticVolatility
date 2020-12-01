@@ -29,6 +29,7 @@ class RBERGOMI_OUTPUT(Enum):
     SPOT_VOLATILITY_PATHS = 2,
     BS_BY_PATH = 3,
     TIMES = 4,
+    VARIANCE_SPOT_PATHS = 5,
     UNKNOWN = -1
 
     def __str__(self):
