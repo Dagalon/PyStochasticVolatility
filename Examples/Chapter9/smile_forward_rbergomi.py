@@ -6,6 +6,29 @@ from Tools import RNG, Types
 from Instruments.ForwardStartEuropeanInstrument import ForwardStartEuropeanOption
 from Instruments.EuropeanInstruments import EuropeanOption
 from py_vollib.black_scholes_merton.implied_volatility import implied_volatility
+from MC_Engines.MC_RBergomi import ToolsVariance
+
+
+# function to compute VIX_t from MC simulation
+def get_vix_rbergomi_t(t0, t1, delta_vix, nu, h, v_t, v0, no_integration_points):
+    no_elements = len(v_t)
+    vix_2_t = np.zeros(no_elements)
+    t_i = np.linspace(t0, t1, no_integration_points)
+    rho_s_1 = np.zeros(no_integration_points)
+    rho_s_2 = np.zeros(no_integration_points)
+
+    for k in range(0, no_integration_points):
+        rho_s_1[k] = np.exp(2.0 * nu * ToolsVariance.get_volterra_covariance(t0, t_i[k], h) / np.power(t0, 2.0 * h))
+        rho_s_2[k] = np.exp(- nu * ToolsVariance.get_volterra_covariance(t0, t_i[k], h) / np.power(t0, 2.0 * h))
+
+    for k in range(0, no_elements):
+        for j in range(1, no_integration_points):
+            w_i_h = (np.log(v_t[k] / v_t[0]) + nu * nu * np.power(T, 2.0 * h)) / (2.0 * nu)
+            w_i_1 = rho_s_1[j - 1] * rho_s_2[j - 1] * np.exp(w_i_h + 0.5 * nu * nu * np.power(t_i[j-1], 2.0 * h))
+            w_i = rho_s_1[j] * rho_s_2[j] * np.exp(w_i_h + 0.5 * nu * nu * np.power(t_i[j], 2.0 * h))
+            vix_2_t[k] += 0.5 * (w_i_1 + w_i) * (v0 / delta_vix)
+
+    return np.sqrt(vix_2_t)
 
 # simulation info
 h = 0.3

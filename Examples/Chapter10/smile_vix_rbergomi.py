@@ -5,6 +5,7 @@ from MC_Engines.MC_RBergomi import RBergomi_Engine
 from Tools import RNG, Types
 from py_vollib.black_scholes_merton.implied_volatility import implied_volatility
 from scipy.integrate import quad_vec
+from AnalyticEngines.MalliavinMethod import ExpansionTools
 
 # simulation info
 h = 0.3
@@ -41,18 +42,19 @@ for i in range(0, len(T_VIX)):
                                                      Types.TYPE_STANDARD_NORMAL_SAMPLING.ANTITHETIC, rnd_generator, )
     t_i_vix = T_VIX[i] + delta_vix
 
-    value = quad_vec(lambda s: np.exp(2.0 * nu * nu * (np.power(s, 2.0 * h) - np.power(T_VIX[i], 2.0 * h))),
-                     T_VIX[i], t_i_vix)
-    beta_vix = np.sqrt(value[0] / delta_vix)
-
     index_t_i = np.searchsorted(map_output[Types.RBERGOMI_OUTPUT.TIMES], T_VIX[i])
-    price = np.mean(np.maximum(beta_vix * map_output[Types.RBERGOMI_OUTPUT.SPOT_VOLATILITY_PATHS][:, index_t_i] -
+
+    vix_t = ExpansionTools.get_vix_rbergomi_t(T_VIX[i], t_i_vix, delta_vix, nu, h,
+                                              map_output[Types.RBERGOMI_OUTPUT.SPOT_VOLATILITY_PATHS][:, index_t_i],
+                                              v0, 200)
+    price = np.mean(np.maximum(vix_t -
                                vix_t0, 0.0))
     option_vix_price.append(price)
+
     implied_vol_vix.append(implied_volatility(option_vix_price[-1], vix_t0, vix_t0, T_VIX[i], 0.0, 0.0, 'c'))
 
 
-analytic_value = nu * np.sqrt(2.0 * h) * v0 * np.power(delta_vix, h - 0.5) / ((h + 0.5) * vix_t0 * vix_t0)
+analytic_value = 0.5 * nu * np.sqrt(2.0 * h) * v0 * np.power(delta_vix, h - 0.5) / ((h + 0.5) * vix_t0 * vix_t0)
 plt.plot(T_VIX, implied_vol_vix, linestyle='--', label='ATM IV VIX', color='black', marker='.')
 
 plt.xlabel('T')
