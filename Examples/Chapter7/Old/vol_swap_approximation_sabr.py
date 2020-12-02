@@ -12,7 +12,7 @@ no_dt_s = len(dt)
 # simulation info
 alpha = 0.5
 nu = 0.5
-rho = -0.6
+rho = -0.4
 parameters = [alpha, nu, rho]
 no_time_steps = 100
 
