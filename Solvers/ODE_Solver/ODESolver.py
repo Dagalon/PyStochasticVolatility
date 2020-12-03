@@ -1,6 +1,19 @@
+__author__ = 'David Garcia Lorite'
+
+#
+# Copyright 2020 David Garcia Lorite
+#
+# Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with the
+# License. You may obtain a copy of the License at http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an
+# "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+#
+#
+
 import numpy as np
 
-from Type import nd_array
+from Tools.Types import ndarray
 from typing import Callable
 
 
@@ -8,7 +21,7 @@ def ode_euler_solver_malliavin(s: float,
                                t: float,
                                s0: float,
                                no_steps: int,
-                               z_t: nd_array,
+                               z_t: ndarray,
                                a_f: Callable[[float, float], float]):
     path = np.empty(z_t.shape)
     path[:, 0] = s0
