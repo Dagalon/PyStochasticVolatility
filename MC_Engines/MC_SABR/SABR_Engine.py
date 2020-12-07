@@ -85,6 +85,7 @@ def get_underlying_sampling(f0: float,
                             alpha_t: Vector,
                             no_paths: int,
                             rnd_generator):
+
     z = rnd_generator.normal(size=no_paths)
     return get_jit_paths(f0, var_t0_t1, alpha_t, alpha, nu, rho, z)
 

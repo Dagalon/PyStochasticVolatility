@@ -49,11 +49,18 @@ class RBERGOMI_OUTPUT(Enum):
         return self.value
 
 
-class REXPOU1F_OUTPUT(Enum):
+class MIXEDLOGNORMAL_OUTPUT(Enum):
     PATHS = 0,
     INTEGRAL_VARIANCE_PATHS = 1,
-    SPOT_VOLATILITY_PATHS = 2,
-    BS_BY_PATH = 3,
+    SPOT_VARIANCE_PATHS = 2,
+    TIMES = 3,
+    UNKNOWN = -1
+
+class BERGOMI2F_OUTPUT(Enum):
+    PATHS = 0,
+    INTEGRAL_VARIANCE_PATHS = 1,
+    SPOT_VARIANCE_PATHS = 2,
+    TIMES = 3,
     UNKNOWN = -1
 
     def __str__(self):

@@ -2,7 +2,7 @@ import numpy as np
 import matplotlib.pylab as plt
 
 from functools import partial
-from MC_Engines.MC_LocalVolEngine import LocalVolFunctionals
+from MC_Engines.MC_LocalVol import LocalVolFunctionals
 from scipy.interpolate import interp1d
 from Solvers.PDE_Solver import PDESolvers
 from Solvers.PDE_Solver import PDEOperators

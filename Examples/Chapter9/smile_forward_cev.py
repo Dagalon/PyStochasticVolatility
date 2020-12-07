@@ -1,7 +1,7 @@
 import matplotlib.pylab as plt
 import numpy as np
 
-from MC_Engines.MC_LocalVolEngine import LocalVolEngine, LocalVolFunctionals
+from MC_Engines.MC_LocalVol import LocalVolEngine, LocalVolFunctionals
 from Tools import RNG, Types
 from Instruments.ForwardStartEuropeanInstrument import ForwardStartEuropeanOption
 from Instruments.EuropeanInstruments import EuropeanOption

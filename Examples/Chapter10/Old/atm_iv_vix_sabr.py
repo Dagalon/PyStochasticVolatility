@@ -42,6 +42,7 @@ for i in range(0, len(T_VIX)):
     implied_vol_vix.append(round(implied_volatility(option_vix_price[-1], vix_t0, vix_t0, T_VIX[i], 0.0, 0.0, 'c'), 5))
 
 plt.plot(T_VIX, implied_vol_vix, linestyle='--',  label='ATM IV VIX', color='black', marker='.')
-plt.xlabel('T')
+plt.ylim([0.6, 0.8])
+plt.xlabel('K')
 plt.legend()
 plt.show()

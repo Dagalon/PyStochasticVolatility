@@ -24,6 +24,7 @@ def get_variance(alpha,
                  t,
                  no_deep,
                  rnd_generator):
+
     no_paths = len(alpha_t)
     no_steps = int(2 ** no_deep)
     t_i = np.linspace(0.0, t, no_steps)
