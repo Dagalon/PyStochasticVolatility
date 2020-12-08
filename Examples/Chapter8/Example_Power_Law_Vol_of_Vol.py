@@ -30,22 +30,24 @@ for i in range(1, no_dates):
     sabr_iv_map[int(parameters['date'][i])] = iv
 
 nu_param = []
+nu_square_param = []
 rho_param = []
 delta_time = []
 for i in range(1, no_dates):
     delta_time.append((float(parameters['date'][i]) - float(parameters['value_date'][i])) / 365.0)
     nu_param.append(float(parameters['nu'][i]))
     rho_param.append(float(parameters['rho'][i]))
+    nu_square_param.append(float(parameters['nu'][i]) * float(parameters['nu'][i]))
 
 # To plot the skew for diferent maturities
-plt.plot(delta_time, nu_param, label="vol-of_vol parameter", color="black", linestyle="dashed")
+plt.plot(delta_time, nu_square_param, label="vol-of_vol parameter", color="black", linestyle="dashed")
 
 
 def f_law(x, a, b):
     return a * np.power(x, -b)
 
 
-popt, pcov = curve_fit(f_law, delta_time, nu_param)
+popt, pcov = curve_fit(f_law, delta_time, nu_square_param)
 y_fit_values = f_law(delta_time, *popt)
 
 plt.plot(delta_time, y_fit_values, label="%s * t^-%s)" % (round(popt[0], 5), round(popt[1], 5)), color="black", linestyle="dashed",

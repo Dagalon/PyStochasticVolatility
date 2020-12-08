@@ -9,7 +9,7 @@ from py_vollib.black_scholes_merton import black_scholes_merton
 # simulation info
 nu_1 = 0.8
 nu_2 = 0.7
-theta = 0.5
+theta = 0.7
 rho = -0.6
 
 parameters = [nu_1, nu_2, theta, rho]
@@ -56,8 +56,8 @@ for i in range(0, no_strikes):
 
     implied_vol_vix.append(implied_volatility(price, vix_t0, strikes[i], T, 0.0, 0.0, 'c'))
 
-plt.ylim([0.374, 0.376])
-plt.plot(strikes, implied_vol_vix, linestyle='--', label='ATM IV VIX', color='black', marker='.')
+plt.ylim([0.364, 0.366])
+plt.plot(strikes, implied_vol_vix, linestyle='--', label='Implied Vol VIX', color='black', marker='.')
 plt.title('delta = %s' % theta)
 plt.xlabel('K')
 plt.legend()

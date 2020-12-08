@@ -6,12 +6,12 @@ from Tools import RNG, Types
 from py_vollib.black_scholes_merton.implied_volatility import implied_volatility
 
 # simulation info
-epsilon = 0.3
-k = 0.5
+epsilon = 0.8
+k = 3.0
 rho = -0.6
-v0 = 0.5
+v0 = 0.05
 sigma_0 = np.sqrt(v0)
-theta = 0.2
+theta = 0.09
 
 parameters = [k, theta, epsilon, rho, v0]
 no_time_steps = 100
@@ -48,7 +48,7 @@ for i in range(0, no_strikes):
     option_vix_price.append(price)
     implied_vol_vix.append(implied_volatility(option_vix_price[-1], vix_t0, strikes[i], T, 0.0, 0.0, 'c'))
 
-plt.plot(strikes, implied_vol_vix, linestyle='--', label='ATM IV VIX', color='black', )
+plt.plot(strikes, implied_vol_vix, linestyle='--', label='Implied Vol VIX', color='black', )
 plt.xlabel('K')
 plt.legend()
 plt.show()

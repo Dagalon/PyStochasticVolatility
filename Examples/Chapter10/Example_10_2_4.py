@@ -10,7 +10,7 @@ alpha = 0.5
 nu = 0.7
 rho = -0.4
 parameters = [alpha, nu, rho]
-no_time_steps = 100
+no_time_steps = 10
 f0 = 100
 
 seed = 123456789
@@ -43,6 +43,6 @@ for i in range(0, no_strikes):
 
 plt.plot(strikes, implied_vol_vix, linestyle='--',  label='Implied Vol VIX', color='black', marker='.')
 plt.ylim([0.5, 1.0])
-plt.xlabel('T')
+plt.xlabel('K')
 plt.legend()
 plt.show()

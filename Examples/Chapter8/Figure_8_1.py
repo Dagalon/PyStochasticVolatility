@@ -50,5 +50,5 @@ for i in range(0, len(index)):
     plt.xlabel('ln(f/k)')
     plt.ylabel('iv')
     id_file = "plot_" + parameters['date'][index[i] + 1] + '.png'
-    plt.savefig(os.path.join('D://GitRepository//Python//SV_Engines//Examples//Chapter8//',id_file))
+    # plt.savefig(os.path.join('D://GitRepository//Python//SV_Engines//Examples//Chapter8//',id_file))
     plt.show()

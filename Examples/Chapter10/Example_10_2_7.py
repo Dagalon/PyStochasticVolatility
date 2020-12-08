@@ -62,6 +62,6 @@ for i in range(0, no_strikes):
 analytic_value = nu * np.sqrt(2.0 * h) * v0 * np.power(delta_vix, h - 0.5) / ((h + 0.5) * vix_t0 * vix_t0)
 plt.plot(strikes, implied_vol_vix, linestyle='--', label='Implied Vol VIX', color='black', marker='.')
 
-plt.xlabel('T')
+plt.xlabel('K')
 plt.legend()
 plt.show()
