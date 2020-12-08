@@ -3,7 +3,7 @@ import matplotlib.pylab as plt
 from MC_Engines.MC_Heston import Heston_Engine
 from Tools import Types
 from Tools import RNG
-from Tools.VolatilityTools import NonParametricEstimatorSLV
+from AnalyticEngines.VolatilityTools import NonParametricEstimatorSLV
 
 epsilon = 0.9
 k = 0.5
