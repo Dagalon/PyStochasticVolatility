@@ -5,7 +5,7 @@ from MC_Engines.GenericSDE.SDE import derive_cev_drift, derive_cev_sigma
 from MC_Engines.GenericSDE.SDESimulation import sde_euler_simulation
 from Solvers.ODESolver import ode_euler_solver_malliavin
 from Solvers.ODE import a_cev
-from Tools.VolatilityTools.CEVMalliavinTools import get_error, transform_cev_malliavin
+from AnalyticEngines.VolatilityTools.CEVMalliavinTools import get_error, transform_cev_malliavin
 from MC_Engines.GenericSDE.SDE import cev_sigma, cev_drift, z_drift, z_sigma
 from Tools.Types import EULER_SCHEME_TYPE
 
