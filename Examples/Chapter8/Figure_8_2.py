@@ -40,7 +40,7 @@ for i in range(1, no_dates):
     nu_square_param.append(float(parameters['nu'][i]) * float(parameters['nu'][i]))
 
 # To plot the skew for diferent maturities
-plt.plot(delta_time, nu_square_param, label="vol-of_vol parameter", color="black", linestyle="dashed")
+plt.plot(delta_time, nu_square_param, label="vol-of_vol parameter ^ 2", color="black", linestyle="dashed")
 
 
 def f_law(x, a, b):
