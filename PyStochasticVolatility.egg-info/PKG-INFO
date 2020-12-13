@@ -1,0 +1,10 @@
+Metadata-Version: 1.0
+Name: PyStochasticVolatility
+Version: 1.0
+Summary: Financial library creted to give support the book Malliavin Calculus and Stochastic Volatility.
+Home-page: https://github.com/Dagalon/PyStochasticVolatility.git
+Author: David Garcia Lorite
+Author-email: david.garcia.lorite@outlook.com
+License: http://www.apache.org/licenses/LICENSE-2.0
+Description: UNKNOWN
+Platform: UNKNOWN

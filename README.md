@@ -30,7 +30,7 @@ Tools for sampling the fractional brownian motion and the truncated fractional b
 In this module, the reader can find the different instruments that we have used in the book. These instruments are independent of the model, for this reason, we cause the same instrument for different MC engines.
  
 ### MCPricers
-The different MC pricers that any MC engine can use.
+This module contains the different MC pricers that the user can use in any MC Engine.
  
 ### Solvers
 We have included a one dimensional PDE solver. Under the local volatility model, this numerical is so stable and fast. The user can use generic boundary conditions and solver the PDE using explicit, implicit, or theta scheme.
