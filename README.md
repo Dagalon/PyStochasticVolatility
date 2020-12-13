@@ -2,7 +2,17 @@
 This repository contains different tools to simulate underlyings under SV dynamics. As well, we have implemented several tools for computing option price under SV. 
 
 ## Packages you need to include
-The next packages are using of a intesive way
+The next packages are using of a intesive way:
+    .numpy~=1.19.1
+    .numba~=0.41.0
+    .ncephes~=1.1.0
+    .matplotlib~=3.2.2
+    .scipy~=1.5.0
+    .pandas~=1.1.0
+    .statsmodels~=0.11.1
+    .tabulate~=0.8.3
+    .prettytable~=0.7.2
+    .setuptools~=49.2.1
 
 ## Module description
 We will a brief description of each module of the library.
