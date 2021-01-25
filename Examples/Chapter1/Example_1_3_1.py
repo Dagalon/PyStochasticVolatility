@@ -3,7 +3,6 @@ import numpy as np
 import pandas as pd
 import matplotlib.pylab as plt
 import statsmodels.api as sm
-# import seaborn as sbn
 from pathlib import Path
 
 current_directory = os.path.dirname(os.path.realpath(__file__))

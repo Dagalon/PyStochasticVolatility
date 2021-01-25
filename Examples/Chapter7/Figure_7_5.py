@@ -20,7 +20,7 @@ sigma_0 = np.sqrt(v0)
 parameters = [nu, rho, h]
 
 seed = 123456789
-no_paths = 1000000
+no_paths = 100000
 
 delta_time = 1.0 / 365.0
 no_time_steps = 100

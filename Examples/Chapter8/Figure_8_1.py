@@ -14,7 +14,7 @@ sabr_parameter_paths = os.path.join(folder_directory, 'Data', 'SabrSurfaceParame
 parameters = pd.read_csv(sabr_parameter_paths, header=None, names=["value_date", "date", "alpha", "rho", "nu"], sep=";")
 no_dates = len(parameters['date'])
 
-no_z_i = 100
+no_z_i = 25
 z_i = np.linspace(-0.5, 0.5, no_z_i)
 
 sabr_iv_map = {}
@@ -40,15 +40,62 @@ for i in range(1, no_dates):
 
 index = np.arange(0, no_dates)
 
+maturities = [44183, 44365, 44547, 44729, 44911, 45275, 46010, 46738, 47473]
+no_maturities = len(maturities)
 
-for i in range(0, len(index)):
-    date_str = str(ql.Date(int(parameters['date'][index[i] + 1])))
-    plt.plot(z_i, sabr_iv_map[int(parameters['date'][index[i] + 1])], label=parameters['date'][index[i] + 1],
-             linestyle='dashed', color='black')
+fig, axs = plt.subplots(3, 3, figsize=(20, 20))
 
-    plt.title(date_str)
-    plt.xlabel('ln(f/k)')
-    plt.ylabel('iv')
-    id_file = "plot_" + parameters['date'][index[i] + 1] + '.png'
-    # plt.savefig(os.path.join('D://GitRepository//Python//SV_Engines//Examples//Chapter8//',id_file))
-    plt.show()
+for i in range(0, 3):
+    date_str = str(ql.Date(maturities[i]))
+    axs[0, i].plot(z_i, sabr_iv_map[maturities[i]],
+                   linestyle='dashed', color='black', marker='.')
+
+    axs[0, i].set_title(date_str, fontsize=18)
+    axs[0, i].set_xlabel('ln(f/k)')
+    axs[0, i].set_ylabel('iv')
+    axs[0, i].set_ylim([0.0, 0.6])
+    axs[0, i].axes.xaxis.label.set_size(20)
+    axs[0, i].axes.yaxis.label.set_size(20)
+
+for i in range(0, 3):
+    date_str = str(ql.Date(maturities[i + 3]))
+    axs[1, i].plot(z_i, sabr_iv_map[maturities[i + 3]],
+                   linestyle='dashed', color='black', marker='.')
+
+    axs[1, i].set_title(date_str, fontsize=18)
+    axs[1, i].set_xlabel('ln(f/k)')
+    axs[1, i].set_ylabel('iv')
+    axs[1, i].set_ylim([0.0, 0.6])
+    axs[1, i].axes.xaxis.label.set_size(20)
+    axs[1, i].axes.yaxis.label.set_size(20)
+
+for i in range(0, 3):
+    date_str = str(ql.Date(maturities[i + 6]))
+    axs[2, i].plot(z_i, sabr_iv_map[maturities[i + 6]],
+                   linestyle='dashed', color='black', marker='.')
+
+    axs[2, i].set_title(date_str, fontsize=18)
+    axs[2, i].set_xlabel('ln(f/k)')
+    axs[2, i].set_ylabel('iv')
+    axs[2, i].set_ylim([0.0, 0.6])
+    axs[2, i].axes.xaxis.label.set_size(20)
+    axs[2, i].axes.yaxis.label.set_size(20)
+
+
+
+
+
+# for i in range(0, len(index)):
+#     date_str = str(ql.Date(int(parameters['date'][index[i] + 1])))
+#     plt.plot(z_i, sabr_iv_map[int(parameters['date'][index[i] + 1])], label=parameters['date'][index[i] + 1],
+#              linestyle='dashed', color='black')
+#
+#     plt.title(date_str)
+#     plt.xlabel('ln(f/k)')
+#     plt.ylabel('iv')
+#     id_file = "plot_" + parameters['date'][index[i] + 1] + '.png'
+#     # plt.savefig(os.path.join('D://GitRepository//Python//SV_Engines//Examples//Chapter8//',id_file))
+
+plt.savefig(os.path.join('D://GitHubRepository//Python//PyStochasticVolatility//Examples//Chapter8//', 'cover.jpeg'),
+            format='jpeg', dpi=1200)
+plt.show()

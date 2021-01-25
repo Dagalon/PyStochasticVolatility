@@ -71,7 +71,7 @@ def get_covariance_w_v_w_t(s: float, t: float, rho: float, h: float):
     return rho * d_h * (np.power(s, h + 0.5) - (np.power(s - np.minimum(s, t), h + 0.5)))
 
 
-# @nb.jit("f8[:,:](f8[:], f8, f8)", nopython=True, nogil=True)
+@nb.jit("f8[:,:](f8[:], f8, f8)", nopython=True, nogil=True)
 def get_covariance_matrix(t_i_s: ndarray, h: float, rho: float):
     no_time_steps = len(t_i_s)
     cov = np.zeros(shape=(2 * no_time_steps, 2 * no_time_steps))
@@ -85,15 +85,10 @@ def get_covariance_matrix(t_i_s: ndarray, h: float, rho: float):
             cov[i, j] = get_covariance_w_v_w_t(t_i_s[j - no_time_steps], t_i_s[i], rho, h)
             cov[j, i] = cov[i, j]
 
-    # for i in range(no_time_steps, 2 * no_time_steps):
-    #     for j in range(0, no_time_steps):
-    #         cov[i, j] = get_covariance_w_v_w_t(t_i_s[i - no_time_steps], t_i_s[j], rho, h)
-
     for i in range(0, no_time_steps):
         # for j in range(0, i + 1):
         for j in range(0, no_time_steps):
             cov[i + no_time_steps, j + no_time_steps] = get_volterra_covariance(t_i_s[i], t_i_s[j], h)
-            # cov[i + no_time_steps, j + no_time_steps] = get_fbm_covariance(t_i_s[j], t_i_s[i], h)
 
     return cov
 
@@ -197,7 +192,6 @@ def generate_paths_rexpou1f(s0: float,
             var_w_t_i_1 = var_w_t[j - 1]
 
     return paths, sigma_i_1, int_v_t
-
 
 
 @nb.jit("f8(f8, f8)", nopython=True, nogil=True)
