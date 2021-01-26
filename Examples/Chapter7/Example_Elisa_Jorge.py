@@ -7,23 +7,22 @@ from Instruments.EuropeanInstruments import EuropeanOption, TypeSellBuy, TypeEur
 from py_vollib.black_scholes_merton.implied_volatility import implied_volatility
 from scipy.optimize import curve_fit
 
-dt = np.linspace(0.05, 0.2, 30)
+dt = np.linspace(0.5, 1.0, 20)
 no_dt_s = len(dt)
 
 # simulation info
-h_short = 0.7
-h_long = 0.3
-nu = 0.5
+h_short = 0.2
+h_long = 0.6
+nu_short = 0.5
+nu_long = 0.5
 rho = -0.6
 v0 = 0.25
 sigma_0 = np.sqrt(v0)
 
-parameters = [nu, rho, h_short, h_long]
+parameters = [nu_short, nu_long, rho, h_short, h_long]
 
 seed = 123456789
-no_paths = 1000000
-
-delta_time = 1.0 / 365.0
+no_paths = 10
 no_time_steps = 100
 
 # random number generator

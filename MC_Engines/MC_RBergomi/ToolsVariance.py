@@ -144,6 +144,93 @@ def generate_paths_rbergomi(s0: float,
     return paths, sigma_i_1, int_v_t
 
 
+@nb.jit("(f8, f8, f8, f8, f8, f8[:,:], f8[:,:],f8[:,:], f8[:], i8)", nopython=True, nogil=True)
+def generate_paths_compose_rbergomi(s0: float,
+                                    sigma_0: float,
+                                    nu: float,
+                                    h_short: float,
+                                    h_long: float,
+                                    noise: ndarray,
+                                    cholk_cov_short: ndarray,
+                                    cholk_cov_long: ndarray,
+                                    t_i_s: ndarray,
+                                    no_paths: int):
+    no_time_steps = len(t_i_s)
+
+    paths = np.zeros(shape=(no_paths, no_time_steps))
+
+    int_v_t = np.zeros(shape=(no_paths, no_time_steps - 1))
+    int_v_t_short = np.zeros(shape=(no_paths, no_time_steps - 1))
+    int_v_t_long = np.zeros(shape=(no_paths, no_time_steps - 1))
+
+    sigma_i_1 = np.zeros(shape=(no_paths, no_time_steps))
+    sigma_i_1_short = np.zeros(shape=(no_paths, no_time_steps))
+    sigma_i_1_long = np.zeros(shape=(no_paths, no_time_steps))
+
+    sigma_i_1[:, 0] = sigma_0
+    sigma_i_1_short[:, 0] = 0.5 * sigma_0
+    sigma_i_1_long[:, 0] = 0.5 * sigma_0
+
+    paths[:, 0] = s0
+
+    # we compute before a loop of variance of the variance process
+    var_w_t_short = get_volterra_variance(t_i_s[1:], h_short)
+    var_w_t_long = get_volterra_variance(t_i_s[1:], h_long)
+
+    for k in range(0, no_paths):
+        w_t_k_short = AnalyticTools.apply_lower_tridiagonal_matrix(cholk_cov_short, noise[:, k])
+        w_t_k_long = AnalyticTools.apply_lower_tridiagonal_matrix(cholk_cov_long, noise[:, k])
+
+        # short term process
+        w_i_s_1_short = 0.0
+        w_i_h_1_short = 0.0
+        var_w_t_i_1_short = 0.0
+
+        # long term process
+        w_i_s_1_long = 0.0
+        w_i_h_1_long = 0.0
+        var_w_t_i_1_long = 0.0
+
+        for j in range(1, no_time_steps):
+            delta_i_s = t_i_s[j] - t_i_s[j - 1]
+
+            # Brownian and Gaussian increments
+            d_w_i_s_short = w_t_k_short[j - 1] - w_i_s_1_short
+            d_w_i_h_short = w_t_k_short[j + no_time_steps - 2] - w_i_h_1_short
+            d_w_i_h_long = w_t_k_long[j + no_time_steps - 2] - w_i_h_1_long
+            d_w_i_s_long = w_t_k_long[j - 1] - w_i_s_1_long
+
+            sigma_i_1_short[k, j] = sigma_i_1_short[k, j - 1] * np.exp(- 0.5 * nu * nu * (var_w_t_short[j - 1] - var_w_t_i_1_short) +
+                                                                       nu * d_w_i_h_short)
+
+            int_v_t_short[k, j - 1] = delta_i_s * 0.5 * (sigma_i_1_short[k, j - 1] * sigma_i_1_short[k, j - 1] +
+                                                         sigma_i_1_short[k, j] * sigma_i_1_short[k, j])
+
+            sigma_i_1_long[k, j] = sigma_i_1_long[k, j - 1] * np.exp(- 0.5 * nu * nu * (var_w_t_long[j - 1] - var_w_t_i_1_long) +
+                                                                     nu * d_w_i_h_long)
+
+            int_v_t_long[k, j - 1] = delta_i_s * 0.5 * (sigma_i_1_long[k, j - 1] * sigma_i_1_long[k, j - 1] +
+                                                        sigma_i_1_long[k, j] * sigma_i_1_long[k, j])
+
+            int_v_t[k, j - 1] = int_v_t_long[k, j - 1] + int_v_t_short[k, j - 1]
+            sigma_i_1[k, j] = sigma_i_1_long[k, j] + sigma_i_1_short[k, j]
+
+            paths[k, j] = paths[k, j - 1] * np.exp(- 0.5 * int_v_t[k, j - 1] * int_v_t[k, j - 1] +
+                                                   sigma_i_1_short[k, j - 1] * d_w_i_s_short +
+                                                   sigma_i_1_long[k, j - 1] * d_w_i_s_long)
+
+            # Keep the last brownians and variance of the RL process
+            w_i_s_1_short = w_t_k_short[j - 1]
+            w_i_h_1_short = w_t_k_short[j + no_time_steps - 2]
+            var_w_t_i_1_short = var_w_t_short[j - 1]
+
+            w_i_s_1_long = w_t_k_long[j - 1]
+            w_i_h_1_long = w_t_k_long[j + no_time_steps - 2]
+            var_w_t_i_1_long = var_w_t_long[j - 1]
+
+    return paths, sigma_i_1, int_v_t
+
+
 @nb.jit("(f8, f8, f8, f8, f8[:,:], f8[:,:], f8[:], i8)", nopython=True, nogil=True)
 def generate_paths_rexpou1f(s0: float,
                             sigma_0: float,

@@ -14,7 +14,7 @@ __author__ = 'David Garcia Lorite'
 
 import numpy as np
 
-from MC_Engines.MC_RBergomi import ToolsVarianceMixedRBergomi
+from MC_Engines.MC_RBergomi import ToolsVariance
 from Tools.Types import Vector, ndarray, TYPE_STANDARD_NORMAL_SAMPLING, RBERGOMI_OUTPUT
 
 
@@ -28,12 +28,10 @@ def get_path_multi_step(t0: float,
                         type_random_number: TYPE_STANDARD_NORMAL_SAMPLING,
                         rnd_generator,
                         **kwargs) -> map:
-
-    nu_short = parameters[0]
-    nu_long = parameters[1]
-    rho = parameters[2]
-    h_short = parameters[3]
-    h_long = parameters[4]
+    nu = parameters[0]
+    rho = parameters[1]
+    h_short = parameters[2]
+    h_long = parameters[3]
 
     no_paths = 2 * no_paths if type_random_number == TYPE_STANDARD_NORMAL_SAMPLING.ANTITHETIC else no_paths
 
@@ -43,19 +41,23 @@ def get_path_multi_step(t0: float,
     s_t = np.empty((no_paths, no_time_steps))
     s_t[:, 0] = f0
 
-    z_i_s = rnd_generator.normal(mu=0.0, sigma=1.0, size=(3 * (no_time_steps - 1), no_paths),
+    z_i_s = rnd_generator.normal(mu=0.0, sigma=1.0, size=(2 * (no_time_steps - 1), no_paths),
                                  sampling_type=type_random_number)
     map_out_put = {}
-    outputs = ToolsVarianceMixedRBergomi.generate_paths_mixed_rbergomi(f0,
-                                                                       sigma_0,
-                                                                       nu_short,
-                                                                       nu_long,
-                                                                       h_short,
-                                                                       h_long,
-                                                                       z_i_s,
-                                                                       np.linalg.cholesky(ToolsVarianceMixedRBergomi.get_covariance_matrix(t_i_s[1:], h_short, h_long, rho)),
-                                                                       t_i_s,
-                                                                       no_paths)
+    outputs = ToolsVariance.generate_paths_compose_rbergomi(f0,
+                                                            sigma_0,
+                                                            nu,
+                                                            h_short,
+                                                            h_long,
+                                                            z_i_s,
+                                                            np.linalg.cholesky(
+                                                                ToolsVariance.get_covariance_matrix(t_i_s[1:], h_short,
+                                                                                                    rho)),
+                                                            np.linalg.cholesky(
+                                                                ToolsVariance.get_covariance_matrix(t_i_s[1:], h_long,
+                                                                                                    rho)),
+                                                            t_i_s,
+                                                            no_paths)
 
     map_out_put[RBERGOMI_OUTPUT.PATHS] = outputs[0]
     map_out_put[RBERGOMI_OUTPUT.SPOT_VOLATILITY_PATHS] = outputs[1]
