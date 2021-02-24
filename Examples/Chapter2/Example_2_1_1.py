@@ -51,14 +51,14 @@ for date in sampling_dates:
     i_cont += 1
 days = np.arange(0, len(sampling_dates))
 # rv estimator
-plt.plot(days, end_date_rv_i_s, label="rv_estimator_integrated_variance", color="black")
-plt.plot(days, rv_i_s_fourier, label="fourier_estimator_integrated_variance", color="black", linestyle="dashed")
+# plt.plot(days, end_date_rv_i_s, label="rv_estimator_integrated_variance", color="black")
+# plt.plot(days, rv_i_s_fourier, label="fourier_estimator_integrated_variance", color="black", linestyle="dashed")
 
 # spot vol estimator
-# plt.plot(days, end_date_spot_i_s, label="rv_estimator_spot_vol", color="black")
-# plt.plot(days, spot_vol_i_s_fourier, label="fourier_estimator_spot_vol", color="black", linestyle="dashed")
+plt.plot(days, end_date_spot_i_s, label="rv_estimator_spot_vol", color="black")
+plt.plot(days, spot_vol_i_s_fourier, label="fourier_estimator_spot_vol", color="black", linestyle="dashed")
 
-plt.xlabel('t (traiding days)')
+plt.xlabel('$\it{t}$'+ ' (traiding days)')
 plt.legend()
 plt.show()
 

@@ -2,7 +2,6 @@ import os
 import numpy as np
 import pandas as pd
 import matplotlib.pylab as plt
-import QuantLib as ql
 
 from pathlib import Path
 from VolatilitySurface.Tools import SABRTools

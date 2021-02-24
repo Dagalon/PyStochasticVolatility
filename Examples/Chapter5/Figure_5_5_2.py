@@ -21,6 +21,6 @@ for i in range(0, len(h_s)):
     rnd_generator.set_seed(seed)
     path = fBM.truncated_fbm(0.0, T, 0.0, rnd_generator, h_s[i], 1, no_time_steps)
     axs[i].plot(d_t, path[0, :].reshape(d_t.shape), color='black')
-    axs[i].set_title('H=' + str(h_s[i]))
+    axs[i].set_title('$\it{H}=$' + str(h_s[i]))
 
 plt.show()

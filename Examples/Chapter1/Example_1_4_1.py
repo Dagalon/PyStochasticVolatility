@@ -58,6 +58,7 @@ fig, axs = plt.subplots(2, 3, figsize=(10, 5))
 index = [0, 3, 6, 8, 12, 18]
 for i in range(0, 3):
     date_str = str(ql.Date(int(parameters['date'][index[i] + 1])))
+    date_str = date_str.replace('th', '')
     axs[0, i].set(xlabel='z', ylabel='iv')
     axs[0, i].plot(z_i, sabr_iv_map[int(parameters['date'][index[i] + 1])], label=parameters['date'][index[i] + 1],
                    linestyle='dashed', color='black')
@@ -68,6 +69,7 @@ for i in range(0, 3):
 
 for i in range(0, 3):
     date_str = str(ql.Date(int(parameters['date'][index[i + 3] + 1])))
+    date_str = date_str.replace('th', '')
     axs[1, i].set(xlabel='z', ylabel='iv')
     axs[1, i].plot(z_i, sabr_iv_map[int(parameters['date'][index[i + 3] + 1])],
                    label=parameters['date'][index[i + 3] + 1], linestyle='dashed', color='black')

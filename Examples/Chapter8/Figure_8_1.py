@@ -47,6 +47,7 @@ fig, axs = plt.subplots(3, 3, figsize=(20, 20))
 
 for i in range(0, 3):
     date_str = str(ql.Date(maturities[i]))
+    date_str = date_str.replace('th', '')
     axs[0, i].plot(z_i, sabr_iv_map[maturities[i]],
                    linestyle='dashed', color='black', marker='.')
 
@@ -59,6 +60,7 @@ for i in range(0, 3):
 
 for i in range(0, 3):
     date_str = str(ql.Date(maturities[i + 3]))
+    date_str = date_str.replace('th', '')
     axs[1, i].plot(z_i, sabr_iv_map[maturities[i + 3]],
                    linestyle='dashed', color='black', marker='.')
 
@@ -71,6 +73,7 @@ for i in range(0, 3):
 
 for i in range(0, 3):
     date_str = str(ql.Date(maturities[i + 6]))
+    date_str = date_str.replace('th', '')
     axs[2, i].plot(z_i, sabr_iv_map[maturities[i + 6]],
                    linestyle='dashed', color='black', marker='.')
 
@@ -96,6 +99,6 @@ for i in range(0, 3):
 #     id_file = "plot_" + parameters['date'][index[i] + 1] + '.png'
 #     # plt.savefig(os.path.join('D://GitRepository//Python//SV_Engines//Examples//Chapter8//',id_file))
 
-plt.savefig(os.path.join('D://GitHubRepository//Python//PyStochasticVolatility//Examples//Chapter8//', 'cover.jpeg'),
-            format='jpeg', dpi=1200)
+# plt.savefig(os.path.join('D://GitHubRepository//Python//PyStochasticVolatility//Examples//Chapter8//', 'cover.jpeg'),
+#             format='jpeg', dpi=1200)
 plt.show()

@@ -22,7 +22,7 @@ sigma_0 = np.sqrt(v0)
 parameters = [nu_short, nu_long, rho, h_short, h_long]
 
 seed = 123456789
-no_paths = 10
+no_paths = 500000
 no_time_steps = 100
 
 # random number generator

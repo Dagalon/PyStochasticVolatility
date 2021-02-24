@@ -57,7 +57,7 @@ def get_w_s_t_covariance(s: float, t: float, h_short: float, h_long: float):
     return term_short + term_long + term_mixed_1 + term_mixed_2
 
 
-# @nb.jit("f8(f8, f8, f8, f8, f8)", nopython=True, nogil=True)
+@nb.jit("f8(f8, f8, f8, f8, f8)", nopython=True, nogil=True)
 def get_w_s_b_t_covariance(s: float, t: float, h_short: float, h_long: float, rho: float):
     if h_short > 0.0 and h_long > 0.0:
         term_short = get_covariance_w_v_w_t(s, t, rho, h_short)
@@ -73,7 +73,7 @@ def get_w_s_b_t_covariance(s: float, t: float, h_short: float, h_long: float, rh
         return term_long
 
 
-# @nb.jit("f8[:,:](f8[:], f8, f8, f8)", nopython=True, nogil=True)
+@nb.jit("f8[:,:](f8[:], f8, f8, f8)", nopython=True, nogil=True)
 def get_covariance_matrix(t_i_s: ndarray, h_short: float, h_long: float, rho: float):
     no_time_steps = len(t_i_s)
     cov = np.zeros(shape=(3 * no_time_steps, 3 * no_time_steps))
@@ -102,16 +102,16 @@ def get_covariance_matrix(t_i_s: ndarray, h_short: float, h_long: float, rho: fl
 
     for i in range(no_time_steps, 2 * no_time_steps):
         for j in range(2 * no_time_steps, 3 * no_time_steps):
-            cov[i, j] = get_w_s_t_covariance(t_i_s[i - no_time_steps], t_i_s[j - 2 * no_time_steps], h_short, h_long)
+            cov[i, j] = get_mixed_term_covariance(t_i_s[i - no_time_steps], t_i_s[j - 2 * no_time_steps], h_short, h_long)
 
     # Third row
     for i in range(2 * no_time_steps, 3 * no_time_steps):
         for j in range(0, no_time_steps):
-            cov[j, i] = get_w_s_b_t_covariance(t_i_s[i - 2 * no_time_steps], t_i_s[j], 0.0, h_long, rho)
+            cov[i, j] = get_covariance_w_v_w_t(t_i_s[i - 2 * no_time_steps], t_i_s[j], rho, h_long)
 
     for i in range(2 * no_time_steps, 3 * no_time_steps):
         for j in range(no_time_steps, 2 * no_time_steps):
-            cov[i, j] = get_mixed_term_covariance(t_i_s[j - no_time_steps], t_i_s[i - 2 * no_time_steps], h_short, h_long)
+            cov[i, j] = get_mixed_term_covariance(t_i_s[i - 2 * no_time_steps], t_i_s[j - no_time_steps], h_short, h_long)
 
     for i in range(2 * no_time_steps, 3 * no_time_steps):
         for j in range(2 * no_time_steps, 3 * no_time_steps):

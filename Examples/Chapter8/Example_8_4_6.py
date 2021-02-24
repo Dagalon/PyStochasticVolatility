@@ -7,8 +7,8 @@ from Tools import RNG, Types
 from Instruments.EuropeanInstruments import EuropeanOption, TypeSellBuy, TypeEuropeanOption
 from py_vollib.black_scholes_merton.implied_volatility import implied_volatility
 
-T = np.array([3, 7, 15, 30, 60, 180, 365]) * 1.0 / 365.0
-# labels = ['3 days', '7 days', '15 days', '1 month', '2 months', '3 months']
+T = np.array([3, 7, 15, 30, 60, 90]) * 1.0 / 365.0
+labels = ['3 days', '7 days', '15 days', '1 month', '2 months', '3 months']
 markers = ['.', '^', '+', '*', 'v', ',', '>']
 no_maturities = len(T)
 strikes = np.linspace(80.0, 120.0, 30)
@@ -47,12 +47,13 @@ for i in range(0, no_maturities):
 
         iv_smile.append(implied_volatility(mc_option_price[0], f0, k_i, T[i], 0.0, 0.0, 'c'))
 
-    plt.plot(strikes, iv_smile, label='T=%s' % round(T[i], 6), color='black', marker=markers[i], linestyle="--")
-    # path_to_keep = os.path.join("C://Users//david//OneDrive//Desktop//graficos", "rbergomi_smile_%s" % i + ".png")
+    plt.plot(strikes, iv_smile, label=labels[i], color='black', marker=markers[i], linestyle="--")
+    path_to_keep = os.path.join("D://GitHubRepository//Python//Graficos//Chapter8", "rbergomi_smile_%s" % i + ".png")
 
-    plt.xlabel('K')
-    plt.legend()
+    plt.xlabel('K', fontsize=14)
+    plt.legend(fontsize=14)
     plt.ylim([0.0, 0.9])
-    # plt.savefig(path_to_keep)
+    plt.savefig(path_to_keep)
+    plt.clf()
 
 plt.show()
