@@ -7,7 +7,8 @@ from Instruments.EuropeanInstruments import EuropeanOption, TypeSellBuy, TypeEur
 from py_vollib.black_scholes_merton.implied_volatility import implied_volatility
 from scipy.optimize import curve_fit
 
-dt = np.linspace(0.5, 1.0, 20)
+T = 0.5
+dt = np.linspace(0.05, 0.5, 20)
 no_dt_s = len(dt)
 
 # simulation info
@@ -21,7 +22,7 @@ sigma_0 = np.sqrt(v0)
 
 parameters = [nu_short, nu_long, rho, h_short, h_long]
 
-seed = 123456789
+seed = 123
 no_paths = 500000
 no_time_steps = 100
 
@@ -71,15 +72,14 @@ def f_law(x, a, b):
 
 
 popt, pcov = curve_fit(f_law, dt, skew_atm_mc)
-dt_fit = np.linspace(0.0000001, 0.1)
-y_fit_values = f_law(dt_fit, *popt)
+y_fit_values = f_law(dt, *popt)
 
 plt.plot(dt, skew_atm_mc, label='skew atm rBergomi', color='black', linestyle='--')
-plt.plot(dt_fit, y_fit_values, label='%s t^(%s)' % (round(popt[0], 5), round(popt[1], 5)), color='black',
+plt.plot(dt, y_fit_values, label='%s t^(%s)' % (round(popt[0], 5), round(popt[1], 5)), color='black',
           linestyle='--', marker='.')
 
 # plt.ylim([-0.003, 0.0])
-plt.xlim([0.0, 0.1])
+plt.xlim([0.05, T])
 plt.xlabel('T')
 plt.legend()
 plt.show()

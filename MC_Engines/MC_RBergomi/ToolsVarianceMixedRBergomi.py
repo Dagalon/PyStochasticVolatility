@@ -59,18 +59,9 @@ def get_w_s_t_covariance(s: float, t: float, h_short: float, h_long: float):
 
 @nb.jit("f8(f8, f8, f8, f8, f8)", nopython=True, nogil=True)
 def get_w_s_b_t_covariance(s: float, t: float, h_short: float, h_long: float, rho: float):
-    if h_short > 0.0 and h_long > 0.0:
-        term_short = get_covariance_w_v_w_t(s, t, rho, h_short)
-        term_long = get_covariance_w_v_w_t(s, t, rho, h_long)
-        return term_short + term_long
-
-    elif h_short == 0.0:
-        term_short = get_covariance_w_v_w_t(s, t, rho, h_short)
-        return term_short
-
-    else:
-        term_long = get_covariance_w_v_w_t(s, t, rho, h_long)
-        return term_long
+    term_short = get_covariance_w_v_w_t(s, t, rho, h_short)
+    term_long = get_covariance_w_v_w_t(s, t, rho, h_long)
+    return term_short + term_long
 
 
 @nb.jit("f8[:,:](f8[:], f8, f8, f8)", nopython=True, nogil=True)
@@ -184,7 +175,7 @@ def generate_paths_mixed_rbergomi(s0: float,
             int_v_long_t[k, j - 1] = delta_i_s * 0.5 * (sigma_long_i_1[k, j - 1] * sigma_long_i_1[k, j - 1] +
                                                         sigma_long_i_1[k, j] * sigma_long_i_1[k, j])
 
-            int_v_t[k, j - 1] = int_v_short_t[k, j - 1] + int_v_long_t[k, j - 1]
+            int_v_t[k, j - 1] = delta_i_s * sigma_i_1[k, j] * sigma_i_1[k, j]
 
             paths[k, j] = paths[k, j - 1] * np.exp(- 0.5 * int_v_t[k, j - 1] +
                                                    sigma_i_1[k, j - 1] * d_w_i_s)

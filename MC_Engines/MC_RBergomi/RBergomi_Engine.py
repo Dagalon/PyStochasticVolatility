@@ -56,7 +56,7 @@ def get_path_multi_step(t0: float,
                                                     h,
                                                     z_i_s,
                                                     np.linalg.cholesky(
-                                                    ToolsVariance.get_covariance_matrix(t_i_s[1:], h, rho)),
+                                                        ToolsVariance.get_covariance_matrix(t_i_s[1:], h, rho)),
                                                     t_i_s,
                                                     no_paths)
 
