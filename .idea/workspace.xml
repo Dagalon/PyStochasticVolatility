@@ -1,21 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-<<<<<<< Updated upstream
-    <list default="true" id="30d5d2e6-942c-4004-bd11-d5c0e4d942e9" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/MC_Engines/MC_RBergomi/MixedRBergomi_Engine.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/MC_Engines/MC_RBergomi/ToolsVarianceMixedRBergomi.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Examples/Chapter1/Example_1_3_1.py" beforeDir="false" afterPath="$PROJECT_DIR$/Examples/Chapter1/Example_1_3_1.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Examples/Chapter7/Figure_7_5.py" beforeDir="false" afterPath="$PROJECT_DIR$/Examples/Chapter7/Figure_7_5.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Examples/Chapter8/Figure_8_1.py" beforeDir="false" afterPath="$PROJECT_DIR$/Examples/Chapter8/Figure_8_1.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/MC_Engines/MC_Bergomi2F/Bergomi2fEngine.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/MC_Engines/MC_Bergomi2F/Bergomi2fTools.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/MC_Engines/MC_Bergomi2F/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/Examples/Chapter7/Example_Elisa_Jorge.py" afterDir="false" />
-=======
-    <list default="true" id="7f6a3c15-2a61-4a40-9016-af9be9ab7fef" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/MC_Engines/MC_RBergomi/ComposeRBergomi_Engine.py" afterDir="false" />
->>>>>>> Stashed changes
-      <change beforePath="$PROJECT_DIR$/MC_Engines/MC_RBergomi/ToolsVariance.py" beforeDir="false" afterPath="$PROJECT_DIR$/MC_Engines/MC_RBergomi/ToolsVariance.py" afterDir="false" />
+    <list default="true" id="e411fc7e-4876-46d1-99f8-6f4331000474" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/Examples/Chapter7/Example_Elisa_Jorge_2.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/aws.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/aws.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Examples/Chapter7/Example_Elisa_Jorge.py" beforeDir="false" afterPath="$PROJECT_DIR$/Examples/Chapter7/Example_Elisa_Jorge.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Examples/Chapter8/cover.jpeg" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -29,7 +20,6 @@
       </list>
     </option>
   </component>
-<<<<<<< Updated upstream
   <component name="FlaskConsoleOptions" custom-start-script="import sys&#10;sys.path.extend([WORKING_DIR_AND_PYTHON_PATHS])&#10;from flask.cli import ScriptInfo&#10;locals().update(ScriptInfo(create_app=None).load_app().make_shell_context())&#10;print(&quot;Python %s on %s\nApp: %s [%s]\nInstance: %s&quot; % (sys.version, sys.platform, app.import_name, app.env, app.instance_path))">
     <envs>
       <env key="FLASK_APP" value="app" />
@@ -44,217 +34,38 @@
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
-  <component name="ProjectId" id="1lc7MQWZdRP5XwvuLJQ2qjBXfaL" />
-  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
-  <component name="ProjectViewState">
-    <option name="hideEmptyMiddlePackages" value="true" />
-    <option name="showLibraryContents" value="true" />
-    <option name="showMembers" value="true" />
-  </component>
-  <component name="PropertiesComponent">
-=======
-  <component name="Git.Settings">
-    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
-  </component>
-  <component name="ProjectId" id="1l8x3m5B4o5DdiHtv9tVrcg7RKF" />
-  <component name="ProjectLevelVcsManager">
-    <ConfirmationsSetting value="2" id="Add" />
-  </component>
+  <component name="ProjectId" id="1p0oSe0QtV8Wamh09dnF4nb6ZEq" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
   <component name="PropertiesComponent">
-    <property name="ASKED_ADD_EXTERNAL_FILES" value="true" />
->>>>>>> Stashed changes
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="node.js.detected.package.eslint" value="true" />
     <property name="node.js.detected.package.tslint" value="true" />
     <property name="node.js.path.for.package.eslint" value="project" />
     <property name="node.js.path.for.package.tslint" value="project" />
     <property name="node.js.selected.package.eslint" value="(autodetect)" />
     <property name="node.js.selected.package.tslint" value="(autodetect)" />
-    <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
+    <property name="settings.editor.selected.configurable" value="reference.settingsdialog.IDE.editor.colors.Color Scheme Font" />
   </component>
-  <component name="RecentsManager">
-    <key name="MoveFile.RECENT_KEYS">
-<<<<<<< Updated upstream
-      <recent name="D:\GitHubRepository\Python\PyStochasticVolatility\MC_Engines\MC_RBergomi" />
-    </key>
-  </component>
-  <component name="RunManager" selected="Python.Example_Elisa_Jorge">
-    <configuration name="Example_4_2_5" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
-      <module name="PyStochasticVolatility" />
-=======
-      <recent name="D:\GitRepository\Python\PyStochasticVolatilityMaster\Examples\Chapter8" />
-      <recent name="D:\GitRepository\Python\PyStochasticVolatilityMaster\Examples\Chapter8\Old" />
-      <recent name="D:\GitRepository\Python\PyStochasticVolatilityMaster\Examples\Chapter7" />
-      <recent name="D:\GitRepository\Python\PyStochasticVolatilityMaster\Examples\Chapter7\Old" />
-    </key>
-  </component>
-  <component name="RunManager" selected="Python.Example_Power_Law_Vol_of_Vol">
-    <configuration name="Example_10_2_4 (1)" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+  <component name="RunManager">
+    <configuration name="Example_Elisa_Jorge_2" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="PyStochasticVolatilityMaster" />
->>>>>>> Stashed changes
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
       <envs>
         <env name="PYTHONUNBUFFERED" value="1" />
       </envs>
       <option name="SDK_HOME" value="" />
-<<<<<<< Updated upstream
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/Examples/Chapter4" />
-=======
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/Examples/Chapter10" />
->>>>>>> Stashed changes
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
-<<<<<<< Updated upstream
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/Examples/Chapter4/Example_4_2_5.py" />
-=======
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/Examples/Chapter10/Example_10_2_4.py" />
->>>>>>> Stashed changes
-      <option name="PARAMETERS" value="" />
-      <option name="SHOW_COMMAND_LINE" value="false" />
-      <option name="EMULATE_TERMINAL" value="false" />
-      <option name="MODULE_MODE" value="false" />
-      <option name="REDIRECT_INPUT" value="false" />
-      <option name="INPUT_FILE" value="" />
-      <method v="2" />
-    </configuration>
-<<<<<<< Updated upstream
-    <configuration name="Example_4_2_6" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
-      <module name="PyStochasticVolatility" />
-=======
-    <configuration name="Example_10_2_5" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
-      <module name="PyStochasticVolatilityMaster" />
->>>>>>> Stashed changes
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
-      <option name="SDK_HOME" value="" />
-<<<<<<< Updated upstream
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/Examples/Chapter4" />
-=======
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/Examples/Chapter10" />
->>>>>>> Stashed changes
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
-<<<<<<< Updated upstream
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/Examples/Chapter4/Example_4_2_6.py" />
-=======
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/Examples/Chapter10/Example_10_2_5.py" />
->>>>>>> Stashed changes
-      <option name="PARAMETERS" value="" />
-      <option name="SHOW_COMMAND_LINE" value="false" />
-      <option name="EMULATE_TERMINAL" value="false" />
-      <option name="MODULE_MODE" value="false" />
-      <option name="REDIRECT_INPUT" value="false" />
-      <option name="INPUT_FILE" value="" />
-      <method v="2" />
-    </configuration>
-<<<<<<< Updated upstream
-    <configuration name="Example_Elisa_Jorge" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
-      <module name="PyStochasticVolatility" />
-=======
-    <configuration name="Example_10_2_6" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
-      <module name="PyStochasticVolatilityMaster" />
->>>>>>> Stashed changes
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
-      <option name="SDK_HOME" value="" />
-<<<<<<< Updated upstream
       <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/Examples/Chapter7" />
-=======
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/Examples/Chapter10" />
->>>>>>> Stashed changes
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
-<<<<<<< Updated upstream
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/Examples/Chapter7/Example_Elisa_Jorge.py" />
-=======
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/Examples/Chapter10/Example_10_2_6.py" />
->>>>>>> Stashed changes
-      <option name="PARAMETERS" value="" />
-      <option name="SHOW_COMMAND_LINE" value="false" />
-      <option name="EMULATE_TERMINAL" value="false" />
-      <option name="MODULE_MODE" value="false" />
-      <option name="REDIRECT_INPUT" value="false" />
-      <option name="INPUT_FILE" value="" />
-      <method v="2" />
-    </configuration>
-<<<<<<< Updated upstream
-    <configuration name="Figure_7_5" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
-      <module name="PyStochasticVolatility" />
-=======
-    <configuration name="Example_10_2_7" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
-      <module name="PyStochasticVolatilityMaster" />
->>>>>>> Stashed changes
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
-      <option name="SDK_HOME" value="" />
-<<<<<<< Updated upstream
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/Examples/Chapter7" />
-=======
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/Examples/Chapter10" />
->>>>>>> Stashed changes
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
-<<<<<<< Updated upstream
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/Examples/Chapter7/Figure_7_5.py" />
-=======
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/Examples/Chapter10/Example_10_2_7.py" />
->>>>>>> Stashed changes
-      <option name="PARAMETERS" value="" />
-      <option name="SHOW_COMMAND_LINE" value="false" />
-      <option name="EMULATE_TERMINAL" value="false" />
-      <option name="MODULE_MODE" value="false" />
-      <option name="REDIRECT_INPUT" value="false" />
-      <option name="INPUT_FILE" value="" />
-      <method v="2" />
-    </configuration>
-<<<<<<< Updated upstream
-    <configuration name="Figure_8_1" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
-      <module name="PyStochasticVolatility" />
-=======
-    <configuration name="Example_Power_Law_Vol_of_Vol" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
-      <module name="PyStochasticVolatilityMaster" />
->>>>>>> Stashed changes
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/Examples/Chapter8" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
-<<<<<<< Updated upstream
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/Examples/Chapter8/Figure_8_1.py" />
-=======
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/Examples/Chapter8/Example_Power_Law_Vol_of_Vol.py" />
->>>>>>> Stashed changes
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/Examples/Chapter7/Example_Elisa_Jorge_2.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -265,77 +76,21 @@
     </configuration>
     <recent_temporary>
       <list>
-<<<<<<< Updated upstream
-        <item itemvalue="Python.Example_Elisa_Jorge" />
-        <item itemvalue="Python.Figure_7_5" />
-        <item itemvalue="Python.Example_4_2_5" />
-        <item itemvalue="Python.Example_4_2_6" />
-        <item itemvalue="Python.Figure_8_1" />
+        <item itemvalue="Python.Example_Elisa_Jorge_2" />
       </list>
     </recent_temporary>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
-      <changelist id="30d5d2e6-942c-4004-bd11-d5c0e4d942e9" name="Default Changelist" comment="" />
-      <created>1607884480573</created>
+      <changelist id="e411fc7e-4876-46d1-99f8-6f4331000474" name="Default Changelist" comment="" />
+      <created>1614329373114</created>
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
-      <updated>1607884480573</updated>
-      <workItem from="1607884483800" duration="3680000" />
-      <workItem from="1607897259921" duration="1242000" />
-      <workItem from="1608141738168" duration="4229000" />
-      <workItem from="1608156326124" duration="652000" />
-      <workItem from="1608157130315" duration="397000" />
-      <workItem from="1608388117553" duration="8000" />
-      <workItem from="1609280024520" duration="134000" />
-      <workItem from="1609280197496" duration="17000" />
-      <workItem from="1610300602015" duration="3642000" />
-      <workItem from="1611163963632" duration="663000" />
-      <workItem from="1611164677366" duration="143000" />
-      <workItem from="1611165135820" duration="26000" />
-      <workItem from="1611388911760" duration="24244000" />
-      <workItem from="1611476197598" duration="8475000" />
+      <updated>1614329373114</updated>
+      <workItem from="1614329376189" duration="6573000" />
+      <workItem from="1614850045746" duration="329000" />
     </task>
-    <task id="LOCAL-00001" summary="# We have removed numba header">
-      <created>1610305101879</created>
-      <option name="number" value="00001" />
-      <option name="presentableId" value="LOCAL-00001" />
-      <option name="project" value="LOCAL" />
-      <updated>1610305101879</updated>
-    </task>
-    <option name="localTasksCounter" value="2" />
-=======
-        <item itemvalue="Python.Example_Power_Law_Vol_of_Vol" />
-        <item itemvalue="Python.Example_10_2_7" />
-        <item itemvalue="Python.Example_10_2_6" />
-        <item itemvalue="Python.Example_10_2_5" />
-        <item itemvalue="Python.Example_10_2_4 (1)" />
-      </list>
-    </recent_temporary>
-  </component>
-  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="project-level" UseSingleDictionary="true" transferred="true" />
-  <component name="TaskManager">
-    <task active="true" id="Default" summary="Default task">
-      <changelist id="7f6a3c15-2a61-4a40-9016-af9be9ab7fef" name="Default Changelist" comment="" />
-      <created>1606992322614</created>
-      <option name="number" value="Default" />
-      <option name="presentableId" value="Default" />
-      <updated>1606992322614</updated>
-      <workItem from="1606992323754" duration="180000" />
-      <workItem from="1606992797562" duration="187000" />
-      <workItem from="1606993011031" duration="104000" />
-      <workItem from="1606995718071" duration="131000" />
-      <workItem from="1607415266156" duration="7938000" />
-      <workItem from="1607426307278" duration="155000" />
-      <workItem from="1607516177692" duration="106000" />
-      <workItem from="1607944034116" duration="70000" />
-      <workItem from="1607944537555" duration="624000" />
-      <workItem from="1607960326410" duration="127000" />
-      <workItem from="1610009908421" duration="394000" />
-      <workItem from="1611564921349" duration="4156000" />
-    </task>
->>>>>>> Stashed changes
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -353,109 +108,18 @@
     </option>
     <option name="oldMeFiltersMigrated" value="true" />
   </component>
-  <component name="VcsManagerConfiguration">
-<<<<<<< Updated upstream
-    <MESSAGE value="# We have removed numba header" />
-    <option name="LAST_COMMIT_MESSAGE" value="# We have removed numba header" />
-  </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
       <breakpoints>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/Examples/Chapter8/Figure_8_1.py</url>
-          <line>87</line>
-          <option name="timeStamp" value="1" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/Examples/Chapter8/Figure_8_1.py</url>
-          <line>100</line>
-          <option name="timeStamp" value="3" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/Examples/Chapter8/Figure_8_1.py</url>
-          <line>98</line>
-          <option name="timeStamp" value="4" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/Examples/Chapter8/Figure_8_1.py</url>
-          <line>52</line>
-          <option name="timeStamp" value="5" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/Instruments/EuropeanInstruments.py</url>
-          <line>261</line>
-          <option name="timeStamp" value="6" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/AnalyticEngines/FourierMethod/CharesticFunctions/HestonCharesticFunction.py</url>
-          <line>67</line>
-          <option name="timeStamp" value="10" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/Examples/Chapter7/Figure_7_5.py</url>
-          <option name="timeStamp" value="11" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/MC_Engines/MC_RBergomi/MixedRBergomi_Engine.py</url>
-          <line>56</line>
-          <option name="timeStamp" value="14" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/Examples/Chapter7/Example_Elisa_Jorge.py</url>
-          <line>62</line>
-          <option name="timeStamp" value="21" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/Examples/Chapter7/Example_Elisa_Jorge.py</url>
-          <line>25</line>
-          <option name="timeStamp" value="22" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/Examples/Chapter7/Example_Elisa_Jorge.py</url>
-          <line>53</line>
-          <option name="timeStamp" value="31" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/MC_Engines/MC_RBergomi/ToolsVarianceMixedRBergomi.py</url>
-          <line>105</line>
-          <option name="timeStamp" value="32" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/MC_Engines/MC_RBergomi/ToolsVarianceMixedRBergomi.py</url>
-          <line>98</line>
-          <option name="timeStamp" value="41" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/MC_Engines/MC_RBergomi/ToolsVarianceMixedRBergomi.py</url>
-          <line>134</line>
-          <option name="timeStamp" value="42" />
+          <url>file://$PROJECT_DIR$/Examples/Chapter7/Example_Elisa_Jorge_2.py</url>
+          <line>77</line>
+          <option name="timeStamp" value="2" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
-    <SUITE FILE_PATH="coverage/PyStochasticVolatility$Example_4_2_6.coverage" NAME="Example_4_2_6 Coverage Results" MODIFIED="1610304667749" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Examples/Chapter4" />
-    <SUITE FILE_PATH="coverage/PyStochasticVolatility$Example_4_2_5.coverage" NAME="Example_4_2_5 Coverage Results" MODIFIED="1610304969084" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Examples/Chapter4" />
-    <SUITE FILE_PATH="coverage/PyStochasticVolatility$Example_Elisa_Jorge.coverage" NAME="Example_Elisa_Jorge Coverage Results" MODIFIED="1611496517032" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Examples/Chapter7" />
-    <SUITE FILE_PATH="coverage/PyStochasticVolatility$Figure_8_1.coverage" NAME="Figure_8_1 Coverage Results" MODIFIED="1608157216122" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Examples/Chapter8" />
-    <SUITE FILE_PATH="coverage/PyStochasticVolatility$Figure_7_5.coverage" NAME="Figure_7_5 Coverage Results" MODIFIED="1611481909628" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Examples/Chapter7" />
-=======
-    <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
-  </component>
-  <component name="com.intellij.coverage.CoverageDataManagerImpl">
-    <SUITE FILE_PATH="coverage/PyStochasticVolatilityMaster$curvature_atm_rho_sabr.coverage" NAME="curvature_atm_rho_sabr Coverage Results" MODIFIED="1607416983639" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Examples/Chapter8" />
-    <SUITE FILE_PATH="coverage/PyStochasticVolatilityMaster$Example_10_2_7.coverage" NAME="Example_10_2_7 Coverage Results" MODIFIED="1607420933581" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Examples/Chapter10" />
-    <SUITE FILE_PATH="coverage/PyStochasticVolatilityMaster$Example_Power_Law_Vol_of_Vol.coverage" NAME="Example_Power_Law_Vol_of_Vol Coverage Results" MODIFIED="1607426344851" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Examples/Chapter8" />
-    <SUITE FILE_PATH="coverage/PyStochasticVolatilityMaster$Example_Market_Smile.coverage" NAME="Example_Market_Smile Coverage Results" MODIFIED="1607416925648" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Examples/Chapter8" />
-    <SUITE FILE_PATH="coverage/PyStochasticVolatilityMaster$curvature_atm_rho_heston.coverage" NAME="curvature_atm_rho_heston Coverage Results" MODIFIED="1607416727220" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Examples/Chapter8" />
-    <SUITE FILE_PATH="coverage/PyStochasticVolatilityMaster$atm_skew_sabr_market.coverage" NAME="atm_skew_sabr_market Coverage Results" MODIFIED="1607415784533" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Examples/Chapter7" />
-    <SUITE FILE_PATH="coverage/PyStochasticVolatilityMaster$HestonExample.coverage" NAME="HestonExample Coverage Results" MODIFIED="1607416182822" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Examples/Chapter7" />
-    <SUITE FILE_PATH="coverage/PyStochasticVolatilityMaster$atm_skew_heston_different_rho.coverage" NAME="atm_skew_heston_different_rho Coverage Results" MODIFIED="1607415876116" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Examples/Chapter7" />
-    <SUITE FILE_PATH="coverage/PyStochasticVolatilityMaster$Example_10_2_6.coverage" NAME="Example_10_2_6 Coverage Results" MODIFIED="1607420787840" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Examples/Chapter10" />
-    <SUITE FILE_PATH="coverage/PyStochasticVolatilityMaster$Example_ACF.coverage" NAME="Example_ACF Coverage Results" MODIFIED="1607415520948" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Examples/Chapter5" />
-    <SUITE FILE_PATH="coverage/PyStochasticVolatilityMaster$Example_10_2_4__1_.coverage" NAME="Example_10_2_4 (1) Coverage Results" MODIFIED="1607419250826" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Examples/Chapter10" />
-    <SUITE FILE_PATH="coverage/PyStochasticVolatilityMaster$smile_heston_rho_non_zero.coverage" NAME="smile_heston_rho_non_zero Coverage Results" MODIFIED="1607415933558" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Examples/Chapter7" />
-    <SUITE FILE_PATH="coverage/PyStochasticVolatilityMaster$Example_10_2_5.coverage" NAME="Example_10_2_5 Coverage Results" MODIFIED="1607419765671" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Examples/Chapter10" />
->>>>>>> Stashed changes
+    <SUITE FILE_PATH="coverage/PyStochasticVolatilityMaster$Example_Elisa_Jorge_2.coverage" NAME="Example_Elisa_Jorge_2 Coverage Results" MODIFIED="1614346853580" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Examples/Chapter7" />
   </component>
 </project>
