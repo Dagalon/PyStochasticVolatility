@@ -55,7 +55,7 @@ start_time = time.time()
 for i in range(0, no_strikes):
     european_option = EuropeanOption(k_s[i], 1.0, TypeSellBuy.BUY, TypeEuropeanOption.CALL, f0, T)
     price_cf_integration.append(european_option.get_analytic_value(0.0, theta, rho, k, epsilon, v0, 0.0,
-                                                                   model_type=Types.ANALYTIC_MODEL.HESTON_MODEL_REGULAR,
+                                                                   model_type=Types.ANALYTIC_MODEL.HESTON_MODEL_LEWIS,
                                                                    compute_greek=False))
 end_time = time.time()
 diff_time_cf = end_time - start_time

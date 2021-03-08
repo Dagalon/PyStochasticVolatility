@@ -20,8 +20,9 @@ from Tools.Types import TypeSellBuy, TypeEuropeanOption
 from MCPricers.EuropeanPricers import call_operator, put_operator, malliavin_delta_call_put, malliavin_gamma_call_put, \
     call_operator_control_variate, put_operator_control_variate
 from Tools.Types import ndarray, ANALYTIC_MODEL, TypeGreeks
-from AnalyticEngines.FourierMethod.CharesticFunctions.HestonCharesticFunction import f_attari_heston, f_delta_attari_heston, \
-    f_dual_delta_attari_heston, f_heston, f_gamma_heston, f_gamma_attari_heston
+from AnalyticEngines.FourierMethod.CharesticFunctions.HestonCharesticFunction import f_attari_heston, \
+    f_delta_attari_heston, \
+    f_dual_delta_attari_heston, f_heston, f_gamma_heston, f_gamma_attari_heston, f_lewis_heston
 
 
 class EuropeanPayoff(object):
@@ -85,9 +86,9 @@ class EuropeanOption(object):
 
     def get_malliavin_delta(self, x: ndarray, delta_weight: ndarray):
         if self._option_type == TypeEuropeanOption.CALL:
-            return malliavin_delta_call_put(x[:, -1], self._strike, self._spot,  delta_weight, 1.0)
+            return malliavin_delta_call_put(x[:, -1], self._strike, self._spot, delta_weight, 1.0)
         else:
-            return malliavin_delta_call_put(x[:, -1], self._strike, self._spot,  delta_weight, -1.0)
+            return malliavin_delta_call_put(x[:, -1], self._strike, self._spot, delta_weight, -1.0)
 
     def get_malliavin_gamma(self, x: ndarray, gamma_weight: ndarray):
         return malliavin_gamma_call_put(x[:, -1], self._strike, self._spot, gamma_weight)
@@ -182,12 +183,37 @@ class EuropeanOption(object):
 
                 greeks_map = {TypeGreeks.DELTA: 1.0 - (self._strike * df / np.pi) * delta_integral[0],
                               TypeGreeks.GAMMA: - (self._strike * df / np.pi) * gamma_integral[0],
-                              TypeGreeks.DUAL_DELTA: - 0.5 * df - aux_dual_delta - (df * self._strike / np.pi) * dual_delta[0]}
+                              TypeGreeks.DUAL_DELTA: - 0.5 * df - aux_dual_delta - (df * self._strike / np.pi) *
+                                                     dual_delta[0]}
 
                 return price, greeks_map
 
             else:
                 return price
+
+        elif ANALYTIC_MODEL.HESTON_MODEL_LEWIS:
+            r = args[0]
+            theta = args[1]
+            rho = args[2]
+            k = args[3]
+            epsilon = args[4]
+            v0 = args[5]
+
+            integrator = partial(f_lewis_heston,
+                                 t=self._delta_time,
+                                 v=v0,
+                                 spot=self._spot,
+                                 r_t=r,
+                                 theta=theta,
+                                 rho=rho,
+                                 k=k,
+                                 epsilon=epsilon,
+                                 strike=self._strike)
+
+            integral_value = quad_vec(integrator, 0.0, np.inf)
+            df = np.exp(- r * self._delta_time)
+            price = self._spot - (df * self._strike / np.pi) * integral_value[0]
+            return price
 
         elif model_type == ANALYTIC_MODEL.HESTON_MODEL_REGULAR:
             r = args[0]
@@ -235,11 +261,11 @@ class EuropeanOption(object):
                                   strike=self._strike)
 
             int_val_1 = quad_vec(integrator1, 0.0, np.inf)
-            value_1_aux = 0.5 + (1.0/np.pi) * int_val_1[0][0]
+            value_1_aux = 0.5 + (1.0 / np.pi) * int_val_1[0][0]
             p1 = 0.5 * (1 - phi) + phi * value_1_aux
 
             int_val_2 = quad_vec(integrator2, 0.0, np.inf)
-            value_2_aux = 0.5 + (1.0/np.pi) * int_val_2[0][0]
+            value_2_aux = 0.5 + (1.0 / np.pi) * int_val_2[0][0]
             p2 = 0.5 * (1 - phi) + phi * value_2_aux
             df = np.exp(- r * self._delta_time)
 
@@ -271,9 +297,3 @@ class EuropeanOption(object):
 
         else:
             raise Exception("The method " + str(model_type) + " is unknown.")
-
-
-
-
-
-

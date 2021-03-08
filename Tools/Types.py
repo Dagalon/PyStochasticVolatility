@@ -56,6 +56,7 @@ class MIXEDLOGNORMAL_OUTPUT(Enum):
     TIMES = 3,
     UNKNOWN = -1
 
+
 class BERGOMI2F_OUTPUT(Enum):
     PATHS = 0,
     INTEGRAL_VARIANCE_PATHS = 1,
@@ -70,8 +71,9 @@ class BERGOMI2F_OUTPUT(Enum):
 class ANALYTIC_MODEL(Enum):
     HESTON_MODEL_ATTARI = 0,
     HESTON_MODEL_REGULAR = 1,
-    BLACK_SCHOLES_MODEL = 2,
-    SABR_MODEL = 3,
+    HESTON_MODEL_LEWIS = 2,
+    BLACK_SCHOLES_MODEL = 3,
+    SABR_MODEL = 4,
     UNKNOWN = -1
 
     def __str__(self):

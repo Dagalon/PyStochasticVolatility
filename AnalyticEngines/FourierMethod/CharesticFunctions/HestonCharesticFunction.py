@@ -86,6 +86,25 @@ def f_attari_heston(w, t, v, spot, r_t, theta, rho, k, epsilon, b, u, strike):
     return (a1_u + a2_u) / (1.0 + np.power(w, 2.0))
 
 
+def f_lewis_heston(w, t, spot, v, r_t, theta, rho, k, epsilon, strike):
+    w_shift = w + 0.5 * 1j
+    var = epsilon ** 2
+    b = (2 / var) * (1j * w_shift * rho * epsilon + k)
+    ksi = np.sqrt(b ** 2 + 4 * (w_shift ** 2 - 1j * w_shift) / var)
+    g = 0.5 * (b - ksi)
+    h = (b - ksi) / (b + ksi)
+    variance_t = 0.5 * var * t
+    aux_h_1 = np.exp(-ksi * variance_t)
+    aux_h_2 = np.log((1 - h * aux_h_1) / (1 - h))
+
+    alpha_numerator = np.exp(-1j * w_shift * (np.log(spot / strike) + r_t * t))
+    alpha_denominator = (w_shift ** 2 - 1j * w_shift)
+
+    h_value = np.exp(2 * k * theta * (variance_t * g - aux_h_2) / var + v * g * (1 - aux_h_1) / (1 - h * aux_h_1))
+
+    return ((h_value * alpha_numerator) / alpha_denominator).real
+
+
 @nb.jit("f8[:](f8[:], f8, f8, f8, f8, f8, f8, f8, f8, f8, f8, f8)", nopython=True, nogil=True)
 def f_delta_attari_heston(w, t, v, spot, r_t, theta, rho, k, epsilon, b, u, strike):
     df = np.exp(- r_t * t)
