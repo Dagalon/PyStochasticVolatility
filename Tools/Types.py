@@ -72,8 +72,9 @@ class ANALYTIC_MODEL(Enum):
     HESTON_MODEL_ATTARI = 0,
     HESTON_MODEL_REGULAR = 1,
     HESTON_MODEL_LEWIS = 2,
-    BLACK_SCHOLES_MODEL = 3,
-    SABR_MODEL = 4,
+    BATES_MODEL_LEWIS = 3,
+    BLACK_SCHOLES_MODEL = 4,
+    SABR_MODEL = 5,
     UNKNOWN = -1
 
     def __str__(self):

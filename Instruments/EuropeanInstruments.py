@@ -24,6 +24,8 @@ from AnalyticEngines.FourierMethod.CharesticFunctions.HestonCharesticFunction im
     f_delta_attari_heston, \
     f_dual_delta_attari_heston, f_heston, f_gamma_heston, f_gamma_attari_heston, f_lewis_heston
 
+from AnalyticEngines.FourierMethod.CharesticFunctions.JumpDiffusionCharesticFunction import f_lewis_bate
+
 
 class EuropeanPayoff(object):
     def __init__(self,
@@ -191,7 +193,7 @@ class EuropeanOption(object):
             else:
                 return price
 
-        elif ANALYTIC_MODEL.HESTON_MODEL_LEWIS:
+        elif model_type == ANALYTIC_MODEL.HESTON_MODEL_LEWIS:
             r = args[0]
             theta = args[1]
             rho = args[2]
@@ -199,7 +201,7 @@ class EuropeanOption(object):
             epsilon = args[4]
             v0 = args[5]
 
-            integrator = partial(f_lewis_heston,
+            integrator = partial(f_lewis_bate,
                                  t=self._delta_time,
                                  v=v0,
                                  spot=self._spot,
@@ -294,6 +296,36 @@ class EuropeanOption(object):
 
             else:
                 return price
+
+        elif model_type == ANALYTIC_MODEL.BATES_MODEL_LEWIS:
+            r = args[0]
+            theta = args[1]
+            rho = args[2]
+            k = args[3]
+            epsilon = args[4]
+            v0 = args[5]
+            muJ = args[6]
+            sigmaJ = args[7]
+            lambdaJ = args[8]
+
+            integrator = partial(f_lewis_bate,
+                                 t=self._delta_time,
+                                 v=v0,
+                                 spot=self._spot,
+                                 r_t=r,
+                                 theta=theta,
+                                 rho=rho,
+                                 k=k,
+                                 mu_jump=muJ,
+                                 sigma_jump=sigmaJ,
+                                 lambda_jump=lambdaJ,
+                                 epsilon=epsilon,
+                                 strike=self._strike)
+
+            integral_value = quad_vec(integrator, 0.0, np.inf)
+            df = np.exp(- r * self._delta_time)
+            price = self._spot - (df * self._strike / np.pi) * integral_value[0]
+            return price
 
         else:
             raise Exception("The method " + str(model_type) + " is unknown.")
