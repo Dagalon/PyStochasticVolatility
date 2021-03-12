@@ -31,22 +31,20 @@ a = -6.0
 b = 6.0
 
 cf_bates = partial(JumpDiffusionCharesticFunction.get_bates_cf, t=T, r_t=r, x=x0, v=v0, theta=theta, rho=rho, k=k,
-                    epsilon=epsilon, jump_mean=muJ, jump_std=sigmaJ, jump_intensity=lambdaJ, b=b2, u=u2)
+                   epsilon=epsilon, jump_mean=muJ, jump_std=sigmaJ, jump_intensity=lambdaJ, b=b2, u=u2)
 start_time = time.time()
 cos_price = COSRepresentation.get_european_option_price(TypeEuropeanOption.CALL, a, b, 256, k_s, cf_bates)
 end_time = time.time()
 diff_time = end_time - start_time
 print(diff_time)
 
-
 start_time = time.time()
 price_cf_integration = []
 for i in range(0, no_strikes):
     european_option = EuropeanOption(k_s[i], 1.0, TypeSellBuy.BUY, TypeEuropeanOption.CALL, f0, T)
-    price_cf_integration.append(european_option.get_analytic_value(r, theta, rho, k, epsilon, v0, muJ, sigmaJ,
-                                                                   lambdaJ, model_type=Types.ANALYTIC_MODEL.BATES_MODEL_LEWIS,
+    price_cf_integration.append(european_option.get_analytic_value(r, theta, rho, k, epsilon, v0, muJ, sigmaJ, lambdaJ,
+                                                                   model_type=Types.ANALYTIC_MODEL.BATES_MODEL_LEWIS,
                                                                    compute_greek=False))
-
 
 end_time = time.time()
 diff_time = end_time - start_time

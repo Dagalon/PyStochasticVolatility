@@ -15,7 +15,7 @@ __author__ = 'David Garcia Lorite'
 import numpy as np
 import numba as nb
 
-from MC_Engines.MC_SABR import VarianceMC
+from MC_Engines.MC_SABR import VarianceMC, VarianceSamplingMatchingMoment
 from Tools import AnalyticTools
 from Tools.Types import Vector, ndarray, SABR_OUTPUT, TYPE_STANDARD_NORMAL_SAMPLING
 from MC_Engines.MC_SABR import SABRTools
@@ -31,19 +31,20 @@ def get_path_one_step(t0: float,
     nu = parameters[1]
     rho = parameters[2]
 
-    z = rnd_generator.normal(0.0, 1.0, no_paths)
+    z = rnd_generator.normal(0.0, 1.0, no_paths, sampling_type=TYPE_STANDARD_NORMAL_SAMPLING.ANTITHETIC)
+    z_int = rnd_generator.normal(0.0, 1.0, no_paths, sampling_type=TYPE_STANDARD_NORMAL_SAMPLING.ANTITHETIC)
+
     alpha_t = get_vol_sampling(t0,
                                t1,
                                alpha,
                                nu,
                                z)
 
-    var_t0_t1 = VarianceMC.get_variance(alpha,
-                                        nu,
-                                        alpha_t,
-                                        t1,
-                                        8,
-                                        rnd_generator)
+    var_t0_t1 = VarianceSamplingMatchingMoment.get_variance(np.full(no_paths, alpha, dtype=np.float),
+                                                            nu,
+                                                            alpha_t,
+                                                            t1,
+                                                            z_int)
 
     return get_underlying_sampling(f0,
                                    alpha,
