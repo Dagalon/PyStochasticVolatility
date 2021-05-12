@@ -15,6 +15,8 @@ __author__ = 'David Garcia Lorite'
 import numpy as np
 import numba as nb
 
+from ncephes import gamma
+
 
 # We suppose that the distributions of the jumps is exp(N(jumpmean, jumpstd))
 @nb.jit("c16[:](f8[:], f8, f8, f8, f8, f8, f8)", nopython=True, nogil=True)
@@ -76,6 +78,44 @@ def f_lewis_bate(w, t, spot, v, r_t, theta, rho, k, epsilon, lambda_jump, mu_jum
     aux2 = lambda_jump * t * (phi_hat - 1)
     value = np.exp(-1j * w_shift * aux1 + aux2) * h_bates_lewis(w_shift, v, t, k, theta, epsilon, rho) / (w_shift ** 2 - 1j * w_shift)
     return value.real
+
+
+@nb.jit("f8(c16, f8, f8, f8, f8, f8, f8, f8, f8)", nopython=True, nogil=True)
+def get_CGMYB_cf(w, t, x, r, sigma, C, G, M, Y):
+    var = sigma*sigma
+    aux = np.power((M-1), Y) - np.power(M, Y) + np.power((G+1), Y) - np.power(G, Y)
+    aux2 = np.power((M-1j*w), Y) - np.power(M, Y) + np.power((G+1j*w), Y) - np.power(G, Y)
+    wbar = -C * gamma(-Y) * aux
+    mu = r - 0.5 * var + wbar
+    phi = np.exp(C * t * gamma(-Y) * aux2)
+
+    return np.exp(1j * w * (x + mu * t) - 0.5 * var * w * w * t) * phi
+
+
+@nb.jit("c16[:](f8[:], f8, f8, f8, f8, f8, f8,f8)", nopython=True, nogil=True)
+def get_NIGB_cf(w, t, x, r, sigma, alpha, beta, delta):
+    var = sigma*sigma
+    alpha2 = alpha*alpha
+    beta2 = beta*beta
+    aux = np.sqrt(alpha2-beta2)
+
+    wbar = delta * (np.sqrt(alpha2 - np.power((beta+1), 2)) - aux)
+    mu = r - 0.5 * var + wbar
+
+    phi = np.exp(delta*t*(aux - np.sqrt(alpha2 - np.power((beta + 1j*w), 2))))
+
+    return np.exp(1j * w * x + 1j * w * mu * t - 0.5 * var * w * w * t) * phi
+
+
+@nb.jit("c16[:](f8[:],f8, f8, f8, f8, f8, f8)", nopython=True, nogil=True)
+def get_VG_cf(w, t, x, r, sigma, beta, theta):
+    var = sigma*sigma
+    wbar = (1/beta) * np.log(1-beta*(theta + 0.5*var))
+
+    mu = r + wbar
+    phi = np.power((1 + beta * (0.5*var * w * w - 1j * w * theta)), -t/beta)
+
+    return np.exp(1j * w * (x + mu * t)) * phi
 
 
 

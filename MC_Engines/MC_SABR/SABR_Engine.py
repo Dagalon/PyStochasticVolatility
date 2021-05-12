@@ -15,7 +15,7 @@ __author__ = 'David Garcia Lorite'
 import numpy as np
 import numba as nb
 
-from MC_Engines.MC_SABR import VarianceMC, VarianceSamplingMatchingMoment
+from MC_Engines.MC_SABR import VarianceSamplingMatchingMoment
 from Tools import AnalyticTools
 from Tools.Types import Vector, ndarray, SABR_OUTPUT, TYPE_STANDARD_NORMAL_SAMPLING
 from MC_Engines.MC_SABR import SABRTools
@@ -168,7 +168,7 @@ def get_path_multi_step(t0: float,
         sigma_t_i_1 = sigma_t_i.copy()
         s_t[:, i_step] = AnalyticTools.dot_wise(s_t[:, i_step - 1],
                                                 np.exp(- 0.5 * int_sigma_t_i[:, i_step - 1] +
-                                                     diff_sigma + rho_inv * noise_sigma))
+                                                diff_sigma + rho_inv * noise_sigma))
 
     map_output[SABR_OUTPUT.DELTA_MALLIAVIN_WEIGHTS_PATHS_TERMINAL] = delta_weight
     map_output[SABR_OUTPUT.PATHS] = s_t
