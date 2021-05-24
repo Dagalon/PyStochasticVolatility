@@ -89,7 +89,9 @@ def get_CGMYB_cf(w, t, x, r, sigma, C, G, M, Y):
     mu = r - 0.5 * var + wbar
     phi = np.exp(C * t * gamma(-Y) * aux2)
 
-    return np.exp(1j * w * (x + mu * t) - 0.5 * var * w * w * t) * phi
+    value = np.exp(1j * w * (x + mu * t) - 0.5 * var * w * w * t) * phi
+
+    return value.real
 
 
 @nb.jit("c16[:](f8[:], f8, f8, f8, f8, f8, f8,f8)", nopython=True, nogil=True)
