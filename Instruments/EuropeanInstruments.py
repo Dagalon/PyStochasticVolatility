@@ -201,7 +201,7 @@ class EuropeanOption(object):
             epsilon = args[4]
             v0 = args[5]
 
-            integrator = partial(f_lewis_bate,
+            integrator = partial(f_lewis_heston,
                                  t=self._delta_time,
                                  v=v0,
                                  spot=self._spot,
