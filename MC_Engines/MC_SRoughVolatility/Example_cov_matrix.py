@@ -23,14 +23,14 @@ cov = np.zeros(shape=(no_points, no_points))
 # plt.plot(u_i, k_i)
 # plt.show()
 
-# var_from_cov = []
-# for i in range(0, no_points):
-#     var_from_cov.append(ToolsVariance.get_volterra_covariance(t[i], t[i], beta))
-#     error = variance[i] - var_from_cov[-1]
-#
-# plt.plot(t, variance)
-# plt.plot(t, var_from_cov)
-# plt.show()
+var_from_cov = []
+for i in range(0, no_points):
+    var_from_cov.append(ToolsVariance.get_volterra_covariance(t[i], t[i], beta))
+    error = variance[i] - var_from_cov[-1]
+
+plt.plot(t, variance)
+plt.plot(t, var_from_cov)
+plt.show()
 
 
 for i in range(0, no_points):
