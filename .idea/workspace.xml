@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="e411fc7e-4876-46d1-99f8-6f4331000474" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/Examples/Chapter7/Example_Elisa_Jorge_2.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/aws.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/aws.xml" afterDir="false" />
+    <list default="true" id="e411fc7e-4876-46d1-99f8-6f4331000474" name="Default Changelist" comment="# one step scheme for sabr and new example">
+      <change afterPath="$PROJECT_DIR$/MC_Engines/MC_SRoughVolatility/Example_cov_matrix.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/MC_Engines/MC_SRoughVolatility/SRoughVolatility_Engine.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/MC_Engines/MC_SRoughVolatility/ToolsVariance.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/MC_Engines/MC_SRoughVolatility/__init__.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Examples/Chapter7/Example_Elisa_Jorge.py" beforeDir="false" afterPath="$PROJECT_DIR$/Examples/Chapter7/Example_Elisa_Jorge.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Examples/Chapter8/cover.jpeg" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -51,7 +51,7 @@
     <property name="node.js.selected.package.tslint" value="(autodetect)" />
     <property name="settings.editor.selected.configurable" value="reference.settingsdialog.IDE.editor.colors.Color Scheme Font" />
   </component>
-  <component name="RunManager">
+  <component name="RunManager" selected="Python.Example_cov_matrix">
     <configuration name="Example_Elisa_Jorge_2" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="PyStochasticVolatilityMaster" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -74,8 +74,31 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
+    <configuration name="Example_cov_matrix" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="PyStochasticVolatilityMaster" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/MC_Engines/MC_SRoughVolatility" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/MC_Engines/MC_SRoughVolatility/Example_cov_matrix.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Python.Example_cov_matrix" />
         <item itemvalue="Python.Example_Elisa_Jorge_2" />
       </list>
     </recent_temporary>
@@ -90,6 +113,8 @@
       <updated>1614329373114</updated>
       <workItem from="1614329376189" duration="6573000" />
       <workItem from="1614850045746" duration="329000" />
+      <workItem from="1622785442485" duration="13948000" />
+      <workItem from="1623044392998" duration="16739000" />
     </task>
     <servers />
   </component>
@@ -116,10 +141,49 @@
           <line>77</line>
           <option name="timeStamp" value="2" />
         </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/MC_Engines/MC_RBergomi/ToolsVariance.py</url>
+          <line>14</line>
+          <option name="timeStamp" value="14" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/MC_Engines/MC_SRoughVolatility/Example_cov_matrix.py</url>
+          <line>9</line>
+          <option name="timeStamp" value="22" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/MC_Engines/MC_SRoughVolatility/ToolsVariance.py</url>
+          <line>34</line>
+          <option name="timeStamp" value="36" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/MC_Engines/MC_SRoughVolatility/ToolsVariance.py</url>
+          <line>41</line>
+          <option name="timeStamp" value="37" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/MC_Engines/MC_SRoughVolatility/Example_cov_matrix.py</url>
+          <line>43</line>
+          <option name="timeStamp" value="38" />
+        </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
-    <SUITE FILE_PATH="coverage/PyStochasticVolatilityMaster$Example_Elisa_Jorge_2.coverage" NAME="Example_Elisa_Jorge_2 Coverage Results" MODIFIED="1614346853580" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Examples/Chapter7" />
+    <SUITE FILE_PATH="coverage/PyStochasticVolatilityMaster$Example_Bates.coverage" NAME="Example_Bates Coverage Results" MODIFIED="1615387510095" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/AnalyticEngines/FourierMethod/CharesticFunctions" />
+    <SUITE FILE_PATH="coverage/PyStochasticVolatilityMaster$Example__1_.coverage" NAME="Example (1) Coverage Results" MODIFIED="1615225003053" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/AnalyticEngines/FourierMethod/CharesticFunctions" />
+    <SUITE FILE_PATH="coverage/PyStochasticVolatilityMaster$Example_Raul_2.coverage" NAME="Example_Raul_2 Coverage Results" MODIFIED="1615386399745" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/AnalyticEngines/FourierMethod/CharesticFunctions" />
+    <SUITE FILE_PATH="coverage/PyStochasticVolatilityMaster$JumpDiffusionCharesticFunction.coverage" NAME="JumpDiffusionCharesticFunction Coverage Results" MODIFIED="1615380167970" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/AnalyticEngines/FourierMethod/CharesticFunctions" />
+    <SUITE FILE_PATH="coverage/PyStochasticVolatilityMaster$Example_cov_matrix.coverage" NAME="Example_cov_matrix Coverage Results" MODIFIED="1623071711582" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/MC_Engines/MC_SRoughVolatility" />
+    <SUITE FILE_PATH="coverage/PyStochasticVolatilityMaster$Figure_7_5.coverage" NAME="Figure_7_5 Coverage Results" MODIFIED="1615292191472" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Examples/Chapter7" />
+    <SUITE FILE_PATH="coverage/PyStochasticVolatilityMaster$Example_6_5_20.coverage" NAME="Example_6_5_20 Coverage Results" MODIFIED="1615359865138" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Examples/Chapter6" />
+    <SUITE FILE_PATH="coverage/PyStochasticVolatilityMaster$Example_6_5_18.coverage" NAME="Example_6_5_18 Coverage Results" MODIFIED="1621241255205" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Examples/Chapter6" />
+    <SUITE FILE_PATH="coverage/PyStochasticVolatilityMaster$skew_rBergomi_differents_times.coverage" NAME="skew_rBergomi_differents_times Coverage Results" MODIFIED="1615359364753" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Examples/Chapter2" />
+    <SUITE FILE_PATH="coverage/PyStochasticVolatilityMaster$Example_Raul.coverage" NAME="Example_Raul Coverage Results" MODIFIED="1615387210672" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/AnalyticEngines/FourierMethod/CharesticFunctions" />
+    <SUITE FILE_PATH="coverage/PyStochasticVolatilityMaster$Example_Check_Distribution.coverage" NAME="Example_Check_Distribution Coverage Results" MODIFIED="1615541330405" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/MC_Engines/MC_SABR" />
+    <SUITE FILE_PATH="coverage/PyStochasticVolatilityMaster$Example.coverage" NAME="Example Coverage Results" MODIFIED="1615225747789" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/AnalyticEngines/FourierMethod/COSMethod" />
+    <SUITE FILE_PATH="coverage/PyStochasticVolatilityMaster$Example_Elisa_Jorge_2.coverage" NAME="Example_Elisa_Jorge_2 Coverage Results" MODIFIED="1615546744453" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Examples/Chapter7" />
+    <SUITE FILE_PATH="coverage/PyStochasticVolatilityMaster$Example_Check_Distribution__1_.coverage" NAME="Example_Check_Distribution (1) Coverage Results" MODIFIED="1615541788502" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/MC_Engines/MC_SABR/Examples" />
+    <SUITE FILE_PATH="coverage/PyStochasticVolatilityMaster$Figure_7_7_RBergomi.coverage" NAME="Figure_7_7_RBergomi Coverage Results" MODIFIED="1621593657965" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Examples/Chapter7" />
   </component>
 </project>
