@@ -2,9 +2,11 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="e411fc7e-4876-46d1-99f8-6f4331000474" name="Default Changelist" comment="# one step scheme for sabr and new example">
+      <change afterPath="$PROJECT_DIR$/MC_Engines/MC_SRoughVolatility/Examples/SmileExample.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/MC_Engines/MC_SRoughVolatility/Example_cov_matrix.py" beforeDir="false" afterPath="$PROJECT_DIR$/MC_Engines/MC_SRoughVolatility/Example_cov_matrix.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MC_Engines/MC_SRoughVolatility/Example_cov_matrix.py" beforeDir="false" afterPath="$PROJECT_DIR$/MC_Engines/MC_SRoughVolatility/Examples/Example_cov_matrix.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/MC_Engines/MC_SRoughVolatility/SRoughVolatility_Engine.py" beforeDir="false" afterPath="$PROJECT_DIR$/MC_Engines/MC_SRoughVolatility/SRoughVolatility_Engine.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MC_Engines/MC_SRoughVolatility/ToolsVariance.py" beforeDir="false" afterPath="$PROJECT_DIR$/MC_Engines/MC_SRoughVolatility/ToolsVariance.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -32,6 +34,11 @@
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
+  <component name="HighlightingSettingsPerFile">
+    <setting file="file://$USER_HOME$/anaconda3/Lib/site-packages/numba/typeinfer.py" root0="SKIP_INSPECTION" />
+    <setting file="file://$USER_HOME$/anaconda3/Lib/site-packages/scipy/integrate/quadrature.py" root0="SKIP_INSPECTION" />
+    <setting file="file://$USER_HOME$/anaconda3/Lib/site-packages/numba/dispatcher.py" root0="SKIP_INSPECTION" />
+  </component>
   <component name="ProjectId" id="1p0oSe0QtV8Wamh09dnF4nb6ZEq" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
@@ -47,9 +54,14 @@
     <property name="node.js.path.for.package.tslint" value="project" />
     <property name="node.js.selected.package.eslint" value="(autodetect)" />
     <property name="node.js.selected.package.tslint" value="(autodetect)" />
-    <property name="settings.editor.selected.configurable" value="reference.settingsdialog.IDE.editor.colors.Color Scheme Font" />
+    <property name="settings.editor.selected.configurable" value="preferences.lookFeel" />
   </component>
-  <component name="RunManager" selected="Python.Example_cov_matrix">
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="D:\GitRepository\Python\PyStochasticVolatilityMaster\MC_Engines\MC_SRoughVolatility\Examples" />
+    </key>
+  </component>
+  <component name="RunManager" selected="Python.SmileExample">
     <configuration name="Example_Elisa_Jorge_2" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="PyStochasticVolatilityMaster" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -85,7 +97,29 @@
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/MC_Engines/MC_SRoughVolatility/Example_cov_matrix.py" />
+      <option name="SCRIPT_NAME" value="D:\GitRepository\Python\PyStochasticVolatilityMaster\MC_Engines\MC_SRoughVolatility\Examples\Example_cov_matrix.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="SmileExample" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="PyStochasticVolatilityMaster" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/MC_Engines/MC_SRoughVolatility/Examples" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/MC_Engines/MC_SRoughVolatility/Examples/SmileExample.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -96,6 +130,7 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Python.SmileExample" />
         <item itemvalue="Python.Example_cov_matrix" />
         <item itemvalue="Python.Example_Elisa_Jorge_2" />
       </list>
@@ -112,7 +147,10 @@
       <workItem from="1614329376189" duration="6573000" />
       <workItem from="1614850045746" duration="329000" />
       <workItem from="1622785442485" duration="13948000" />
-      <workItem from="1623044392998" duration="18349000" />
+      <workItem from="1623044392998" duration="18817000" />
+      <workItem from="1623996864013" duration="13000" />
+      <workItem from="1623996896078" duration="653000" />
+      <workItem from="1624002175237" duration="6324000" />
     </task>
     <servers />
   </component>
@@ -145,29 +183,29 @@
           <option name="timeStamp" value="14" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/MC_Engines/MC_SRoughVolatility/Example_cov_matrix.py</url>
+          <url>file://$PROJECT_DIR$/MC_Engines/MC_SRoughVolatility/Examples/Example_cov_matrix.py</url>
           <line>9</line>
           <option name="timeStamp" value="22" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/MC_Engines/MC_SRoughVolatility/ToolsVariance.py</url>
-          <line>34</line>
-          <option name="timeStamp" value="36" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/MC_Engines/MC_SRoughVolatility/ToolsVariance.py</url>
-          <line>41</line>
-          <option name="timeStamp" value="37" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/MC_Engines/MC_SRoughVolatility/Example_cov_matrix.py</url>
+          <url>file://$PROJECT_DIR$/MC_Engines/MC_SRoughVolatility/Examples/Example_cov_matrix.py</url>
           <line>43</line>
           <option name="timeStamp" value="38" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/MC_Engines/MC_SRoughVolatility/Example_cov_matrix.py</url>
+          <url>file://$PROJECT_DIR$/MC_Engines/MC_SRoughVolatility/Examples/Example_cov_matrix.py</url>
           <line>35</line>
           <option name="timeStamp" value="39" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/MC_Engines/MC_SRoughVolatility/Examples/SmileExample.py</url>
+          <line>15</line>
+          <option name="timeStamp" value="40" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/MC_Engines/MC_SRoughVolatility/Examples/SmileExample.py</url>
+          <line>35</line>
+          <option name="timeStamp" value="41" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
@@ -188,5 +226,6 @@
     <SUITE FILE_PATH="coverage/PyStochasticVolatilityMaster$Example_Elisa_Jorge_2.coverage" NAME="Example_Elisa_Jorge_2 Coverage Results" MODIFIED="1615546744453" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Examples/Chapter7" />
     <SUITE FILE_PATH="coverage/PyStochasticVolatilityMaster$Example_Check_Distribution__1_.coverage" NAME="Example_Check_Distribution (1) Coverage Results" MODIFIED="1615541788502" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/MC_Engines/MC_SABR/Examples" />
     <SUITE FILE_PATH="coverage/PyStochasticVolatilityMaster$Figure_7_7_RBergomi.coverage" NAME="Figure_7_7_RBergomi Coverage Results" MODIFIED="1621593657965" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Examples/Chapter7" />
+    <SUITE FILE_PATH="coverage/PyStochasticVolatilityMaster$SmileExample.coverage" NAME="SmileExample Coverage Results" MODIFIED="1624012214887" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/MC_Engines/MC_SRoughVolatility/Examples" />
   </component>
 </project>
