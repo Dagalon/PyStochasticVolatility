@@ -1,6 +1,6 @@
 import numpy as np
 import matplotlib.pylab as plt
-from AnalyticEngines.FourierMethod.CharesticFunctions import JumpDiffusionCharesticFunction, HestonCharesticFunction
+from AnalyticEngines.FourierMethod.CharesticFunctions import JumpDiffusionCharesticFunction
 from functools import partial
 from AnalyticEngines.FourierMethod.COSMethod import COSRepresentation
 from Instruments.EuropeanInstruments import TypeEuropeanOption
