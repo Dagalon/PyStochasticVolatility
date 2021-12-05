@@ -17,7 +17,8 @@ import numba as nb
 
 from Tools.Types import ndarray
 from Tools import AnalyticTools
-from ncephes import hyp2f1
+# from ncephes import hyp2f1
+from scipy.special import hyp2f1
 from MC_Engines.MC_RBergomi.ToolsVariance import get_volterra_covariance, get_covariance_w_v_w_t
 
 
