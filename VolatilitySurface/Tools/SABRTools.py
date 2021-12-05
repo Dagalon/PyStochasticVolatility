@@ -66,6 +66,16 @@ def sabr_vol_jit(alpha, rho, v, z, t):
         return sigma
 
 
+@nb.jit("f8(f8,f8,f8,f8,f8,f8)", nopython=True, nogil=True)
+def sabr_normal_jit(f, k, alpha, rho, v, t):
+    if f == k:
+        return alpha * (1.0 + v * v * t * (2.0 - 3.0 * rho * rho) / 24.0)
+    else:
+        psi = (v / alpha) * (f - k)
+        phi = np.log((np.sqrt(1.0 - 2.0 * rho * psi + psi * psi) - rho + psi) / (1.0 - rho))
+        return alpha * (psi / phi) * (1.0 + v * v * t * (2.0 - 3.0 * rho * rho) / 24.0)
+
+
 # Tools for computing de derivative in local vol function in case SABR dynamic
 @nb.jit("f8(f8,f8)", nopython=True, nogil=True)
 def f_s(y, rho):
