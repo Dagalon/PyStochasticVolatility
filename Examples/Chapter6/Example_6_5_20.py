@@ -62,7 +62,6 @@ for i in range(0, no_dt_s):
                                                      no_time_steps, Types.TYPE_STANDARD_NORMAL_SAMPLING.REGULAR_WAY,
                                                      rnd_generator)
 
-    # mc_option_price = options[i].get_price(map_output[Types.RBERGOMI_OUTPUT.PATHS][:, -1])
     mc_option_price = options[i].get_price_control_variate(map_output[Types.RBERGOMI_OUTPUT.PATHS][:, -1],
                                                            map_output[Types.RBERGOMI_OUTPUT.INTEGRAL_VARIANCE_PATHS])
 
