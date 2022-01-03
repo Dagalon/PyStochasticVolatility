@@ -1,6 +1,5 @@
 import numpy as np
 import numba as nb
-import Tools.Types
 from ncephes import ndtr
 from functools import partial
 from scipy.integrate import quad
