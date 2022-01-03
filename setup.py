@@ -5,7 +5,7 @@ setup(
     version='1.0',
     packages=['Tools', 'Solvers', 'Solvers.ODE_Solver', 'Solvers.PDE_Solver',
               'Solvers.PDE_Solver.Examples', 'MCPricers', 'MC_Engines', 'MC_Engines.MC_SABR', 'MC_Engines.MC_Heston',
-              'MC_Engines.GenericSDE', 'MC_Engines.MC_RBergomi', 'MC_Engines.MC_Bergomi2F',
+              'MC_Engines.GenericSDE', 'MC_Engines.MC_RBergomi', 'MC_Engines.MC_MixedLogNormal',
               'MC_Engines.MC_LocalVol', 'Instruments', 'AnalyticEngines',
               'AnalyticEngines.FourierMethod', 'AnalyticEngines.FourierMethod.COSMethod',
               'AnalyticEngines.FourierMethod.CharesticFunctions', 'AnalyticEngines.LocalVolatility',
