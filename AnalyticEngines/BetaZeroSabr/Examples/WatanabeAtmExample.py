@@ -31,7 +31,7 @@ for i in range(0, no_options):
 plt.plot(ts, iv_hagan, label='iv hagan atm', linestyle='dotted')
 plt.plot(ts, iv_watanabe, label='iv watanabe atm', linestyle='dashed')
 
-plt.title("F= %s" % f0)
+plt.title("Implied Vol ATM by maturity")
 
 plt.legend()
 plt.show()
