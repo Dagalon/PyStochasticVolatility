@@ -64,6 +64,20 @@ class LN_FORWARD_LOCAL_VOL_PDE(IPDETerms):
         return - v
 
 
+class NORMAL_LOCAL_VOL_PDE(IPDETerms):
+    def __init__(self, f_local_vol: Callable[[float, ndarray], ndarray]):
+        self._sigma = f_local_vol
+
+    def source(self, t: float, x: ndarray):
+        return np.zeros(x.size)
+
+    def diffusion(self, t: float, x: ndarray):
+        return  0.5 * np.power(self._sigma(t, x), 2.0)
+
+    def convection(self, t: float, x: ndarray, v: ndarray):
+        return np.zeros(x.size)
+
+
 class PDE(object):
     def __init__(self,
                  source: Callable[[float, ndarray], ndarray],

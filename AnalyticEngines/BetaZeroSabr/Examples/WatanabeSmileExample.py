@@ -5,12 +5,12 @@ from MC_Engines.MC_SABR import SABR_Normal_Engine
 from Instruments.EuropeanInstruments import EuropeanOption, TypeSellBuy, TypeEuropeanOption
 from Tools import RNG, Types
 from VolatilitySurface.Tools import SABRTools
-from Tools.Bachelier import bachelier, implied_volatility
+from Tools.Bachelier import implied_volatility
 
 # option info
-f0 = 0.02
+f0 = 0.01
 t = 1.0
-spreads = [-200.0, -150.0, -100.0, -50.0, -25.0, -0.1, 0.0, 0.1, 25.0, 50.0, 100.0, 150.0, 200.0]
+spreads = [-200.0, -175.0, -150.0, -100.0, -75.0, -50.0, -25.0, -10.0, 0.0, 10.0, 25.0, 50.0, 75.0, 100.0, 150.0, 175.0, 200.0]
 
 strikes = []
 options = []
@@ -20,13 +20,13 @@ for si in spreads:
 
 # sabr parameters
 alpha = 0.007
-nu = 0.7
-rho = -0.6
+nu = 0.4
+rho = 0.5
 parameters = [alpha, nu, rho]
 
 # mc price
 seed = 123456789
-no_paths = 500000
+no_paths = 750000
 rnd_generator = RNG.RndGenerator(seed)
 no_time_steps = 200
 

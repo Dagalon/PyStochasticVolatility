@@ -2,6 +2,7 @@ import matplotlib.pylab as plt
 import numpy as np
 
 from AnalyticEngines.BetaZeroSabr import ExpansionTools
+from AnalyticEngines.MalliavinMethod.ExpansionTools import get_vol_swap_approximation_sabr
 from Instruments.EuropeanInstruments import EuropeanOption, TypeSellBuy, TypeEuropeanOption
 from VolatilitySurface.Tools import SABRTools
 
@@ -23,13 +24,19 @@ parameters = [alpha, nu, rho]
 no_options = len(options)
 iv_hagan = []
 iv_watanabe = []
+vol_swap = []
+diff = []
 
 for i in range(0, no_options):
     iv_hagan.append(SABRTools.sabr_normal_jit(f0, strike, alpha, rho, nu, ts[i]))
     iv_watanabe.append(ExpansionTools.get_iv_normal_sabr_watanabe_expansion(f0, strike, ts[i], alpha, nu, rho))
+    vol_swap.append(get_vol_swap_approximation_sabr(parameters, 0.0, ts[i], alpha))
+    diff.append(iv_watanabe[-1] - vol_swap[-1])
 
 plt.plot(ts, iv_hagan, label='iv hagan atm', linestyle='dotted')
 plt.plot(ts, iv_watanabe, label='iv watanabe atm', linestyle='dashed')
+
+# plt.plot(ts, iv_watanabe, label='iv_t - v_t', linestyle='dashed')
 
 plt.title("Implied Vol ATM by maturity")
 

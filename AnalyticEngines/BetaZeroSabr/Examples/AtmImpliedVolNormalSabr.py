@@ -16,7 +16,7 @@ no_dt_s = len(dt)
 # simulation info
 alpha = 0.3
 nu = 0.4
-rho = -0.6
+rho = 0.0
 parameters = [alpha, nu, rho]
 no_time_steps = 100
 
@@ -52,7 +52,7 @@ for i in range(0, no_dt_s):
     option_bachelier_price = bachelier(f0, f0, dt[i], implied_vol_atm[-1], 'c')
     vol_swap_approximation.append(get_vol_swap_approximation_sabr(parameters, 0.0, dt[i], alpha))
     vol_swap_mc.append(np.mean(np.sqrt(np.sum(map_output[Types.SABR_OUTPUT.INTEGRAL_VARIANCE_PATHS], 1) / dt[i])))
-    output.append((implied_vol_atm[-1] - vol_swap_approximation[-1]))
+    output.append((implied_vol_atm[-1] - vol_swap_mc[-1]))
 
 # curve fit
 
