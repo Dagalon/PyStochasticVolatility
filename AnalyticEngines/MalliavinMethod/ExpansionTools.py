@@ -125,21 +125,6 @@ def get_iv_atm_sabr_approximation(parameters: Types.ndarray, t: float):
     return vol_swap + t * adjustment
 
 
-# @nb.jit("f8(f8[:],f8, f8, f8)", nopython=True, nogil=True)
-def get_iv_sabr_approximation(parameters: Types.ndarray, t: float, k: float, f0: float):
-    alpha = parameters[0]
-    nu = parameters[1]
-    rho = parameters[2]
-
-    vol_swap = get_vol_swap_approximation_sabr(parameters, 0.0, t, alpha)
-    diff = np.log(k / f0)
-    var_swap_term = vol_swap
-    first_term = 0.5 * rho * nu * diff
-    second_term = (nu * nu / alpha) * (1.0 / 3.0 - 0.5 * rho * rho) * diff * diff
-
-    return var_swap_term + first_term + second_term
-
-
 # function to compute VIX_t from MC simulation
 @nb.jit("f8[:](f8,f8,f8,f8,f8,f8[:],f8,i8)", nopython=True, nogil=True)
 def get_vix_rbergomi_t(t0, t1, delta_vix, nu, h, v_t, v0, no_integration_points):
