@@ -15,8 +15,7 @@ __author__ = 'David Garcia Lorite'
 import numpy as np
 import numba as nb
 from Tools.Types import ndarray
-# from ncephes import hyp2f1
-from scipy.special import hyp2f1
+from ncephes import hyp2f1
 from Tools import AnalyticTools
 from math import gamma
 

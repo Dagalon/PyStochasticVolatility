@@ -2,8 +2,7 @@ import numpy as np
 import Tools.AnalyticTools
 import numba as nb
 
-# from ncephes import ndtr
-from scipy.special import ndtr
+from ncephes import ndtr
 
 CALL = 'c'
 PUT = 'p'
