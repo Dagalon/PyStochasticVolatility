@@ -1,6 +1,6 @@
 import numpy as np
 import numba as nb
-from ncephes import ndtr
+from scipy.special import ndtr
 from functools import partial
 from scipy.integrate import quad
 

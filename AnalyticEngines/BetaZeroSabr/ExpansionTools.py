@@ -1,7 +1,7 @@
 import numpy as np
 import Tools.AnalyticTools
 
-from ncephes import ndtr
+from scipy.special import ndtr
 from MC_Engines.MC_LocalVol import LocalVolFunctionals
 
 

@@ -15,7 +15,7 @@ __author__ = 'David Garcia Lorite'
 import numba as nb
 import numpy as np
 from Tools import Types
-from ncephes import beta
+from scipy.special import beta
 from scipy.integrate import quad_vec
 from MC_Engines.MC_RBergomi import ToolsVariance
 
