@@ -17,7 +17,8 @@ from numba import jit
 
 from Tools.Types import ndarray
 from MC_Engines.MC_Heston import HestonTools
-from ncephes import ndtri
+# from ncephes import ndtri
+from scipy.special import ndtri
 
 
 @jit("f8[:](f8,f8,f8,f8,f8,f8,f8[:],f8[:], i8)", nopython=True, nogil=True)

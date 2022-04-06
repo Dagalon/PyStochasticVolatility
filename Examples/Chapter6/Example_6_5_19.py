@@ -12,7 +12,7 @@ from functools import partial
 dt = np.linspace(0.01, 0.1, 10)
 no_dt_s = len(dt)
 
-# simulation info
+# local vol info
 sigma = 0.3
 beta = 0.4
 local_vol_mc = partial(LocalVolFunctionals.log_cev_diffusion, beta=beta - 1.0, sigma=sigma)

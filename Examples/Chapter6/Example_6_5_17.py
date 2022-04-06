@@ -61,8 +61,8 @@ def f_law(x, a, b):
 popt, pcov = curve_fit(f_law, dt, output)
 y_fit_values = f_law(dt, *popt)
 
-plt.plot(dt, output, label='(I(t,f0) - E(v_t))', linestyle='--', color='black')
-plt.plot(dt, y_fit_values, label="%s + %s * t" % (round(popt[0], 5), round(popt[1], 5)), marker='.',
+plt.plot(dt, output, label='(I(0,f0) - E(v_0))', linestyle='--', color='black')
+plt.plot(dt, y_fit_values, label="%s  %s * T" % (round(popt[0], 5), round(popt[1], 5)), marker='.',
          linestyle='--', color='black')
 
 plt.xlabel('T')

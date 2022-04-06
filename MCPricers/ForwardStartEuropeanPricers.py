@@ -17,7 +17,8 @@ import numba as nb
 import numpy as np
 
 from Tools import Types
-from ncephes import ndtr
+# from ncephes import ndtr
+from scipy.special import ndtr
 
 
 @nb.jit("f8(f8,f8,f8,f8,i8)", nopython=True, nogil=True)

@@ -15,6 +15,7 @@ __author__ = 'David Garcia Lorite'
 import numpy as np
 import numba as nb
 
+# from ncephes import ndtr
 from ncephes import ndtr
 from Tools.AnalyticTools import normal_pdf
 

@@ -13,6 +13,7 @@ __author__ = 'David Garcia Lorite'
 
 import numba as nb
 import numpy as np
+from ncephes import ndtr
 
 
 @nb.jit("f8(f8, f8, f8)", nopython=True, nogil=True)
@@ -25,6 +26,35 @@ def log_normal_pdf(mean=0.0, sigma=1.0, x=0.0):
     return normal_pdf(mean, sigma, (np.log(x) - mean) / sigma) * 1.0 / (sigma * x)
 
 
+def bs_distribution(r=0.0, q=0.0, t=0.0, sigma=0.0, s0=0.0, s=0.0):
+    f = np.exp((r - q) * t) * s0
+    sigma_t = sigma * np.sqrt(t)
+    d = (np.log(s / f) / sigma_t) + 0.5 * sigma_t
+
+    return ndtr(d)
+
+
+def bs_density(r=0.0, q=0.0, t=0.0, sigma=0.0, s0=0.0, s=0.0):
+    f = np.exp((r - q) * t) * s0
+    sigma_t = sigma * np.sqrt(t)
+    d = (np.log(s / f) / sigma_t) + 0.5 * sigma_t
+
+    return normal_pdf(0.0, 1.0, d) / (sigma_t * s)
+
+
+def bs_approximation_distribution(r=0.0, q=0.0, t=0.0, sigma=0.0, s0=0.0, s=0.0):
+    f = np.exp((r - q) * t) * s0
+    x0 = np.log(f)
+    sigma_t = sigma * np.sqrt(t)
+    s_zero = - 0.5 * sigma * sigma * t + x0
+    diff = (np.log(s) - s_zero)
+
+    first_derive = - 1.0 / (np.sqrt(2.0 * np.pi) * sigma_t)
+    third_derive = 1.0 / (np.sqrt(2.0 * np.pi) * np.power(sigma_t, 3.0))
+
+    return 0.5 + first_derive * diff + (1.0 / 6.0) * third_derive * np.power(diff, 3.0)
+
+
 @nb.jit("f8(f8,f8,i4)", nopython=True, nogil=True)
 def get_bessel_moments(t, nu, n):
     out = 0.0
@@ -34,9 +64,9 @@ def get_bessel_moments(t, nu, n):
 
     for i in range(0, n + 1):
         a_k[i] = 2.0 * i * nu + 2 * i * i
-        n_factorial *= (i+1)
+        n_factorial *= (i + 1)
 
-    n_factorial = n_factorial /(n+1)
+    n_factorial = n_factorial / (n + 1)
 
     for i in range(0, n + 1):
         prod = 1.0
@@ -76,7 +106,7 @@ def apply_lower_tridiagonal_matrix(a, b):
     no_elements = len(b)
     output = np.zeros(no_elements)
     for i in range(0, no_elements):
-        for j in range(0, i+1):
+        for j in range(0, i + 1):
             output[i] += a[i, j] * b[j]
 
     return output
@@ -96,7 +126,3 @@ def fejer_kernel(t: float, n: float):
         return (1.0 / n) * np.power(np.sin(0.5 * n * t) / np.sin(0.5 * t), 2.0)
     else:
         return 1.0
-
-
-
-

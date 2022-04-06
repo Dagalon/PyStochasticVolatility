@@ -115,3 +115,30 @@ class LnUnderlyingMesh(Mesh):
         s_u = self._ln_s0 + mu * self._T + alpha_q * self._sigma * np.sqrt(self._T)
         s_l = self._ln_s0 + mu * self._T - alpha_q * self._sigma * np.sqrt(self._T)
         return s_l, s_u
+
+
+class BachelierUnderlyingMesh(Mesh):
+    def __init__(self,
+                 sigma: float,
+                 x0: float,
+                 T: float,
+                 alpha: float,
+                 generator: Callable[[int, float, float], ndarray],
+                 no_points: int):
+        Mesh.__init__(self, generator, no_points)
+
+        self._sigma = sigma
+        self._x0 = x0
+        self._T = T
+        self._alpha = alpha
+
+        self._T0, self._T1 = self.get_bounds()
+
+        self._points = generator(no_points, self._T0, self._T1)
+        self._shift = np.diff(self._points, n=1)
+
+    def get_bounds(self):
+        alpha_q = - norm.isf(self._alpha)
+        s_u = self._x0 + alpha_q * self._sigma * np.sqrt(self._T)
+        s_l = self._x0 - alpha_q * self._sigma * np.sqrt(self._T)
+        return s_l, s_u
