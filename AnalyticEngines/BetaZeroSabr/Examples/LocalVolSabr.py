@@ -7,8 +7,8 @@ from Solvers.PDE_Solver import PDESolvers
 from Solvers.PDE_Solver import PDEOperators
 from Solvers.PDE_Solver.Meshes import uniform_mesh, Mesh, BachelierUnderlyingMesh
 from Solvers.PDE_Solver.PDEs import NORMAL_LOCAL_VOL_PDE, PDE
-from Solvers.PDE_Solver.Types import BoundaryConditionType, np_ndarray, SchemeType
 from Solvers.PDE_Solver.TerminalConditions import TerminalCondition
+from Solvers.PDE_Solver.Types import BoundaryConditionType, np_ndarray, SchemeType
 from Solvers.PDE_Solver.BoundariesConditions import Zero_Laplacian_BC
 from VolatilitySurface.Tools import SABRTools
 from AnalyticEngines.BetaZeroSabr import ExpansionTools
@@ -73,6 +73,7 @@ for i in range(0, len(strikes)):
     hagan_price.append(bachelier(f0, strikes[i], t, iv_hagan, 'c'))
 
     #watanabe price
+    iv_lv_watanabe = ExpansionTools.get_iv_normal_lv_sabr_watanabe_expansion(f0, strikes[i], t, alpha, nu, rho)
     price_sv = ExpansionTools.get_option_normal_sabr_watanabe_expansion(f0, strikes[i], t, alpha, nu, rho, 'c')
     price_lv = ExpansionTools.get_option_normal_sabr_loc_vol_expansion(f0, strikes[i], t, alpha, nu, rho, 'c')
     watanabe_price_lv.append(price_lv)
