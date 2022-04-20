@@ -21,7 +21,7 @@ for si in spreads:
 # sabr parameters
 alpha = 0.007
 nu = 0.4
-rho = 0.5
+rho = -0.4
 parameters = [alpha, nu, rho]
 
 # mc price

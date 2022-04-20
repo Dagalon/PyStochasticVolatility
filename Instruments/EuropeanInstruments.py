@@ -191,7 +191,11 @@ class EuropeanOption(object):
                 return price, greeks_map
 
             else:
-                return price
+                if self._option_type == TypeEuropeanOption.CALL:
+                    return price
+                else:
+                    f = np.exp(r * self._delta_time) * self._spot
+                    return price - (f - self._strike)
 
         elif model_type == ANALYTIC_MODEL.HESTON_MODEL_LEWIS:
             r = args[0]
@@ -215,7 +219,12 @@ class EuropeanOption(object):
             integral_value = quad_vec(integrator, 0.0, np.inf)
             df = np.exp(- r * self._delta_time)
             price = self._spot - (df * self._strike / np.pi) * integral_value[0]
-            return price
+
+            if self._option_type == TypeEuropeanOption.CALL:
+                return price
+            else:
+                f = np.exp(r * self._delta_time) * self._spot
+                return price - (f - self._strike)
 
         elif model_type == ANALYTIC_MODEL.HESTON_MODEL_REGULAR:
             r = args[0]
@@ -295,7 +304,11 @@ class EuropeanOption(object):
                 return price, greeks_map
 
             else:
-                return price
+                if self._option_type == TypeEuropeanOption.CALL:
+                    return price
+                else:
+                    f = np.exp(r * self._delta_time) * self._spot
+                    return price - (f - self._strike)
 
         elif model_type == ANALYTIC_MODEL.BATES_MODEL_LEWIS:
             r = args[0]
@@ -325,7 +338,12 @@ class EuropeanOption(object):
             integral_value = quad_vec(integrator, 0.0, np.inf)
             df = np.exp(- r * self._delta_time)
             price = self._spot - (df * self._strike / np.pi) * integral_value[0]
-            return price
+
+            if self._option_type == TypeEuropeanOption.CALL:
+                return price
+            else:
+                f = np.exp(r * self._delta_time) * self._spot
+                return price - (f - self._strike)
 
         else:
             raise Exception("The method " + str(model_type) + " is unknown.")

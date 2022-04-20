@@ -30,8 +30,13 @@ def get_iv_normal_sabr_watanabe_expansion(f0, k, t, alpha, nu, rho):
     y = (k - f0) / (alpha * np.sqrt(t))
     rho_inv = np.sqrt(1.0 - rho * rho)
     a_t = 0.5 * rho * nu * y
-    b_t = 0.5 * np.power(nu * rho, 2.0) * (1.0 - y * y) / 6.0 + \
-          0.5 * np.power(nu * rho, 2.0) * np.power(0.25 * (y * y - 1.0), 2.0) + \
+
+    # b_t = 0.5 * np.power(nu * rho, 2.0) * (1.0 - y * y) / 6.0 + \
+    #       0.5 * np.power(nu * rho, 2.0) * np.power(0.25 * (y * y - 1.0), 2.0) + \
+    #       0.5 * np.power(rho_inv * nu, 2.0) * ((np.power(y, 2.0) + 2.0) / 3.0) - 0.25 * nu * nu
+
+    b_t = 0.5 * np.power(nu * rho, 2.0) * (1.0 / 6.0 + np.power(y, 2.0) / 3.0 - 0.25 * np.power(y, 4.0)) + \
+          0.5 * np.power(nu * rho, 2.0) * np.power(0.5 * (y * y - 1.0), 2.0) + \
           0.5 * np.power(rho_inv * nu, 2.0) * ((np.power(y, 2.0) + 2.0) / 3.0) - 0.25 * nu * nu
 
     return alpha * (1.0 + np.sqrt(t) * a_t + t * b_t)
@@ -39,12 +44,11 @@ def get_iv_normal_sabr_watanabe_expansion(f0, k, t, alpha, nu, rho):
 
 def get_iv_normal_lv_sabr_watanabe_expansion(f0, k, t, alpha, nu, rho):
     y = (k - f0) / (alpha * np.sqrt(t))
-    rho_inv = np.sqrt(1.0 - rho * rho)
-    a_t = 0.5 * alpha * rho * nu * y
-    b_t_0 = 0.25 * np.power(nu * rho_inv, 2.0) + 0.125 * alpha * np.power(nu * rho, 2.0) * np.power(y * y - 1.0, 2.0)
-    - 0.125 * alpha * np.power(nu * rho, 2.0) * np.power(y, 2.0)
-    b_t_1 = np.power(alpha * nu * rho_inv, 2.0) * (2.0 * y * y + 1.0) / 6.0
-    return alpha + a_t * np.sqrt(t) + (b_t_0 + b_t_1) * t
+
+    a_t = 0.5 * rho * nu * y  # \sqrt{t}
+    b_t = np.power(nu * y, 2.0) * (2.0 - 3.0 * rho * rho) / 12.0 + nu * nu * (2.0 - 3.0 * rho * rho) / 24.0
+
+    return alpha * (1.0 + a_t * np.sqrt(t) + b_t * t)
 
 
 def get_option_normal_sabr_loc_vol_expansion(f0, k, t, alpha, nu, rho, option_type):
@@ -56,13 +60,13 @@ def get_option_normal_sabr_loc_vol_expansion(f0, k, t, alpha, nu, rho, option_ty
     rho_inv = 1.0 - rho * rho
 
     a_t = 0.5 * rho * nu * y
-    b_t = rho * nu * alpha * (2.0 * y * y + 1.0) / 6.0 + 0.25 * nu * nu * rho_inv + 0.125 * np.power(rho * nu, 2.0) * np.power(y * y - 1, 2.0)
-    c_t = alpha * np.power(rho * nu, 2.0) * (0.25 * np.power(y, 5.0) - np.power(y, 3.0) / 3.0 + 0.25 * y)
+    b_t = nu * nu * (y * y - 1.0) / 6.0
+    c_t = 0.25 * np.power(nu * rho_inv, 2.0) + 0.125 * np.power(rho * nu, 2.0) * np.power(y*y - 1.0, 2.0)
 
     if option_type == 'c':
-        return alpha * np.sqrt(t) * (g_y + phi_y * np.sqrt(t) * a_t + phi_y * t * b_t + phi_y * np.power(t, 1.5) * c_t)
+        return alpha * np.sqrt(t) * (g_y + phi_y * np.sqrt(t) * a_t + phi_y * t * (b_t + c_t))
     else:
-        return alpha * np.sqrt(t) * (g_y + phi_y * np.sqrt(t) * a_t + phi_y * t * b_t + phi_y * np.power(t, 1.5) * c_t) - (f0 - k)
+        return alpha * np.sqrt(t) * (g_y + phi_y * np.sqrt(t) * a_t + phi_y * t * (b_t + c_t)) - (f0 - k)
 
 
 

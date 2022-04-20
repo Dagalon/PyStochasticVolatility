@@ -72,7 +72,7 @@ class NORMAL_LOCAL_VOL_PDE(IPDETerms):
         return np.zeros(x.size)
 
     def diffusion(self, t: float, x: ndarray):
-        return  0.5 * np.power(self._sigma(t, x), 2.0)
+        return 0.5 * np.power(self._sigma(t, x), 2.0)
 
     def convection(self, t: float, x: ndarray, v: ndarray):
         return np.zeros(x.size)

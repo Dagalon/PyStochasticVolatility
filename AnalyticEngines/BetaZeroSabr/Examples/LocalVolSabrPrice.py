@@ -13,7 +13,7 @@ from Solvers.PDE_Solver.BoundariesConditions import Zero_Laplacian_BC
 from VolatilitySurface.Tools import SABRTools
 from AnalyticEngines.BetaZeroSabr import ExpansionTools
 from functools import partial
-from Tools.Bachelier import bachelier
+from Tools.Bachelier import bachelier, implied_volatility
 
 
 def call(mesh: Mesh, k: float) -> np_ndarray:
@@ -55,6 +55,8 @@ hagan_price = []
 watanabe_price_lv = []
 watanabe_price_sv = []
 
+iv_hagan = []
+
 for i in range(0, len(strikes)):
     pd_solver = PDESolvers.FDSolver(mesh_t,
                                     mesh_x,
@@ -69,33 +71,19 @@ for i in range(0, len(strikes)):
     pde_price.append(price)
 
     #hagan price
-    iv_hagan = SABRTools.sabr_normal_jit(f0, strikes[i], alpha, rho, nu, t)
-    hagan_price.append(bachelier(f0, strikes[i], t, iv_hagan, 'c'))
+    iv_hagan.append(SABRTools.sabr_normal_jit(f0, strikes[i], alpha, rho, nu, t))
+    hagan_price.append(bachelier(f0, strikes[i], t, iv_hagan[-1], 'c'))
 
     #watanabe price
-    iv_lv_watanabe = ExpansionTools.get_iv_normal_lv_sabr_watanabe_expansion(f0, strikes[i], t, alpha, nu, rho)
     price_sv = ExpansionTools.get_option_normal_sabr_watanabe_expansion(f0, strikes[i], t, alpha, nu, rho, 'c')
     price_lv = ExpansionTools.get_option_normal_sabr_loc_vol_expansion(f0, strikes[i], t, alpha, nu, rho, 'c')
     watanabe_price_lv.append(price_lv)
     watanabe_price_sv.append(price_sv)
 
 plt.plot(strikes, hagan_price, label='Hagan price', linestyle='dotted')
-# plt.plot(strikes, watanabe_price_sv, label='Watanabe price SV', linestyle='dashed')
+plt.plot(strikes, watanabe_price_sv, label='Watanabe price SV', linestyle='dashed')
 plt.plot(strikes, watanabe_price_lv, label='Watanabe price LV', linestyle='-')
 plt.plot(strikes, pde_price, label='PDE price', linestyle=':')
-
-# iv_hagan = []
-# iv_watanabe = []
-# for i in range(0, len(strikes)):
-#     iv = SABRTools.sabr_normal_jit(f0, strikes[i], alpha, rho, nu, t)
-#     iv_hagan.append(iv)
-#     iv = ExpansionTools.get_iv_normal_sabr_watanabe_expansion(f0, strikes[i], t, alpha, nu, rho)
-#     iv_watanabe.append(iv)
-#
-#
-# plt.plot(strikes, iv_hagan, label='IV Hagan', linestyle='dotted')
-# plt.plot(strikes, iv_pde, label='IV Local Vol SABR', linestyle='dashed')
-# plt.plot(strikes, iv_watanabe, label='IV Watanabe', linestyle='dashed')
 
 plt.legend()
 plt.show()
