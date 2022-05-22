@@ -101,6 +101,17 @@ def scalar_product(x, y):
     return total
 
 
+@nb.jit("f8(f8[:],f8[:], f8[:])", nopython=True, nogil=True)
+def sum_product(x, y, z):
+    no_elements = len(x)
+    total = 0.0
+
+    for i in range(0, no_elements):
+        total += x[i] * y[i] * z[i]
+
+    return total
+
+
 @nb.jit("f8[:](f8[:,:],f8[:])", nopython=True, nogil=True)
 def apply_lower_tridiagonal_matrix(a, b):
     no_elements = len(b)

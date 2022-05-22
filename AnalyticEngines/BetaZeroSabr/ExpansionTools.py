@@ -31,10 +31,6 @@ def get_iv_normal_sabr_watanabe_expansion(f0, k, t, alpha, nu, rho):
     rho_inv = np.sqrt(1.0 - rho * rho)
     a_t = 0.5 * rho * nu * y
 
-    # b_t = 0.5 * np.power(nu * rho, 2.0) * (1.0 - y * y) / 6.0 + \
-    #       0.5 * np.power(nu * rho, 2.0) * np.power(0.25 * (y * y - 1.0), 2.0) + \
-    #       0.5 * np.power(rho_inv * nu, 2.0) * ((np.power(y, 2.0) + 2.0) / 3.0) - 0.25 * nu * nu
-
     b_t = 0.5 * np.power(nu * rho, 2.0) * (1.0 / 6.0 + np.power(y, 2.0) / 3.0 - 0.25 * np.power(y, 4.0)) + \
           0.5 * np.power(nu * rho, 2.0) * np.power(0.5 * (y * y - 1.0), 2.0) + \
           0.5 * np.power(rho_inv * nu, 2.0) * ((np.power(y, 2.0) + 2.0) / 3.0) - 0.25 * nu * nu

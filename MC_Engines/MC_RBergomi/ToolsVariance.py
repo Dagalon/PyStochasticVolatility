@@ -93,10 +93,6 @@ def get_covariance_matrix(t_i_s: ndarray, h: float, rho: float):
             cov[i, j] = get_covariance_w_v_w_t(t_i_s[j - no_time_steps], t_i_s[i], rho, h)
             cov[j, i] = cov[i, j]
 
-    # for i in range(no_time_steps, 2 * no_time_steps):
-    #     for j in range(0, no_time_steps):
-    #         cov[i, j] = get_covariance_w_v_w_t(t_i_s[j], t_i_s[i - no_time_steps], rho, h)
-
     for i in range(0, no_time_steps):
         # for j in range(0, i + 1):
         for j in range(0, no_time_steps):
