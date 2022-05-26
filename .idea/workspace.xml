@@ -1,16 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
-  <component name="AutoImportSettings">
-    <option name="autoReloadType" value="SELECTIVE" />
-  </component>
   <component name="ChangeListManager">
-    <list default="true" id="5626bf03-4c00-4174-a5aa-cf4af23d7ebb" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/MC_Engines/MC_RBergomi/LV_Rbergomi/Example_LV_Rbergomi.py" afterDir="false" />
+    <list default="true" id="3608ed29-5326-46e8-b8e2-ba2d548625cf" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/MC_Engines/MC_RBergomi/LV_Rbergomi/Market_Skew_LV.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/AnalyticEngines/BetaZeroSabr/ExpansionTools.py" beforeDir="false" afterPath="$PROJECT_DIR$/AnalyticEngines/BetaZeroSabr/ExpansionTools.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/AnalyticEngines/VolatilityTools/NonParametricEstimatorSLV.py" beforeDir="false" afterPath="$PROJECT_DIR$/AnalyticEngines/VolatilityTools/NonParametricEstimatorSLV.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/AnalyticEngines/FourierMethod/Examples/Example_COS_Method.py" beforeDir="false" afterPath="$PROJECT_DIR$/AnalyticEngines/FourierMethod/Examples/Example_COS_Method.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MC_Engines/MC_RBergomi/LV_Rbergomi/Example_LV_Rbergomi.py" beforeDir="false" afterPath="$PROJECT_DIR$/MC_Engines/MC_RBergomi/LV_Rbergomi/Example_LV_Rbergomi.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/MC_Engines/MC_RBergomi/ToolsVariance.py" beforeDir="false" afterPath="$PROJECT_DIR$/MC_Engines/MC_RBergomi/ToolsVariance.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Tools/AnalyticTools.py" beforeDir="false" afterPath="$PROJECT_DIR$/Tools/AnalyticTools.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -38,39 +35,34 @@
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
-  <component name="GitSEFilterConfiguration">
-    <file-type-list>
-      <filtered-out-file-type name="LOCAL_BRANCH" />
-      <filtered-out-file-type name="REMOTE_BRANCH" />
-      <filtered-out-file-type name="TAG" />
-      <filtered-out-file-type name="COMMIT_BY_MESSAGE" />
-    </file-type-list>
-  </component>
   <component name="HighlightingSettingsPerFile">
-    <setting file="file://$USER_HOME$/Anaconda3/Lib/site-packages/matplotlib/axes/_base.py" root0="SKIP_INSPECTION" />
+    <setting file="file://$USER_HOME$/anaconda3/Lib/site-packages/numba/core/typeinfer.py" root0="SKIP_INSPECTION" />
   </component>
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
   </component>
-  <component name="ProjectId" id="1xcRl4t8JQeWGaUtMsWPwRBzRgU" />
+  <component name="ProjectId" id="29bAzvA7Zd0fmSSejdabzdkDlMs" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "WebServerToolWindowFactoryState": "false",
+    "settings.editor.selected.configurable": "com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable"
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
-      <recent name="D:\GitRepository\Python\PyStochasticVolatilityMaster\AnalyticEngines\BetaZeroSabr\Examples" />
+      <recent name="D:\GitRepository\Python\PyStochasticVolatilityMaster\MC_Engines\MC_RBergomi\LV_Rbergomi" />
     </key>
   </component>
-  <component name="RunManager" selected="Python.Example_LV_Rbergomi">
+  <component name="RunManager" selected="Python.Market_Skew_LV">
     <configuration name="Example_LV_Rbergomi" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
-      <module name="PyStochasticVolatility" />
+      <module name="PyStochasticVolatilityMaster" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
       <envs>
@@ -91,29 +83,26 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
-    <configuration name="LocalVolSabr" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+    <configuration name="Market_Skew_LV" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="PyStochasticVolatilityMaster" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
       <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/AnalyticEngines/BetaZeroSabr/Examples" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/MC_Engines/MC_RBergomi/LV_Rbergomi" />
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/AnalyticEngines/BetaZeroSabr/Examples/LocalVolSabr.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/MC_Engines/MC_RBergomi/LV_Rbergomi/Market_Skew_LV.py" />
       <option name="PARAMETERS" value="" />
-      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="SHOW_COMMAND_LINE" value="true" />
       <option name="EMULATE_TERMINAL" value="false" />
       <option name="MODULE_MODE" value="false" />
       <option name="REDIRECT_INPUT" value="false" />
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
-    <configuration name="LocalVolSabrImpliedVol" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+    <configuration default="true" type="PythonConfigurationType" factoryName="Python">
       <module name="PyStochasticVolatilityMaster" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -121,58 +110,14 @@
         <env name="PYTHONUNBUFFERED" value="1" />
       </envs>
       <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/AnalyticEngines/BetaZeroSabr/Examples" />
-      <option name="IS_MODULE_SDK" value="true" />
+      <option name="WORKING_DIRECTORY" value="" />
+      <option name="IS_MODULE_SDK" value="false" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/AnalyticEngines/BetaZeroSabr/Examples/LocalVolSabrImpliedVol.py" />
+      <option name="SCRIPT_NAME" value="" />
       <option name="PARAMETERS" value="" />
-      <option name="SHOW_COMMAND_LINE" value="false" />
-      <option name="EMULATE_TERMINAL" value="false" />
-      <option name="MODULE_MODE" value="false" />
-      <option name="REDIRECT_INPUT" value="false" />
-      <option name="INPUT_FILE" value="" />
-      <method v="2" />
-    </configuration>
-    <configuration name="LocalVolSabrPrice" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
-      <module name="PyStochasticVolatilityMaster" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/AnalyticEngines/BetaZeroSabr/Examples" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/AnalyticEngines/BetaZeroSabr/Examples/LocalVolSabrPrice.py" />
-      <option name="PARAMETERS" value="" />
-      <option name="SHOW_COMMAND_LINE" value="false" />
-      <option name="EMULATE_TERMINAL" value="false" />
-      <option name="MODULE_MODE" value="false" />
-      <option name="REDIRECT_INPUT" value="false" />
-      <option name="INPUT_FILE" value="" />
-      <method v="2" />
-    </configuration>
-    <configuration name="WatanabeSmileExample" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
-      <module name="PyStochasticVolatilityMaster" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/AnalyticEngines/BetaZeroSabr/Examples" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/AnalyticEngines/BetaZeroSabr/Examples/WatanabeSmileExample.py" />
-      <option name="PARAMETERS" value="" />
-      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="SHOW_COMMAND_LINE" value="true" />
       <option name="EMULATE_TERMINAL" value="false" />
       <option name="MODULE_MODE" value="false" />
       <option name="REDIRECT_INPUT" value="false" />
@@ -181,92 +126,21 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Python.Market_Skew_LV" />
         <item itemvalue="Python.Example_LV_Rbergomi" />
-        <item itemvalue="Python.LocalVolSabrImpliedVol" />
-        <item itemvalue="Python.WatanabeSmileExample" />
-        <item itemvalue="Python.LocalVolSabrPrice" />
-        <item itemvalue="Python.LocalVolSabr" />
       </list>
     </recent_temporary>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
-      <changelist id="5626bf03-4c00-4174-a5aa-cf4af23d7ebb" name="Changes" comment="" />
-      <created>1630652545877</created>
+      <changelist id="3608ed29-5326-46e8-b8e2-ba2d548625cf" name="Changes" comment="" />
+      <created>1653371710094</created>
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
-      <updated>1630652545877</updated>
-      <workItem from="1630652547673" duration="6858000" />
-      <workItem from="1630681988574" duration="915000" />
-      <workItem from="1630993906569" duration="640000" />
-      <workItem from="1631082010922" duration="106000" />
-      <workItem from="1631087778131" duration="617000" />
-      <workItem from="1632387652146" duration="948000" />
-      <workItem from="1632404639597" duration="3000" />
-      <workItem from="1632748822633" duration="5573000" />
-      <workItem from="1633770996797" duration="3316000" />
-      <workItem from="1633935521317" duration="2122000" />
-      <workItem from="1633941330805" duration="8146000" />
-      <workItem from="1634978002350" duration="3221000" />
-      <workItem from="1635068075548" duration="1847000" />
-      <workItem from="1636105378507" duration="1830000" />
-      <workItem from="1636442198415" duration="619000" />
-      <workItem from="1641223284046" duration="5418000" />
-      <workItem from="1641303535780" duration="5148000" />
-      <workItem from="1642071336772" duration="3044000" />
-      <workItem from="1642161674573" duration="2486000" />
-      <workItem from="1642175645028" duration="1771000" />
-      <workItem from="1642506363680" duration="3799000" />
-      <workItem from="1642579521766" duration="3315000" />
-      <workItem from="1642592952674" duration="746000" />
-      <workItem from="1642669272011" duration="9238000" />
-      <workItem from="1642691834675" duration="475000" />
-      <workItem from="1642693052599" duration="2436000" />
-      <workItem from="1642848745590" duration="48000" />
-      <workItem from="1643044428984" duration="1334000" />
-      <workItem from="1643094566314" duration="1198000" />
-      <workItem from="1643208474043" duration="765000" />
-      <workItem from="1643272168652" duration="2792000" />
-      <workItem from="1643481986657" duration="1191000" />
-      <workItem from="1644996038193" duration="1632000" />
-      <workItem from="1645264731253" duration="594000" />
-      <workItem from="1645266027930" duration="2269000" />
-      <workItem from="1645514289655" duration="855000" />
-      <workItem from="1645636290689" duration="403000" />
-      <workItem from="1645879182172" duration="643000" />
-      <workItem from="1645953189997" duration="2628000" />
-      <workItem from="1646034430497" duration="822000" />
-      <workItem from="1646474759730" duration="596000" />
-      <workItem from="1646634068738" duration="2265000" />
-      <workItem from="1647587024011" duration="629000" />
-      <workItem from="1647591839432" duration="995000" />
-      <workItem from="1647676459736" duration="1795000" />
-      <workItem from="1647777440609" duration="597000" />
-      <workItem from="1648979465250" duration="1190000" />
-      <workItem from="1649049611709" duration="595000" />
-      <workItem from="1649061294566" duration="11455000" />
-      <workItem from="1649224935776" duration="10082000" />
-      <workItem from="1649255957105" duration="4010000" />
-      <workItem from="1649397387453" duration="17943000" />
-      <workItem from="1649428922072" duration="3594000" />
-      <workItem from="1649498184304" duration="1518000" />
-      <workItem from="1649658633765" duration="820000" />
-      <workItem from="1649659844652" duration="159000" />
-      <workItem from="1649660026312" duration="8461000" />
-      <workItem from="1649747389312" duration="14314000" />
-      <workItem from="1649786086461" duration="396000" />
-      <workItem from="1650264865402" duration="135000" />
-      <workItem from="1650299327383" duration="986000" />
-      <workItem from="1650431166458" duration="7759000" />
-      <workItem from="1651658214116" duration="1935000" />
-      <workItem from="1651741630277" duration="3687000" />
-      <workItem from="1652523105660" duration="1192000" />
-      <workItem from="1652983712942" duration="308000" />
-      <workItem from="1652984477559" duration="1242000" />
-      <workItem from="1653070351685" duration="3213000" />
-      <workItem from="1653119667622" duration="10555000" />
-      <workItem from="1653210810884" duration="1006000" />
+      <updated>1653371710094</updated>
+      <workItem from="1653371715937" duration="13521000" />
+      <workItem from="1653544264605" duration="22272000" />
     </task>
     <servers />
   </component>
@@ -288,135 +162,15 @@
     <breakpoint-manager>
       <breakpoints>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/AnalyticEngines/BetaZeroSabr/Examples/SkewAtmNormalSabr.py</url>
-          <line>81</line>
-          <option name="timeStamp" value="5" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/AnalyticEngines/BetaZeroSabr/Examples/SmileToMaturityNormalSabr.py</url>
-          <line>15</line>
-          <option name="timeStamp" value="7" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/AnalyticEngines/BetaZeroSabr/Examples/AtmImpliedVolNormalSabr.py</url>
-          <line>47</line>
-          <option name="timeStamp" value="14" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/AnalyticEngines/BetaZeroSabr/Examples/ImpliedVolVsVolSwap.py</url>
-          <line>39</line>
-          <option name="timeStamp" value="104" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/AnalyticEngines/BetaZeroSabr/Examples/ImpliedVolVsVolSwap.py</url>
-          <line>35</line>
-          <option name="timeStamp" value="107" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/AnalyticEngines/BetaZeroSabr/Examples/WatanabeSmileExample.py</url>
-          <line>47</line>
-          <option name="timeStamp" value="108" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/AnalyticEngines/BetaZeroSabr/Examples/WatanabeSmileExample.py</url>
-          <line>32</line>
-          <option name="timeStamp" value="109" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/AnalyticEngines/BetaZeroSabr/Examples/WatanabeSmileExample.py</url>
-          <line>41</line>
-          <option name="timeStamp" value="110" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/AnalyticEngines/FourierMethod/Examples/Example_COS_Method.py</url>
-          <line>25</line>
-          <option name="timeStamp" value="118" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/AnalyticEngines/FourierMethod/Examples/Example_COS_Method.py</url>
-          <line>45</line>
-          <option name="timeStamp" value="119" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/AnalyticEngines/FourierMethod/COSMethod/COSRepresentation.py</url>
-          <line>86</line>
-          <option name="timeStamp" value="129" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/AnalyticEngines/FourierMethod/COSMethod/COSRepresentation.py</url>
-          <line>79</line>
-          <option name="timeStamp" value="130" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/AnalyticEngines/FourierMethod/COSMethod/COSRepresentation.py</url>
-          <line>70</line>
-          <option name="timeStamp" value="131" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/AnalyticEngines/BetaZeroSabr/Examples/LocalVolSabrImpliedVol.py</url>
-          <line>71</line>
-          <option name="timeStamp" value="132" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/AnalyticEngines/BetaZeroSabr/Examples/LocalVolSabrImpliedVol.py</url>
-          <line>77</line>
-          <option name="timeStamp" value="133" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/AnalyticEngines/VolatilityTools/NonParametricEstimatorSLV.py</url>
-          <line>37</line>
-          <option name="timeStamp" value="136" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/AnalyticEngines/VolatilityTools/NonParametricEstimatorSLV.py</url>
-          <line>44</line>
-          <option name="timeStamp" value="137" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/MC_Engines/MC_RBergomi/LV_Rbergomi/Example_LV_Rbergomi.py</url>
-          <line>40</line>
-          <option name="timeStamp" value="141" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/MC_Engines/MC_RBergomi/LV_Rbergomi/Example_LV_Rbergomi.py</url>
-          <line>27</line>
-          <option name="timeStamp" value="142" />
+          <url>file://$PROJECT_DIR$/MC_Engines/MC_RBergomi/LV_Rbergomi/Market_Skew_LV.py</url>
+          <line>118</line>
+          <option name="timeStamp" value="4" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
-    <SUITE FILE_PATH="coverage/PyStochasticVolatilityMaster$Figure_7_5.coverage" NAME="Figure_7_5 Coverage Results" MODIFIED="1638226630045" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Examples/Chapter7" />
-    <SUITE FILE_PATH="coverage/PyStochasticVolatilityMaster$Example_6_5_17.coverage" NAME="Example_6_5_17 Coverage Results" MODIFIED="1638194513070" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Examples/Chapter6" />
-    <SUITE FILE_PATH="coverage/PyStochasticVolatilityMaster$Figure_5_3.coverage" NAME="Figure_5_3 Coverage Results" MODIFIED="1643045273436" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Examples/Chapter5" />
-    <SUITE FILE_PATH="coverage/PyStochasticVolatilityMaster$EuropeanOptionExpansion.coverage" NAME="EuropeanOptionExpansion Coverage Results" MODIFIED="1639163951779" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/AnalyticEngines/BetaZeroSabr" />
-    <SUITE FILE_PATH="coverage/PyStochasticVolatilityMaster$COSRepresentation.coverage" NAME="COSRepresentation Coverage Results" MODIFIED="1649424478966" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/AnalyticEngines/FourierMethod/COSMethod" />
-    <SUITE FILE_PATH="coverage/PyStochasticVolatilityMaster$skew_atm_normal_sabr.coverage" NAME="skew_atm_normal_sabr Coverage Results" MODIFIED="1630658727713" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/MC_Engines/MC_SABR/Examples" />
-    <SUITE FILE_PATH="coverage/PyStochasticVolatility$Example_LV_Rbergomi.coverage" NAME="Example_LV_Rbergomi Coverage Results" MODIFIED="1653211751902" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/MC_Engines/MC_RBergomi/LV_Rbergomi" />
-    <SUITE FILE_PATH="coverage/PyStochasticVolatilityMaster$ExampleCallOptionPrice.coverage" NAME="ExampleCallOptionPrice Coverage Results" MODIFIED="1639398169051" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/AnalyticEngines/BetaZeroSabr" />
-    <SUITE FILE_PATH="coverage/PyStochasticVolatilityMaster$ImpliedVolVsVolSwap.coverage" NAME="ImpliedVolVsVolSwap Coverage Results" MODIFIED="1641306743466" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/AnalyticEngines/BetaZeroSabr" />
-    <SUITE FILE_PATH="coverage/PyStochasticVolatilityMaster$atm_iv_normal_sabr__1_.coverage" NAME="atm_iv_normal_sabr (1) Coverage Results" MODIFIED="1641308281977" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/AnalyticEngines/BetaZeroSabr/Examples" />
-    <SUITE FILE_PATH="coverage/PyStochasticVolatilityMaster$LocalVolSabr.coverage" NAME="LocalVolSabr Coverage Results" MODIFIED="1649759970887" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/AnalyticEngines/BetaZeroSabr/Examples" />
-    <SUITE FILE_PATH="coverage/PyStochasticVolatilityMaster$EuropeanOptionTools.coverage" NAME="EuropeanOptionTools Coverage Results" MODIFIED="1649401858997" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/AnalyticEngines/BetaZeroSabr" />
-    <SUITE FILE_PATH="coverage/PyStochasticVolatilityMaster$Example_Elisa_Jorge_2.coverage" NAME="Example_Elisa_Jorge_2 Coverage Results" MODIFIED="1614346853580" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Examples/Chapter7" />
-    <SUITE FILE_PATH="coverage/PyStochasticVolatilityMaster$AtmImpliedVolNormalSabr__1_.coverage" NAME="AtmImpliedVolNormalSabr (1) Coverage Results" MODIFIED="1642535357819" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/AnalyticEngines/BetaZeroSabr/Examples" />
-    <SUITE FILE_PATH="coverage/PyStochasticVolatilityMaster$ImpliedVolVsVolSwap__1_.coverage" NAME="ImpliedVolVsVolSwap (1) Coverage Results" MODIFIED="1641309458381" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/AnalyticEngines/BetaZeroSabr/Examples" />
-    <SUITE FILE_PATH="coverage/PyStochasticVolatilityMaster$smile_to_maturity_normal_sabr.coverage" NAME="smile_to_maturity_normal_sabr Coverage Results" MODIFIED="1633950463418" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/MC_Engines/MC_SABR/Examples" />
-    <SUITE FILE_PATH="coverage/PyStochasticVolatilityMaster$numbaTest.coverage" NAME="numbaTest Coverage Results" MODIFIED="1636988167370" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/AnalyticEngines/AntonovSabr" />
-    <SUITE FILE_PATH="coverage/PyStochasticVolatilityMaster$atm_iv_normal_sabr.coverage" NAME="atm_iv_normal_sabr Coverage Results" MODIFIED="1641237361070" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/MC_Engines/MC_SABR/Examples" />
-    <SUITE FILE_PATH="coverage/PyStochasticVolatilityMaster$Example_1_2_6.coverage" NAME="Example_1_2_6 Coverage Results" MODIFIED="1636970574379" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Examples/Chapter1" />
-    <SUITE FILE_PATH="coverage/PyStochasticVolatilityMaster$WatanabeAtmExample.coverage" NAME="WatanabeAtmExample Coverage Results" MODIFIED="1642535446357" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/AnalyticEngines/BetaZeroSabr/Examples" />
-    <SUITE FILE_PATH="coverage/PyStochasticVolatilityMaster$LocalVolSabrImpliedVol.coverage" NAME="LocalVolSabrImpliedVol Coverage Results" MODIFIED="1650461267549" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/AnalyticEngines/BetaZeroSabr/Examples" />
-    <SUITE FILE_PATH="coverage/PyStochasticVolatilityMaster$HestonCharesticFunction.coverage" NAME="HestonCharesticFunction Coverage Results" MODIFIED="1649401877564" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/AnalyticEngines/FourierMethod/CharesticFunctions" />
-    <SUITE FILE_PATH="coverage/PyStochasticVolatilityMaster$Example_COS_Method.coverage" NAME="Example_COS_Method Coverage Results" MODIFIED="1649429785096" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/AnalyticEngines/FourierMethod/Examples" />
-    <SUITE FILE_PATH="coverage/PyStochasticVolatilityMaster$SmileToMaturityNormalSabr.coverage" NAME="SmileToMaturityNormalSabr Coverage Results" MODIFIED="1642071498023" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/AnalyticEngines/BetaZeroSabr/Examples" />
-    <SUITE FILE_PATH="coverage/PyStochasticVolatilityMaster$SABR_Normal_Engine.coverage" NAME="SABR_Normal_Engine Coverage Results" MODIFIED="1641230194283" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/MC_Engines/MC_SABR" />
-    <SUITE FILE_PATH="coverage/PyStochasticVolatilityMaster$ExampleCallOptionPrice__1_.coverage" NAME="ExampleCallOptionPrice (1) Coverage Results" MODIFIED="1637255061385" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/AnalyticEngines/BetaZeroSabr" />
-    <SUITE FILE_PATH="coverage/PyStochasticVolatilityMaster$WatanabeSmileExample.coverage" NAME="WatanabeSmileExample Coverage Results" MODIFIED="1649786298618" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/AnalyticEngines/BetaZeroSabr/Examples" />
-    <SUITE FILE_PATH="coverage/PyStochasticVolatilityMaster$Example_6_5_20.coverage" NAME="Example_6_5_20 Coverage Results" MODIFIED="1638213359284" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Examples/Chapter6" />
-    <SUITE FILE_PATH="coverage/PyStochasticVolatilityMaster$WatanabeSmileExample__1_.coverage" NAME="WatanabeSmileExample (1) Coverage Results" MODIFIED="1641218859743" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/AnalyticEngines/BetaZeroSabr" />
-    <SUITE FILE_PATH="coverage/PyStochasticVolatilityMaster$LocalVolSabrPrice.coverage" NAME="LocalVolSabrPrice Coverage Results" MODIFIED="1649761647639" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/AnalyticEngines/BetaZeroSabr/Examples" />
-    <SUITE FILE_PATH="coverage/PyStochasticVolatilityMaster$Example_Bates.coverage" NAME="Example_Bates Coverage Results" MODIFIED="1649257990111" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/AnalyticEngines/FourierMethod/Examples" />
-    <SUITE FILE_PATH="coverage/PyStochasticVolatilityMaster$WatanabeExample.coverage" NAME="WatanabeExample Coverage Results" MODIFIED="1641213497806" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/AnalyticEngines/BetaZeroSabr" />
+    <SUITE FILE_PATH="coverage/PyStochasticVolatilityMaster$Example_LV_Rbergomi.coverage" NAME="Example_LV_Rbergomi Coverage Results" MODIFIED="1653552001376" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/MC_Engines/MC_RBergomi/LV_Rbergomi" />
+    <SUITE FILE_PATH="coverage/PyStochasticVolatilityMaster$Market_Skew_LV.coverage" NAME="Market_Skew_LV Coverage Results" MODIFIED="1653572281379" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/MC_Engines/MC_RBergomi/LV_Rbergomi" />
   </component>
 </project>

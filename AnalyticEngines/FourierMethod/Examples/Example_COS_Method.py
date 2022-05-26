@@ -26,7 +26,7 @@ import time
 k_s = np.array([60.0, 80.0, 90.0, 100.0, 110.0, 120.0, 140.0, 160.0, 170.0])
 f0 = 100.0
 x0 = np.log(f0)
-T = 2.0
+T = 0.25
 
 # Heston parameters
 epsilon = 1.1
@@ -43,7 +43,7 @@ b = 2.0
 
 cf_heston = partial(HestonCharesticFunction.get_trap_cf, t=T, r_t=0.0, x=x0, v=v0, theta=theta, rho=rho, k=k, epsilon=epsilon, b=b2, u=u2)
 start_time = time.time()
-cos_price = COSRepresentation.get_european_option_price(TypeEuropeanOption.CALL, a, b, 64, k_s, cf_heston)
+cos_price = COSRepresentation.get_european_option_price(TypeEuropeanOption.PUT, a, b, 64, k_s, cf_heston)
 end_time = time.time()
 diff_time = end_time - start_time
 
