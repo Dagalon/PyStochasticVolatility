@@ -2,12 +2,13 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="3608ed29-5326-46e8-b8e2-ba2d548625cf" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/MC_Engines/MC_RBergomi/LV_Rbergomi/Market_Skew_LV.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/MC_Engines/MC_RBergomi/LocalVolRBegomi.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/AnalyticEngines/FourierMethod/Examples/Example_COS_Method.py" beforeDir="false" afterPath="$PROJECT_DIR$/AnalyticEngines/FourierMethod/Examples/Example_COS_Method.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Examples/Chapter6/Example_6_5_20.py" beforeDir="false" afterPath="$PROJECT_DIR$/Examples/Chapter6/Example_6_5_20.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/MC_Engines/MC_RBergomi/LV_Rbergomi/Example_LV_Rbergomi.py" beforeDir="false" afterPath="$PROJECT_DIR$/MC_Engines/MC_RBergomi/LV_Rbergomi/Example_LV_Rbergomi.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MC_Engines/MC_RBergomi/RBergomi_Engine.py" beforeDir="false" afterPath="$PROJECT_DIR$/MC_Engines/MC_RBergomi/RBergomi_Engine.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/MC_Engines/MC_RBergomi/ToolsVariance.py" beforeDir="false" afterPath="$PROJECT_DIR$/MC_Engines/MC_RBergomi/ToolsVariance.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Tools/Types.py" beforeDir="false" afterPath="$PROJECT_DIR$/Tools/Types.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -47,27 +48,24 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "WebServerToolWindowFactoryState": "false",
-    "settings.editor.selected.configurable": "com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
       <recent name="D:\GitRepository\Python\PyStochasticVolatilityMaster\MC_Engines\MC_RBergomi\LV_Rbergomi" />
     </key>
   </component>
-  <component name="RunManager" selected="Python.Market_Skew_LV">
+  <component name="RunManager" selected="Python.Example_LV_Rbergomi">
     <configuration name="Example_LV_Rbergomi" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="PyStochasticVolatilityMaster" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
       <option name="SDK_HOME" value="" />
       <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/MC_Engines/MC_RBergomi/LV_Rbergomi" />
       <option name="IS_MODULE_SDK" value="true" />
@@ -76,7 +74,29 @@
       <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
       <option name="SCRIPT_NAME" value="$PROJECT_DIR$/MC_Engines/MC_RBergomi/LV_Rbergomi/Example_LV_Rbergomi.py" />
       <option name="PARAMETERS" value="" />
-      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="SHOW_COMMAND_LINE" value="true" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="LocalVolRBegomi" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="PyStochasticVolatilityMaster" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/MC_Engines/MC_RBergomi" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/MC_Engines/MC_RBergomi/LocalVolRBegomi.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="true" />
       <option name="EMULATE_TERMINAL" value="false" />
       <option name="MODULE_MODE" value="false" />
       <option name="REDIRECT_INPUT" value="false" />
@@ -87,6 +107,9 @@
       <module name="PyStochasticVolatilityMaster" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
       <option name="SDK_HOME" value="" />
       <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/MC_Engines/MC_RBergomi/LV_Rbergomi" />
       <option name="IS_MODULE_SDK" value="true" />
@@ -126,8 +149,9 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="Python.Market_Skew_LV" />
         <item itemvalue="Python.Example_LV_Rbergomi" />
+        <item itemvalue="Python.LocalVolRBegomi" />
+        <item itemvalue="Python.Market_Skew_LV" />
       </list>
     </recent_temporary>
   </component>
@@ -140,7 +164,15 @@
       <option name="presentableId" value="Default" />
       <updated>1653371710094</updated>
       <workItem from="1653371715937" duration="13521000" />
-      <workItem from="1653544264605" duration="22272000" />
+      <workItem from="1653544264605" duration="25401000" />
+      <workItem from="1653974957887" duration="1825000" />
+      <workItem from="1654583241497" duration="614000" />
+      <workItem from="1654587227476" duration="9839000" />
+      <workItem from="1654606410161" duration="6205000" />
+      <workItem from="1654618402936" duration="1396000" />
+      <workItem from="1654751407322" duration="1196000" />
+      <workItem from="1654754504465" duration="4609000" />
+      <workItem from="1654838034753" duration="24012000" />
     </task>
     <servers />
   </component>
@@ -162,15 +194,16 @@
     <breakpoint-manager>
       <breakpoints>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/MC_Engines/MC_RBergomi/LV_Rbergomi/Market_Skew_LV.py</url>
-          <line>118</line>
-          <option name="timeStamp" value="4" />
+          <url>file://$PROJECT_DIR$/MC_Engines/MC_RBergomi/LV_Rbergomi/Example_LV_Rbergomi.py</url>
+          <line>106</line>
+          <option name="timeStamp" value="33" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
-    <SUITE FILE_PATH="coverage/PyStochasticVolatilityMaster$Example_LV_Rbergomi.coverage" NAME="Example_LV_Rbergomi Coverage Results" MODIFIED="1653552001376" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/MC_Engines/MC_RBergomi/LV_Rbergomi" />
-    <SUITE FILE_PATH="coverage/PyStochasticVolatilityMaster$Market_Skew_LV.coverage" NAME="Market_Skew_LV Coverage Results" MODIFIED="1653572281379" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/MC_Engines/MC_RBergomi/LV_Rbergomi" />
+    <SUITE FILE_PATH="coverage/PyStochasticVolatilityMaster$LocalVolRBegomi.coverage" NAME="LocalVolRBegomi Coverage Results" MODIFIED="1654606881484" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/MC_Engines/MC_RBergomi" />
+    <SUITE FILE_PATH="coverage/PyStochasticVolatilityMaster$Example_LV_Rbergomi.coverage" NAME="Example_LV_Rbergomi Coverage Results" MODIFIED="1654881182509" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/MC_Engines/MC_RBergomi/LV_Rbergomi" />
+    <SUITE FILE_PATH="coverage/PyStochasticVolatilityMaster$Market_Skew_LV.coverage" NAME="Market_Skew_LV Coverage Results" MODIFIED="1654606625137" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/MC_Engines/MC_RBergomi/LV_Rbergomi" />
   </component>
 </project>

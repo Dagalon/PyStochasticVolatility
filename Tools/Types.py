@@ -43,6 +43,7 @@ class RBERGOMI_OUTPUT(Enum):
     BS_BY_PATH = 3,
     TIMES = 4,
     VARIANCE_SPOT_PATHS = 5,
+    INTEGRAL_SIGMA_PATHS_RESPECT_BROWNIANS = 6,
     UNKNOWN = -1
 
     def __str__(self):

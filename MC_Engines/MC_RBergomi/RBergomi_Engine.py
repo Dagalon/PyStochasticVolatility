@@ -65,6 +65,7 @@ def get_path_multi_step(t0: float,
     map_out_put[RBERGOMI_OUTPUT.VARIANCE_SPOT_PATHS] = outputs[1] * outputs[1]
     map_out_put[RBERGOMI_OUTPUT.INTEGRAL_VARIANCE_PATHS] = outputs[2]
     map_out_put[RBERGOMI_OUTPUT.TIMES] = t_i_s
+    map_out_put[RBERGOMI_OUTPUT.INTEGRAL_SIGMA_PATHS_RESPECT_BROWNIANS] = outputs[3]
 
     return map_out_put
 
