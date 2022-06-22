@@ -35,16 +35,20 @@ def get_skew_local_vol(t: float, f0: float, strike: float, rho: float, v_t: ndar
     denominator = 0.0
 
     for i in range(0, no_paths):
-        k_i = m + 0.5 * t * int_v_t[i] - rho * int_sigma_t[i]
         vol_swap = np.sqrt(int_v_t[i] / t)
+        k_i = m + 0.5 * t * vol_swap * vol_swap - rho * int_sigma_t[i]
         phi_i = np.exp(- 0.5 * (k_i * k_i) / (rho_inv * rho_inv * t * vol_swap * vol_swap)) / (sqrt_time * vol_swap)
-        partial_phi_i = (phi_i * k_i) / (strike * rho_inv * rho_inv * t * vol_swap * vol_swap)
+        partial_phi_i = (phi_i * k_i) / (strike * t * vol_swap * vol_swap)
         numerator_skew_var += partial_phi_i * v_t[i]
         numerator_skew += partial_phi_i
         numerator += phi_i * v_t[i]
         denominator += phi_i
 
-    lv_value = numerator / denominator
-    skew_val_aux = (lv_value * numerator_skew - numerator_skew_var) / denominator
-    return 0.5 * skew_val_aux / np.sqrt(lv_value)
+    # lv_value = np.sqrt(numerator / denominator)
+    # skew_val_aux = (lv_value * lv_value * numerator_skew - numerator_skew_var) / denominator
+    # return 0.5 * skew_val_aux / lv_value
+    term_1 = (np.sqrt(numerator) * numerator_skew) / np.power(denominator, 1.5)
+    term_2 = numerator_skew_var / np.sqrt(numerator * denominator)
+
+    return (term_1 - term_2) / (2.0 * rho_inv * rho_inv)
 

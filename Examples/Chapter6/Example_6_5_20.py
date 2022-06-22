@@ -1,6 +1,5 @@
 import matplotlib.pylab as plt
 import numpy as np
-import csv
 
 from MC_Engines.MC_RBergomi import RBergomi_Engine
 from Tools import RNG, Types
