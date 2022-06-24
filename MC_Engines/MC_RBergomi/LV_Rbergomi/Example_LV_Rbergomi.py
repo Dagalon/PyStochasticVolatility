@@ -10,7 +10,7 @@ from MC_Engines.MC_RBergomi import LocalVolRBegomi
 from py_vollib.black_scholes import implied_volatility
 
 # simulation info
-hurst = 0.4995
+hurst = 0.1
 nu = 0.4
 rho = -0.4
 v0 = 0.05
@@ -19,12 +19,12 @@ sigma_0 = np.sqrt(v0)
 parameters = [nu, rho, hurst]
 
 f0 = 100
-T = np.arange(7, 60, 2) * 1.0 / 360
+T = np.arange(3, 60, 2) * 1.0 / 360
 
 seed = 123456789
 
-no_time_steps = 100
-no_paths = 400000
+no_time_steps = 20
+no_paths = 500000
 
 atm_lv = []
 atm_lv_skew = []
