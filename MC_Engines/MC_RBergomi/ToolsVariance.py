@@ -15,7 +15,7 @@ __author__ = 'David Garcia Lorite'
 import numpy as np
 import numba as nb
 from Tools.Types import ndarray
-from scipy.special import hyp2f1
+from ncephes import hyp2f1
 from Tools import AnalyticTools
 from math import gamma
 
@@ -193,7 +193,7 @@ def generate_paths_rbergomi_skew(s0: float,
             int_v_t[k, j - 1] = delta_i_s * 0.5 * (sigma_i_1[k, j - 1] * sigma_i_1[k, j - 1] +
                                                    sigma_i_1[k, j] * sigma_i_1[k, j])
 
-            int_sigma_b_i_1[k, j-1] = sigma_i_1[k, j-1] * d_w_i_rho
+            int_sigma_b_i_1[k, j-1] = 0.5 * (sigma_i_1[k, j-1] + sigma_i_1[k, j]) * d_w_i_rho
 
             # int_v_t[k, j - 1] = delta_i_s * sigma_i_1[k, j - 1] * sigma_i_1[k, j - 1]
             paths[k, j] = paths[k, j - 1] * np.exp(- 0.5 * int_v_t[k, j - 1] +

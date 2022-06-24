@@ -15,7 +15,7 @@ __author__ = 'David Garcia Lorite'
 import numpy as np
 import numba as nb
 
-from scipy.special import gamma
+from ncephes import gamma
 
 
 # We suppose that the distributions of the jumps is exp(N(jumpmean, jumpstd))

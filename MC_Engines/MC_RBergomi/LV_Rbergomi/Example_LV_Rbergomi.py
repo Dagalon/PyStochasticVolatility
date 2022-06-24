@@ -10,21 +10,21 @@ from MC_Engines.MC_RBergomi import LocalVolRBegomi
 from py_vollib.black_scholes import implied_volatility
 
 # simulation info
-hurst = 0.3
-nu = 0.5
-rho = -0.6
+hurst = 0.4995
+nu = 0.4
+rho = -0.4
 v0 = 0.05
 sigma_0 = np.sqrt(v0)
 
 parameters = [nu, rho, hurst]
 
 f0 = 100
-T = np.arange(7, 120, 2) * 1.0 / 360
+T = np.arange(7, 60, 2) * 1.0 / 360
 
 seed = 123456789
 
-no_time_steps = 10
-no_paths = 500000
+no_time_steps = 100
+no_paths = 400000
 
 atm_lv = []
 atm_lv_skew = []
@@ -32,6 +32,7 @@ atm_iv_skew = []
 atm_lv_skew_derive_estimator = []
 var_swap = []
 ratio = []
+target_skew = []
 
 rnd_generator = RNG.RndGenerator(seed)
 
@@ -52,7 +53,7 @@ for t_i in T:
 
     # Rbergomi paths simulation
     map_bergomi_output = RBergomi_Engine.get_path_multi_step(0.0, t_i, parameters, f0, v0, no_paths,
-                                                             no_time_steps, Types.TYPE_STANDARD_NORMAL_SAMPLING.REGULAR_WAY,
+                                                             no_time_steps, Types.TYPE_STANDARD_NORMAL_SAMPLING.ANTITHETIC,
                                                              rnd_generator)
 
     # check simulation
@@ -64,23 +65,23 @@ for t_i in T:
                                                        map_bergomi_output[Types.RBERGOMI_OUTPUT.INTEGRAL_VARIANCE_PATHS])
 
     right_price = option_right.get_price_control_variate(map_bergomi_output[Types.RBERGOMI_OUTPUT.PATHS][:, -1],
-                                                        map_bergomi_output[Types.RBERGOMI_OUTPUT.INTEGRAL_VARIANCE_PATHS])
+                                                         map_bergomi_output[Types.RBERGOMI_OUTPUT.INTEGRAL_VARIANCE_PATHS])
 
     price = option.get_price_control_variate(map_bergomi_output[Types.RBERGOMI_OUTPUT.PATHS][:, -1],
-                                                  map_bergomi_output[Types.RBERGOMI_OUTPUT.INTEGRAL_VARIANCE_PATHS])
+                                             map_bergomi_output[Types.RBERGOMI_OUTPUT.INTEGRAL_VARIANCE_PATHS])
 
     iv_left = implied_volatility.implied_volatility(left_price[0], f0, f_left, t_i, 0.0, 'c')
-    iv = implied_volatility.implied_volatility(price[0], f0, f_left, t_i, 0.0, 'c')
+    iv = implied_volatility.implied_volatility(price[0], f0, f0, t_i, 0.0, 'c')
     iv_right = implied_volatility.implied_volatility(right_price[0], f0, f_right, t_i, 0.0, 'c')
 
-    skew_iv_i = f0 * 0.5 * (iv_right - iv_left) / (f_right - f_left)
+    skew_iv_i = f0 * (iv_right - iv_left) / (f_right - f_left)
 
     atm_iv_skew.append(skew_iv_i)
 
     lv_left = LocalVolRBegomi.get_local_vol(t_i, f0, f_left, rho,
-                                         map_bergomi_output[Types.RBERGOMI_OUTPUT.VARIANCE_SPOT_PATHS][:, -1],
-                                         np.sum(map_bergomi_output[Types.RBERGOMI_OUTPUT.INTEGRAL_VARIANCE_PATHS], 1),
-                                         np.sum(map_bergomi_output[Types.RBERGOMI_OUTPUT.INTEGRAL_SIGMA_PATHS_RESPECT_BROWNIANS], 1))
+                                            map_bergomi_output[Types.RBERGOMI_OUTPUT.VARIANCE_SPOT_PATHS][:, -1],
+                                            np.sum(map_bergomi_output[Types.RBERGOMI_OUTPUT.INTEGRAL_VARIANCE_PATHS], 1),
+                                            np.sum(map_bergomi_output[Types.RBERGOMI_OUTPUT.INTEGRAL_SIGMA_PATHS_RESPECT_BROWNIANS], 1))
 
     lv_i = LocalVolRBegomi.get_local_vol(t_i, f0, f0, rho,
                                          map_bergomi_output[Types.RBERGOMI_OUTPUT.VARIANCE_SPOT_PATHS][:, -1],
@@ -94,7 +95,7 @@ for t_i in T:
 
     var_swap.append(np.sqrt(np.mean(map_bergomi_output[Types.RBERGOMI_OUTPUT.VARIANCE_SPOT_PATHS][:, -1])))
 
-    skew = f0 * 0.5 * (lv_right - lv_left) / (f_right - f_left)
+    skew = f0 * (lv_right - lv_left) / (f_right - f_left)
 
     skew_sv_mc = f0 * LocalVolRBegomi.get_skew_local_vol(t_i, f0, f0, rho,
                                                          map_bergomi_output[Types.RBERGOMI_OUTPUT.VARIANCE_SPOT_PATHS][:, -1],
@@ -102,20 +103,22 @@ for t_i in T:
                                                          np.sum(map_bergomi_output[Types.RBERGOMI_OUTPUT.INTEGRAL_SIGMA_PATHS_RESPECT_BROWNIANS], 1))
     atm_lv_skew.append(skew_sv_mc)
     ratio.append(skew_iv_i / skew_sv_mc)
+    target_skew.append(1.0/(hurst + 1.5))
 
 
 def f_law(x, b, c):
     return b * np.power(x, c)
 
 
-popt_atm_lv_skew, pcov_diff_vols_swap = curve_fit(f_law, T, atm_lv_skew)
+# popt_atm_lv_skew, pcov_diff_vols_swap = curve_fit(f_law, T, atm_lv_skew)
 # popt_atm_lv_skew, pcov_diff_vols_swap = curve_fit(f_law, T, ratio)
-y_fit_atm_lv_skew = f_law(T, *popt_atm_lv_skew)
-skew_lv_rbergomi_fit = f_law(T, *popt_atm_lv_skew)
+# y_fit_atm_lv_skew = f_law(T, *popt_atm_lv_skew)
+# skew_lv_rbergomi_fit = f_law(T, *popt_atm_lv_skew)
 
-plt.plot(T, atm_lv_skew, label="skew LV rBergomi", color="blue", linestyle="dotted")
-plt.plot(T, skew_lv_rbergomi_fit, label=" %s * T^(%s)" % (round(popt_atm_lv_skew[0], 5),
-         round(popt_atm_lv_skew[1], 5)), color="green", linestyle="dotted")
+plt.plot(T, ratio, label="skew_iv / skew_lv", color="blue", linestyle="dotted")
+plt.plot(T, target_skew, label="1/(H + 3/2)", color="red", linestyle="dotted")
+# plt.plot(T, skew_lv_rbergomi_fit, label=" %s * T^(%s)" % (round(popt_atm_lv_skew[0], 5),
+#          round(popt_atm_lv_skew[1], 5)), color="green", linestyle="dotted")
 
 # plt.plot(T, ratio, label="skew ratio ", color="green", linestyle="dotted")
 # plt.plot(T, y_fit_atm_lv_skew, label=" %s * T^(%s)" % (round(popt_atm_lv_skew[0], 5),
@@ -123,6 +126,8 @@ plt.plot(T, skew_lv_rbergomi_fit, label=" %s * T^(%s)" % (round(popt_atm_lv_skew
 # plt.plot(T, skew_ratio, label=" %s * T^(%s)" % (round(popt_atm_lv_skew[0], 5),
 #          round(popt_atm_lv_skew[1], 5)), color="green", linestyle="dotted")
 
+
+# plt.ylim((0.4, 0.6))
 plt.xlabel("T")
 plt.ylabel("Skew")
 
