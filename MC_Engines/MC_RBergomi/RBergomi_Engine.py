@@ -47,18 +47,17 @@ def get_path_multi_step(t0: float,
     s_t = np.empty((no_paths, no_time_steps))
     s_t[:, 0] = f0
 
-    z_i_s = rnd_generator.normal(mu=0.0, sigma=1.0, size=(3 * (no_time_steps - 1), no_paths),
+    z_i_s = rnd_generator.normal(mu=0.0, sigma=1.0, size=(2 * (no_time_steps - 1), no_paths),
                                  sampling_type=type_random_number)
     map_out_put = {}
-    outputs = ToolsVariance.generate_paths_rbergomi_skew(f0,
-                                                         sigma_0,
-                                                         nu,
-                                                         h,
-                                                         rho,
-                                                         z_i_s,
-                                                         np.linalg.cholesky(ToolsVariance.get_multi_covariance_matrix(t_i_s[1:], h)),
-                                                         t_i_s,
-                                                         no_paths)
+    outputs = ToolsVariance.generate_paths_rbergomi(f0,
+                                                    sigma_0,
+                                                    nu,
+                                                    h,
+                                                    z_i_s,
+                                                    np.linalg.cholesky(ToolsVariance.get_covariance_matrix(t_i_s[1:], h, rho)),
+                                                    t_i_s,
+                                                    no_paths)
 
     map_out_put[RBERGOMI_OUTPUT.PATHS] = outputs[0]
     map_out_put[RBERGOMI_OUTPUT.SPOT_VOLATILITY_PATHS] = outputs[1]

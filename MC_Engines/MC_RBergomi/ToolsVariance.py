@@ -193,7 +193,7 @@ def generate_paths_rbergomi_skew(s0: float,
             int_v_t[k, j - 1] = delta_i_s * 0.5 * (sigma_i_1[k, j - 1] * sigma_i_1[k, j - 1] +
                                                    sigma_i_1[k, j] * sigma_i_1[k, j])
 
-            int_sigma_b_i_1[k, j-1] = 0.5 * (sigma_i_1[k, j-1] + sigma_i_1[k, j]) * d_w_i_rho
+            int_sigma_b_i_1[k, j - 1] = 0.5 * (sigma_i_1[k, j - 1] + sigma_i_1[k, j]) * d_w_i_rho
 
             # int_v_t[k, j - 1] = delta_i_s * sigma_i_1[k, j - 1] * sigma_i_1[k, j - 1]
             paths[k, j] = paths[k, j - 1] * np.exp(- 0.5 * int_v_t[k, j - 1] +
@@ -208,10 +208,11 @@ def generate_paths_rbergomi_skew(s0: float,
     return paths, sigma_i_1, int_v_t, int_sigma_b_i_1
 
 
-@nb.jit("(f8, f8, f8, f8, f8[:,:], f8[:,:], f8[:], i8)", nopython=True, nogil=True)
+@nb.jit("(f8, f8, f8, f8, f8, f8[:,:], f8[:,:], f8[:], i8)", nopython=True, nogil=True)
 def generate_paths_rbergomi(s0: float,
                             sigma_0: float,
                             nu: float,
+                            rho: float,
                             h: float,
                             noise: ndarray,
                             cholk_cov: ndarray,
@@ -222,7 +223,8 @@ def generate_paths_rbergomi(s0: float,
     paths = np.zeros(shape=(no_paths, no_time_steps))
     int_v_t = np.zeros(shape=(no_paths, no_time_steps - 1))
     sigma_i_1 = np.zeros(shape=(no_paths, no_time_steps))
-    int_sigma_b_i_1 = np.zeros(shape=(no_paths, no_time_steps - 1))
+    int_sigma_rho = np.zeros(shape=(no_paths, no_time_steps - 1))
+    int_rho_t = np.zeros(no_paths)
 
     sigma_i_1[:, 0] = sigma_0
     paths[:, 0] = s0
@@ -235,7 +237,6 @@ def generate_paths_rbergomi(s0: float,
 
         w_i_s_1 = 0.0
         w_i_h_1 = 0.0
-        w_i_sigma_1 = 0.0
         var_w_t_i_1 = 0.0
 
         for j in range(1, no_time_steps):
@@ -244,26 +245,27 @@ def generate_paths_rbergomi(s0: float,
             # Brownian and Gaussian increments
             d_w_i_s = w_t_k[j - 1] - w_i_s_1
             d_w_i_h = w_t_k[j + no_time_steps - 2] - w_i_h_1
-            d_w_i_sigma = (noise[j + no_time_steps - 2, k] - w_i_sigma_1) * np.sqrt(delta_i_s)
 
             sigma_i_1[k, j] = sigma_i_1[k, j - 1] * np.exp(- 0.5 * nu * nu * (var_w_t[j - 1] - var_w_t_i_1) +
                                                            nu * d_w_i_h)
             int_v_t[k, j - 1] = delta_i_s * 0.5 * (sigma_i_1[k, j - 1] * sigma_i_1[k, j - 1] +
                                                    sigma_i_1[k, j] * sigma_i_1[k, j])
 
-            int_sigma_b_i_1[k, j-1] = delta_i_s * sigma_i_1[k, j-1] * d_w_i_sigma
-
             # int_v_t[k, j - 1] = delta_i_s * sigma_i_1[k, j - 1] * sigma_i_1[k, j - 1]
             paths[k, j] = paths[k, j - 1] * np.exp(- 0.5 * int_v_t[k, j - 1] +
                                                    sigma_i_1[k, j - 1] * d_w_i_s)
+
+            rho_hat = get_covariance_w_v_w_t(t_i_s[j - 1], t_i_s[j - 1], rho, h)
+
+            int_sigma_rho[k, j - 1] = rho_hat * \
+                                      sigma_i_1[k, j - 1] * d_w_i_h
 
             # Keep the last brownians and variance of the RL process
             w_i_s_1 = w_t_k[j - 1]
             w_i_h_1 = w_t_k[j + no_time_steps - 2]
             var_w_t_i_1 = var_w_t[j - 1]
-            w_i_sigma_1 = noise[j + no_time_steps - 2, k]
 
-    return paths, sigma_i_1, int_v_t, int_sigma_b_i_1
+    return paths, sigma_i_1, int_v_t, int_sigma_rho
 
 
 @nb.jit("(f8, f8, f8, f8, f8, f8[:,:], f8[:,:],f8[:,:], f8[:], i8)", nopython=True, nogil=True)
