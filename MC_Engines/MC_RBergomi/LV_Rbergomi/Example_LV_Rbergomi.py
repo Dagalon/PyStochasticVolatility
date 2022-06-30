@@ -18,12 +18,12 @@ sigma_0 = np.sqrt(v0)
 parameters = [nu, rho, hurst]
 
 f0 = 100
-T = np.arange(7, 180, 5) * 1.0 / 360
+T = np.arange(7, 360, 5) * 1.0 / 360
 
 seed = 123456789
 
-no_time_steps = 50
-no_paths = 250000
+no_time_steps = 30
+no_paths = 5
 
 atm_lv = []
 atm_lv_skew = []
@@ -73,29 +73,33 @@ for t_i in T:
     iv = implied_volatility.implied_volatility(price[0], f0, f0, t_i, 0.0, 'c')
     iv_right = implied_volatility.implied_volatility(right_price[0], f0, f_right, t_i, 0.0, 'c')
 
-    skew_iv_i = f0 * (iv_right - iv) / (f_right - f0)
+    skew_iv_i = f0 * (iv_right - iv_left) / (f_right - f_left)
 
     atm_iv_skew.append(skew_iv_i)
 
     # new lv markovian projection
 
-    lv_left = LocalVolRBegomi.get_local_vol_rough(t_i, f0, f_left,
-                                                  map_bergomi_output[Types.RBERGOMI_OUTPUT.VARIANCE_SPOT_PATHS][:, -1],
-                                                  np.sum(map_bergomi_output[Types.RBERGOMI_OUTPUT.INTEGRAL_VARIANCE_PATHS], 1))
+    lv_left = LocalVolRBegomi.get_local_vol(t_i, f0, f_left, rho,
+                                            map_bergomi_output[Types.RBERGOMI_OUTPUT.VARIANCE_SPOT_PATHS][:, -1],
+                                            np.sum(map_bergomi_output[Types.RBERGOMI_OUTPUT.INTEGRAL_VARIANCE_PATHS], 1),
+                                            np.sum(map_bergomi_output[Types.RBERGOMI_OUTPUT.INTEGRAL_SIGMA_PATHS_RESPECT_BROWNIANS], 1))
 
-    lv_i = LocalVolRBegomi.get_local_vol_rough(t_i, f0, f0,
-                                               map_bergomi_output[Types.RBERGOMI_OUTPUT.VARIANCE_SPOT_PATHS][:, -1],
-                                               np.sum(map_bergomi_output[Types.RBERGOMI_OUTPUT.INTEGRAL_VARIANCE_PATHS], 1))
+    lv_i = LocalVolRBegomi.get_local_vol(t_i, f0, f0, rho,
+                                         map_bergomi_output[Types.RBERGOMI_OUTPUT.VARIANCE_SPOT_PATHS][:, -1],
+                                         np.sum(map_bergomi_output[Types.RBERGOMI_OUTPUT.INTEGRAL_VARIANCE_PATHS], 1),
+                                         np.sum(map_bergomi_output[Types.RBERGOMI_OUTPUT.INTEGRAL_SIGMA_PATHS_RESPECT_BROWNIANS], 1))
 
-    lv_right = LocalVolRBegomi.get_local_vol_rough(t_i, f0, f_right,
-                                                   map_bergomi_output[Types.RBERGOMI_OUTPUT.VARIANCE_SPOT_PATHS][:, -1],
-                                                   np.sum(map_bergomi_output[Types.RBERGOMI_OUTPUT.INTEGRAL_VARIANCE_PATHS],1))
+    lv_right = LocalVolRBegomi.get_local_vol(t_i, f0, f_right, rho,
+                                             map_bergomi_output[Types.RBERGOMI_OUTPUT.VARIANCE_SPOT_PATHS][:, -1],
+                                             np.sum(map_bergomi_output[Types.RBERGOMI_OUTPUT.INTEGRAL_VARIANCE_PATHS], 1),
+                                             np.sum(map_bergomi_output[Types.RBERGOMI_OUTPUT.INTEGRAL_SIGMA_PATHS_RESPECT_BROWNIANS], 1))
 
     skew = f0 * (lv_right - lv_left) / (f_right - f_left)
 
-    skew_sv_mc = f0 * LocalVolRBegomi.get_skew_local_rough(t_i, f0, f0,
-                                                           map_bergomi_output[Types.RBERGOMI_OUTPUT.VARIANCE_SPOT_PATHS][:, -1],
-                                                           np.sum(map_bergomi_output[Types.RBERGOMI_OUTPUT.INTEGRAL_VARIANCE_PATHS], 1))
+    skew_sv_mc = f0 * LocalVolRBegomi.get_skew_local_vol(t_i, f0, f0, rho,
+                                                         map_bergomi_output[Types.RBERGOMI_OUTPUT.VARIANCE_SPOT_PATHS][:, -1],
+                                                         np.sum(map_bergomi_output[Types.RBERGOMI_OUTPUT.INTEGRAL_VARIANCE_PATHS], 1),
+                                                         np.sum(map_bergomi_output[Types.RBERGOMI_OUTPUT.INTEGRAL_SIGMA_PATHS_RESPECT_BROWNIANS], 1))
     atm_lv_skew.append(skew)
     ratio.append(skew_iv_i / skew_sv_mc)
     target_skew.append(1.0/(hurst + 1.5))
