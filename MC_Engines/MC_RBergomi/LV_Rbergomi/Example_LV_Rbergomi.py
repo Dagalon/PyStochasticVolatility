@@ -9,7 +9,7 @@ from MC_Engines.MC_RBergomi import LocalVolRBegomi
 from py_vollib.black_scholes import implied_volatility
 
 # simulation info
-hurst = 0.499
+hurst = 0.1
 nu = 0.4
 rho = -0.4
 v0 = 0.05
@@ -18,12 +18,12 @@ sigma_0 = np.sqrt(v0)
 parameters = [nu, rho, hurst]
 
 f0 = 100
-T = np.arange(7, 360, 5) * 1.0 / 360
+T = np.arange(15, 180, 10) * 1.0 / 360
 
 seed = 123456789
 
-no_time_steps = 30
-no_paths = 5
+no_time_steps = 50
+no_paths = 1000000
 
 atm_lv = []
 atm_lv_skew = []
@@ -37,11 +37,8 @@ rnd_generator = RNG.RndGenerator(seed)
 
 for t_i in T:
     rnd_generator.set_seed(seed)
-    # Julien Guyon paper https://papers.ssrn.com/sol3/papers.cfm?abstract_id=1885032&download=yes
-    h = 1.5 * np.sqrt(t_i) * np.power(no_paths, - 0.2)
-    delta = h / 10.0
 
-    bump = 0.01
+    bump = 0.001
     f_left = (1.0 - bump) * f0
     f_right = (1.0 + bump) * f0
 
@@ -52,7 +49,7 @@ for t_i in T:
 
     # Rbergomi paths simulation
     map_bergomi_output = RBergomi_Engine.get_path_multi_step(0.0, t_i, parameters, f0, sigma_0, no_paths,
-                                                             no_time_steps, Types.TYPE_STANDARD_NORMAL_SAMPLING.ANTITHETIC,
+                                                             no_time_steps, Types.TYPE_STANDARD_NORMAL_SAMPLING.REGULAR_WAY,
                                                              rnd_generator)
 
     # check simulation
@@ -100,7 +97,7 @@ for t_i in T:
                                                          map_bergomi_output[Types.RBERGOMI_OUTPUT.VARIANCE_SPOT_PATHS][:, -1],
                                                          np.sum(map_bergomi_output[Types.RBERGOMI_OUTPUT.INTEGRAL_VARIANCE_PATHS], 1),
                                                          np.sum(map_bergomi_output[Types.RBERGOMI_OUTPUT.INTEGRAL_SIGMA_PATHS_RESPECT_BROWNIANS], 1))
-    atm_lv_skew.append(skew)
+    atm_lv_skew.append(skew_sv_mc)
     ratio.append(skew_iv_i / skew_sv_mc)
     target_skew.append(1.0/(hurst + 1.5))
 
@@ -114,11 +111,11 @@ def f_law(x, b, c):
 # y_fit_atm_lv_skew = f_law(T, *popt_atm_lv_skew)
 # skew_lv_rbergomi_fit = f_law(T, *popt_atm_lv_skew)
 
-# plt.plot(T, ratio, label="skew_iv / skew_lv", color="blue", linestyle="dotted")
-# # plt.plot(T, target_skew, label="1/(H + 3/2)", color="red", linestyle="dotted")
+# plt.plot(T, ratio, label="skew_iv / skew_lv", color="blue", linestyle="dotted", marker="x")
+# plt.plot(T, target_skew, label="1/(H + 3/2)", color="red", linestyle="dotted",marker="x")
 
-plt.plot(T, atm_lv_skew, label="skew_lv", color="blue", linestyle="dotted")
-plt.plot(T, atm_iv_skew, label="skew_iv", color="green", linestyle="dashdot")
+plt.plot(T, ratio, label="skew_lv", color="blue", linestyle="dotted", marker="x")
+plt.plot(T, atm_iv_skew, label="skew_iv", color="orange", linestyle="dashdot", marker="x")
 
 # plt.plot(T, skew_lv_rbergomi_fit, label=" %s * T^(%s)" % (round(popt_atm_lv_skew[0], 5),
 #          round(popt_atm_lv_skew[1], 5)), color="green", linestyle="dotted")
