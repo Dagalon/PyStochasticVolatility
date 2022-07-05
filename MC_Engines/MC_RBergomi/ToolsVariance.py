@@ -15,7 +15,7 @@ __author__ = 'David Garcia Lorite'
 import numpy as np
 import numba as nb
 from Tools.Types import ndarray
-from ncephes import hyp2f1
+from scipy.special import hyp2f1
 from Tools import AnalyticTools
 from math import gamma
 
@@ -148,7 +148,8 @@ def generate_paths_turbocharging(s0: float,
             dw_sigma[j - 1] = w_i_sigma
             for ki in np.arange(j, 1, -1):
                 b_ki = np.power((np.power(ki - 1, h + 0.5) - np.power(ki - 2, h + 0.5)) / (h + 0.5), 1.0 / (h - 0.5))
-                accumulated_ki += np.power(b_ki * t / no_time_steps, h - 0.5) * dw_sigma[ki - 2]
+                normalized_bk_i = b_ki * t / no_time_steps
+                accumulated_ki += np.power(normalized_bk_i, h - 0.5) * dw_sigma[ki - 2]
 
             w_i_h = sqrt_2h * ((np.power(delta_i_s, h) / sqrt_2h) * n_i_sigma + accumulated_ki)
 
@@ -157,11 +158,9 @@ def generate_paths_turbocharging(s0: float,
 
             int_sigma_rho[k, j - 1] = 0.5 * (sigma_i_1[k, j - 1] + sigma_i_1[k, j]) * w_i_sigma
 
-            int_v_t[k, j - 1] = delta_i_s * 0.5 * (sigma_i_1[k, j - 1] * sigma_i_1[k, j - 1] +
-                                                   sigma_i_1[k, j] * sigma_i_1[k, j])
-
-            paths[k, j] = paths[k, j - 1] * np.exp(- 0.5 * int_v_t[k, j - 1] +
-                                                   sigma_i_1[k, j - 1] * (rho * w_i_sigma + inv_rho * w_i_s_perp))
+            avrg_int_v_t = 0.5 * (sigma_i_1[k, j - 1] * sigma_i_1[k, j - 1] + sigma_i_1[k, j] * sigma_i_1[k, j])
+            int_v_t[k, j - 1] = delta_i_s * avrg_int_v_t
+            paths[k, j] = paths[k, j - 1] * np.exp(- 0.5 * int_v_t[k, j - 1] + avrg_int_v_t * (rho * w_i_sigma + inv_rho * w_i_s_perp))
 
             w_i_h_1 = w_i_h
             var_w_t_i_1 = var_w_t[j - 1]

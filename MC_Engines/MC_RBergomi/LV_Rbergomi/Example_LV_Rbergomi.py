@@ -4,12 +4,14 @@ import matplotlib.pylab as plt
 from MC_Engines.MC_RBergomi import RBergomi_Engine
 from Tools import Types
 from Tools import RNG
+from scipy.special import ndtr
+from Tools.AnalyticTools import normal_pdf
 from Instruments.EuropeanInstruments import EuropeanOption, TypeSellBuy, TypeEuropeanOption
 from MC_Engines.MC_RBergomi import LocalVolRBegomi
-from py_vollib.black_scholes import implied_volatility
+from py_vollib.black_scholes import implied_volatility, black_scholes
 
 # simulation info
-hurst = 0.1
+hurst = 0.49999
 nu = 0.4
 rho = -0.4
 v0 = 0.05
@@ -22,10 +24,11 @@ T = np.arange(15, 180, 10) * 1.0 / 360
 
 seed = 123456789
 
-no_time_steps = 50
+no_time_steps = 30
 no_paths = 1000000
 
 atm_lv = []
+atm_lv_skew_fd = []
 atm_lv_skew = []
 atm_iv_skew = []
 atm_lv_skew_derive_estimator = []
@@ -38,7 +41,7 @@ rnd_generator = RNG.RndGenerator(seed)
 for t_i in T:
     rnd_generator.set_seed(seed)
 
-    bump = 0.001
+    bump = 0.01
     f_left = (1.0 - bump) * f0
     f_right = (1.0 + bump) * f0
 
@@ -66,11 +69,18 @@ for t_i in T:
     price = option.get_price_control_variate(map_bergomi_output[Types.RBERGOMI_OUTPUT.PATHS][:, -1],
                                              map_bergomi_output[Types.RBERGOMI_OUTPUT.INTEGRAL_VARIANCE_PATHS])
 
-    iv_left = implied_volatility.implied_volatility(left_price[0], f0, f_left, t_i, 0.0, 'c')
+    # iv_left = implied_volatility.implied_volatility(left_price[0], f0, f_left, t_i, 0.0, 'c')
     iv = implied_volatility.implied_volatility(price[0], f0, f0, t_i, 0.0, 'c')
-    iv_right = implied_volatility.implied_volatility(right_price[0], f0, f_right, t_i, 0.0, 'c')
+    option_bs = black_scholes('c', f0, f0, t_i, 0.0, iv)
+    # iv_right = implied_volatility.implied_volatility(right_price[0], f0, f_right, t_i, 0.0, 'c')
 
-    skew_iv_i = f0 * (iv_right - iv_left) / (f_right - f_left)
+    # new estimation skew iv
+    d2 = - 0.5 * iv * np.sqrt(t_i)
+    der_k_bs = - f0 * ndtr(d2)
+    vega_bs = f0 * np.sqrt(t_i) * normal_pdf(d2, 1.0, 0.0)
+    der_price = f0 * 0.5 * (right_price[0] - left_price[0]) / (f_right - f_left)
+    # skew_iv_i = f0 * 0.25 *(iv_right - iv_left) / (f_right - f_left)
+    skew_iv_i = (der_price - der_k_bs) / vega_bs
 
     atm_iv_skew.append(skew_iv_i)
 
@@ -98,6 +108,7 @@ for t_i in T:
                                                          np.sum(map_bergomi_output[Types.RBERGOMI_OUTPUT.INTEGRAL_VARIANCE_PATHS], 1),
                                                          np.sum(map_bergomi_output[Types.RBERGOMI_OUTPUT.INTEGRAL_SIGMA_PATHS_RESPECT_BROWNIANS], 1))
     atm_lv_skew.append(skew_sv_mc)
+    atm_lv_skew_fd.append(skew)
     ratio.append(skew_iv_i / skew_sv_mc)
     target_skew.append(1.0/(hurst + 1.5))
 
@@ -114,7 +125,8 @@ def f_law(x, b, c):
 # plt.plot(T, ratio, label="skew_iv / skew_lv", color="blue", linestyle="dotted", marker="x")
 # plt.plot(T, target_skew, label="1/(H + 3/2)", color="red", linestyle="dotted",marker="x")
 
-plt.plot(T, ratio, label="skew_lv", color="blue", linestyle="dotted", marker="x")
+# plt.plot(T, atm_lv_skew, label="skew_lv", color="blue", linestyle="dotted", marker="x")
+# plt.plot(T, atm_lv_skew_fd, label="skew_lv_fd", color="red", linestyle="dotted", marker="x")
 plt.plot(T, atm_iv_skew, label="skew_iv", color="orange", linestyle="dashdot", marker="x")
 
 # plt.plot(T, skew_lv_rbergomi_fit, label=" %s * T^(%s)" % (round(popt_atm_lv_skew[0], 5),
