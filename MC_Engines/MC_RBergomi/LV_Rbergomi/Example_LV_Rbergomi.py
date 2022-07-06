@@ -12,8 +12,8 @@ from py_vollib.black_scholes import implied_volatility, black_scholes
 
 # simulation info
 hurst = 0.49999
-nu = 0.4
-rho = -0.4
+nu = 0.5
+rho = 0.4
 v0 = 0.05
 sigma_0 = np.sqrt(v0)
 
@@ -24,8 +24,8 @@ T = np.arange(15, 180, 10) * 1.0 / 360
 
 seed = 123456789
 
-no_time_steps = 30
-no_paths = 1000000
+no_time_steps = 50
+no_paths = 500000
 
 atm_lv = []
 atm_lv_skew_fd = []
@@ -60,27 +60,23 @@ for t_i in T:
     vol_mean = np.mean(map_bergomi_output[Types.RBERGOMI_OUTPUT.SPOT_VOLATILITY_PATHS][:, -1])
 
     # option prices
-    left_price = option_left.get_price_control_variate(map_bergomi_output[Types.RBERGOMI_OUTPUT.PATHS][:, -1],
-                                                       map_bergomi_output[Types.RBERGOMI_OUTPUT.INTEGRAL_VARIANCE_PATHS])
+    left_price = option_left.get_price(map_bergomi_output[Types.RBERGOMI_OUTPUT.PATHS][:, -1])
 
-    right_price = option_right.get_price_control_variate(map_bergomi_output[Types.RBERGOMI_OUTPUT.PATHS][:, -1],
-                                                         map_bergomi_output[Types.RBERGOMI_OUTPUT.INTEGRAL_VARIANCE_PATHS])
+    right_price = option_right.get_price(map_bergomi_output[Types.RBERGOMI_OUTPUT.PATHS][:, -1])
 
-    price = option.get_price_control_variate(map_bergomi_output[Types.RBERGOMI_OUTPUT.PATHS][:, -1],
-                                             map_bergomi_output[Types.RBERGOMI_OUTPUT.INTEGRAL_VARIANCE_PATHS])
+    price = option.get_price(map_bergomi_output[Types.RBERGOMI_OUTPUT.PATHS][:, -1])
 
-    # iv_left = implied_volatility.implied_volatility(left_price[0], f0, f_left, t_i, 0.0, 'c')
+    iv_left = implied_volatility.implied_volatility(left_price[0], f0, f_left, t_i, 0.0, 'c')
     iv = implied_volatility.implied_volatility(price[0], f0, f0, t_i, 0.0, 'c')
-    option_bs = black_scholes('c', f0, f0, t_i, 0.0, iv)
-    # iv_right = implied_volatility.implied_volatility(right_price[0], f0, f_right, t_i, 0.0, 'c')
+    iv_right = implied_volatility.implied_volatility(right_price[0], f0, f_right, t_i, 0.0, 'c')
 
     # new estimation skew iv
     d2 = - 0.5 * iv * np.sqrt(t_i)
     der_k_bs = - f0 * ndtr(d2)
     vega_bs = f0 * np.sqrt(t_i) * normal_pdf(d2, 1.0, 0.0)
-    der_price = f0 * 0.5 * (right_price[0] - left_price[0]) / (f_right - f_left)
-    # skew_iv_i = f0 * 0.25 *(iv_right - iv_left) / (f_right - f_left)
-    skew_iv_i = (der_price - der_k_bs) / vega_bs
+    der_price = f0 * (right_price[0] - left_price[0]) / (f_right - f_left)
+    skew_iv_i_aux = f0 * (iv_right - iv_left) / (f_right - f_left)
+    skew_iv_i = (-f0 * price[2] - der_price) / vega_bs
 
     atm_iv_skew.append(skew_iv_i)
 

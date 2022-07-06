@@ -29,17 +29,24 @@ def black_scholes(f0: float, k: float, sigma: float, t: float, is_call: int):
 @nb.jit("f8[:](f8[:], f8)", nopython=True, nogil=True)
 def call_operator(x, strike):
     no_paths = len(x)
-    results = np.empty(2)
+    results = np.empty(3)
     acum = 0.0
     acum_pow = 0.0
+    acum_digital = 0.0
 
     for i in range(0, no_paths):
-        val = np.maximum(x[i] - strike, 0.0)
+        index = 0
+        if x[i] > strike:
+            index = 1
+        val = (x[i] - strike) * index
         acum += val
         acum_pow += val * val
+        acum_digital += index
 
     results[0] = acum / no_paths
     results[1] = np.sqrt((acum_pow / no_paths - results[0] * results[0]) / no_paths)
+    results[2] = acum_digital / no_paths
+
     return results
 
 
@@ -118,17 +125,24 @@ def put_operator_control_variate(x, x0, vol_swap_t, k, t):
 @nb.jit("f8[:](f8[:], f8)", nopython=True, nogil=True)
 def put_operator(x, strike):
     no_paths = len(x)
-    results = np.empty(2)
+    results = np.empty(3)
     acum = 0.0
     acum_pow = 0.0
+    acum_digital = 0.0
 
     for i in range(0, no_paths):
-        val = np.maximum(strike - x[i], 0.0)
+        index = 0.0
+        if x[i] < strike:
+            index = 1.0
+        val = (strike - x[i]) * index
         acum += val
+        acum_digital += index
         acum_pow += val * val
 
     results[0] = acum / no_paths
     results[1] = np.sqrt((acum_pow / no_paths - results[0] * results[0]) / no_paths)
+    results[2] = acum_digital / no_paths
+
     return results
 
 
