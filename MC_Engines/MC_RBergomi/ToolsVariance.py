@@ -113,7 +113,6 @@ def generate_paths_turbocharging(s0: float,
     no_time_steps = len(t_i_s)
     sqrt_2h = np.sqrt(2.0 * h)
     inv_rho = np.sqrt(1.0 - rho * rho)
-    t = t_i_s[-1]
 
     # Outputs
     paths = np.zeros(shape=(no_paths, no_time_steps))
@@ -148,7 +147,7 @@ def generate_paths_turbocharging(s0: float,
             dw_sigma[j - 1] = w_i_sigma
             for ki in np.arange(j, 1, -1):
                 b_ki = np.power((np.power(ki - 1, h + 0.5) - np.power(ki - 2, h + 0.5)) / (h + 0.5), 1.0 / (h - 0.5))
-                normalized_bk_i = b_ki * t / no_time_steps
+                normalized_bk_i = t_i_s[ki - 2] + (b_ki - (ki-2)) * (t_i_s[ki-1] - t_i_s[ki - 2])
                 accumulated_ki += np.power(normalized_bk_i, h - 0.5) * dw_sigma[ki - 2]
 
             w_i_h = sqrt_2h * ((np.power(delta_i_s, h) / sqrt_2h) * n_i_sigma + accumulated_ki)
@@ -156,11 +155,12 @@ def generate_paths_turbocharging(s0: float,
             sigma_i_1[k, j] = sigma_i_1[k, j - 1] * np.exp(- 0.5 * nu * nu * (var_w_t[j - 1] - var_w_t_i_1) +
                                                            nu * (w_i_h - w_i_h_1))
 
-            int_sigma_rho[k, j - 1] = 0.5 * (sigma_i_1[k, j - 1] + sigma_i_1[k, j]) * w_i_sigma
+            avrg_sigma_t = 0.5 * (sigma_i_1[k, j - 1] + sigma_i_1[k, j])
+            int_sigma_rho[k, j - 1] = avrg_sigma_t * w_i_sigma
 
             avrg_int_v_t = 0.5 * (sigma_i_1[k, j - 1] * sigma_i_1[k, j - 1] + sigma_i_1[k, j] * sigma_i_1[k, j])
             int_v_t[k, j - 1] = delta_i_s * avrg_int_v_t
-            paths[k, j] = paths[k, j - 1] * np.exp(- 0.5 * int_v_t[k, j - 1] + avrg_int_v_t * (rho * w_i_sigma + inv_rho * w_i_s_perp))
+            paths[k, j] = paths[k, j - 1] * np.exp(- 0.5 * int_v_t[k, j - 1] + avrg_sigma_t * (rho * w_i_sigma + inv_rho * w_i_s_perp))
 
             w_i_h_1 = w_i_h
             var_w_t_i_1 = var_w_t[j - 1]

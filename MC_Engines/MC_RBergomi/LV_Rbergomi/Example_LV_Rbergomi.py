@@ -13,7 +13,7 @@ from py_vollib.black_scholes import implied_volatility, black_scholes
 # simulation info
 hurst = 0.49999
 nu = 0.5
-rho = 0.4
+rho = -0.4
 v0 = 0.05
 sigma_0 = np.sqrt(v0)
 
@@ -22,10 +22,10 @@ parameters = [nu, rho, hurst]
 f0 = 100
 T = np.arange(15, 180, 10) * 1.0 / 360
 
-seed = 123456789
+seed = 123
 
-no_time_steps = 50
-no_paths = 500000
+no_time_steps = 20
+no_paths = 1000000
 
 atm_lv = []
 atm_lv_skew_fd = []
@@ -41,7 +41,7 @@ rnd_generator = RNG.RndGenerator(seed)
 for t_i in T:
     rnd_generator.set_seed(seed)
 
-    bump = 0.01
+    bump = 0.001
     f_left = (1.0 - bump) * f0
     f_right = (1.0 + bump) * f0
 
@@ -74,9 +74,10 @@ for t_i in T:
     d2 = - 0.5 * iv * np.sqrt(t_i)
     der_k_bs = - f0 * ndtr(d2)
     vega_bs = f0 * np.sqrt(t_i) * normal_pdf(d2, 1.0, 0.0)
-    der_price = f0 * (right_price[0] - left_price[0]) / (f_right - f_left)
-    skew_iv_i_aux = f0 * (iv_right - iv_left) / (f_right - f_left)
-    skew_iv_i = (-f0 * price[2] - der_price) / vega_bs
+    # der_price = f0 * (right_price[0] - left_price[0]) / (f_right - f_left)
+    der_price = - price[2]
+    # skew_iv_i_aux = f0 * (iv_right - iv_left) / (f_right - f_left)
+    skew_iv_i = (der_price * f0 - der_k_bs) / vega_bs
 
     atm_iv_skew.append(skew_iv_i)
 
@@ -118,11 +119,11 @@ def f_law(x, b, c):
 # y_fit_atm_lv_skew = f_law(T, *popt_atm_lv_skew)
 # skew_lv_rbergomi_fit = f_law(T, *popt_atm_lv_skew)
 
-# plt.plot(T, ratio, label="skew_iv / skew_lv", color="blue", linestyle="dotted", marker="x")
+# plt.scatter(T, ratio, label="skew_iv / skew_lv", color="blue", marker="x")
 # plt.plot(T, target_skew, label="1/(H + 3/2)", color="red", linestyle="dotted",marker="x")
 
-# plt.plot(T, atm_lv_skew, label="skew_lv", color="blue", linestyle="dotted", marker="x")
-# plt.plot(T, atm_lv_skew_fd, label="skew_lv_fd", color="red", linestyle="dotted", marker="x")
+plt.plot(T, atm_lv_skew, label="skew_lv", color="blue", linestyle="dotted", marker="x")
+plt.plot(T, atm_lv_skew_fd, label="skew_lv_fd", color="red", linestyle="dotted", marker="x")
 plt.plot(T, atm_iv_skew, label="skew_iv", color="orange", linestyle="dashdot", marker="x")
 
 # plt.plot(T, skew_lv_rbergomi_fit, label=" %s * T^(%s)" % (round(popt_atm_lv_skew[0], 5),
