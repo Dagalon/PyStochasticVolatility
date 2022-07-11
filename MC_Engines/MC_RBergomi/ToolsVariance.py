@@ -15,7 +15,7 @@ __author__ = 'David Garcia Lorite'
 import numpy as np
 import numba as nb
 from Tools.Types import ndarray
-from scipy.special import hyp2f1
+from ncephes import hyp2f1
 from Tools import AnalyticTools
 from math import gamma
 
@@ -117,11 +117,12 @@ def generate_paths_turbocharging(s0: float,
     # Outputs
     paths = np.zeros(shape=(no_paths, no_time_steps))
     int_v_t = np.zeros(shape=(no_paths, no_time_steps - 1))
-    sigma_i_1 = np.zeros(shape=(no_paths, no_time_steps))
+    v_i_1 = np.zeros(shape=(no_paths, no_time_steps))
     int_sigma_rho = np.zeros(shape=(no_paths, no_time_steps - 1))
 
     # simulation with turbocharged scheme
-    sigma_i_1[:, 0] = sigma_0
+    v0 = np.power(sigma_0, 2.0)
+    v_i_1[:, 0] = v0
     paths[:, 0] = s0
 
     # we compute before a loop of variance of the variance process
@@ -145,29 +146,28 @@ def generate_paths_turbocharging(s0: float,
 
             accumulated_ki = 0.0
             dw_sigma[j - 1] = w_i_sigma
-            for ki in np.arange(j, 1, -1):
-                b_ki = np.power((np.power(ki - 1, h + 0.5) - np.power(ki - 2, h + 0.5)) / (h + 0.5), 1.0 / (h - 0.5))
-                normalized_bk_i = t_i_s[ki - 2] + (b_ki - (ki-2)) * (t_i_s[ki-1] - t_i_s[ki - 2])
-                accumulated_ki += np.power(normalized_bk_i, h - 0.5) * dw_sigma[ki - 2]
+            for ki in np.arange(j - 1, 0, -1):
+                b_ki = np.power((np.power(ki, h + 0.5) - np.power(ki - 1, h + 0.5)) / (h + 0.5), 1.0 / (h - 0.5))
+                normalized_bk_i = t_i_s[ki - 1] + (b_ki - (ki-1)) * (t_i_s[ki] - t_i_s[ki - 1])
+                accumulated_ki += np.power(normalized_bk_i, h - 0.5) * dw_sigma[ki - 1]
 
             w_i_h = sqrt_2h * ((np.power(delta_i_s, h) / sqrt_2h) * n_i_sigma + accumulated_ki)
 
-            sigma_i_1[k, j] = sigma_i_1[k, j - 1] * np.exp(- 0.5 * nu * nu * (var_w_t[j - 1] - var_w_t_i_1) +
+            v_i_1[k, j] = v_i_1[k, j - 1] * np.exp(- 0.5 * nu * nu * (var_w_t[j - 1] - var_w_t_i_1) +
                                                            nu * (w_i_h - w_i_h_1))
 
-            avrg_sigma_t = 0.5 * (sigma_i_1[k, j - 1] + sigma_i_1[k, j])
-            int_sigma_rho[k, j - 1] = avrg_sigma_t * w_i_sigma
+            int_sigma_rho[k, j - 1] = np.sqrt(v_i_1[k, j - 1]) * w_i_sigma
 
-            avrg_int_v_t = 0.5 * (sigma_i_1[k, j - 1] * sigma_i_1[k, j - 1] + sigma_i_1[k, j] * sigma_i_1[k, j])
-            int_v_t[k, j - 1] = delta_i_s * avrg_int_v_t
-            paths[k, j] = paths[k, j - 1] * np.exp(- 0.5 * int_v_t[k, j - 1] + avrg_sigma_t * (rho * w_i_sigma + inv_rho * w_i_s_perp))
+            int_v_t[k, j - 1] = delta_i_s * v_i_1[k, j - 1]
+            paths[k, j] = paths[k, j - 1] * np.exp(- 0.5 * int_v_t[k, j - 1] +
+                                                   np.sqrt(v_i_1[k, j - 1]) * (rho * w_i_sigma + inv_rho * w_i_s_perp))
 
             w_i_h_1 = w_i_h
             var_w_t_i_1 = var_w_t[j - 1]
 
         dw_sigma.fill(0.0)
 
-    return paths, sigma_i_1, int_v_t, int_sigma_rho
+    return paths, v_i_1, int_v_t, int_sigma_rho
 
 
 @nb.jit("(f8, f8, f8, f8, f8, f8[:,:], f8[:,:], f8[:], i8)", nopython=True, nogil=True)

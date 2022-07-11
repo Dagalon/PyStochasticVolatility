@@ -62,9 +62,10 @@ class RndGenerator(object):
             return self._rnd_generator.normal(mu, sigma, size)
         else:
             if type(size) is tuple:
-                no_elements = size[0] * size[1]
-                first_part_rn = self._rnd_generator.normal(mu, sigma, int(0.5 * no_elements))
-                return np.concatenate((first_part_rn, - first_part_rn), axis=0).reshape(size)
+                # no_elements = size[0] * size[1]
+                # first_part_rn = self._rnd_generator.normal(mu, sigma, int(0.5 * no_elements))
+                first_part_rn = self._rnd_generator.normal(mu, sigma, size)
+                return np.concatenate((first_part_rn, - first_part_rn), axis=1)
 
             else:
                 first_part_rn = self._rnd_generator.normal(mu, sigma, int(0.5 * size))

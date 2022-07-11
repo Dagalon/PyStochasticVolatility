@@ -11,8 +11,10 @@ __author__ = 'David Garcia Lorite'
 #
 # See the License for the specific language governing permissions and limitations under the License.
 #
+from typing import Dict, Optional
 
 import numpy as np
+from numpy import ndarray
 
 from MC_Engines.MC_RBergomi import ToolsVariance
 from Tools.Types import Vector, ndarray, TYPE_STANDARD_NORMAL_SAMPLING, RBERGOMI_OUTPUT
@@ -50,21 +52,31 @@ def get_path_multi_step(t0: float,
     z_i_s = rnd_generator.normal(mu=0.0, sigma=1.0, size=(2 * (no_time_steps - 1), no_paths),
                                  sampling_type=type_random_number)
     map_out_put = {}
-    outputs = ToolsVariance.generate_paths_variance_rbergomi(f0,
-                                                             sigma_0,
-                                                             nu,
-                                                             h,
-                                                             z_i_s,
-                                                             np.linalg.cholesky(
-                                                             ToolsVariance.get_covariance_matrix(t_i_s[1:], h, rho)),
-                                                             t_i_s,
-                                                             no_paths)
+    # outputs = ToolsVariance.generate_paths_variance_rbergomi(f0,
+    #                                                          sigma_0,
+    #                                                          nu,
+    #                                                          h,
+    #                                                          z_i_s,
+    #                                                          np.linalg.cholesky(
+    #                                                          ToolsVariance.get_covariance_matrix(t_i_s[1:], h, rho)),
+    #                                                          t_i_s,
+    #                                                          no_paths)
+
+    outputs = ToolsVariance.generate_paths_turbocharging(f0,
+                                                         sigma_0,
+                                                         nu,
+                                                         rho,
+                                                         h,
+                                                         z_i_s,
+                                                         t_i_s,
+                                                         no_paths)
 
     map_out_put[RBERGOMI_OUTPUT.PATHS] = outputs[0]
     map_out_put[RBERGOMI_OUTPUT.SPOT_VOLATILITY_PATHS] = np.sqrt(outputs[1])
     map_out_put[RBERGOMI_OUTPUT.VARIANCE_SPOT_PATHS] = outputs[1]
     map_out_put[RBERGOMI_OUTPUT.INTEGRAL_VARIANCE_PATHS] = outputs[2]
     map_out_put[RBERGOMI_OUTPUT.TIMES] = t_i_s
+    map_out_put[RBERGOMI_OUTPUT.INTEGRAL_SIGMA_PATHS_RESPECT_BROWNIANS] = outputs[3]
 
     return map_out_put
 

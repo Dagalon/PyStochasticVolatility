@@ -15,7 +15,7 @@ __author__ = 'David Garcia Lorite'
 import numba as nb
 import numpy as np
 
-from scipy.special import ndtr
+from ncephes import ndtr
 
 
 @nb.jit("f8(f8,f8,f8,f8,i8)", nopython=True, nogil=True)
@@ -35,9 +35,9 @@ def call_operator(x, strike):
     acum_digital = 0.0
 
     for i in range(0, no_paths):
-        index = 0
+        index = 0.0
         if x[i] > strike:
-            index = 1
+            index = 1.0
         val = (x[i] - strike) * index
         acum += val
         acum_pow += val * val
