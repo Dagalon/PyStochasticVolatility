@@ -11,9 +11,9 @@ from MC_Engines.MC_RBergomi import LocalVolRBegomi
 from py_vollib.black_scholes import implied_volatility, black_scholes
 
 # simulation info
-hurst = 0.2
+hurst = 0.49999999
 nu = 0.5
-rho = -0.3
+rho = 0.0
 v0 = np.power(0.3, 2.0)
 sigma_0 = np.sqrt(v0)
 
