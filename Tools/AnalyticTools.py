@@ -13,7 +13,7 @@ __author__ = 'David Garcia Lorite'
 
 import numba as nb
 import numpy as np
-from ncephes import ndtr
+from scipy.special import ndtr
 
 
 @nb.jit("f8(f8, f8, f8)", nopython=True, nogil=True)

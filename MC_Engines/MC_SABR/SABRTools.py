@@ -16,6 +16,7 @@ import numpy as np
 import numba as nb
 
 from Tools.Types import ndarray
+from Tools.AnalyticTools import dot_wise
 
 
 @nb.jit("(f8,f8,f8[:],f8[:],f8[:],f8[:])", nopython=True, nogil=True)
@@ -59,3 +60,13 @@ def get_integral_variance(t_i_1: float,
     v_i_1 = sigma_t_i_1 * sigma_t_i_1
     v_i = sigma_t_i * sigma_t_i
     return delta * (w_i_1 * v_i_1 + w_i * v_i)
+
+
+@nb.jit("f8[:](f8[:],f8[:],f8[:],f8,f8)", nopython=True, nogil=True, parallel=True)
+def get_integral_sigma_w_t(diff_brownian: ndarray,
+                           sigma_t_i_1: ndarray,
+                           sigma_t_i: ndarray,
+                           w_i_1: float,
+                           w_i: float):
+
+    return dot_wise((w_i_1 * sigma_t_i_1 + sigma_t_i * w_i), diff_brownian)

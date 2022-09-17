@@ -14,7 +14,6 @@ __author__ = 'David Garcia Lorite'
 from typing import Dict, Optional
 
 import numpy as np
-from numpy import ndarray
 
 from MC_Engines.MC_RBergomi import ToolsVariance
 from Tools.Types import Vector, ndarray, TYPE_STANDARD_NORMAL_SAMPLING, RBERGOMI_OUTPUT
