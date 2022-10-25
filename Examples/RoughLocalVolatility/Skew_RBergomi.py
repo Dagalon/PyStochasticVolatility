@@ -56,6 +56,7 @@ for t_i in T:
     # Rbergomi paths simulation
     map_bergomi_output = RBergomi_Variance_Engine.get_path_multi_step(0.0, t_i, parameters, f0, sigma_0, no_paths,
                                                                       no_time_steps, Types.TYPE_STANDARD_NORMAL_SAMPLING.REGULAR_WAY,
+                                                                      True,
                                                                       rnd_generator)
     # option prices
     price = option.get_price(map_bergomi_output[Types.RBERGOMI_OUTPUT.PATHS][:, -1])

@@ -19,6 +19,16 @@ from MC_Engines.MC_Heston import HestonTools, VarianceMC
 from Tools import AnalyticTools, Types
 
 
+def get_time_steps(t0: float, t1: float, no_time_steps: int, **kwargs):
+    if len(kwargs) > 0:
+        extra_points = kwargs['extra_sampling_points']
+        basis_sampling_dates = np.linspace(t0, t1, no_time_steps).tolist()
+        full_points = np.array(list(set(extra_points + basis_sampling_dates)))
+        return sorted(full_points)
+    else:
+        return np.linspace(t0, t1, no_time_steps)
+
+
 def get_path_multi_step(t0: float,
                         t1: float,
                         parameters: Vector,
@@ -27,13 +37,18 @@ def get_path_multi_step(t0: float,
                         no_paths: int,
                         no_time_steps: int,
                         type_random_numbers: Types.TYPE_STANDARD_NORMAL_SAMPLING,
-                        rnd_generator) -> ndarray:
+                        rnd_generator,
+                        **kwargs) -> ndarray:
+
     k = parameters[0]
     theta = parameters[1]
     epsilon = parameters[2]
     rho = parameters[3]
 
     no_paths = 2 * no_paths if type_random_numbers == Types.TYPE_STANDARD_NORMAL_SAMPLING.ANTITHETIC else no_paths
+
+    t_i = get_time_steps(t0, t1, no_time_steps, **kwargs)
+    no_time_steps = len(t_i)
 
     t_i = np.linspace(t0, t1, no_time_steps)
     delta_t_i = np.diff(t_i)
