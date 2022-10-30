@@ -86,7 +86,6 @@ def get_underlying_sampling(f0: float,
                             alpha_t: Vector,
                             no_paths: int,
                             rnd_generator):
-
     z = rnd_generator.normal(size=no_paths)
     return get_jit_paths(f0, var_t0_t1, alpha_t, alpha, nu, rho, z)
 
@@ -114,7 +113,6 @@ def get_path_multi_step(t0: float,
                         type_random_number: TYPE_STANDARD_NORMAL_SAMPLING,
                         rnd_generator,
                         **kwargs) -> map:
-
     alpha = parameters[0]
     nu = parameters[1]
     rho = parameters[2]
@@ -136,8 +134,6 @@ def get_path_multi_step(t0: float,
     sigma_t[:, 0] = alpha
 
     int_sigma_t_i = np.empty((no_paths, no_time_steps - 1))
-    sigma_t_i_1 = np.empty(no_paths)
-    sigma_t_i_1[:] = alpha
 
     delta_weight = np.zeros(no_paths)
     gamma_weight = np.zeros(no_paths)
@@ -154,29 +150,27 @@ def get_path_multi_step(t0: float,
 
         sqrt_delta_time = np.sqrt(t_i[i_step] - t_i[i_step - 1])
 
-        int_sigma_t_i[:, i_step - 1] = sigma_t_i_1 * sigma_t_i_1 * delta_t_i[i_step - 1]
+        int_sigma_t_i[:, i_step - 1] = sigma_t[:, i_step - 1] * sigma_t[:, i_step - 1] * delta_t_i[i_step - 1]
 
-        diff_sigma = (rho / nu) * (sigma_t_i - sigma_t_i_1)
+        diff_sigma = (rho / nu) * (sigma_t_i - sigma_t[:, i_step - 1])
         noise_sigma = AnalyticTools.dot_wise(np.sqrt(int_sigma_t_i[:, i_step - 1]), z_i)
 
-        SABRTools.get_delta_weight(t_i[i_step - 1], t_i[i_step], sigma_t_i_1, sigma_t_i, z_sigma, delta_weight)
-        SABRTools.get_var_weight(t_i[i_step - 1], t_i[i_step], sigma_t_i_1, sigma_t_i, z_sigma, var_weight)
+        SABRTools.get_delta_weight(t_i[i_step - 1], t_i[i_step], sigma_t[:, i_step - 1], sigma_t_i, z_sigma, delta_weight)
+        SABRTools.get_var_weight(t_i[i_step - 1], t_i[i_step], sigma_t[:, i_step - 1], sigma_t_i, z_sigma, var_weight)
 
-        inv_variance += SABRTools.get_integral_variance(t_i[i_step - 1], t_i[i_step], 1.0 / sigma_t_i_1,
+        inv_variance += SABRTools.get_integral_variance(t_i[i_step - 1], t_i[i_step], 1.0 / sigma_t[:, i_step - 1],
                                                         1.0 / sigma_t_i, 0.5, 0.5)
 
         np.copyto(int_sigma_w_t_paths[:, i_step - 1], SABRTools.get_integral_sigma_w_t(sqrt_delta_time * z_sigma,
-                                                                                       sigma_t_i_1, sigma_t_i, 1.0, 0.0))
+                                                                                       sigma_t[:, i_step - 1], sigma_t_i, 1.0,
+                                                                                       0.0))
 
         np.copyto(int_v_t_paths[:, i_step - 1], SABRTools.get_integral_variance(t_i[i_step - 1], t_i[i_step],
-                                                                                sigma_t_i_1, sigma_t_i, 0.5, 0.5))
+                                                                                sigma_t[:, i_step - 1], sigma_t_i, 0.5, 0.5))
 
         s_t[:, i_step] = AnalyticTools.dot_wise(s_t[:, i_step - 1],
                                                 np.exp(- 0.5 * int_sigma_t_i[:, i_step - 1] +
-                                                diff_sigma + rho_inv * noise_sigma))
-
-
-
+                                                       diff_sigma + rho_inv * noise_sigma))
 
     map_output[SABR_OUTPUT.DELTA_MALLIAVIN_WEIGHTS_PATHS_TERMINAL] = delta_weight
     map_output[SABR_OUTPUT.PATHS] = s_t
@@ -189,6 +183,6 @@ def get_path_multi_step(t0: float,
 
     SABRTools.get_gamma_weight(delta_weight, var_weight, inv_variance, rho, t1, gamma_weight)
     map_output[SABR_OUTPUT.GAMMA_MALLIAVIN_WEIGHTS_PATHS_TERMINAL] = np.multiply(gamma_weight, 1.0 / (
-                (1.0 - rho * rho) * np.power(t1 * f0, 2.0)))
+            (1.0 - rho * rho) * np.power(t1 * f0, 2.0)))
 
     return map_output
