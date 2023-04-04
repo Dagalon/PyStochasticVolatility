@@ -74,7 +74,7 @@ def local_vol_log_normal_sabr(t: float, x: Types.ndarray, x0: float, alpha: floa
     no_elements = len(x)
     output = np.zeros(no_elements)
     for i in range(0, no_elements):
-        y_i = (x[i] - x0) / alpha
+        y_i = np.log(x[i] / x0) / alpha
         output[i] = alpha * np.sqrt(1.0 + 2.0 * rho * nu * y_i + nu * nu * y_i * y_i)
 
     return output
