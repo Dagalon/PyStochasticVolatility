@@ -51,7 +51,6 @@ def get_vetor_iv_cev(nu: float, alpha: float, T: float):
         f = interp1d(mesh_x.get_points(), pd_solver._u_grid[:, 0], kind='linear', fill_value='extrapolate')
         pde_price.append(float(f(np.log(f0))))
 
-
     # Hagan approximation
     expansion_hagan = ExpansionLocVol.hagan_loc_vol(lambda t: nu,
                                                     lambda x: np.power(x, alpha),
@@ -89,7 +88,6 @@ for i in range(0, 4):
 
 axs[0].legend(loc="upper left")
 axs[0].set_xlabel("ln(k/f)")
-
 
 for i in range(0, 4):
     z_s, iv_fd, iv_hagan = get_vetor_iv_cev(nu, alpha_upper_s[i], T)
