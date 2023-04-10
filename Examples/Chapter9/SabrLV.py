@@ -12,7 +12,7 @@ from functools import partial
 # simulation info
 sigma = 0.7
 beta = 0.3
-local_vol_mc = partial(LocalVolFunctionals.  , beta=beta - 1.0, sigma=sigma)
+local_vol_mc = partial(LocalVolFunctionals.local_vol_normal_sabr, beta=beta - 1.0, sigma=sigma)
 
 no_time_steps = 100
 
