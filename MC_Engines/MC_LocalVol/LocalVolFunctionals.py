@@ -50,7 +50,7 @@ def first_derive_cev_diffusion(t: float, x: Types.ndarray, beta: float, sigma: f
 
 
 @nb.jit("f8[:](f8,f8[:],f8,f8)", nopython=True, nogil=True)
-def second_derive_cev_diffusion(t: float, x: -Types.ndarray, beta: float, sigma: float):
+def second_derive_cev_diffusion(t: float, x: Types.ndarray, beta: float, sigma: float):
     no_elements = len(x)
     output = np.zeros(no_elements)
     for i in range(0, no_elements):
