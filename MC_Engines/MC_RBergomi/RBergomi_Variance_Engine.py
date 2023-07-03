@@ -68,7 +68,7 @@ def get_path_multi_step(t0: float,
 
     else:
         outputs = ToolsVariance.generate_paths_variance_rbergomi(f0,
-                                                                 sigma_0,
+                                                                 sigma_0 * sigma_0,
                                                                  nu,
                                                                  h,
                                                                  z_i_s,

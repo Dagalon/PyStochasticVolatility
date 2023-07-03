@@ -11,8 +11,8 @@ from MC_Engines.MC_RBergomi import LocalVolRBegomi
 from py_vollib.black_scholes import implied_volatility, black_scholes
 
 # simulation info
-hurst = 0.3
-nu = 1.1
+hurst = 0.49999999
+nu = 0.8
 rho = -0.6
 v0 = np.power(0.3, 2.0)
 sigma_0 = np.sqrt(v0)
@@ -20,13 +20,13 @@ sigma_0 = np.sqrt(v0)
 parameters = [nu, rho, hurst]
 
 f0 = 100
-T = np.arange(7, 90, 5) * 1.0 / 360
-# T = np.linspace(1/252, 0.1, 10)
+# T = np.arange(7, 90, 5) * 1.0 / 360
+T = np.linspace(0.01, 0.1, 10)
 
 seed = 123
 
-no_time_steps = 10
-no_paths = 1000000
+no_time_steps = 20
+no_paths = 2000000
 
 atm_lv = []
 atm_iv = []
@@ -44,9 +44,9 @@ rnd_generator = RNG.RndGenerator(seed)
 for t_i in T:
     rnd_generator.set_seed(seed)
 
-    bump = 0.001
-    f_left = (1.0 - bump) * f0
-    f_right = (1.0 + bump) * f0
+    bump = 0.1
+    f_left = f0 - bump
+    f_right = f0 + bump
 
     # Options to compute the skew
     option = EuropeanOption(f0, 1.0, TypeSellBuy.BUY, TypeEuropeanOption.CALL, f0, t_i)
@@ -56,8 +56,7 @@ for t_i in T:
     # Rbergomi paths simulation
     map_bergomi_output = RBergomi_Variance_Engine.get_path_multi_step(0.0, t_i, parameters, f0, sigma_0, no_paths,
                                                                       no_time_steps, Types.TYPE_STANDARD_NORMAL_SAMPLING.REGULAR_WAY,
-                                                                      True,
-                                                                      rnd_generator)
+                                                                      rnd_generator,True)
     # option prices
     price = option.get_price(map_bergomi_output[Types.RBERGOMI_OUTPUT.PATHS][:, -1])
     price_left = option_left.get_price(map_bergomi_output[Types.RBERGOMI_OUTPUT.PATHS][:, -1])
@@ -97,16 +96,16 @@ for t_i in T:
 
 
 # plot aux
-plt.scatter(T, atm_iv_skew, label="atm skew formula", color="blue", marker="x")
-plt.scatter(T, atm_iv_fd_skew, label="atm skew fd", color="green", marker="o")
-plt.xlabel("T")
-plt.legend()
-plt.title("nu=" + str(nu) + "and H=" + str(hurst))
-plt.show()
+# plt.scatter(T, atm_iv_skew, label="atm skew formula", color="blue", marker="x")
+# plt.scatter(T, atm_iv_fd_skew, label="atm skew fd", color="green", marker="o")
+# plt.xlabel("T")
+# plt.legend()
+# plt.title("nu=" + str(nu) + "and H=" + str(hurst))
+# plt.show()
 
 # plots
-# plt.scatter(T, ratio, label="skew_iv / skew_lv", color="blue", marker="o")
-# plt.plot(T, target_skew, label="1/(H + 3/2)", color="red", linestyle="dotted", marker="x")
+plt.scatter(T, ratio, label="skew_iv / skew_lv", color="black", marker="o")
+plt.plot(T, target_skew, label="1/(H + 3/2)", color="black", linestyle="dotted", marker="x")
 # plt.xlabel("T")
 # plt.legend()
 # plt.savefig("C:/Users/david/OneDrive/Desktop/plots/ratio_h_%s.jpg" % hurst)
@@ -115,10 +114,10 @@ plt.show()
 # plt.cla()
 # plt.clf()
 #
-# plt.plot(T, atm_lv, label="atm_lv", color="blue", linestyle="dotted", marker="x")
-# plt.plot(T, atm_iv, label="atm_iv", color="red", linestyle="dotted", marker="x")
+plt.plot(T, atm_lv, label="atm_lv", color="black", linestyle="dotted", marker="x")
+plt.plot(T, atm_iv, label="atm_iv", color="black", linestyle="dotted", marker="o")
 # plt.xlabel("T")
-# plt.legend()
+plt.legend()
 # plt.savefig("C:/Users/david/OneDrive/Desktop/plots/lv_vs_iv_h_%s.jpg" % hurst)
 # plt.figure().clear()
 # plt.close()
