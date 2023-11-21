@@ -36,7 +36,7 @@ def get_path_one_step(t0: float,
 
     alpha_t = get_vol_sampling(t0,
                                t1,
-                               alpha,
+                               np.ones(no_paths) * alpha,
                                nu,
                                z)
 

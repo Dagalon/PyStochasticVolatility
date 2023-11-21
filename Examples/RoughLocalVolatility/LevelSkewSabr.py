@@ -34,5 +34,6 @@ plt.plot(strikes, iv_hagan, label="iv", color="black", marker="o")
 plt.plot(strikes, lv_equivalent, label="lv_equivalent", color="black", linestyle="dotted", marker="x")
 
 
+plt.xlabel("K")
 plt.legend()
 plt.show()

@@ -86,5 +86,6 @@ plt.plot(tis, target_curvature, label="1/3", color="black", linestyle="dotted", 
 
 # plt.ylim(0.49, 0.51)
 
+plt.xlabel("T")
 plt.legend()
 plt.show()
