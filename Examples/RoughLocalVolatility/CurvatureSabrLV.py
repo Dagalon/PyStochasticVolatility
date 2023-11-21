@@ -99,5 +99,6 @@ plt.plot(tis, diff_fit, label="%s+%st" % (round(popt[0], 5), round(popt[1], 5)),
 
 # plt.ylim(0.49, 0.51)
 
+plt.xlabel("T")
 plt.legend()
 plt.show()

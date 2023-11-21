@@ -20,6 +20,20 @@ from scipy.integrate import quad_vec
 from MC_Engines.MC_RBergomi import ToolsVariance
 
 
+def get_vol_swap_new_approximation(parameters: Types.ndarray, t0: float, t1: float):
+    alpha = parameters[0]
+    nu = parameters[1]
+    delta_time = t1 - t0
+
+    beta_exp = (np.exp(nu * nu * t1) - np.exp(nu * nu * t0)) / (nu * nu)
+    var_swap = alpha * np.sqrt(beta_exp / delta_time)
+    second_term = 0.5 * alpha * alpha * np.power(var_swap, -3.0) * nu * nu * beta_exp
+
+    return var_swap - second_term
+
+
+
+
 # @nb.jit("f8(f8[:],f8,f8,f8)", nopython=True, nogil=True)
 def get_vol_swap_approximation_sabr(parameters: Types.ndarray, t0: float, t1: float, sigma_t0: float):
     nu = parameters[1]
