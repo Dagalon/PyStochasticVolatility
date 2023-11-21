@@ -1,5 +1,6 @@
 import numpy as np
 import matplotlib.pylab as plt
+from scipy.optimize import curve_fit
 
 from MC_Engines.MC_LocalVol import LocalVolFunctionals
 from VolatilitySurface.Tools import SABRTools
@@ -15,7 +16,7 @@ strikes = [f0 + s for s in spreads]
 # sabr parameters
 alpha = 0.3
 nu = 0.6
-rho = 0.0
+rho = -0.6
 parameters = [alpha, nu, rho]
 
 # skews
@@ -75,10 +76,22 @@ target_difference = [- np.power(nu * rho, 2.0) / (6.0 * alpha) for i in range(0,
 # curvature
 # plt.plot(tis, curvature_lv, label="rho=0", color="blue", marker="x")
 # plt.plot(tis, curvature_lv_rho_zero, label="rho=0.6", color="green", marker="o")
-plt.scatter(tis, ratio_curvatures, label="curvature_iv / curvature_lv", color="black", marker="o")
-plt.plot(tis, target_curvature, label="1/3", color="black", linestyle="dotted", marker="x")
+# plt.scatter(tis, ratio_curvatures, label="curvature_iv / curvature_lv", color="black", marker="o")
+# plt.plot(tis, target_curvature, label="1/3", color="black", linestyle="dotted", marker="x")
 
-# plt.scatter(tis, diff_log_curvatures, label="curvature_iv - curvature_lv / 3", color="black", marker="o")
+plt.scatter(tis, diff_log_curvatures, label="curvature_iv - curvature_lv / 3", color="black", marker="o")
+
+
+def f_law(x, a, b):
+    return a + b * x
+
+
+# skew
+popt, pcov = curve_fit(f_law, tis, diff_log_curvatures)
+diff_fit = f_law(tis, *popt)
+plt.plot(tis, diff_fit, label="%s+%st" % (round(popt[0], 5), round(popt[1], 5)), color="black",
+          linestyle="dashdot", marker=".")
+
 # plt.scatter(tis, target_difference, label="((rho*nu)^2)/(6*alpha)", color="black", linestyle="dotted", marker="x")
 
 # plt.plot(tis, curvature_log_lv, label="curvature_lv", color="black", marker="o")

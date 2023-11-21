@@ -16,7 +16,8 @@ import numba as nb
 
 from VolatilitySurface.Tools import ParameterTools
 from AnalyticEngines.LocalVolatility.Dupire import DupireFormulas
-from Tools import Types
+from Tools import Types, AnalyticTools
+from ncephes import ndtr
 
 
 @nb.jit("f8[:](f8[:],f8[:])", nopython=True, nogil=True)
@@ -74,6 +75,47 @@ def sabr_normal_jit(f, k, alpha, rho, v, t):
         psi = (v / alpha) * (f - k)
         phi = np.log((np.sqrt(1.0 - 2.0 * rho * psi + psi * psi) - rho + psi) / (1.0 - rho))
         return alpha * (psi / phi) * (1.0 + v * v * t * (2.0 - 3.0 * rho * rho) / 24.0)
+
+
+# @nb.jit("f8(f8,f8,f8,f8,f8,f8)", nopython=True, nogil=True)
+def sabr_normal_quadratic_jit(f, k, alpha, rho, v, t):
+    sigma_n = sabr_normal_jit(f, k, alpha, rho, v, t)
+    return sigma_n * (1.0 + v * v * t / 6.0)
+
+
+# @nb.jit("f8(f8,f8,f8,f8,f8)", nopython=True, nogil=True)
+def sabr_normal_quadratic_swap_vol_jit(f, alpha, rho, v, t):
+    sigma_n = sabr_normal_jit(f, f, alpha, rho, v, t)
+    return sigma_n * (1.0 + (4.0 + 3.0 * rho * rho) * v * v * t / 24.0)
+
+
+# @nb.jit("f8(f8,f8,f8,f8,f8,f8)", nopython=True, nogil=True)
+def sabr_normal_forward_adjusted(f, k, alpha, rho, v, t):
+    sigma_q_k = sabr_normal_quadratic_jit(f, k, alpha, rho, v, t)
+    sigma_q_f = sabr_normal_quadratic_jit(f, f, alpha, rho, v, t)
+    if np.abs(f - k) < 1e-10:
+        return f
+    else:
+        return f + 0.5 * t * (sigma_q_k * sigma_q_k - sigma_q_f * sigma_q_f) / (k - f)
+
+
+def quadratic_european_normal_sabr(f, k, alpha, rho, v, t, option_type):
+    f_adjusted = sabr_normal_forward_adjusted(f, k, alpha, rho, v, t)
+    sigma_q = sabr_normal_quadratic_jit(f, k, alpha, rho, v, t)
+    s_q = sabr_normal_quadratic_swap_vol_jit(f, alpha, rho, v, t)
+    d = (f_adjusted - k) / (sigma_q * np.sqrt(t))
+
+    f1 = np.power(f - k, 2.0) + s_q * s_q * t
+    f2 = (f_adjusted - k) * sigma_q * np.sqrt(t)
+
+    if option_type == 'c':
+        return f1 * ndtr(d) + f2 * AnalyticTools.normal_pdf(0.0, 1.0, d)
+    elif option_type == 'p':
+        return f1 * ndtr(d) - f2 * AnalyticTools.normal_pdf(0.0, 1.0, d)
+    elif option_type == 's':
+        return f1
+    else:
+        return -1
 
 
 # Tools for computing de derivative in local vol function in case SABR dynamic

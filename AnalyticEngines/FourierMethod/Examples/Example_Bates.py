@@ -36,7 +36,7 @@ start_time = time.time()
 cos_price = COSRepresentation.get_european_option_price(TypeEuropeanOption.CALL, a, b, 256, k_s, cf_bates)
 end_time = time.time()
 diff_time = end_time - start_time
-print(diff_time)
+print("COS method time ---- " + str(diff_time))
 
 start_time = time.time()
 price_cf_integration = []
@@ -48,4 +48,4 @@ for i in range(0, no_strikes):
 
 end_time = time.time()
 diff_time = end_time - start_time
-print(diff_time)
+print("Lewis's formula integration method time ---- " + str(diff_time))

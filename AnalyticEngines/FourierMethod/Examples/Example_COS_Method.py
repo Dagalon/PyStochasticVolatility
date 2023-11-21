@@ -23,29 +23,31 @@ from Instruments.EuropeanInstruments import EuropeanOption, TypeSellBuy, TypeEur
 import time
 
 # European option price
-k_s = np.array([60.0, 80.0, 90.0, 100.0, 110.0, 120.0, 140.0, 160.0, 170.0])
+k_s = np.array([50.0, 60.0, 80.0, 90.0, 100.0, 110.0, 120.0, 140.0, 160.0, 170.0, 180.0])
 f0 = 100.0
 x0 = np.log(f0)
 T = 0.25
 
 # Heston parameters
-epsilon = 1.1
-k = 0.5
-rho = -0.9
-v0 = 0.05
-theta = 0.05
+r = 0.00
+v0 = 0.25
+k = 1.5
+theta = 0.2
+epsilon = 0.05
+rho = -0.8
 b2 = k
 u2 = -0.5
 
 # Upper and lower bound for cos integral
-a = -2.0
-b = 2.0
+a = -6.0
+b = 6.0
 
 cf_heston = partial(HestonCharesticFunction.get_trap_cf, t=T, r_t=0.0, x=x0, v=v0, theta=theta, rho=rho, k=k, epsilon=epsilon, b=b2, u=u2)
 start_time = time.time()
-cos_price = COSRepresentation.get_european_option_price(TypeEuropeanOption.PUT, a, b, 64, k_s, cf_heston)
+cos_price = COSRepresentation.get_european_option_price(TypeEuropeanOption.CALL, a, b, 64, k_s, cf_heston)
 end_time = time.time()
 diff_time = end_time - start_time
+print("COS method time ---- " + str(diff_time))
 
 # Integration Heston´s charestic function
 price_cf_integration = []
@@ -59,12 +61,10 @@ for i in range(0, no_strikes):
                                                                    compute_greek=False))
 end_time = time.time()
 diff_time_cf = end_time - start_time
+print("Lewis's formula integration method time ---- " + str(diff_time_cf))
 
-print(diff_time)
-print(diff_time_cf)
-
-plt.plot(k_s, cos_price, label="cos method")
-plt.plot(k_s, price_cf_integration, label="integration cf")
+plt.plot(k_s, cos_price, color="blue", linestyle="dotted", label="cos method")
+plt.plot(k_s, price_cf_integration, color="green", label="integration cf")
 
 plt.legend()
 plt.show()

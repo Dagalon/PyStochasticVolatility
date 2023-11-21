@@ -216,7 +216,9 @@ class EuropeanOption(object):
                                  epsilon=epsilon,
                                  strike=self._strike)
 
-            integral_value = quad_vec(integrator, 0.0, np.inf)
+            # grid = np.linspace(0.0, 100.0)
+            # y_values = integrator(grid)
+            integral_value = quad_vec(integrator, 0.0, 15.0)
             df = np.exp(- r * self._delta_time)
             price = self._spot - (df * self._strike / np.pi) * integral_value[0]
 
