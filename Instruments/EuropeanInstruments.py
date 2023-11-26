@@ -17,7 +17,7 @@ from scipy.integrate import quad_vec
 from functools import partial
 from typing import Callable, List
 from Tools.Types import TypeSellBuy, TypeEuropeanOption
-from MCPricers.EuropeanPricers import call_operator, put_operator, malliavin_delta_call_put, malliavin_gamma_call_put, \
+from MCPricers.EuropeanPricers import quadratic_call_operator, quadratic_put_operator, malliavin_delta_call_put, malliavin_gamma_call_put, \
     call_operator_control_variate, put_operator_control_variate
 from Tools.Types import ndarray, ANALYTIC_MODEL, TypeGreeks
 from AnalyticEngines.FourierMethod.CharesticFunctions.HestonCharesticFunction import f_attari_heston, \
@@ -34,6 +34,43 @@ class EuropeanPayoff(object):
 
     def get_value(self, x: ndarray):
         return self._f_price(x)
+
+
+class QuadraticEuropeanOption(object):
+    def __init__(self,
+                 strike: float,
+                 notional: float,
+                 buy_sell: TypeSellBuy,
+                 option_type: TypeEuropeanOption,
+                 spot: float,
+                 delta_time: float):
+
+        self._strike = strike
+        self._notional = notional
+        self._option_type = option_type
+        self._buy_sell = buy_sell
+        self._spot = spot
+        self._delta_time = delta_time
+        # self._payoff_control_variate
+
+        if buy_sell == TypeSellBuy.BUY:
+            mult_buy_sell = 1.0
+        else:
+            mult_buy_sell = -1.0
+
+        if option_type == TypeEuropeanOption.CALL:
+            self._payoff = EuropeanPayoff(lambda x: mult_buy_sell * notional * quadratic_call_operator(x, strike))
+        else:
+            self._payoff = EuropeanPayoff(lambda x: mult_buy_sell * notional * quadratic_put_operator(x, strike))
+
+    def update_strike(self, strike: float):
+        self._strike = strike
+
+    def get_price(self, x: ndarray) -> ndarray:
+        if len(x.shape) == 1:
+            return self._payoff.get_value(x)
+        else:
+            return self._payoff.get_value(x[:, -1])
 
 
 class EuropeanOption(object):

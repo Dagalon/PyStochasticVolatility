@@ -50,6 +50,30 @@ def call_operator(x, strike):
     return results
 
 
+@nb.jit("f8[:](f8[:], f8)", nopython=True, nogil=True)
+def quadratic_call_operator(x, strike):
+    no_paths = len(x)
+    results = np.empty(3)
+    acum = 0.0
+    acum_pow = 0.0
+    acum_digital = 0.0
+
+    for i in range(0, no_paths):
+        index = 0.0
+        if x[i] > strike:
+            index = 1.0
+        val = np.power((x[i] - strike), 2.0) * index
+        acum += val
+        acum_pow += val * val
+        acum_digital += index
+
+    results[0] = acum / no_paths
+    results[1] = np.sqrt((acum_pow / no_paths - results[0] * results[0]) / no_paths)
+    results[2] = acum_digital / no_paths
+
+    return results
+
+
 @nb.jit("f8[:](f8[:],f8,f8[:],f8,f8)", nopython=True, nogil=True)
 def call_operator_control_variate(x, x0, vol_swap_t, k, t):
     no_paths = len(x)
@@ -138,6 +162,30 @@ def put_operator(x, strike):
         acum += val
         acum_digital += index
         acum_pow += val * val
+
+    results[0] = acum / no_paths
+    results[1] = np.sqrt((acum_pow / no_paths - results[0] * results[0]) / no_paths)
+    results[2] = acum_digital / no_paths
+
+    return results
+
+
+@nb.jit("f8[:](f8[:], f8)", nopython=True, nogil=True)
+def quadratic_put_operator(x, strike):
+    no_paths = len(x)
+    results = np.empty(3)
+    acum = 0.0
+    acum_pow = 0.0
+    acum_digital = 0.0
+
+    for i in range(0, no_paths):
+        index = 0.0
+        if x[i] > strike:
+            index = 1.0
+        val = np.power((strike - x[i]), 2.0) * index
+        acum += val
+        acum_pow += val * val
+        acum_digital += index
 
     results[0] = acum / no_paths
     results[1] = np.sqrt((acum_pow / no_paths - results[0] * results[0]) / no_paths)
@@ -255,6 +303,3 @@ def malliavin_gamma_call_put(x, strike, f0, gamma_weights):
     results[1] = np.sqrt((acum_pow / no_paths - results[0] * results[0]) / no_paths)
 
     return results
-
-
-
