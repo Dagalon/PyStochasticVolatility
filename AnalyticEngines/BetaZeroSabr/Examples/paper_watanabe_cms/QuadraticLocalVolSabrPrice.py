@@ -24,8 +24,9 @@ def quadratic_put(mesh: Mesh, k: float) -> np_ndarray:
 
 # option info
 f0 = 0.03
-t = 2.0
+t = 4.0
 strikes = np.linspace(-0.04, 0.07, 100)
+# strikes = [0.03]
 # strikes = [0.035]
 # spreads = [-200.0, -175.0, -150.0, -100.0, -75.0, -50.0, -25.0, -10.0, 0.0, 10.0, 25.0, 50.0, 75.0, 100.0, 150.0, 175.0, 200.0]
 
@@ -75,7 +76,7 @@ for i in range(0, len(strikes)):
     pde_price.append(price)
 
 
-plt.xlim([-0.02, 0.075])
+# plt.xlim([-0.02, 0.075])
 plt.plot(strikes, pde_price, label='PDE price quadratic', linestyle=':')
 plt.plot(strikes, quadratic_hagan_price, label='Hagan analytic price quadratic', linestyle=':')
 
