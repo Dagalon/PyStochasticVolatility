@@ -78,7 +78,7 @@ def sabr_normal_jit(f, k, alpha, rho, v, t):
 
 
 # @nb.jit("f8(f8,f8,f8,f8,f8,f8)", nopython=True, nogil=True)
-def sabr_normal_partial_f_jit(f, k, alpha, rho, v, t):
+def sabr_normal_partial_k_jit(f, k, alpha, rho, v, t):
     psi = (v / alpha) * (f - k)
     phi = np.log((np.sqrt(1.0 - 2.0 * rho * psi + psi * psi) - rho + psi) / (1.0 - rho))
     partial_k_psi = - (v / alpha)
@@ -102,11 +102,14 @@ def sabr_normal_quadratic_swap_vol_jit(f, alpha, rho, v, t):
 
 # @nb.jit("f8(f8,f8,f8,f8,f8,f8)", nopython=True, nogil=True)
 def sabr_normal_forward_adjusted(f, k, alpha, rho, v, t):
-    kFloor = np.maximum(f, f + 1e-08)
-    sigma_q_k = sabr_normal_quadratic_jit(f, kFloor, alpha, rho, v, t)
+    # kFloor = np.maximum(k, f + 1.0e-08)
+    sigma_q_k = sabr_normal_quadratic_jit(f, k, alpha, rho, v, t)
     sigma_q_f = sabr_normal_quadratic_jit(f, f, alpha, rho, v, t)
 
-    return f + 0.5 * t * (sigma_q_k * sigma_q_k - sigma_q_f * sigma_q_f) / (k - f)
+    if np.abs(f-k < 1.0e-08):
+        return f
+    else:
+        return f + 0.5 * t * (sigma_q_k * sigma_q_k - sigma_q_f * sigma_q_f) / (k - f)
 
 
 def quadratic_european_normal_sabr(f, k, alpha, rho, v, t, option_type):

@@ -7,27 +7,28 @@ from Instruments.EuropeanInstruments import QuadraticEuropeanOption, TypeSellBuy
 from Tools import RNG, Types
 from VolatilitySurface.Tools import SABRTools
 
-
 # option info
-f0 = 0.01
-t = 10.0
-spreads = [-100.0, -75.0, -50.0, -25.0, -10.0, 0.0, 10.0, 25.0, 50.0, 75.0, 100.0]
+f0 = 0.03
+t = 4.0
+spreads = [-300.0, -200.0, -100.0, -75.0, -50.0, -25.0, -10.0, -1.0, 0.0, 1.0, 10.0, 25.0, 50.0, 75.0, 100.0, 200.0, 300.0]
+# spreads = [0.00]
 
 strikes = []
 options = []
+
 for si in spreads:
     strikes.append(si / 10000.0 + f0)
     options.append(QuadraticEuropeanOption(strikes[-1], 1.0, TypeSellBuy.BUY, TypeEuropeanOption.CALL, f0, t))
 
 # sabr parameters
 alpha = 0.03
-nu = 0.7
+nu = 0.4
 rho = 0.3
 parameters = [alpha, nu, rho]
 
 # mc price
 seed = 123456789
-no_paths = 250000
+no_paths = 300000
 rnd_generator = RNG.RndGenerator(seed)
 no_time_steps = int(50 * t)
 
@@ -56,6 +57,3 @@ plt.title("T=%s, F= %s" % (t, f0))
 
 plt.legend()
 plt.show()
-
-
-

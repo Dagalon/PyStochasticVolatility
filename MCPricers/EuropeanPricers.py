@@ -62,7 +62,7 @@ def quadratic_call_operator(x, strike):
         index = 0.0
         if x[i] > strike:
             index = 1.0
-        val = np.power((x[i] - strike), 2.0) * index
+        val = np.power((x[i] - strike) * index, 2.0)
         acum += val
         acum_pow += val * val
         acum_digital += index
@@ -182,7 +182,7 @@ def quadratic_put_operator(x, strike):
         index = 0.0
         if x[i] > strike:
             index = 1.0
-        val = np.power((strike - x[i]), 2.0) * index
+        val = np.power((strike - x[i]) * index, 2.0)
         acum += val
         acum_pow += val * val
         acum_digital += index
