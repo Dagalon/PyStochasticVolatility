@@ -9,7 +9,7 @@ from VolatilitySurface.Tools import SABRTools
 
 # option info
 f0 = 0.03
-t = 5.0
+t = 10.0
 spreads = [-500.0, -400.0, -300.0, -200.0, -100.0, -75.0, -50.0, -25.0, -10.0, -1.0, 0.0, 1.0, 10.0, 25.0, 50.0, 75.0,
            100.0, 200.0, 300.0, 400.0, 500.0]
 # spreads = [-1.0, 0.0, 1.0]
@@ -22,8 +22,8 @@ for si in spreads:
     options.append(QuadraticEuropeanOption(strikes[-1], 1.0, TypeSellBuy.BUY, TypeEuropeanOption.CALL, f0, t))
 
 # sabr parameters
-alpha = 0.01
-nu = 0.5
+alpha = 0.02
+nu = 0.2
 rho = 0.3
 parameters = [alpha, nu, rho]
 

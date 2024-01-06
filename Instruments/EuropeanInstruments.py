@@ -18,7 +18,7 @@ from functools import partial
 from typing import Callable, List
 from Tools.Types import TypeSellBuy, TypeEuropeanOption
 from MCPricers.EuropeanPricers import quadratic_call_operator, quadratic_put_operator, malliavin_delta_call_put, malliavin_gamma_call_put, \
-    call_operator_control_variate, put_operator_control_variate
+    call_operator_control_variate, put_operator_control_variate, call_operator, put_operator
 from Tools.Types import ndarray, ANALYTIC_MODEL, TypeGreeks
 from AnalyticEngines.FourierMethod.CharesticFunctions.HestonCharesticFunction import f_attari_heston, \
     f_delta_attari_heston, \

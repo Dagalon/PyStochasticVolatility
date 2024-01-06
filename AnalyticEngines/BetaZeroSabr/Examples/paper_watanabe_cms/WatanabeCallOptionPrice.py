@@ -3,14 +3,14 @@ import numpy as np
 
 from AnalyticEngines.BetaZeroSabr import ExpansionTools
 from MC_Engines.MC_SABR import SABR_Normal_Engine
-from Instruments.EuropeanInstruments import EuropeanOption, TypeSellBuy, TypeEuropeanOption
 from Tools import RNG, Types
 from VolatilitySurface.Tools import SABRTools
 from Tools.Bachelier import bachelier
+from Instruments.EuropeanInstruments import EuropeanOption, TypeSellBuy, TypeEuropeanOption
 
 
 # option info
-f0 = 0.01
+f0 = 0.03
 t = 10.0
 spreads = [-300.0, -200.0, -175.0, -150.0, -100.0, -75.0, -50.0, -25.0, -10.0, 0.0, 10.0, 25.0, 50.0, 75.0, 100.0,
            150.0, 175.0, 200.0, 300.0]
@@ -24,12 +24,12 @@ for si in spreads:
 # sabr parameters
 alpha = 0.03
 nu = 0.6
-rho = -0.4
+rho = 0.3
 parameters = [alpha, nu, rho]
 
 # mc price
 seed = 123456789
-no_paths = 250000
+no_paths = 300000
 rnd_generator = RNG.RndGenerator(seed)
 no_time_steps = int(50 * t)
 

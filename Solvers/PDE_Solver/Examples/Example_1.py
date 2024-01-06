@@ -18,15 +18,16 @@ try:
 except ImportError:
     print('The import of matplotlib is not working.')
 
-T = 4.0
-mesh_t = Mesh(uniform_mesh, 50, 0.0, T)
+T = 1.0
+mesh_t = Mesh(uniform_mesh, 10, 0.0, T)
 
-r = 0.03
-q = 0.01
+r = 0.0
+q = 0.0
 sigma = 0.3
 
 S0 = 100.0
-K = np.exp((r - q) * T) * S0 + 10
+# K = np.exp((r - q) * T) * S0 + 10
+K = 90.0
 log_K = np.log(K)
 
 f = np.exp((r - q) * T) * S0
@@ -38,7 +39,7 @@ end_time = time.time()
 print(end_time - start_time)
 print(analytic_price)
 
-mesh_x = LnUnderlyingMesh(r, q, sigma, S0, T, 0.999, uniform_mesh, 100)
+mesh_x = LnUnderlyingMesh(r, q, sigma, S0, T, 0.9999999, uniform_mesh, 100)
 
 bs_pde = PDE.from_ipde_terms(LN_BS_PDE(r, q, sigma))
 bc = Zero_Laplacian_BC()
@@ -67,5 +68,7 @@ f = interp1d(mesh_x.get_points(), pd_solver._u_grid[:, 0], kind='linear', fill_v
 pde_price = float(f(np.log(S0)))
 print(end_time - start_time)
 print(pde_price)
+
+
 
 
