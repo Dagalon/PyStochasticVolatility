@@ -86,7 +86,7 @@ def sabr_normal_partial_k_jit(f, k, alpha, rho, v, t):
     m = 1.0 + v * v * t * (2.0 - 3.0 * rho * rho) / 24.0
 
     if np.abs(f-k) < 1.0e-06:
-        return - alpha * m * rho * partial_k_psi
+        return alpha * m * rho * partial_k_psi
     else:
         phi = np.log((np.sqrt(1.0 - 2.0 * rho * psi + psi * psi) - rho + psi) / (1.0 - rho))
         return alpha * m * ((partial_k_psi / phi) - (partial_k_phi * psi) / (phi * phi))
@@ -100,11 +100,11 @@ def sabr_normal_quadratic_jit(f, k, alpha, rho, v, t):
 
 # @nb.jit("f8(f8,f8,f8,f8,f8,f8)", nopython=True, nogil=True)
 def sabr_normal_quadratic_partial_k_jit(f, k, alpha, rho, v, t):
-    sigma_n = sabr_normal_jit(f, k, alpha, rho, v, t)
     partial_k_normal_jit = sabr_normal_partial_k_jit(f, k, alpha, rho, v, t)
-    partial_k_sigma_n = sabr_normal_partial_k_jit(f, k, alpha, rho, v, t)
-    return 2.0 * sigma_n * partial_k_sigma_n * partial_k_normal_jit * (1.0 + v * v * t / 6.0)
-
+    delta_k = 0.00001
+    der_aux = 0.5 * (sabr_normal_jit(f, f + delta_k, alpha, rho, v, t) - sabr_normal_jit(f, f - delta_k, alpha, rho, v, t)) / delta_k
+    # return partial_k_normal_jit * (1.0 + v * v * t / 6.0)
+    return der_aux
 
 # @nb.jit("f8(f8,f8,f8,f8,f8)", nopython=True, nogil=True)
 def sabr_normal_quadratic_swap_vol_jit(f, alpha, rho, v, t):
@@ -114,12 +114,16 @@ def sabr_normal_quadratic_swap_vol_jit(f, alpha, rho, v, t):
 
 # @nb.jit("f8(f8,f8,f8,f8,f8,f8)", nopython=True, nogil=True)
 def sabr_normal_forward_adjusted(f, k, alpha, rho, v, t):
+    sigma_q_f = sabr_normal_quadratic_jit(f, f, alpha, rho, v, t)
 
     if f == k:
-        return f + t * 0.5 * sabr_normal_quadratic_partial_k_jit(f, k, alpha, rho, v, t)
+        sigma_q_f = sabr_normal_quadratic_jit(f, f, alpha, rho, v, t)
+        der_vol_q = sabr_normal_quadratic_partial_k_jit(f, f, alpha, rho, v, t)
+
+        return f + sigma_q_f * der_vol_q * t
+
     else:
         sigma_q_k = sabr_normal_quadratic_jit(f, k, alpha, rho, v, t)
-        sigma_q_f = sabr_normal_quadratic_jit(f, f, alpha, rho, v, t)
         return f + 0.5 * t * (sigma_q_k * sigma_q_k - sigma_q_f * sigma_q_f) / (k - f)
 
 
