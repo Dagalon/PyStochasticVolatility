@@ -3,16 +3,19 @@ This repository contains different tools to simulate underlyings under SV dynami
 
 ## Packages you need to include
 The next packages are using of a intesive way:
-* numpy~=1.20.1
-* numba~=0.53.1
+* python ~= 3.9
+* numpy~=1.21.5
+* numba~=0.55.1
 * ncephes~=1.1.0
-* matplotlib~=3.4.4
-* scipy~=1.6.2
-* pandas~=1.2.4
-* statsmodels~=0.12.2
+* matplotlib~=3.5.1
+* scipy~=1.7.3
+* pandas~=1.4.2
+* statsmodels~=0.13.2
 * tabulate~=0.8.9
 * prettytable~=2.4.0
-* setuptools~=52.0.0
+* setuptools~=61.2.0
+* py_vol ~= Last version
+* sobol_rew ~= Last version
 
 ## Module description
 We will a brief description of each module of the library.

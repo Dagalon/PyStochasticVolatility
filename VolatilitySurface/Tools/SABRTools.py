@@ -77,41 +77,41 @@ def sabr_normal_jit(f, k, alpha, rho, v, t):
         return alpha * (psi / phi) * (1.0 + v * v * t * (2.0 - 3.0 * rho * rho) / 24.0)
 
 
-# @nb.jit("f8(f8,f8,f8,f8,f8,f8)", nopython=True, nogil=True)
+@nb.jit("f8(f8,f8,f8,f8,f8,f8)", nopython=True, nogil=True)
 def sabr_normal_partial_k_jit(f, k, alpha, rho, v, t):
     psi = (v / alpha) * (f - k)
 
-    partial_k_psi = - (v / alpha)
-    partial_k_phi = partial_k_psi / np.sqrt(1.0 - 2.0 * rho * psi + psi * psi)
     m = 1.0 + v * v * t * (2.0 - 3.0 * rho * rho) / 24.0
 
     if np.abs(f - k) < 1.0e-06:
         return 0.5 * rho * v * m
     else:
+        partial_k_psi = - (v / alpha)
+        partial_k_phi = partial_k_psi / np.sqrt(1.0 - 2.0 * rho * psi + psi * psi)
         phi = np.log((np.sqrt(1.0 - 2.0 * rho * psi + psi * psi) - rho + psi) / (1.0 - rho))
         return alpha * m * ((partial_k_psi / phi) - (partial_k_phi * psi) / (phi * phi))
 
 
-# @nb.jit("f8(f8,f8,f8,f8,f8,f8)", nopython=True, nogil=True)
+@nb.jit("f8(f8,f8,f8,f8,f8,f8)", nopython=True, nogil=True)
 def sabr_normal_quadratic_jit(f, k, alpha, rho, v, t):
     sigma_n = sabr_normal_jit(f, k, alpha, rho, v, t)
     return sigma_n * (1.0 + v * v * t / 6.0)
 
 
-# @nb.jit("f8(f8,f8,f8,f8,f8,f8)", nopython=True, nogil=True)
+@nb.jit("f8(f8,f8,f8,f8,f8,f8)", nopython=True, nogil=True)
 def sabr_normal_quadratic_partial_k_jit(f, k, alpha, rho, v, t):
     partial_k_normal_jit = sabr_normal_partial_k_jit(f, k, alpha, rho, v, t)
     return partial_k_normal_jit * (1.0 + v * v * t / 6.0)
     # return der_aux
 
 
-# @nb.jit("f8(f8,f8,f8,f8,f8)", nopython=True, nogil=True)
+@nb.jit("f8(f8,f8,f8,f8,f8)", nopython=True, nogil=True)
 def sabr_normal_quadratic_swap_vol_jit(f, alpha, rho, v, t):
     sigma_n = sabr_normal_jit(f, f, alpha, rho, v, t)
     return sigma_n * (1.0 + (4.0 + 3.0 * rho * rho) * v * v * t / 24.0)
 
 
-# @nb.jit("f8(f8,f8,f8,f8,f8,f8)", nopython=True, nogil=True)
+@nb.jit("f8(f8,f8,f8,f8,f8,f8)", nopython=True, nogil=True)
 def sabr_normal_forward_adjusted(f, k, alpha, rho, v, t):
     sigma_q_f = sabr_normal_quadratic_jit(f, f, alpha, rho, v, t)
 
