@@ -12,6 +12,7 @@ from Solvers.PDE_Solver.Types import BoundaryConditionType, np_ndarray, SchemeTy
 from Solvers.PDE_Solver.BoundariesConditions import Zero_Laplacian_BC
 from functools import partial
 from VolatilitySurface.Tools import SABRTools
+from AnalyticEngines.BetaZeroSabr import ExpansionTools
 
 
 def quadratic_call(mesh: Mesh, k: float) -> np_ndarray:
@@ -38,7 +39,7 @@ parameters = [alpha, nu, rho]
 
 # meshes
 mesh_t = Mesh(uniform_mesh, 200, 0.0, t)
-mesh_x = Mesh(uniform_mesh, 500, -1.0, 1.0)
+mesh_x = Mesh(uniform_mesh, 500, -3.0, 3.0)
 # mesh_x = BachelierUnderlyingMesh(alpha, f0, t, 0.99999999999, uniform_mesh, 1000)
 
 # local vol info
@@ -57,6 +58,7 @@ operators = [operator_exp, operator_impl]
 
 pde_price = []
 quadratic_hagan_price = []
+quadratic_watanabe_price = []
 
 for i in range(0, len(strikes)):
     pd_solver = PDESolvers.FDSolver(mesh_t,
@@ -72,13 +74,16 @@ for i in range(0, len(strikes)):
 
     analytic_quadratic_price = SABRTools.quadratic_european_normal_sabr(f0, strikes[i], alpha, rho, nu, t, 'c')
     quadratic_hagan_price.append(analytic_quadratic_price)
-    # quadratic_european_normal_sabr(f, k, alpha, rho, v, t, option_type):
+    watanabe_price = ExpansionTools.get_quadratic_option_normal_sabr_watanabe_expansion(f0, strikes[i], t, alpha, nu, rho)
+
     pde_price.append(price)
+    quadratic_watanabe_price.append(watanabe_price)
 
 
 # plt.xlim([-0.02, 0.075])
 plt.plot(strikes, pde_price, label='PDE price quadratic', linestyle=':')
 plt.plot(strikes, quadratic_hagan_price, label='Hagan analytic price quadratic', linestyle=':')
+plt.plot(strikes, quadratic_watanabe_price, label='Watanabe analytic price quadratic', linestyle=':')
 
 plt.legend()
 plt.show()
