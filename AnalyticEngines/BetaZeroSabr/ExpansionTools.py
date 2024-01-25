@@ -10,22 +10,21 @@ def G(y):
 
 
 def Gq(y):
-    return (1+y*y) * ndtr(-y) - 2.0 * Tools.AnalyticTools.normal_pdf(0.0, 1.0, y) * y
+    return (1+y*y) * ndtr(-y) - Tools.AnalyticTools.normal_pdf(0.0, 1.0, y) * y
 
 
 def get_quadratic_option_normal_sabr_watanabe_expansion(f0, k, t, alpha, nu, rho):
     y = (k - f0) / (alpha * np.sqrt(t))
     rho_inv = np.sqrt(1.0 - rho * rho)
     phi_y = Tools.AnalyticTools.normal_pdf(0.0, 1.0, y)
-    cphi_y = ndtr(-y)
+    cphi_y_inv = ndtr(-y)
     g_y = Gq(y)
 
-    a_t = rho * nu * (cphi_y * (1+y) - phi_y) * np.sqrt(t)
-    b_t = np.power(nu * y, 2.0) / 3.0 + (2.0 * nu * nu - 3.0 * np.power(nu * rho, 2.0) / 12.0 + y * np.power(nu * rho, 2.0) / 8.0) * phi_y * t
-    c_t = 0.25 * np.power(nu * rho_inv, 2.0) * cphi_y * t
-    d_t = nu * nu * phi_y * np.power(t, 1.5)
+    a_t = rho * nu * phi_y * np.sqrt(t)
+    b_t = nu * nu * t * (y * phi_y / 3.0) + 0.5 * np.power(nu * rho_inv, 2.0) * cphi_y_inv * t
+    c_t = 0.25 * np.power(nu * rho, 2.0) * ((np.power(y, 3.0) + y) * phi_y + 2.0 * cphi_y_inv) * t
 
-    return alpha * alpha * t * (g_y + a_t + b_t + c_t - d_t)
+    return alpha * alpha * t * (g_y + a_t + b_t + c_t)
 
 
 def get_option_normal_sabr_watanabe_expansion(f0, k, t, alpha, nu, rho, option_type):

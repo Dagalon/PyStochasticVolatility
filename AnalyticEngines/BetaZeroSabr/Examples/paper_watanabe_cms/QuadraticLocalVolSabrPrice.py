@@ -25,15 +25,18 @@ def quadratic_put(mesh: Mesh, k: float) -> np_ndarray:
 
 # option info
 f0 = 0.03
-t = 4.0
-strikes = np.linspace(-0.04, 0.07, 100)
-# strikes = [0.03]
-# strikes = [0.035]
-# spreads = [-200.0, -175.0, -150.0, -100.0, -75.0, -50.0, -25.0, -10.0, 0.0, 10.0, 25.0, 50.0, 75.0, 100.0, 150.0, 175.0, 200.0]
+t = 5.0
+spreads = [-300.0, -200.0, -175.0, -150.0, -100.0, -75.0, -50.0, -25.0, -10.0, 0.0, 10.0, 25.0, 50.0, 75.0, 100.0,
+           150.0, 175.0, 200.0, 300.0]
+
+strikes = []
+options = []
+for si in spreads:
+    strikes.append(si / 10000.0 + f0)
 
 # sabr parameters
 alpha = 0.01
-nu = 0.7
+nu = 0.4
 rho = 0.3
 parameters = [alpha, nu, rho]
 
