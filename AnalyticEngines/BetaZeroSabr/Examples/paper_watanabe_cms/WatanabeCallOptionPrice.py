@@ -23,7 +23,7 @@ for si in spreads:
 
 # sabr parameters
 alpha = 0.03
-nu = 0.6
+nu = 0.4
 rho = 0.3
 parameters = [alpha, nu, rho]
 

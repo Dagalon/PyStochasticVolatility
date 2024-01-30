@@ -15,7 +15,7 @@ The next packages are using of a intesive way:
 * prettytable~=2.4.0
 * setuptools~=61.2.0
 * py_vol ~= Last version
-* sobol_rew ~= Last version
+* sobol_seq ~= Last version
 
 ## Module description
 We will a brief description of each module of the library.
