@@ -21,7 +21,8 @@ def get_quadratic_option_normal_sabr_watanabe_expansion(f0, k, t, alpha, nu, rho
     g_y = Gq(y)
 
     a_t = rho * nu * phi_y * np.sqrt(t)
-    b_t = nu * nu * t * ((y - np.power(y, 3.0)) * phi_y / 3.0) + 0.5 * np.power(nu * rho_inv, 2.0) * cphi_y_inv * t
+    # b_t = nu * nu * t * ((y - np.power(y, 3.0)) * phi_y / 3.0) + 0.5 * np.power(nu * rho_inv, 2.0) * cphi_y_inv * t
+    b_t = nu * nu * t * (rho * rho * cphi_y_inv + y * phi_y / 3.0)
     c_t = 0.25 * np.power(nu * rho, 2.0) * ((np.power(y, 3.0) + y) * phi_y + 2.0 * cphi_y_inv) * t
 
     return alpha * alpha * t * (g_y + a_t + b_t + c_t)

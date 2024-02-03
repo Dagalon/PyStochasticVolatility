@@ -11,7 +11,7 @@ from Instruments.EuropeanInstruments import EuropeanOption, TypeSellBuy, TypeEur
 
 # option info
 f0 = 0.03
-t = 10.0
+t = 5.0
 spreads = [-300.0, -200.0, -175.0, -150.0, -100.0, -75.0, -50.0, -25.0, -10.0, 0.0, 10.0, 25.0, 50.0, 75.0, 100.0,
            150.0, 175.0, 200.0, 300.0]
 

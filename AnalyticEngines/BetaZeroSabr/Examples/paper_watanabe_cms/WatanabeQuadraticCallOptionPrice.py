@@ -47,7 +47,6 @@ for i in range(0, no_options):
     price_hagan = SABRTools.quadratic_european_normal_sabr(f0, strikes[i], alpha, rho, nu, t, 'c')
     watanabe_price = ExpansionTools.get_quadratic_option_normal_sabr_watanabe_expansion(f0, strikes[i], t, alpha, nu, rho)
 
-
     quadratic_price_hagan.append(price_hagan)
     price_mc.append(mc_price)
     price_watanabe.append(watanabe_price)
