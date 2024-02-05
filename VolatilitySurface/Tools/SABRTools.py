@@ -126,7 +126,6 @@ def sabr_normal_forward_adjusted(f, k, alpha, rho, v, t):
         return f + 0.5 * t * (sigma_q_k * sigma_q_k - sigma_q_f * sigma_q_f) / (k - f)
 
 
-
 def quadratic_european_normal_sabr(f, k, alpha, rho, v, t, option_type):
     f_adjusted = sabr_normal_forward_adjusted(f, k, alpha, rho, v, t)
     sigma_q = sabr_normal_quadratic_jit(f, k, alpha, rho, v, t)

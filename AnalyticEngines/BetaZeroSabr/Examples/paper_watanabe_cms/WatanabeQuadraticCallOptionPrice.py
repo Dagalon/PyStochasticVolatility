@@ -10,8 +10,10 @@ from VolatilitySurface.Tools import SABRTools
 # option info
 f0 = 0.03
 t = 5.0
-spreads = [-500.0, -400.0, -300.0, -200.0, -100.0, -75.0, -50.0, -25.0, -10.0, -1.0, 0.0, 1.0, 10.0, 25.0, 50.0, 75.0,
-           100.0, 200.0, 300.0, 400.0, 500.0]
+# spreads = [-500.0, -400.0, -300.0, -200.0, -100.0, -75.0, -50.0, -25.0, -10.0, -1.0, 0.0, 1.0, 10.0, 25.0, 50.0, 75.0,
+#            100.0, 200.0, 300.0, 400.0, 500.0]
+spreads = [0.0]
+# spreads = [0.0]
 # spreads = [-1.0, 0.0, 1.0]
 
 strikes = []
@@ -22,19 +24,19 @@ for si in spreads:
     options.append(QuadraticEuropeanOption(strikes[-1], 1.0, TypeSellBuy.BUY, TypeEuropeanOption.CALL, f0, t))
 
 # sabr parameters
-alpha = 0.02
+alpha = 0.03
 nu = 0.4
 rho = 0.3
 parameters = [alpha, nu, rho]
 
 # mc price
 seed = 123456789
-no_paths = 300000
+no_paths = 500000
 rnd_generator = RNG.RndGenerator(seed)
 no_time_steps = int(50 * t)
 
 map_output = SABR_Normal_Engine.get_path_multi_step(0.0, t, parameters, f0, no_paths, no_time_steps,
-                                                    Types.TYPE_STANDARD_NORMAL_SAMPLING.ANTITHETIC, rnd_generator)
+                                                    Types.TYPE_STANDARD_NORMAL_SAMPLING.REGULAR_WAY, rnd_generator)
 
 no_options = len(options)
 price_watanabe = []
