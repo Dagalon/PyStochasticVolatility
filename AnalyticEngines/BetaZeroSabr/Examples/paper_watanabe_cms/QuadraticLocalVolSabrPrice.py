@@ -26,8 +26,11 @@ def quadratic_put(mesh: Mesh, k: float) -> np_ndarray:
 # option info
 f0 = 0.03
 t = 5.0
-spreads = [-300.0, -200.0, -175.0, -150.0, -100.0, -75.0, -50.0, -25.0, -10.0, 0.0, 10.0, 25.0, 50.0, 75.0, 100.0,
-           150.0, 175.0, 200.0, 300.0]
+
+# spreads = [-500.0, -300.0, -200.0, -175.0, -150.0, -100.0, -75.0, -50.0, -25.0, -10.0, 0.0, 10.0, 25.0, 50.0, 75.0, 100.0,
+#            150.0, 175.0, 200.0, 300.0, 500.0]
+
+spreads = [0.0]
 
 strikes = []
 options = []
@@ -37,12 +40,12 @@ for si in spreads:
 # sabr parameters
 alpha = 0.01
 nu = 0.4
-rho = 0.3
+rho = 0.0
 parameters = [alpha, nu, rho]
 
 # meshes
-mesh_t = Mesh(uniform_mesh, 200, 0.0, t)
-mesh_x = Mesh(uniform_mesh, 500, -3.0, 3.0)
+mesh_t = Mesh(uniform_mesh, 400, 0.0, t)
+mesh_x = Mesh(uniform_mesh, 500, -5.0, 5.0)
 # mesh_x = BachelierUnderlyingMesh(alpha, f0, t, 0.99999999999, uniform_mesh, 1000)
 
 # local vol info
