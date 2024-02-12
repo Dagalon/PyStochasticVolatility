@@ -9,7 +9,7 @@ from VolatilitySurface.Tools import SABRTools
 
 # option info
 f0 = 0.03
-t = 15.0
+t = 10.0
 spreads = [-500.0, -400.0, -300.0, -200.0, -100.0, -75.0, -50.0, -25.0, -10.0, -1.0, 0.0, 1.0, 10.0, 25.0, 50.0, 75.0,
            100.0, 200.0, 300.0, 400.0, 500.0]
 # spreads = [0.0]
@@ -24,19 +24,19 @@ for si in spreads:
     options.append(QuadraticEuropeanOption(strikes[-1], 1.0, TypeSellBuy.BUY, TypeEuropeanOption.CALL, f0, t))
 
 # sabr parameters
-alpha = 0.006
-nu = 0.15
-rho = 0.1
+alpha = 0.007
+nu = 0.25
+rho = 0.2
 parameters = [alpha, nu, rho]
 
 # mc price
 seed = 123456789
-no_paths = 500000
+no_paths = 200000
 rnd_generator = RNG.RndGenerator(seed)
 no_time_steps = int(50 * t)
 
 map_output = SABR_Normal_Engine.get_path_multi_step(0.0, t, parameters, f0, no_paths, no_time_steps,
-                                                    Types.TYPE_STANDARD_NORMAL_SAMPLING.REGULAR_WAY, rnd_generator)
+                                                    Types.TYPE_STANDARD_NORMAL_SAMPLING.ANTITHETIC, rnd_generator)
 
 no_options = len(options)
 price_watanabe = []
@@ -45,9 +45,9 @@ quadratic_price_hagan = []
 
 for i in range(0, no_options):
     mc_option_price = options[i].get_price(map_output[Types.SABR_OUTPUT.PATHS][:, -1])
-    mc_price = mc_option_price[0]
-    price_hagan = SABRTools.quadratic_european_normal_sabr(f0, strikes[i], alpha, rho, nu, t, 'c')
-    watanabe_price = ExpansionTools.get_quadratic_option_normal_sabr_watanabe_expansion(f0, strikes[i], t, alpha, nu, rho)
+    mc_price = 100.0 * mc_option_price[0]
+    price_hagan = 100.0 * SABRTools.quadratic_european_normal_sabr(f0, strikes[i], alpha, rho, nu, t, 'c')
+    watanabe_price = 100.0 * ExpansionTools.get_quadratic_option_normal_sabr_watanabe_expansion(f0, strikes[i], t, alpha, nu, rho)
 
     quadratic_price_hagan.append(price_hagan)
     price_mc.append(mc_price)
