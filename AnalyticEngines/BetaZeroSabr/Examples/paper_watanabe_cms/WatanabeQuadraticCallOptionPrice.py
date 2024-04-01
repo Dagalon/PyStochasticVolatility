@@ -8,8 +8,8 @@ from Tools import RNG, Types
 from VolatilitySurface.Tools import SABRTools
 
 # option info
-f0 = 0.03
-t = 10.0
+f0 = 0.0247
+t = 15.0
 spreads = [-500.0, -400.0, -300.0, -200.0, -100.0, -75.0, -50.0, -25.0, -10.0, -1.0, 0.0, 1.0, 10.0, 25.0, 50.0, 75.0,
            100.0, 200.0, 300.0, 400.0, 500.0]
 # spreads = [0.0]
@@ -24,9 +24,9 @@ for si in spreads:
     options.append(QuadraticEuropeanOption(strikes[-1], 1.0, TypeSellBuy.BUY, TypeEuropeanOption.CALL, f0, t))
 
 # sabr parameters
-alpha = 0.007
-nu = 0.25
-rho = 0.2
+alpha = 0.0068
+nu = 0.215
+rho = 0.195
 parameters = [alpha, nu, rho]
 
 # mc price
@@ -57,7 +57,7 @@ plt.plot(strikes, price_mc, label='mc price', linestyle='dotted')
 plt.plot(strikes, price_watanabe, label='watanabe price', linestyle='dashed')
 plt.plot(strikes, quadratic_price_hagan, label='hagan price', linestyle='dashed')
 
-plt.title("T=%s, F= %s" % (t, f0))
+plt.title("T=%s" % t)
 
 plt.legend()
 plt.show()
