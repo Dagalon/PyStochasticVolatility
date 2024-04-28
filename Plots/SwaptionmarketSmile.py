@@ -9,7 +9,8 @@ currentDirectory = os.path.dirname(os.path.realpath(__file__))
 folderDirectory = Path(currentDirectory)
 smileDataPath = os.path.join(folderDirectory, 'MarketData', 'SwaptionTenor5Y.csv')
 
-smileDf = pd.read_csv(smileDataPath, header=None, names=["FORWARD", "SPREAD", "MATURITY", "MARKET_VOLATILITY", "SABR_VOLATILITY"], sep=";")
+smileDf = pd.read_csv(smileDataPath, header=None,
+                      names=["FORWARD", "SPREAD", "MATURITY", "MARKET_VOLATILITY", "SABR_VOLATILITY"], sep=";")
 maturities = smileDf.MATURITY.unique()[1:]
 
 strikes = {}
@@ -28,7 +29,7 @@ for ti in maturities:
 
 plot_to_print = 2
 
-plt.plot(strikes[maturities[plot_to_print]], ivs[maturities[plot_to_print]], linestyle='dashed', color="green",
+plt.plot(strikes[maturities[plot_to_print]], ivs[maturities[plot_to_print]], linestyle='dashed', color="black",
          label="SABR")
 plt.scatter(strikes[maturities[plot_to_print]], ivsMarket[maturities[plot_to_print]], color="black", label="Market",
             s=15, marker="x")
@@ -39,6 +40,7 @@ plt.title("T=" + maturities[plot_to_print])
 plt.xlabel("K")
 plt.ylabel("IV")
 plt.legend()
-plt.show()
 
-plt.savefig("D:/Latex/Thesis/Figures/Introducction/swaption_tenor_5Y_" + maturities[plot_to_print] + ".png")
+pathToSave = "D:/Latex/Thesis/Figures/Introducction/swaption_tenor_5Y_" + maturities[plot_to_print] + ".png"
+plt.savefig(pathToSave, dpi=300, bbox_inches='tight')
+plt.show()

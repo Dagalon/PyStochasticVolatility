@@ -10,7 +10,7 @@ def G(y):
 
 
 def Gq(y):
-    return (1+y*y) * ndtr(-y) - Tools.AnalyticTools.normal_pdf(0.0, 1.0, y) * y
+    return (1 + y * y) * ndtr(-y) - Tools.AnalyticTools.normal_pdf(0.0, 1.0, y) * y
 
 
 def get_quadratic_option_normal_sabr_watanabe_expansion(f0, k, t, alpha, nu, rho):
@@ -43,12 +43,21 @@ def get_option_normal_sabr_watanabe_expansion(f0, k, t, alpha, nu, rho, option_t
     g_y = G(y)
 
     a_t = 0.5 * rho * nu * y
+
     b_t = 0.5 * np.power(nu * rho, 2.0) * (np.power(y, 2.0) / 3.0 + 1.0 / 6.0) + \
           0.5 * np.power(nu * rho, 2.0) * np.power(0.5 * (y * y - 1.0), 2.0) + \
           0.5 * np.power(rho_inv * nu, 2.0) * ((np.power(y, 2.0) + 2.0) / 3.0) - 0.25 * nu * nu
 
+
+    # b_t_aux
+    b_t_aux = np.power(nu * rho, 2.0) * (y * y / 6.0 - 1.0 / 12.0) +\
+              0.5 * np.power(nu * rho, 2.0) * np.power(0.5 * (y * y - 1.0), 2.0) + \
+              0.5 * np.power(nu * rho_inv, 2.0) * (3.0 * y * y + 2.0) / 12.0
+
+    aux = phi_y * t * b_t_aux
+
     if option_type == 'c':
-        return alpha * np.sqrt(t) * (g_y + phi_y * np.sqrt(t) * a_t + phi_y * t * b_t)
+        return alpha * np.sqrt(t) * (g_y + phi_y * np.sqrt(t) * a_t + phi_y * t * b_t_aux)
     else:
         return alpha * np.sqrt(t) * (g_y + phi_y * np.sqrt(t) * a_t + phi_y * t * b_t) - (f0 - k)
 
@@ -84,14 +93,9 @@ def get_option_normal_sabr_loc_vol_expansion(f0, k, t, alpha, nu, rho, option_ty
 
     a_t = 0.5 * rho * nu * y
     b_t = nu * nu * (y * y - 1.0) / 6.0
-    c_t = 0.25 * np.power(nu * rho_inv, 2.0) + 0.125 * np.power(rho * nu, 2.0) * np.power(y*y - 1.0, 2.0)
+    c_t = 0.25 * np.power(nu * rho_inv, 2.0) + 0.125 * np.power(rho * nu, 2.0) * np.power(y * y - 1.0, 2.0)
 
     if option_type == 'c':
         return alpha * np.sqrt(t) * (g_y + phi_y * np.sqrt(t) * a_t + phi_y * t * (b_t + c_t))
     else:
         return alpha * np.sqrt(t) * (g_y + phi_y * np.sqrt(t) * a_t + phi_y * t * (b_t + c_t)) - (f0 - k)
-
-
-
-
-
