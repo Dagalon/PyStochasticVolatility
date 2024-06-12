@@ -13,6 +13,28 @@ def Gq(y):
     return (1 + y * y) * ndtr(-y) - Tools.AnalyticTools.normal_pdf(0.0, 1.0, y) * y
 
 
+def Gr(y):
+    return (1.0 - y * y) * ndtr(-y) + y * Tools.AnalyticTools.normal_pdf(0.0, 1.0, y) * y
+
+
+def get_quadratic_option_normal_sabr_watanabe_expansion_replication(f0, k, t, alpha, nu, rho):
+    y = (k - f0) / (alpha * np.sqrt(t))
+    rho_inv = np.sqrt(1.0 - rho * rho)
+    phi_y = Tools.AnalyticTools.normal_pdf(0.0, 1.0, y)
+    cphi_y_inv = ndtr(-y)
+    gr_y = Gq(y)
+
+    # epsilon
+    a_t = nu * rho * phi_y * np.sqrt(t)
+
+    # epsilon^2
+    b_t = (np.power(nu * rho, 2.0) / 3.0) * y * phi_y * t
+    c_t = (np.power(nu * rho, 2.0) / 4.0) * ((np.power(y, 3.0) + y) * phi_y + 2.0 * cphi_y_inv) * t
+    d_t = (np.power(nu * rho_inv, 2.0) / 6.0) * (2.0 * y * phi_y + 3.0 * cphi_y_inv) * t
+
+    return alpha * alpha * t * (gr_y + a_t + b_t + c_t + d_t)
+
+
 def get_quadratic_option_normal_sabr_watanabe_expansion(f0, k, t, alpha, nu, rho):
     y = (k - f0) / (alpha * np.sqrt(t))
     rho_inv = np.sqrt(1.0 - rho * rho)
@@ -44,20 +66,13 @@ def get_option_normal_sabr_watanabe_expansion(f0, k, t, alpha, nu, rho, option_t
 
     a_t = 0.5 * rho * nu * y
 
-    b_t = 0.5 * np.power(nu * rho, 2.0) * (np.power(y, 2.0) / 3.0 + 1.0 / 6.0) + \
-          0.5 * np.power(nu * rho, 2.0) * np.power(0.5 * (y * y - 1.0), 2.0) + \
-          0.5 * np.power(rho_inv * nu, 2.0) * ((np.power(y, 2.0) + 2.0) / 3.0) - 0.25 * nu * nu
-
-
-    # b_t_aux
-    b_t_aux = np.power(nu * rho, 2.0) * (y * y / 6.0 - 1.0 / 12.0) +\
+    # b_t
+    b_t = np.power(nu * rho, 2.0) * (y * y / 6.0 - 1.0 / 6.0) + \
               0.5 * np.power(nu * rho, 2.0) * np.power(0.5 * (y * y - 1.0), 2.0) + \
-              0.5 * np.power(nu * rho_inv, 2.0) * (3.0 * y * y + 2.0) / 12.0
-
-    aux = phi_y * t * b_t_aux
+              np.power(nu * rho_inv, 2.0) * (2.0 * y * y + 1.0) / 12.0
 
     if option_type == 'c':
-        return alpha * np.sqrt(t) * (g_y + phi_y * np.sqrt(t) * a_t + phi_y * t * b_t_aux)
+        return alpha * np.sqrt(t) * (g_y + phi_y * np.sqrt(t) * a_t + phi_y * t * b_t)
     else:
         return alpha * np.sqrt(t) * (g_y + phi_y * np.sqrt(t) * a_t + phi_y * t * b_t) - (f0 - k)
 

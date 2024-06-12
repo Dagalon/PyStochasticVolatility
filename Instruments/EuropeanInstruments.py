@@ -110,7 +110,12 @@ class EuropeanOption(object):
             return self._payoff.get_value(x[:, -1])
 
     def get_price_control_variate(self, x: ndarray, int_v_t: ndarray):
-        vol_swap_t_i = np.sqrt(np.sum(int_v_t, axis=1) / self._delta_time)
+
+        if len(int_v_t.shape) == 1:
+            vol_swap_t_i = np.sqrt(int_v_t / self._delta_time)
+        else:
+            vol_swap_t_i = np.sqrt(np.sum(int_v_t, axis=1) / self._delta_time)
+
         if self._option_type == TypeEuropeanOption.CALL:
             price = call_operator_control_variate(x, self._spot, vol_swap_t_i, self._strike, self._delta_time)
         else:

@@ -2,6 +2,7 @@ import matplotlib.pylab as plt
 import os
 from pathlib import Path
 import operator
+import numpy as np
 
 import pandas as pd
 
@@ -27,7 +28,7 @@ for ti in maturities:
     ivs[ti] = list(subDf['SABR_VOLATILITY'].map(lambda x: float(x)))
     ivsMarket[ti] = list(subDf['MARKET_VOLATILITY'].map(lambda x: float(x)))
 
-plot_to_print = 2
+plot_to_print = 3
 
 plt.plot(strikes[maturities[plot_to_print]], ivs[maturities[plot_to_print]], linestyle='dashed', color="black",
          label="SABR")
@@ -41,6 +42,11 @@ plt.xlabel("K")
 plt.ylabel("IV")
 plt.legend()
 
-pathToSave = "D:/Latex/Thesis/Figures/Introducction/swaption_tenor_5Y_" + maturities[plot_to_print] + ".png"
+plt.ylim((0.0, np.max(ivs[maturities[plot_to_print]])+0.01))
+
+
+pathToSave = "C:/Users/Pc/Desktop/Book_Figures/swaption_tenor_5Y_" + maturities[plot_to_print] + ".png"
 plt.savefig(pathToSave, dpi=300, bbox_inches='tight')
+
+
 plt.show()

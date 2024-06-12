@@ -11,7 +11,7 @@ from Instruments.EuropeanInstruments import EuropeanOption, TypeSellBuy, TypeEur
 
 # option info
 f0 = 0.03
-t = 5.0
+t = 10.0
 spreads = [-300.0, -200.0, -175.0, -150.0, -100.0, -75.0, -50.0, -25.0, -10.0, 0.0, 10.0, 25.0, 50.0, 75.0, 100.0,
            150.0, 175.0, 200.0, 300.0]
 
@@ -23,7 +23,7 @@ for si in spreads:
 
 # sabr parameters
 alpha = 0.03
-nu = 0.4
+nu = 0.6
 rho = 0.3
 parameters = [alpha, nu, rho]
 

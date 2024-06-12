@@ -1,5 +1,7 @@
 __author__ = 'David Garcia Lorite'
 
+from typing import Dict, Any
+
 #
 # Copyright 2020 David Garcia Lorite
 #
@@ -14,6 +16,7 @@ __author__ = 'David Garcia Lorite'
 
 import numpy as np
 import numba as nb
+from numpy import ndarray
 
 from MC_Engines.MC_SABR import VarianceSamplingMatchingMoment
 from Tools import AnalyticTools
@@ -26,7 +29,7 @@ def get_path_one_step(t0: float,
                       parameters: Vector,
                       f0: float,
                       no_paths: int,
-                      rnd_generator) -> Vector:
+                      rnd_generator) -> Dict[Any, ndarray]:
     alpha = parameters[0]
     nu = parameters[1]
     rho = parameters[2]
@@ -46,14 +49,19 @@ def get_path_one_step(t0: float,
                                                             t1,
                                                             z_int)
 
-    return get_underlying_sampling(f0,
-                                   alpha,
-                                   rho,
-                                   nu,
-                                   var_t0_t1,
-                                   alpha_t,
-                                   no_paths,
-                                   rnd_generator)
+    map_output = {}
+    map_output[SABR_OUTPUT.PATHS] = get_underlying_sampling(f0,
+                                                            alpha,
+                                                            rho,
+                                                            nu,
+                                                            var_t0_t1,
+                                                            alpha_t,
+                                                            no_paths,
+                                                            rnd_generator)
+
+    map_output[SABR_OUTPUT.INTEGRAL_VARIANCE_PATHS] = var_t0_t1
+
+    return map_output
 
 
 def get_vol_sampling(t0: float,
@@ -86,7 +94,6 @@ def get_underlying_sampling(f0: float,
                             alpha_t: Vector,
                             no_paths: int,
                             rnd_generator):
-
     z = rnd_generator.normal(size=no_paths)
     return get_jit_paths(f0, var_t0_t1, alpha_t, alpha, nu, rho, z)
 
@@ -98,9 +105,9 @@ def get_jit_paths(f0, var_t0_t1, alpha_t, alpha, nu, rho, z):
     rho_inv = np.sqrt(1.0 - rho * rho)
 
     for i in range(0, no_paths):
-        mu = np.log(f0) - 0.5 * var_t0_t1[i] + (rho / nu) * (alpha_t[i] - alpha)
+        mu = f0 + (rho / nu) * (alpha_t[i] - alpha)
         sigma = rho_inv * np.sqrt(var_t0_t1[i])
-        f_t[i] = np.exp(mu + sigma * z[i])
+        f_t[i] = mu + sigma * z[i]
 
     return f_t
 
@@ -114,7 +121,6 @@ def get_path_multi_step(t0: float,
                         type_random_number: TYPE_STANDARD_NORMAL_SAMPLING,
                         rnd_generator,
                         **kwargs) -> map:
-
     alpha = parameters[0]
     nu = parameters[1]
     rho = parameters[2]
@@ -146,20 +152,29 @@ def get_path_multi_step(t0: float,
         sigma_t_i = get_vol_sampling(t_i[i_step - 1], t_i[i_step], sigma_t_i_1, nu, z_sigma)
         sigma_t[:, i_step] = sigma_t_i
 
-        int_sigma_t_i[:, i_step - 1] = 0.5 * (sigma_t_i_1 * sigma_t_i_1 * delta_t_i[i_step - 1] +
-                                              sigma_t_i * sigma_t_i * delta_t_i[i_step - 1])
+        # int_sigma_t_i[:, i_step - 1] = 0.5 * (sigma_t_i_1 * sigma_t_i_1 * delta_t_i[i_step - 1] +
+        #                                       sigma_t_i * sigma_t_i * delta_t_i[i_step - 1])
+
+        int_sigma_t_i[:, i_step - 1] = VarianceSamplingMatchingMoment.get_variance(sigma_t_i_1,
+                                                                                   nu,
+                                                                                   sigma_t_i,
+                                                                                   delta_t_i[i_step - 1],
+                                                                                   z_i)
 
         diff_sigma = (rho / nu) * (sigma_t_i - sigma_t_i_1)
-        noise_sigma = AnalyticTools.dot_wise(np.sqrt(int_sigma_t_i[:, i_step - 1]), z_i)
+        # noise_sigma = AnalyticTools.dot_wise(np.sqrt(int_sigma_t_i[:, i_step - 1]), z_i)
+        noise_sigma = np.sqrt(int_sigma_t_i[:, i_step - 1])
 
-        np.copyto(int_v_t_paths[:, i_step - 1], SABRTools.get_integral_variance(t_i[i_step - 1], t_i[i_step],
-                                                                                sigma_t_i_1, sigma_t_i, 0.5, 0.5))
+        # np.copyto(int_v_t_paths[:, i_step - 1], SABRTools.get_integral_variance(t_i[i_step - 1], t_i[i_step],
+        #                                                                         sigma_t_i_1, sigma_t_i, 0.5, 0.5))
+
+        np.copyto(int_v_t_paths[:, i_step - 1], int_sigma_t_i[:, i_step - 1])
 
         sigma_t_i_1 = sigma_t_i.copy()
-        s_t[:, i_step] = s_t[:, i_step-1] + diff_sigma + rho_inv * noise_sigma
+        s_t[:, i_step] = s_t[:, i_step - 1] + diff_sigma + rho_inv * noise_sigma
 
     map_output[SABR_OUTPUT.PATHS] = s_t
-    map_output[SABR_OUTPUT.INTEGRAL_VARIANCE_PATHS] = int_v_t_paths
+    # map_output[SABR_OUTPUT.INTEGRAL_VARIANCE_PATHS] = int_v_t_paths
     map_output[SABR_OUTPUT.INTEGRAL_VARIANCE_PATHS] = int_sigma_t_i
     map_output[SABR_OUTPUT.SIGMA_PATHS] = sigma_t
     map_output[SABR_OUTPUT.TIMES] = t_i

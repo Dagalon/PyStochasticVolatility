@@ -104,7 +104,7 @@ def fCurvature(x, a, b, c):
 
 
 popt, pcov = curve_fit(fCurvature, delta_time, ratio_curvature)
-ratio_fit = f_law(delta_time, *popt)
+ratio_fit = fCurvature(delta_time, *popt)
 
 plt.scatter(delta_time, ratio_curvature, label="curvature_iv / curvature_lv", color="black", linestyle="dotted", marker="o")
 
