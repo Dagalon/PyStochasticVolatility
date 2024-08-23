@@ -4,6 +4,8 @@ import QuantLib as ql
 import numpy as np
 import matplotlib as plt
 
+from mpl_toolkits.axes_grid1 import AxesGrid
+
 from pathlib import Path
 from VolatilitySurface import TermStructureVolatility
 from VolatilitySurface.Tools import SABRTools, ParameterTools
@@ -60,6 +62,7 @@ m_iv = np.zeros(shape=(no_dates, no_z_i_s))
 m_loc_vol = np.zeros(shape=(no_dates, no_z_i_s))
 delta_time = np.zeros(no_dates)
 
+
 for i in range(0, no_dates):
     delta_time[i] = day_counter.yearFraction(ql_date, ql.Date(int(dates_list[i])))
     rho_i = ParameterTools.rho_sabr(p_rho, delta_time[i])
@@ -71,8 +74,12 @@ for i in range(0, no_dates):
     for j in range(0, no_z_i_s):
         m_iv[i, j] = SABRTools.sabr_vol_jit(alpha_i, rho_i, nu_i, z_i_s[j], delta_time[i])
 
-fig_surface = plt.figure(figsize=(13, 5))
+fig_surface = plt.figure(figsize=(30, 15))
 ax = fig_surface.add_subplot(121, projection='3d')
+
+# setting colors
+# norm = plt.Normalize(vmin=0.0, vmax=3.0)
+# colorbar = cm.ScalarMappable(norm=norm, cmap=cm.gray)
 
 t, z = np.meshgrid(delta_time, z_i_s)
 
@@ -81,15 +88,16 @@ surf = ax.plot_surface(t,
                        m_iv.transpose(),
                        rstride=1,
                        cstride=1,
-                       cmap=cm.gray,
+                       cmap=cm.viridis,
                        linewidth=0,
                        antialiased=False)
+
 
 ax.set_zlim(0.0, 3.0)
 ax.set_xlabel('t(years)')
 ax.set_ylabel('ln(F/K)')
 ax.set_zlabel('volatility')
-ax.set_title('STOX50E implied volatility surface')
+ax.set_title('Implied volatility surface')
 
 ax = fig_surface.add_subplot(122, projection='3d')
 
@@ -98,13 +106,21 @@ surf_local_vol = ax.plot_surface(t,
                                  m_loc_vol.transpose(),
                                  rstride=1,
                                  cstride=1,
-                                 cmap=cm.gray,
+                                 cmap=cm.viridis,
                                  linewidth=0,
                                  antialiased=False)
+
 ax.set_zlim(0.0, 3.0)
 ax.set_xlabel('t(years)')
 ax.set_ylabel('ln(F/K)')
 ax.set_zlabel('volatility')
-ax.set_title('STOX50E local volatility surface')
+ax.set_title('Local volatility surface')
+
+# fig_surface.subplots_adjust(right=0.7)
+# cbar_ax = fig_surface.add_axes([0.75, 0.15, 0.020, 0.7])
+# fig_surface.colorbar(colorbar, cax=cbar_ax, extend='max')
+
+
+plt.savefig("C:\\Users\\david\\OneDrive\\Desktop\\Plots\\portadada.jpg", dpi=600)
 
 plt.show()

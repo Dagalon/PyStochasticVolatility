@@ -1,5 +1,4 @@
 import matplotlib.pylab as plt
-import numpy as np
 
 from AnalyticEngines.BetaZeroSabr import ExpansionTools
 from MC_Engines.MC_SABR import SABR_Normal_Engine

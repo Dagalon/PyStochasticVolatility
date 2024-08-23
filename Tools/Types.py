@@ -105,8 +105,16 @@ class LOCAL_VOL_OUTPUT(Enum):
     TIMES = 3,
     UNKNOWN = -1
 
-    def __str__(self):
-        return self.value
+
+class CHEYETTE_OUTPUT(Enum):
+    PATHS_X = 0,
+    PATHS_Y = 1,
+    RATE = 2,
+    BANK_ACCOUNT = 3
+
+
+def __str__(self):
+    return self.value
 
 
 class TYPE_STANDARD_NORMAL_SAMPLING(Enum):
@@ -172,4 +180,3 @@ class TypeSellBuy(Enum):
 
     def __str__(self):
         return self.value
-
