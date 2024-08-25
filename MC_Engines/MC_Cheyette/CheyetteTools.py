@@ -71,6 +71,9 @@ def linear_lv_gamma_future(s: float, k: float, a: float, b: float):
 def linear_lv_gamma_arrears(s: float, k: float, a: float, b: float, tp=0):
     return 0.5 * a * a * b * gamma(0.0, s, k)  - (a*b*b/k) * (gamma(0.0, s, k) - 0.5 * gamma(tp-s, tp+s, k))
 
+def linear_lv_gamma_square_arrears(s: float, k: float, a: float, b: float, tp=0):
+    return  np.power(a * b, 2.0) * gamma(0.0, s, 2.0 * k) + np.power(a * b, 2.0) * gamma(0.0, s, k)  - 2.0 * (np.power(b, 3.0) * a / k) * (gamma(0.0, s, k) - 0.5 * gamma(tp-s, tp+s, k))
+
 def ca_linear_lv_future_fras(t0: float, ta: float, tb: float, k: float, a: float, b: float, ft: ql.ForwardCurve):
     delta = (tb - ta)
     df_ta = ft.discount(ta)
@@ -83,19 +86,10 @@ def ca_linear_lv_future_fras(t0: float, ta: float, tb: float, k: float, a: float
 
     return m * b * integral_value[0]
 
-# def M_Fra(s:float, a: float, b: float, ta: float, tp: float, k: float):
-#     # dstp = (tp - s)
-#     dtatp = (tp - ta)
-#     # part1 = 0.5 * (dstp * dstp - dtatp * dtatp)
-#     # part2 = (dtatp * np.exp(- k * dtatp) - dstp * np.exp(- k * dstp)) / k
-#     # part3 = gamma(dtatp, dstp, k) / k
-#     # return np.exp(- 2.0 * a * b * (part1 + part2 + part3))
-#     return np.exp( - (2.0 * a * b / k) * ((ta - s) - gamma(dtatp, tp - s, k)))
-
 
 def ca_linear_lv_arrears_fras(ta: float, tb: float, k: float, a: float, b: float, ft: ql.ForwardCurve):
 
-    f_convexity = lambda t: (b + linear_lv_gamma_arrears(t, k, a, b, ta))**2 * (gamma(0.0, tb - t, k) - gamma(0.0, ta - t, k))**2
+    f_convexity = lambda t: (b * b + linear_lv_gamma_square_arrears(t, k, a, b, ta)) * (gamma(0.0, tb - t, k) - gamma(0.0, ta - t, k))**2
     integral_value = integrate.quad(f_convexity, 0.0, ta)
 
 

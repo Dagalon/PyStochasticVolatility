@@ -71,6 +71,7 @@ plt.plot(tis[1:], convexity_adjustment_app, label='CA Malliavin', linestyle='--'
 
 plt.title(f'Convexity adjustment FRA Arrears with a={a} and b={b}')
 plt.xlabel('T')
+plt.ylim((0.0, np.max(convexity_adjustment_mc) + 0.001))
 plt.legend()
 
 plt.show()
