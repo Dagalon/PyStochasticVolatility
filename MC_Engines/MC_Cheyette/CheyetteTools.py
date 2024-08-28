@@ -18,6 +18,18 @@ from scipy import integrate
 from Tools.Types import ndarray
 
 
+def covariance_bank_account_rate(delta: float, k: float):
+    return (gamma(0.0, delta, k) - gamma(0.0, delta, 2.0 * k)) / k
+
+
+def int_lambda(delta: float, k: float):
+    return (delta - gamma(0.0, delta, k)) / k
+
+
+def variance_bank_account(delta: float, k: float):
+    return (delta + gamma(0.0, delta, 2.0 * k) - 2.0 * gamma(0.0, delta, k)) / (k * k)
+
+
 def beta(ta, tb, k, m=1):  # integral exp(-\int_{t_a}^{t_b} k_s ds)
     delta = (tb - ta)
     if m * delta * k < 1e-08:
@@ -27,23 +39,28 @@ def beta(ta, tb, k, m=1):  # integral exp(-\int_{t_a}^{t_b} k_s ds)
 
 
 def gamma(ta, tb, k):  # integral exp(-\int_{t_a}^{t_b} exp(-\int_{u}^{t_b} k_s ds) ds
-    return (np.exp(-k * ta) - np.exp(-k * tb)) / k
+
+    if k * (tb - ta) < 1e-08:
+        return np.exp(-k * ta) * (tb - ta)
+    else:
+        return (np.exp(-k * ta) - np.exp(-k * tb)) / k
 
 
-def variance(ta, tb, k, eta_vol, x: ndarray, y: ndarray) -> ndarray:
+def variance(ta, tb, k, eta_i: ndarray) -> ndarray:
     delta = (tb - ta)
-    m = np.exp(-2.0 * delta * k)
-    return m * delta * np.power(eta_vol(ta, x, y), 2.0)
+    # m = np.exp(-2.0 * delta * k)
+    m = gamma(0.0, delta, 2.0 * k)
+    return m * np.multiply(eta_i, eta_i)
 
 
-def get_drift_forward_measure(ta, tb, k, eta_vol, x: ndarray, y: ndarray) -> ndarray:
-    m = (np.exp(- k * ta) - np.exp(- k * tb)) / k
-    return m * np.power(eta_vol(ta, x, y), 2.0)
+def get_drift_forward_measure(ta, tb, tp, k, eta_vol_i: ndarray) -> ndarray:
+    delta = tb - ta
+    m = (delta - gamma(tp - ta - delta, tp - ta, k)) / k
+    return m * np.multiply(eta_vol_i, eta_vol_i)
 
 
 def get_zero_coupon(t_start: float, t_end: float, k: float, ft: ql.ForwardCurve, x: ndarray,
                     y: ndarray) -> ndarray:
-
     m = ft.discount(t_end) / ft.discount(t_start)
     g = gamma(t_start, t_end, k)
     return m * np.exp(- g * x - 0.5 * g * g * y)
@@ -65,22 +82,27 @@ def x_moment_linear_eta_vol(a: float, b: float, k: float, t: float):
 
     return e_2_t + e_4_t
 
+
 def linear_lv_gamma_future(s: float, k: float, a: float, b: float):
     return 0.5 * a * a * b * gamma(0.0, s, k)
 
-def linear_lv_gamma_arrears(s: float, k: float, a: float, b: float, tp=0):
-    return 0.5 * a * a * b * gamma(0.0, s, k)  - (a*b*b/k) * (gamma(0.0, s, k) - 0.5 * gamma(tp-s, tp+s, k))
 
-def linear_lv_gamma_square_arrears(s: float, k: float, a: float, b: float, tp=0):
-    return  np.power(a * b, 2.0) * gamma(0.0, s, 2.0 * k) + np.power(a * b, 2.0) * gamma(0.0, s, k)  - 2.0 * (np.power(b, 3.0) * a / k) * (gamma(0.0, s, k) - 0.5 * gamma(tp-s, tp+s, k))
+def linear_lv_gamma_arrears(s: float, k: float, a: float, b: float, tp=0):
+    return 0.5 * a * a * b * gamma(0.0, s, k) - (a * b * b / k) * (gamma(0.0, s, k) - 0.5 * gamma(tp - s, tp + s, k))
+
+
+def linear_lv_gamma_square_arrears(s: float, k: float, a: float, b: float, tp=0.0):
+    return (np.power(a * b, 2.0) * gamma(0.0, s, 2.0 * k) + np.power(a * b, 2.0) * gamma(0.0, s, k)
+            - 2.0 * (np.power(b, 3.0) * a / k) * (gamma(0.0, s, k) - 0.5 * gamma(tp - s, tp + s, k)))
+
 
 def ca_linear_lv_future_fras(t0: float, ta: float, tb: float, k: float, a: float, b: float, ft: ql.ForwardCurve):
     delta = (tb - ta)
     df_ta = ft.discount(ta)
     df_tb = ft.discount(tb)
-    m = (gamma(0, (tb - t0), k) - gamma(0, (ta- t0), k)) *  df_ta / (df_tb * delta)
+    m = (gamma(0, (tb - t0), k) - gamma(0, (ta - t0), k)) * df_ta / (df_tb * delta)
 
-    f_convexity = lambda t: np.exp(-k*(t0 - t)) * (b + linear_lv_gamma_future(t, k, a, b)) * gamma(0.0, tb - t, k)
+    f_convexity = lambda t: np.exp(-k * (t0 - t)) * (b + linear_lv_gamma_future(t, k, a, b)) * gamma(0.0, tb - t, k)
 
     integral_value = integrate.quad(f_convexity, 0.0, t0)
 
@@ -88,9 +110,8 @@ def ca_linear_lv_future_fras(t0: float, ta: float, tb: float, k: float, a: float
 
 
 def ca_linear_lv_arrears_fras(ta: float, tb: float, k: float, a: float, b: float, ft: ql.ForwardCurve):
-
-    f_convexity = lambda t: (b * b + linear_lv_gamma_square_arrears(t, k, a, b, ta)) * (gamma(0.0, tb - t, k) - gamma(0.0, ta - t, k))**2
+    f_convexity = lambda t: (b * b + linear_lv_gamma_square_arrears(t, k, a, b, ta)) * (
+                gamma(0.0, tb - t, k) - gamma(0.0, ta - t, k)) ** 2
     integral_value = integrate.quad(f_convexity, 0.0, ta)
-
 
     return integral_value[0]

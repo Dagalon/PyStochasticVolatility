@@ -9,8 +9,8 @@ from VolatilitySurface.Tools import SABRTools
 # option info
 f0 = 0.0247
 t = 10.0
-spreads = [-500.0, -400.0, -300.0, -200.0, -100.0, -75.0, -50.0, -25.0, -10.0, -1.0, 0.0, 1.0, 10.0, 25.0, 50.0, 75.0,
-           100.0, 200.0, 300.0, 400.0, 500.0]
+spreads = [-400.0, -300.0, -200.0, -100.0, -75.0, -50.0, -25.0, -10.0, -1.0, 0.0, 1.0, 10.0, 25.0, 50.0, 75.0,
+           100.0, 200.0, 300.0, 400.0]
 # spreads = [0.0]
 # spreads = [0.0]
 # spreads = [-1.0, 0.0, 1.0]
@@ -30,12 +30,14 @@ parameters = [alpha, nu, rho]
 
 # mc price
 seed = 123456789
-no_paths = 200000
+no_paths = 500000
 rnd_generator = RNG.RndGenerator(seed)
 no_time_steps = int(50 * t)
 
-map_output = SABR_Normal_Engine.get_path_multi_step(0.0, t, parameters, f0, no_paths, no_time_steps,
-                                                    Types.TYPE_STANDARD_NORMAL_SAMPLING.ANTITHETIC, rnd_generator)
+# map_output = SABR_Normal_Engine.get_path_multi_step(0.0, t, parameters, f0, no_paths, no_time_steps,
+#                                                      Types.TYPE_STANDARD_NORMAL_SAMPLING.ANTITHETIC, rnd_generator)
+
+map_output = SABR_Normal_Engine.get_path_one_step(0.0, t, parameters, f0, no_paths, rnd_generator)
 
 no_options = len(options)
 price_watanabe = []
@@ -44,7 +46,7 @@ price_mc = []
 quadratic_price_hagan = []
 
 for i in range(0, no_options):
-    mc_option_price = options[i].get_price(map_output[Types.SABR_OUTPUT.PATHS][:, -1])
+    mc_option_price = options[i].get_price(map_output[Types.SABR_OUTPUT.PATHS])
     mc_price = 100.0 * mc_option_price[0]
     price_hagan = 100.0 * SABRTools.quadratic_european_normal_sabr(f0, strikes[i], alpha, rho, nu, t, 'c')
     watanabe_price = 100.0 * ExpansionTools.get_quadratic_option_normal_sabr_watanabe_expansion(f0, strikes[i], t, alpha, nu, rho)
@@ -57,8 +59,8 @@ for i in range(0, no_options):
 
 plt.plot(strikes, price_mc, label='mc price', linestyle='dotted')
 plt.plot(strikes, price_watanabe, label='watanabe price', linestyle='dashed')
-# plt.plot(strikes, quadratic_price_hagan, label='hagan price', linestyle='dashed')
-plt.plot(strikes, price_watanabe_replication, label='hagan price', linestyle='dashed')
+plt.plot(strikes, quadratic_price_hagan, label='hagan price', linestyle='dashed')
+plt.plot(strikes, price_watanabe_replication, label='watanabe price replication', linestyle='dashed')
 
 plt.title("T=%s" % t)
 

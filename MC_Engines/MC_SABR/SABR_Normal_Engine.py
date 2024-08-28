@@ -121,6 +121,7 @@ def get_path_multi_step(t0: float,
                         type_random_number: TYPE_STANDARD_NORMAL_SAMPLING,
                         rnd_generator,
                         **kwargs) -> map:
+
     alpha = parameters[0]
     nu = parameters[1]
     rho = parameters[2]
@@ -152,23 +153,23 @@ def get_path_multi_step(t0: float,
         sigma_t_i = get_vol_sampling(t_i[i_step - 1], t_i[i_step], sigma_t_i_1, nu, z_sigma)
         sigma_t[:, i_step] = sigma_t_i
 
-        # int_sigma_t_i[:, i_step - 1] = 0.5 * (sigma_t_i_1 * sigma_t_i_1 * delta_t_i[i_step - 1] +
-        #                                       sigma_t_i * sigma_t_i * delta_t_i[i_step - 1])
+        int_sigma_t_i[:, i_step - 1] = 0.5 * (sigma_t_i_1 * sigma_t_i_1 * delta_t_i[i_step - 1] +
+                                              sigma_t_i * sigma_t_i * delta_t_i[i_step - 1])
 
-        int_sigma_t_i[:, i_step - 1] = VarianceSamplingMatchingMoment.get_variance(sigma_t_i_1,
-                                                                                   nu,
-                                                                                   sigma_t_i,
-                                                                                   delta_t_i[i_step - 1],
-                                                                                   z_i)
+        # int_sigma_t_i[:, i_step - 1] = VarianceSamplingMatchingMoment.get_variance(sigma_t_i_1,
+        #                                                                            nu,
+        #                                                                            sigma_t_i,
+        #                                                                            delta_t_i[i_step - 1],
+        #                                                                            z_i)
 
         diff_sigma = (rho / nu) * (sigma_t_i - sigma_t_i_1)
-        # noise_sigma = AnalyticTools.dot_wise(np.sqrt(int_sigma_t_i[:, i_step - 1]), z_i)
-        noise_sigma = np.sqrt(int_sigma_t_i[:, i_step - 1])
+        noise_sigma = AnalyticTools.dot_wise(np.sqrt(int_sigma_t_i[:, i_step - 1]), z_i)
+        # noise_sigma = np.sqrt(int_sigma_t_i[:, i_step - 1])
 
-        # np.copyto(int_v_t_paths[:, i_step - 1], SABRTools.get_integral_variance(t_i[i_step - 1], t_i[i_step],
-        #                                                                         sigma_t_i_1, sigma_t_i, 0.5, 0.5))
+        np.copyto(int_v_t_paths[:, i_step - 1], SABRTools.get_integral_variance(t_i[i_step - 1], t_i[i_step],
+                                                                                sigma_t_i_1, sigma_t_i, 0.5, 0.5))
 
-        np.copyto(int_v_t_paths[:, i_step - 1], int_sigma_t_i[:, i_step - 1])
+        # np.copyto(int_v_t_paths[:, i_step - 1], int_sigma_t_i[:, i_step - 1])
 
         sigma_t_i_1 = sigma_t_i.copy()
         s_t[:, i_step] = s_t[:, i_step - 1] + diff_sigma + rho_inv * noise_sigma
