@@ -48,7 +48,7 @@ def get_path_multi_step(tis, x0, y0, ft: ql.ForwardCurve, k, no_paths, eta_vol, 
         # forward rate
         f0 = (ft.discount(tis[j - 1]) / ft.discount(tis[j]) - 1.0) / (tis[j] - tis[j - 1])
         rate_paths[:, j] = x_paths[:, j] + f0
-        bt_paths[:, j] = bt_paths[:, j-1] * np.exp((tis[j] - tis[j-1]) * rate_paths[:, j-1])
+        bt_paths[:, j] = bt_paths[:, j-1] * np.exp((tis[j] - tis[j-1]) * rate_paths[:, j])
 
     map_output[CHEYETTE_OUTPUT.PATHS_X] = x_paths
     map_output[CHEYETTE_OUTPUT.PATHS_Y] = y_paths

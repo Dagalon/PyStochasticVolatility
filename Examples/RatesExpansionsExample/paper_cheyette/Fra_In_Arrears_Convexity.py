@@ -8,7 +8,7 @@ import matplotlib.pylab as plt
 
 # linear local volatility
 a = 0.3
-b = 0.02
+b = 0.01
 
 
 # linear local volatility
@@ -17,16 +17,16 @@ def linear_eta_vol(a_t: float, b_t: float, t: float, x_t: ndarray, y_t: ndarray)
 
 
 # mc info
-no_paths = 1000000
-seed = 123
+no_paths = 750000
+seed = 123456789
 rnd_generator = RNG.RndGenerator(seed)
 
 # initial conditions
 x0 = 0.0
 y0 = 0.0
 k = 0.00075
-t = 5.0
-no_time_steps = np.floor(52 * t) + 1
+t = 4.0
+no_time_steps = np.floor(104 * t) + 1
 
 # tenor ois future
 tenor = 1.0
@@ -71,7 +71,7 @@ plt.plot(tis[1:], convexity_adjustment_app, label='CA Malliavin', linestyle='--'
 
 plt.title(f'Convexity adjustment FRA Arrears with a={a} and b={b}')
 plt.xlabel('T')
-plt.ylim((0.0, np.max(convexity_adjustment_mc) + 0.001))
+# plt.ylim((0.0, np.max(convexity_adjustment_mc) + 0.001))
 plt.legend()
 
 plt.show()

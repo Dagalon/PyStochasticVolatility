@@ -18,7 +18,7 @@ from scipy import integrate
 from Tools.Types import ndarray
 
 
-def beta(ta, tb, k, m=1):  # integral exp(-\int_{t_a}^{t_b} k_s ds)
+def beta(ta, tb, k, m=1.0):  # integral exp(-\int_{t_a}^{t_b} k_s ds)
     delta = (tb - ta)
     if m * delta * k < 1e-08:
         return 1.0 - delta * k
@@ -51,19 +51,31 @@ def get_zero_coupon(t_start: float, t_end: float, k: float, ft: ql.ForwardCurve,
 
 def y_moment_linear_eta_vol(a: float, b: float, k: float, t: float):
     e_2_t = b * b * gamma(0.0, t, 2.0 * k)
-    e_4_t = ((np.power(a * b, 2.0) * 0.5 / k) * (t - gamma(0.0, t, 2.0 * k)) + (a * np.power(b, 3.0) / k)
-             * (t - gamma(0.0, t, 2.0 * k)))
-    return e_2_t + e_4_t
+    e_4_t_1 = (a * np.power(b, 3.0) / (k * k)) * (gamma(0, t, 2.0 * k) + t * np.exp(- 2.0 * k * t) - 2.0 * gamma(t, 2.0 * t, k))
+    e_4_t_2 = 0.5 * (np.power(a * b, 2.0) / k) * (gamma(0.0, t, 2.0 * k) -  t * np.exp(- 2.0 * k * t))
+    e_4_t_3 = 0.5 * (np.power(b * a, 2.0) / k) * (gamma(0.0, t, 2.0 * k) - t * np.exp(- 2.0 * k * t))
+    return e_2_t + e_4_t_1 + e_4_t_2 + e_4_t_3
+
+def y_moment_quadratic_eta_vol(a: float, b: float, c: float, k: float, t: float):
+    e_2_t = c * c * gamma(0.0, t, 2.0 * k)
+    e_4_t_1 = (b * np.power(c, 3.0) / (k * k)) * (gamma(0, t, 2.0 * k) + t * np.exp(- 2.0 * k * t) - 2.0 * gamma(t, 2.0 * t, k))
+    e_4_t_2 = 0.5 * (np.power(b * c, 2.0) / k) * (gamma(0.0, t, 2.0 * k) -  t * np.exp(- 2.0 * k * t))
+    e_4_t_3 =  (a * np.power(c, 3.0) / k) * (gamma(0.0, t, 2.0 * k) - t * np.exp(- 2.0 * k * t))
+    return e_2_t + e_4_t_1 + e_4_t_2 + e_4_t_3
 
 
 def x_moment_linear_eta_vol(a: float, b: float, k: float, t: float):
-    gt = gamma(0.0, t, k)
-    gt2t = gamma(t, 2.0 * t, k)
-    m4 = (t - 1.5 * gt + 0.5 * gt2t)
-    e_2_t = 0.5 * (b * b / k) * (gt - gt2t)
-    e_4_t = 0.5 * np.power(b * a / k, 2.0) * m4 + (a * np.power(b, 3.0) / (k * k)) * m4
+    g2t = gamma(0.0, t, k)
+    e_2_t = 0.5 * (b * b / k) * (g2t - gamma(t, 2.0 * t, k))
+    m4_1 = (- t * np.exp(- 2.0 * k * t)  - 2.0 * t * np.exp(- k * t)  + 2.5 * gamma(t, 2.0 * t, k) + 0.5 *  gamma(0.0,  t, k)) / k
 
-    return e_2_t + e_4_t
+    e_4_t_1 = (a * np.power(b, 3.0) / (k * k)) * m4_1
+
+    m4_2 = (t * np.exp(- 2.0 * k * t) + 0.5 * gamma(0.0, t, k) - 1.5 * gamma(t, 2.0 * t, k)) / k
+    e_4_t_2 = 0.5 * (np.power(a * b, 2.0) / k) *  m4_2
+    e_4_t_3 = 0.5 * (np.power(b * a, 2.0) / k) * m4_2
+
+    return e_2_t + e_4_t_1 + e_4_t_2 + e_4_t_3
 
 def linear_lv_gamma_future(s: float, k: float, a: float, b: float):
     return 0.5 * a * a * b * gamma(0.0, s, k)

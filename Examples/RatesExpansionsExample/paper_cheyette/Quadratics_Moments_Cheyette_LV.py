@@ -9,12 +9,12 @@ from scipy.special import ndtri
 
 # linear local volatility
 a = 0.3
-b = 0.01
-
+b = 0.2
+c = 0.01
 
 # linear local volatility
-def linear_eta_vol(a_t: float, b_t: float, t: float, x_t: ndarray, y_t: ndarray) -> ndarray:
-    return a_t * x_t + b_t
+def quadratic_eta_vol(a_t: float, b_t: float, c_t: float, t: float, x_t: ndarray, y_t: ndarray) -> ndarray:
+    return a_t * np.power(x_t, 2.0)  + b_t * x_t + c_t
 
 
 # mc info
@@ -26,7 +26,7 @@ rnd_generator = RNG.RndGenerator(seed)
 x0 = 0.0
 y0 = 0.0
 k = 0.00075
-t = 10.0
+t = 5.0
 no_time_steps = np.floor(26 * t) + 1
 
 # tenor ois future
@@ -41,7 +41,7 @@ tis = np.linspace(0.0, t, int(no_time_steps))
 
 # paths
 output = Cheyette_Engine.get_path_multi_step(tis, x0, y0, ft, k, no_paths,
-                                             lambda ti, x, y: linear_eta_vol(a, b, ti, x, y), rnd_generator)
+                                             lambda ti, x, y: quadratic_eta_vol(a, b, c, ti, x, y), rnd_generator)
 
 x_mc_moment = []
 y_mc_moment = []
@@ -53,22 +53,18 @@ y_approx_moment = []
 x_approx_moment = []
 
 for j, t in enumerate(tis[1:]):
-    x_mc_moment.append(np.mean(output[CHEYETTE_OUTPUT.PATHS_X][:, j + 1]))
+    # x_mc_moment.append(np.mean(output[CHEYETTE_OUTPUT.PATHS_X][:, j + 1]))
     y_mc_moment.append(np.mean(output[CHEYETTE_OUTPUT.PATHS_Y][:, j + 1]))
 
-    std_y = np.std(output[CHEYETTE_OUTPUT.PATHS_Y][:, j + 1])
-    upper_y.append(y_mc_moment[-1] + std_y * ndtri(alpha))
-    lower_y.append(y_mc_moment[-1] + std_y * ndtri(1.0 - alpha))
-
-    y_approx_moment.append(CheyetteTools.y_moment_linear_eta_vol(a, b, k, t))
-    x_approx_moment.append(CheyetteTools.x_moment_linear_eta_vol(a, b, k, t))
+    y_approx_moment.append(CheyetteTools.y_moment_quadratic_eta_vol(a, b, c, k, t))
+    # x_approx_moment.append(CheyetteTools.x_moment_linear_eta_vol(a, b, k, t))
 
 # plots
 # plt.plot(tis[1:], y_mc_moment, label='y_t mean MC', linestyle='--')
 # plt.plot(tis[1:], x_mc_moment, label='x_t mean MC', linestyle='--')
 
-plt.plot(tis[1:], x_mc_moment, label='y_t mean mc', linestyle='--')
-plt.plot(tis[1:], x_approx_moment, label='y_t mean approximation', linestyle='--')
+plt.plot(tis[1:], y_mc_moment, label='y_t mean mc', linestyle='--')
+plt.plot(tis[1:], y_approx_moment, label='y_t mean approximation', linestyle='--')
 # plt.plot(tis[1:], upper_y, label='y_t upper mc', linestyle='--')
 # plt.plot(tis[1:], lower_y, label='y_t lower mc', linestyle='--')
 
