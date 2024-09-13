@@ -7,7 +7,7 @@ from Tools.Types import CHEYETTE_OUTPUT
 import matplotlib.pylab as plt
 
 # linear local volatility
-a = 0.0
+a = 0.3
 b = 0.02
 
 

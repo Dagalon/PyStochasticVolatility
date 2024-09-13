@@ -9,7 +9,7 @@ from scipy.special import ndtri
 
 # linear local volatility
 a = 0.3
-b = 0.01
+b = 0.015
 
 
 # linear local volatility
@@ -18,7 +18,7 @@ def linear_eta_vol(a_t: float, b_t: float, t: float, x_t: ndarray, y_t: ndarray)
 
 
 # mc info
-no_paths = 500000
+no_paths = 1000000
 seed = 123
 rnd_generator = RNG.RndGenerator(seed)
 
@@ -26,8 +26,8 @@ rnd_generator = RNG.RndGenerator(seed)
 x0 = 0.0
 y0 = 0.0
 k = 0.00075
-t = 10.0
-no_time_steps = np.floor(26 * t) + 1
+t = 5.0
+no_time_steps = np.floor(78 * t) + 1
 
 # tenor ois future
 tenor = 1.0
@@ -40,8 +40,9 @@ ft = ql.ForwardCurve(dates, rates, ql.Actual360(), ql.TARGET())
 tis = np.linspace(0.0, t, int(no_time_steps))
 
 # paths
-output = Cheyette_Engine.get_path_multi_step(tis, x0, y0, ft, k, no_paths,
-                                             lambda ti, x, y: linear_eta_vol(a, b, ti, x, y), rnd_generator)
+output = Cheyette_Engine.get_path_multi_step_forward_measure(tis, x0, y0, ft, k, no_paths,
+                                                             lambda ti, x, y: linear_eta_vol(a, b, ti, x, y),
+                                                             rnd_generator)
 
 x_mc_moment = []
 y_mc_moment = []
@@ -56,23 +57,19 @@ for j, t in enumerate(tis[1:]):
     x_mc_moment.append(np.mean(output[CHEYETTE_OUTPUT.PATHS_X][:, j + 1]))
     y_mc_moment.append(np.mean(output[CHEYETTE_OUTPUT.PATHS_Y][:, j + 1]))
 
-    std_y = np.std(output[CHEYETTE_OUTPUT.PATHS_Y][:, j + 1])
-    upper_y.append(y_mc_moment[-1] + std_y * ndtri(alpha))
-    lower_y.append(y_mc_moment[-1] + std_y * ndtri(1.0 - alpha))
-
-    y_approx_moment.append(CheyetteTools.y_moment_linear_eta_vol(a, b, k, t))
-    x_approx_moment.append(CheyetteTools.x_moment_linear_eta_vol(a, b, k, t))
+    y_approx_moment.append(CheyetteTools.y_moment_linear_eta_vol_tp(a, b, k, t, tis[-1]))
+    x_approx_moment.append(CheyetteTools.x_moment_linear_eta_vol_tp(a, b, k, t, tis[-1]))
 
 # plots
 # plt.plot(tis[1:], y_mc_moment, label='y_t mean MC', linestyle='--')
 # plt.plot(tis[1:], x_mc_moment, label='x_t mean MC', linestyle='--')
 
-plt.plot(tis[1:], x_mc_moment, label='y_t mean mc', linestyle='--')
-plt.plot(tis[1:], x_approx_moment, label='y_t mean approximation', linestyle='--')
+plt.plot(tis[1:], x_mc_moment, label='x_t mean mc', linestyle='--')
+plt.plot(tis[1:], x_approx_moment, label='x_t mean approximation', linestyle='--')
 # plt.plot(tis[1:], upper_y, label='y_t upper mc', linestyle='--')
 # plt.plot(tis[1:], lower_y, label='y_t lower mc', linestyle='--')
 
-plt.title(f' Upper and lower band y_t  with a={a} and b={b}')
+plt.title(f'  E(x_t) forward measure  with a={a} and b={b}')
 plt.xlabel('T')
 plt.legend()
 

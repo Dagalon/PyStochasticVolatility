@@ -9,7 +9,7 @@ import matplotlib.pylab as plt
 
 # linear local volatility
 a = 0.3
-b = 0.01
+b = 0.015
 
 
 # linear local volatility
@@ -18,7 +18,7 @@ def linear_eta_vol(a_t: float, b_t: float, t: float, x_t: ndarray, y_t: ndarray)
 
 
 # mc info
-no_paths = 750000
+no_paths = 1000000
 seed = 123456789
 rnd_generator = RNG.RndGenerator(seed)
 
@@ -26,9 +26,8 @@ rnd_generator = RNG.RndGenerator(seed)
 x0 = 0.0
 y0 = 0.0
 k = 0.00075
-t = 4.0
+t = 5.0
 no_time_steps = np.floor(104 * t) + 1
-t = 4.0
 nodes_number = np.floor(4 * t) + 1
 tis = np.linspace(0.0, t, int(nodes_number))
 
@@ -47,7 +46,7 @@ convexity_test = []
 fras_arrear = []
 fras = []
 
-scale = 52.0
+scale = 26.0
 
 for j, t in enumerate(tis[1:]):
     rnd_generator = RNG.RndGenerator(seed)
@@ -71,7 +70,7 @@ for j, t in enumerate(tis[1:]):
     fras_arrear.append(np.mean(fra_arrears))
 
     ca = fras_arrear[-1] - fra
-    ca_approximation = CheyetteTools.ca_linear_lv_arrears_fras(t, t + tenor, k, a, b, ft)
+    ca_approximation = CheyetteTools.ca_linear_lv_arrears_fras(t, t + tenor, k, a, b, ts_j[-1])
     convexity_adjustment_mc.append(ca)
     convexity_adjustment_app.append(ca_approximation)
 
