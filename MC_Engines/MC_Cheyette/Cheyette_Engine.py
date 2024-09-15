@@ -102,7 +102,8 @@ def get_path_multi_step_forward_measure(tis, x0, y0, ft: ql.ForwardCurve, k, no_
         zs = rnd_generator.normal(mu=0.0, sigma=1.0, size=(no_paths, 2))
         beta_t = CheyetteTools.beta(tis[j - 1], tis[j], k)
         gamma_t = CheyetteTools.gamma(0.0, delta_t, k)
-        gamma_drift_t = delta_t * CheyetteTools.gamma(0.0, tis[-1] - tis[j], k) * CheyetteTools.gamma(0.0, delta_t, k)
+        # gamma_drift_t = delta_t * CheyetteTools.gamma(0.0, tis[-1] - tis[j], k) * CheyetteTools.gamma(0.0, delta_t, k)
+        gamma_drift_t = (CheyetteTools.gamma(0.0, delta_t, k) - 0.5 * CheyetteTools.gamma(tis[-1] - (tis[j-1] + delta_t), tis[-1] - (tis[j-1] - delta_t), k)) / k
 
         eta_i = eta_vol(tis[j - 1], x_paths[:, j - 1], y_paths[:, j - 1])
         v_t = CheyetteTools.variance(tis[j - 1], tis[j], k, eta_i)

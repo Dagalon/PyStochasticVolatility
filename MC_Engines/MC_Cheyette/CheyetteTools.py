@@ -166,12 +166,12 @@ def linear_lv_gamma_future(s: float, k: float, a: float, b: float):
 
 def linear_lv_gamma_square_arrears(s: float, k: float, a: float, b: float, tp=0.0):
     # term1
-    f1 = lambda t: (np.exp(- 2.0 * k * (s - t)) * 2.0 * a * a * b * b)
+    f1 = lambda t: (np.exp(- 2.0 * k * (s - t)) * 2.0 * a * a * (a * mean_bar_x_linear_vol_forward_measure(a, b, k, t, tp) + b)**2)
     integral1 = integrate.quad(f1, 0.0, s)
     term1 = 0.5 * integral1[0]
 
     # term2
-    f2 = lambda t: 2.0 * (np.exp(- k * (s - t)) * (a * mean_bar_x_linear_vol_forward_measure(a, b, k, t, tp) + b) *
+    f2 = lambda t: 2.0 * (np.exp(- k * (s - t)) * a * (a * mean_bar_x_linear_vol_forward_measure(a, b, k, t, tp) + b) *
                           gamma(0.0, tp - t, k) * (a * mean_bar_x_linear_vol_forward_measure(a, b, k, t, tp) + b) ** 2)
     integral2 = integrate.quad(f2, 0.0, s)
     term2 = 0.5 * integral2[0]
@@ -200,8 +200,7 @@ def mean_bar_x_linear_vol(a_t: float, b_t: float, k_t: float, t: float):
 
 
 def mean_bar_x_linear_vol_forward_measure(a_t: float, b_t: float, k_t: float, t: float, t_p: float):
-    f = lambda s: np.exp(-k_t * (t - s)) * gamma(0.0, t - s, k_t) * (
-                a_t * x_moment_linear_eta_vol_tp(a_t, b_t, k_t, s, t_p) + b_t) ** 2
+    f = lambda s: np.exp(-k_t * (t - s)) * y_moment_linear_eta_vol_tp(a_t, b_t, k_t, s, t_p)
     integral = integrate.quad(f, 0.0, t)
     return integral[0]
 

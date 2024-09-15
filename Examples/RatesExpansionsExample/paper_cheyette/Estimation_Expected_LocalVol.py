@@ -10,7 +10,8 @@ from scipy.integrate import quad
 
 # estimation of the local vol
 def mean_bar_x_linear_vol(a_t: float, b_t: float, k_t: float, t: float):
-    f = lambda s: np.exp(-k_t * (t - s)) * CheyetteTools.gamma(0.0, t-s, k_t) * (a_t * CheyetteTools.x_moment_linear_eta_vol(a_t, b_t, k_t, s) + b_t) ** 2
+    # f = lambda s: np.exp(-k_t * (t - s)) * CheyetteTools.gamma(0.0, t-s, k_t) * (a_t * CheyetteTools.x_moment_linear_eta_vol(a_t, b_t, k_t, s) + b_t) ** 2
+    f = lambda s: np.exp(-k_t * (t - s)) * CheyetteTools.y_moment_linear_eta_vol(a_t, b_t, k_t, s)
     integral = quad(f, 0.0, t)
     return integral[0]
 
