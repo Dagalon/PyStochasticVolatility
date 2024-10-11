@@ -10,9 +10,9 @@ from Instruments.EuropeanInstruments import EuropeanOption, TypeSellBuy, TypeEur
 
 # option info
 f0 = 0.03
-t = 10.0
+t = 15.0
 spreads = [-400.0, -300.0, -200.0, -175.0, -150.0, -100.0, -75.0, -50.0, -25.0, -10.0, 0.0, 10.0, 25.0, 50.0, 75.0, 100.0,
-           150.0, 175.0, 200.0, 300.0, 400.0]
+           150.0, 175.0, 200.0, 300.0, 400.0, 500.0, 600.0, 700.0, 800.0]
 
 strikes = []
 options = []
@@ -21,9 +21,9 @@ for si in spreads:
     options.append(EuropeanOption(strikes[-1], 1.0, TypeSellBuy.BUY, TypeEuropeanOption.CALL, f0, t))
 
 # sabr parameters
-alpha = 0.007
-nu = 0.4
-rho = 0.3
+alpha = 65.5/10000.0
+nu = 0.19
+rho = 0.21
 parameters = [alpha, nu, rho]
 
 # mc price
@@ -48,9 +48,9 @@ for i in range(0, no_options):
     price_mc.append(mc_price)
     price_watanabe.append(watanabe_price)
 
-plt.plot(strikes, price_mc, label='mc price', linestyle='dotted')
-plt.plot(strikes, price_watanabe, label='watanabe price', linestyle='dashed')
-plt.plot(strikes, price_hagan, label='hagan price', linestyle='dashed')
+plt.plot(strikes, price_mc, label='mc price', linestyle='dashdot')
+plt.scatter(strikes, price_watanabe, label='watanabe price')
+plt.scatter(strikes, price_hagan, label='hagan price')
 
 plt.title("T=%s, F= %s" % (t, f0))
 
