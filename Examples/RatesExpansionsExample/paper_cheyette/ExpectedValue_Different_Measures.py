@@ -43,7 +43,7 @@ def estimation_ca_linear_local_vol(a_t: float, b_t: float, k_t: float, t: float,
 
 
 # linear local volatility
-a = 0.2
+a = 0.1
 b = 0.015
 
 
@@ -100,7 +100,7 @@ for j, t in enumerate(tis):
                                                               lambda ti, x, y: linear_eta_vol(a, b, ti, x, y),
                                                               rnd_spot_generator)
 
-    output_forward_measure = Cheyette_Engine.get_path_multi_step(ts_j, x0, y0, ft, k, no_paths,
+    output_forward_measure = Cheyette_Engine.get_path_multi_step_forward_measure(ts_j, x0, y0, ft, k, no_paths,
                                                                  lambda ti, x, y: linear_eta_vol(a, b, ti, x, y),
                                                                  rnd_forward_generator)
 

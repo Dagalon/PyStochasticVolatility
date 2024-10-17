@@ -40,6 +40,35 @@ class hagan_loc_vol(object):
 
         return multiplier * (1.0 + order0 + order1 * (f0 - k) * (f0 - k))
 
+    def get_bachelier_implied_vol(self, t: float, f0: float, k: float) -> float:
+        f_av = 0.5 * (f0 + k)
+        loc_vol_value = self._loc_vol(f_av)
+        r1 = self._loc_vol_derive(f_av) / loc_vol_value
+        r2 = self._loc_vol_second_derive(f_av) / loc_vol_value
+        a_t = self._a_t(t)
+
+        multiplier = a_t * loc_vol_value
+        order0 = (1.0 / 24.0) * (2.0 * r2 - r1 * r1) * np.power(a_t * loc_vol_value, 2.0) * t
+        order1 = (1.0 / 24.0) * (r2 - 2.0 * r1 * r1)
+
+        return multiplier * (1.0 + order0 + order1 * (f0 - k) * (f0 - k))
+
+    def get_bachelier_curvature(self, t: float, f0: float, k: float):
+        shift = 0.00001
+        iv_base = self.get_bachelier_implied_vol(t, f0, k)
+        iv_upper = self.get_bachelier_implied_vol(t, f0, k + shift)
+        iv_lower = self.get_bachelier_implied_vol(t, f0, k - shift)
+
+        return (iv_upper + iv_lower - 2.0 * iv_base) / (shift * shift)
+
+    def get_curvature(self, t: float, f0: float, k: float):
+        shift = 0.0001
+        iv_base = self.get_implied_vol(t, f0, k)
+        iv_upper = self.get_implied_vol(t, f0, k + shift)
+        iv_lower = self.get_implied_vol(t, f0, k - shift)
+
+        return (iv_upper + iv_lower - 2.0 * iv_base) / (shift * shift)
+
     def update_a(self, a_t: Callable[[float], float]):
         self._a_t = a_t
 

@@ -9,7 +9,7 @@ import matplotlib.pylab as plt
 
 # linear local volatility
 a = 0.2
-b = 0.015
+b = 0.01
 
 
 # linear local volatility
@@ -26,10 +26,9 @@ rnd_generator = RNG.RndGenerator(seed)
 x0 = 0.0
 y0 = 0.0
 k = 0.00075
-t = 5.0
-no_time_steps = np.floor(104 * t) + 1
-nodes_number = np.floor(4 * t) + 1
-tis = np.linspace(0.0, t, int(nodes_number))
+tEnd = 5.0
+nodes_number = np.floor(4 * tEnd) + 1
+tis = np.linspace(0.0, tEnd, int(nodes_number))
 # tis = [0.0, t]
 
 # tenor ois future
@@ -51,6 +50,7 @@ scale = 26.0
 
 for j, t in enumerate(tis[1:]):
     rnd_generator = RNG.RndGenerator(seed)
+    no_time_steps = np.floor(52 * t) + 1
 
     # new time steps for each monte carlo
     no_time_steps = int(scale * tis[j+1]) + 1

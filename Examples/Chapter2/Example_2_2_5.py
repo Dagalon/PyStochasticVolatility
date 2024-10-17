@@ -22,7 +22,7 @@ def f_ln_payoff(mesh: Mesh, k: float) -> np_ndarray:
     return np.maximum(np.exp(mesh.get_points()) - k, 0.0)
 
 
-def get_vetor_iv_cev(nu: float, alpha: float, T: float):
+def get_vector_iv_cev(nu: float, alpha: float, T: float):
     # Smile curve with cev
     mesh_t = Mesh(uniform_mesh, 100, 0.0, T)
     mesh_x = LnUnderlyingMesh(0.0, 0.0, nu, f0, T, 0.999, uniform_mesh, 200)
@@ -83,14 +83,14 @@ fig, axs = plt.subplots(2, 1)
 styles = ['o', '*', 'x', '+']
 
 for i in range(0, 4):
-    z_s, iv_fd, iv_hagan = get_vetor_iv_cev(nu, alpha_lower_s[i], T)
+    z_s, iv_fd, iv_hagan = get_vector_iv_cev(nu, alpha_lower_s[i], T)
     axs[0].plot(z_s, iv_fd, label="gamma = " + str(alpha_lower_s[i]), linestyle='--', marker=styles[i], color="black")
 
 axs[0].legend(loc="upper left")
 axs[0].set_xlabel("ln(k/f)")
 
 for i in range(0, 4):
-    z_s, iv_fd, iv_hagan = get_vetor_iv_cev(nu, alpha_upper_s[i], T)
+    z_s, iv_fd, iv_hagan = get_vector_iv_cev(nu, alpha_upper_s[i], T)
     axs[1].plot(z_s, iv_fd, label="gamma = " + str(alpha_upper_s[i]), linestyle='--', marker=styles[i], color="black")
 
 axs[1].legend(loc="upper left")

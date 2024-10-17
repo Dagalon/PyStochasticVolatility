@@ -26,8 +26,8 @@ rnd_generator = RNG.RndGenerator(seed)
 x0 = 0.0
 y0 = 0.0
 k = 0.00075
-t = 5.0
-no_time_steps = np.floor(78 * t) + 1
+tEnd = 5.0
+no_time_steps = np.floor(52 * tEnd) + 1
 
 # tenor ois future
 tenor = 1.0
@@ -37,7 +37,7 @@ dates = [ql.Date(12, 8, 2024), ql.Date(12, 8, 2084)]
 rates = [0.03, 0.03]
 ft = ql.ForwardCurve(dates, rates, ql.Actual360(), ql.TARGET())
 
-tis = np.linspace(0.0, t, int(no_time_steps))
+tis = np.linspace(0.0, tEnd, int(no_time_steps))
 
 # paths
 output = Cheyette_Engine.get_path_multi_step_forward_measure(tis, x0, y0, ft, k, no_paths,
