@@ -1,4 +1,7 @@
 import numpy as np
+import scipy as scp
+from sympy.stats.sampling.sample_scipy import scipy
+
 import Tools.AnalyticTools
 
 from scipy.special import ndtr
@@ -22,17 +25,36 @@ def get_quadratic_option_normal_sabr_watanabe_expansion_replication(f0, k, t, al
     rho_inv = np.sqrt(1.0 - rho * rho)
     phi_y = Tools.AnalyticTools.normal_pdf(0.0, 1.0, y)
     cphi_y_inv = ndtr(-y)
-    gr_y = Gq(y)
+    gr_y = 0.5 * Gq(y)
 
-    # epsilon
-    a_t = nu * rho * phi_y * np.sqrt(t)
+    #------ T^{1/2}
+    a_t = 0.5 * nu * rho * phi_y
 
-    # epsilon^2
-    b_t = (np.power(nu * rho, 2.0) / 3.0) * y * phi_y * t
-    c_t = (np.power(nu * rho, 2.0) / 4.0) * ((np.power(y, 3.0) + y) * phi_y + 2.0 * cphi_y_inv) * t
-    d_t = (np.power(nu * rho_inv, 2.0) / 6.0) * (2.0 * y * phi_y + 3.0 * cphi_y_inv) * t
+    #------ T
+    b_t = np.power(nu * rho, 2.0) * y * phi_y / 6.0
 
-    return alpha * alpha * t * (gr_y + a_t + b_t + c_t + d_t)
+    c_t = (0.125 * np.power(nu * rho, 2.0) * (
+            np.power(y, 3.0) * phi_y + 3.0 * y * phi_y + 4.0 * cphi_y_inv - 2.0 * phi_y)
+           + np.power(nu * rho_inv, 2.0) * (2.0 * y * phi_y + 3.0 * cphi_y_inv) / 12.0)
+
+    # d_t
+    d_1_t = (np.power(nu * rho, 3.0) / 12.0) * (np.power(y, 3.0) - 3.0 * y) * phi_y
+
+    md2a = 0.5 * np.power(nu * rho, 2.0) * (y * y + 1.0) * phi_y + np.power(nu * rho_inv, 2.0) * phi_y / 3.0
+    m2b = (0.125 * np.power(nu * rho, 2.0) * (
+            (np.power(y, 4.0) + 4.0 * y * y + 9.0 - 2.0 * y) * phi_y - 2.0 * cphi_y_inv)
+           + np.power(nu * rho_inv, 2.0) * (2.0 * y * y + 5.0) * phi_y / 12.0)
+
+    d_2_t = (- md2a + m2b) / 6.0
+
+    #------ T^{3/2}
+    e_1_t = np.power(nu * rho, 3.0) * (((np.power(y, 2.0) - 1.0) / 3.0) * phi_y / 24.0 - phi_y / 6.0)
+    e_2_t = 0.25 * np.power(nu, 3.0) * rho * phi_y
+    e_3_t = np.power(nu * rho, 3.0) * (np.power(y, 2.0) + 3.0) * phi_y / 8.0 - 0.5 * np.power(nu * rho, 3.0) * phi_y
+
+    return 2.0 * alpha * alpha * t * (
+            gr_y + a_t * np.sqrt(t) + b_t * t + c_t * t + (d_1_t + d_2_t) * t + (e_1_t + e_2_t + e_3_t) * np.power(
+        t, 1.5))
 
 
 def get_quadratic_option_normal_sabr_watanabe_expansion(f0, k, t, alpha, nu, rho):
@@ -67,14 +89,32 @@ def get_option_normal_sabr_watanabe_expansion(f0, k, t, alpha, nu, rho, option_t
     a_t = 0.5 * rho * nu * y
 
     # b_t
-    b_t = np.power(nu * rho, 2.0) * (y * y / 6.0 - 1.0 / 6.0) + \
-              0.5 * np.power(nu * rho, 2.0) * np.power(0.5 * (y * y - 1.0), 2.0) + \
-              np.power(nu * rho_inv, 2.0) * (2.0 * y * y + 1.0) / 12.0
+    b_t = np.power(nu * rho, 2.0) * (y * y - 1.0) / 6.0
+
+    # c_t
+    c_t = 0.125 * np.power(nu * rho * (y * y - 1.0), 2.0) + np.power(nu * rho_inv, 2.0) * (2.0 * y * y + 1.0) / 12.0
+
+    # d_t
+    h4y = np.power(y, 4.0) - 6.0 * y * y + 3.0
+    d_1_t = np.power(nu * rho, 3.0) * h4y / 12.0
+
+    md2 = 0.5 * np.power(nu * rho, 2.0) * (y * y - 1) * y + np.power(nu * rho_inv, 2.0) * y / 3.0
+
+    d_2_t = (- md2 + c_t * y) / 6.0
+
+    # extra term T^{3/2}
+    e_1_t = np.power(nu * rho, 3.0) * ((np.power(y, 3.0) * phi_y / 3.0 - y * phi_y) / 24.0 - y * phi_y / 6.0)
+    e_2_t = 0.25 * np.power(nu, 3.0) * rho * y * phi_y
+    e_3_t = np.power(nu * rho, 3.0) * (np.power(y, 3.0) + y) * phi_y / 8.0 - 0.5 * np.power(nu * rho, 3.0) * y * phi_y
 
     if option_type == 'c':
-        return alpha * np.sqrt(t) * (g_y + phi_y * np.sqrt(t) * a_t + phi_y * t * b_t)
+        return alpha * np.sqrt(t) * (g_y + phi_y * np.sqrt(t) * a_t + phi_y * t * (b_t + c_t) +
+                                     t * phi_y * (d_1_t + d_2_t) + (e_1_t + e_2_t + e_3_t) * np.power(t, 1.5))
     else:
-        return alpha * np.sqrt(t) * (g_y + phi_y * np.sqrt(t) * a_t + phi_y * t * b_t) - (f0 - k)
+        call_price = alpha * np.sqrt(t) * (g_y + phi_y * np.sqrt(t) * a_t + phi_y * t * (b_t + c_t) +
+                                           t * phi_y * (d_1_t + d_2_t) + (e_1_t + e_2_t + e_3_t) * np.power(t, 1.5))
+
+        return call_price - (f0 - k)
 
 
 def get_iv_normal_sabr_watanabe_expansion(f0, k, t, alpha, nu, rho):
