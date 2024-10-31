@@ -67,6 +67,18 @@ def sabr_vol_jit(alpha, rho, v, z, t):
         return sigma
 
 
+# @nb.jit("f8(f8,f8,f8,f8,f8)", nopython=True, nogil=True)
+def cev_iv_normal_jit(f, k, sigma, beta, t):
+    beta_inv = 1.0 - beta
+
+    if np.abs(k - f) < 1e-10:
+        return sigma * np.power(f, beta) * (1.0 + t * beta * (beta - 2.0) * sigma * sigma / (24.0 * np.power(f, 2.0 * beta_inv)))
+
+    else:
+        m = sigma * (f - k) * beta_inv / (np.power(f, beta_inv) - np.power(k, beta_inv))
+        return m * (1.0 + t * beta * (beta - 2.0) * sigma * sigma / (24.0 * np.power(0.5 * (f + k), 2.0 * beta_inv)))
+
+
 @nb.jit("f8(f8,f8,f8,f8,f8,f8)", nopython=True, nogil=True)
 def sabr_normal_jit(f, k, alpha, rho, v, t):
     if f == k:

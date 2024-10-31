@@ -13,7 +13,6 @@ __author__ = 'David Garcia Lorite'
 #
 
 import numpy as np
-
 from typing import Callable
 
 
@@ -54,12 +53,12 @@ class hagan_loc_vol(object):
         return multiplier * (1.0 + order0 + order1 * (f0 - k) * (f0 - k))
 
     def get_bachelier_curvature(self, t: float, f0: float, k: float):
-        shift = 0.00001
+        shift = 0.0000001
         iv_base = self.get_bachelier_implied_vol(t, f0, k)
-        iv_upper = self.get_bachelier_implied_vol(t, f0, k + shift)
-        iv_lower = self.get_bachelier_implied_vol(t, f0, k - shift)
+        iv_upper = self.get_bachelier_implied_vol(t, f0, k + 2.0 * shift)
+        iv_lower = self.get_bachelier_implied_vol(t, f0, k + shift)
 
-        return (iv_upper + iv_lower - 2.0 * iv_base) / (shift * shift)
+        return (iv_upper + iv_base - 2.0 * iv_lower) / (shift * shift)
 
     def get_curvature(self, t: float, f0: float, k: float):
         shift = 0.0001
