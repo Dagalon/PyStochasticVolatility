@@ -2,27 +2,19 @@ from sympy import *
 
 y, nu, rho, rho_inv = symbols('y nu rho rho_inv')
 
-g2 = (1/8) * (nu * rho * (y * y - 1.0))**2 + (nu * rho_inv)**2 * (2.0 * y * y + 1.0) / 12.0
-g1 = (nu * rho)**2 * (y * y - 1.0) / 6.0
-g = g1 + g2
+d_1_t = nu**3 * rho**3 * ( (y**4 - 2 * y**2 - 1) / 12.0 - (y * y - 1.0) / 3.0)
+d_2_t = - nu**2 * rho**2 * (y * y - 1) * y / 6 - 2 * nu**2 * rho_inv**2 * y / 18.0
+d_3_t = nu**2 * rho**2 * (4.0 * y * y + 1.0) / 12.0
+d = d_1_t + d_2_t + d_3_t
 
-res1 = g.simplify(rational=True)
+res = d.simplify()
+# print(latex(d.simplify(rational=True)))
 
-# print(latex(res1))
 
+# T^{3/2}
+e_t_1 = nu**3 * rho**3 * ((y**3 + y) / 24.0 - y / 6.0)
+e_t_2 =  nu**3 * rho**3 * (y**3 + y) / 8.0 + 0.5 * nu**3 * rho_inv * rho_inv * rho * y
 
-f1 =  (1/2) * (y * y - 1) * y * (nu * rho)**2 + (nu * rho_inv)**2 * y / 3.0
-f2 = y *  ((1/8) * (nu * rho * (y * y - 1.0)**2  + (2.0 * y * y + 1.0) * (nu * rho_inv)**2/ 12.0))
-f = f1 + f2
-
-res2 = f.simplify(rational=True)
-
-print(latex(res2))
-
-h1 = (nu * rho)**3 * ((y**3 / 3 - y) / 24 - y / 6)
-h2 = (1/4) * nu**3 * rho * y
-h3 = (nu * rho)**3 * (y**3 + y) / 8 - (1/2) * (nu * rho)**3 * y
-h = h1 + h2 + h3
-
-res3 = h.simplify()
-print(latex(h.simplify(rational=True)))
+e_t = e_t_1 + e_t_2
+res2 = e_t.simplify()
+print(latex(e_t.simplify(rational=True)))

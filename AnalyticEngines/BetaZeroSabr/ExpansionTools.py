@@ -93,6 +93,7 @@ def get_option_normal_sabr_watanabe_expansion(f0, k, t, alpha, nu, rho, option_t
 
     # c_t
     c_t = 0.125 * np.power(nu * rho * (y * y - 1.0), 2.0) + np.power(nu * rho_inv, 2.0) * (2.0 * y * y + 1.0) / 12.0
+    c_1_t = np.power(nu * rho, 2.0) * (4.0 * y * y + 1.0) / 12.0
 
     # d_t
     p4y = np.power(y, 4.0) - 2.0 * y * y - 1.0
@@ -103,16 +104,16 @@ def get_option_normal_sabr_watanabe_expansion(f0, k, t, alpha, nu, rho, option_t
 
     # extra term T^{3/2}
     e_1_t = np.power(nu * rho, 3.0) * ((np.power(y, 3.0) * phi_y + y * phi_y) / 24.0 - y * phi_y / 6.0)  # g4
-    e_2_t = np.power(nu, 3.0) * rho * y * phi_y / 6.0  # g4
-    e_2_t = 0.0
+    # e_2_t = np.power(nu, 3.0) * rho * y * phi_y / 6.0  # g4
+    # e_2_t = 0.0
     e_3_t = np.power(nu * rho, 3.0) * (np.power(y, 3.0) + y) * phi_y / 8.0 + 0.5 * np.power(nu, 3.0) * rho_inv * rho_inv * rho * y * phi_y
 
     if option_type == 'c':
-        return alpha * np.sqrt(t) * (g_y + phi_y * np.sqrt(t) * a_t + phi_y * t * (b_t + c_t) +
-                                     t * phi_y * (d_1_t + d_2_t) + (e_1_t + e_2_t + e_3_t) * np.power(t, 1.5))
+        return alpha * np.sqrt(t) * (g_y + phi_y * np.sqrt(t) * a_t + phi_y * t * (b_t + c_t + c_1_t) +
+                                     t * phi_y * (d_1_t + d_2_t) + (e_1_t + e_3_t) * np.power(t, 1.5))
     else:
         call_price = alpha * np.sqrt(t) * (g_y + phi_y * np.sqrt(t) * a_t + phi_y * t * (b_t + c_t) +
-                                           t * phi_y * (d_1_t + d_2_t) + (e_1_t + e_2_t + e_3_t) * np.power(t, 1.5))
+                                           t * phi_y * (d_1_t + d_2_t) + (e_1_t + e_3_t) * np.power(t, 1.5))
 
         return call_price - (f0 - k)
 
