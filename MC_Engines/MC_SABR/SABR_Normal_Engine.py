@@ -16,7 +16,6 @@ from typing import Dict, Any
 
 import numpy as np
 import numba as nb
-from numpy import ndarray
 
 from MC_Engines.MC_SABR import VarianceSamplingMatchingMoment
 from Tools import AnalyticTools

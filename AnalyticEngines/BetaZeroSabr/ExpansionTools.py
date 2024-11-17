@@ -146,11 +146,21 @@ def get_option_normal_sabr_loc_vol_expansion(f0, k, t, alpha, nu, rho, option_ty
     g_y = G(y)
     rho_inv = 1.0 - rho * rho
 
+    # T^1/2{}
     a_t = 0.5 * rho * nu * y
-    b_t = nu * nu * (y * y - 1.0) / 6.0
-    c_t = 0.25 * np.power(nu * rho_inv, 2.0) + 0.125 * np.power(rho * nu, 2.0) * np.power(y * y - 1.0, 2.0)
+
+    # T
+    b_t = 0.125 * np.power(nu * rho * (y * y - 1.0), 2.0)
+    c_t = np.power(nu * rho, 2.0) * (y * y - 1.0) / 12.0 + np.power(nu * rho_inv, 2.0) * (2.0 * y * y + 1.0) / 12.0
+    d_t = (1.0 / 24.0) * np.power(nu * rho * (y * y - 1.0), 2.0) * (np.power(y, 3.0) - 2.0 * y)
+
+    # T^{3/2}
+    # e_1_t = - 3.0 * alpha * rho * np.power(nu, 3.0) * np.power(rho_inv, 2.0) * (np.power(y, 3.0) - 3.0 * y)
+    e_1_t = 0.0
+
+    call_price = alpha * np.sqrt(t) * (g_y + phi_y * np.sqrt(t) * a_t + phi_y * t * (b_t + c_t + d_t) + phi_y * np.power(t, 1.5) * (e_1_t))
 
     if option_type == 'c':
-        return alpha * np.sqrt(t) * (g_y + phi_y * np.sqrt(t) * a_t + phi_y * t * (b_t + c_t))
+        return call_price
     else:
-        return alpha * np.sqrt(t) * (g_y + phi_y * np.sqrt(t) * a_t + phi_y * t * (b_t + c_t)) - (f0 - k)
+        return call_price - (f0 - k)
