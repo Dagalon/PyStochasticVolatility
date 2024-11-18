@@ -22,7 +22,7 @@ for si in spreads:
 
 # sabr parameters
 alpha = 75.5/10000.0
-nu = 0.24
+nu = 0.21
 rho = 0.235
 parameters = [alpha, nu, rho]
 
@@ -32,12 +32,16 @@ no_paths = 300000
 rnd_generator = RNG.RndGenerator(seed)
 no_time_steps = int(50 * t)
 
+
+
 map_output = SABR_Normal_Engine.get_path_one_step(0.0, t, parameters, f0, no_paths, rnd_generator)
 
 no_options = len(options)
 price_watanabe = []
 price_mc = []
 price_hagan = []
+
+
 
 for i in range(0, no_options):
     mc_option_price = options[i].get_price(map_output[Types.SABR_OUTPUT.PATHS])
@@ -48,9 +52,10 @@ for i in range(0, no_options):
     price_mc.append(mc_price)
     price_watanabe.append(watanabe_price)
 
-plt.plot(strikes, price_mc, label='mc price', linestyle='dashdot')
-plt.scatter(strikes, price_watanabe, label='watanabe price', s=8)
-plt.scatter(strikes, price_hagan, label='hagan price', s=8)
+plt.plot(strikes, price_mc, label='mc price', linestyle='dashdot', color='k')
+plt.scatter(strikes, price_watanabe, label='watanabe price', s=8, color='orange')
+# plt.plot(strikes, price_hagan, label='hagan price', linestyle='dashdot', color='k')
+plt.scatter(strikes, price_hagan, label='hagan price', s=8, color='m')
 
 plt.title("T=%s, F= %s" % (t, f0))
 

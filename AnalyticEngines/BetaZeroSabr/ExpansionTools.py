@@ -86,35 +86,33 @@ def get_option_normal_sabr_watanabe_expansion(f0, k, t, alpha, nu, rho, option_t
     phi_y = Tools.AnalyticTools.normal_pdf(0.0, 1.0, y)
     g_y = G(y)
 
+    # T^{1/2}
     a_t = 0.5 * rho * nu * y
 
-    # b_t
-    b_t = np.power(nu * rho, 2.0) * (y * y - 1.0) / 6.0
+    # T g_3
+    b_t = np.power(nu * rho, 2.0) * (2.0 * y * y - 1.0) / 12.0
 
-    # c_t
+    # T 0.5 * g^2_2
     c_t = 0.125 * np.power(nu * rho * (y * y - 1.0), 2.0) + np.power(nu * rho_inv, 2.0) * (2.0 * y * y + 1.0) / 12.0
-    c_1_t = np.power(nu * rho, 2.0) * (4.0 * y * y + 1.0) / 12.0
+    # c_1_t = np.power(nu * rho, 2.0) * (4.0 * y * y + 1.0) / 12.0
 
-    # d_t
-    p4y = np.power(y, 4.0) - 2.0 * y * y - 1.0
+    # T^{3/2} g^3_2 / 6
+    m = (np.power(nu * rho, 3.0) / 8.0) * (np.power(y, 4.0) - 6.0 * np.power(y, 2.0) - 1.0) + 0.25 * np.power(nu, 3.0) * rho * (2.0 * np.power(y, 4.0) - np.power(y, 2.0) - 1.0)
+    partial_m = 0.5 * np.power(nu * rho, 3.0)  * (np.power(y, 3.0) - 3.0 * y) + 0.5 * np.power(nu, 3.0) * rho * (4.0 * np.power(y, 3.0) - y)
+    e_2_t = (y * m  - partial_m) / 6.0
 
-    d_1_t = np.power(nu * rho, 3.0) * (p4y / 12.0 - (y * y - 1.0) / 3.0) # + rho * np.power(nu, 3.0) * (y * y - 1.0) / 3.0
-    md2 = np.power(nu * rho, 2.0) * (y * y - 1) * y + 2.0 * np.power(nu * rho_inv, 2.0) * y / 3.0 # partial_y g2
-    d_2_t = - md2 / 6.0
+    # T^{3/2} g_2*g_3 and g_4
+    e_1_t = np.power(nu * rho, 3.0) * ((np.power(y, 3.0)  + y) / 24.0 - y / 6.0)  # g4
+    e_3_t = np.power(nu * rho, 3.0) * (np.power(y, 3.0) + y) / 8.0 + 0.5 * np.power(nu, 3.0) * np.power(rho_inv, 2.0) * rho * y
+    - np.power(nu, 3.0) * rho * y / 6.0
+    e_3_1_t = np.power(nu * rho, 3.0) * ((np.power(y, 4.0) - 2.0 * y * y - 1.0) / 12.0 - (y * y - 1.0) / 3.0) / 24.0
 
-    # extra term T^{3/2}
-    e_1_t = np.power(nu * rho, 3.0) * ((np.power(y, 3.0) * phi_y + y * phi_y) / 24.0 - y * phi_y / 6.0)  # g4
-    # e_2_t = np.power(nu, 3.0) * rho * y * phi_y / 6.0  # g4
-    # e_2_t = 0.0
-    e_3_t = np.power(nu * rho, 3.0) * (np.power(y, 3.0) + y) * phi_y / 8.0 + 0.5 * np.power(nu, 3.0) * rho_inv * rho_inv * rho * y * phi_y
 
+    call_price =  alpha * np.sqrt(t) * (g_y + phi_y * np.sqrt(t) * a_t + phi_y * t * (b_t + c_t) +
+                                     np.power(t, 1.5) * phi_y * e_2_t + (e_1_t + e_3_t + e_3_1_t) * phi_y * np.power(t, 1.5))
     if option_type == 'c':
-        return alpha * np.sqrt(t) * (g_y + phi_y * np.sqrt(t) * a_t + phi_y * t * (b_t + c_t + c_1_t) +
-                                     t * phi_y * (d_1_t + d_2_t) + (e_1_t + e_3_t) * np.power(t, 1.5))
+        return call_price
     else:
-        call_price = alpha * np.sqrt(t) * (g_y + phi_y * np.sqrt(t) * a_t + phi_y * t * (b_t + c_t) +
-                                           t * phi_y * (d_1_t + d_2_t) + (e_1_t + e_3_t) * np.power(t, 1.5))
-
         return call_price - (f0 - k)
 
 
@@ -153,13 +151,20 @@ def get_option_normal_sabr_loc_vol_expansion(f0, k, t, alpha, nu, rho, option_ty
     # T
     b_t = 0.125 * np.power(nu * rho * (y * y - 1.0), 2.0)
     c_t = np.power(nu * rho, 2.0) * (y * y - 1.0) / 12.0 + np.power(nu * rho_inv, 2.0) * (2.0 * y * y + 1.0) / 12.0
-    d_t = (1.0 / 24.0) * np.power(nu * rho * (y * y - 1.0), 2.0) * (np.power(y, 3.0) - 2.0 * y)
+    # d_t = (1.0 / 24.0) * np.power(nu * rho * (y * y - 1.0), 2.0) * (np.power(y, 3.0) - 2.0 * y)
 
     # T^{3/2}
-    # e_1_t = - 3.0 * alpha * rho * np.power(nu, 3.0) * np.power(rho_inv, 2.0) * (np.power(y, 3.0) - 3.0 * y)
-    e_1_t = 0.0
+    # g_2 * g_3
+    e_23_t = (y * y -1.0) * ( np.power(nu, 3.0) * rho * (2.0 * np.power(y, 3.0) - 3.0 * y) -  np.power(nu * rho, 3.0) * np.power(y, 3.0)) / 24.0
 
-    call_price = alpha * np.sqrt(t) * (g_y + phi_y * np.sqrt(t) * a_t + phi_y * t * (b_t + c_t + d_t) + phi_y * np.power(t, 1.5) * (e_1_t))
+    # g^2_2
+    e_22_t = np.power(nu * rho, 3.0) * (y * np.power(y*y -1.0, 2.0) * (y * y - 7.0)) / 48.0
+
+    # g_4
+    e_4_1_t = np.power(nu * rho, 3.0) * (np.power(y, 4.0) - 3.0 * y) / 288.0
+
+    call_price = alpha * np.sqrt(t) * (g_y + phi_y * np.sqrt(t) * a_t + phi_y * t * (b_t + c_t) +
+                                       phi_y * np.power(t, 1.5) * (e_23_t + e_22_t + e_4_1_t))
 
     if option_type == 'c':
         return call_price
