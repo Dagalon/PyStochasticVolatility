@@ -4,7 +4,6 @@ from Tools import RNG, Types
 from functools import partial
 from VolatilitySurface.Tools import SABRTools
 from AnalyticEngines.BetaZeroSabr import ExpansionTools
-from Tools.Bachelier import bachelier
 from Instruments.EuropeanInstruments import QuadraticEuropeanOption, TypeSellBuy, TypeEuropeanOption
 
 
