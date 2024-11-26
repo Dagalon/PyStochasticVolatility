@@ -20,7 +20,7 @@ for si in spreads:
 
 # sabr parameters
 alpha = 75.5 / 10000.0
-nu = 0.23
+nu = 0.24
 rho = 0.235
 parameters = [alpha, nu, rho]
 
@@ -51,8 +51,8 @@ for i in range(0, no_options):
     price_watanabe.append(watanabe)
 
 plt.plot(strikes, price_mc, label='mc price', linestyle='dashdot', color='k')
-plt.scatter(strikes, price_watanabe, label='watanabe price', s=8, color='orange')
-plt.scatter(strikes, price_hagan, label='hagan price', s=8, color='green')
+plt.scatter(strikes, price_watanabe, label='watanabe price', s=8, marker='x', color='c')
+plt.scatter(strikes, price_hagan, label='hagan price', s=8, marker='x',  color='y')
 # plt.scatter(strikes, price_hagan, label='hagan price', s=8, color='m')
 
 plt.title("T=%s, F= %s" % (t, f0))

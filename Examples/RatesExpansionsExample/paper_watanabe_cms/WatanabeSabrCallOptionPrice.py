@@ -50,7 +50,7 @@ for i in range(0, no_options):
     price_mc.append(mc_price)
     price_watanabe.append(watanabe_price)
 
-plt.plot(strikes, price_mc, label='mc price', linestyle='dashdot', color='grey')
+plt.plot(strikes, price_mc, label='mc price', linestyle='dashdot', color='k')
 plt.scatter(strikes, price_watanabe, label='watanabe price', s=8, color='orange')
 # plt.plot(strikes, price_hagan, label='hagan price', linestyle='dashdot', color='k')
 plt.scatter(strikes, price_hagan, label='hagan price', s=8, color='blue')

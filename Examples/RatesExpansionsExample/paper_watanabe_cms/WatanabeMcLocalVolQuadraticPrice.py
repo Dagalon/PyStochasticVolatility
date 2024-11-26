@@ -5,7 +5,7 @@ from functools import partial
 from VolatilitySurface.Tools import SABRTools
 from AnalyticEngines.BetaZeroSabr import ExpansionTools
 from Tools.Bachelier import bachelier
-from Instruments.EuropeanInstruments import EuropeanOption, TypeSellBuy, TypeEuropeanOption
+from Instruments.EuropeanInstruments import QuadraticEuropeanOption, TypeSellBuy, TypeEuropeanOption
 
 
 # option info
@@ -22,7 +22,7 @@ options = []
 
 for si in spreads:
     strikes.append(si / 10000.0 + f0)
-    options.append(EuropeanOption(strikes[-1], 1.0, TypeSellBuy.BUY, TypeEuropeanOption.CALL, f0, t))
+    options.append(QuadraticEuropeanOption(strikes[-1], 1.0, TypeSellBuy.BUY, TypeEuropeanOption.CALL, f0, t))
 
 # sabr parameters
 alpha = 75.5/10000.0
@@ -53,15 +53,14 @@ for i in range(0, len(strikes)):
     mc_price.append(mc_option_price[0])
 
     # hagan price
-    sigma_hagan = SABRTools.sabr_normal_jit(f0, strikes[i], alpha, rho, nu, t)
-    price_hagan.append(bachelier(f0, strikes[i], t, sigma_hagan, 'c'))
+    price_hagan.append(SABRTools.quadratic_european_normal_sabr(f0, strikes[i], alpha, rho, nu, t, 'c'))
 
     # watanabe price
-    watanabe_price = ExpansionTools.get_option_normal_sabr_loc_vol_expansion(f0, strikes[i], t, alpha, nu, rho, 'c')
+    watanabe_price = ExpansionTools.get_quadratic_option_lv_normal_sabr_watanabe_expansion(f0, strikes[i], t, alpha, nu, rho)
     call_watanabe_price.append(watanabe_price)
 
 plt.plot(strikes, mc_price, label='mc price', linestyle='dashdot', color='k')
-plt.scatter(strikes, call_watanabe_price, label='watanabe price', s=8, color='c')
+plt.scatter(strikes, call_watanabe_price, label='watanabe price',marker='x', s=8, color='c')
 plt.scatter(strikes, price_hagan, label='Hagan price', marker='x', s=8, color='y')
 
 plt.legend()
