@@ -34,7 +34,7 @@ def get_quadratic_option_lv_normal_sabr_watanabe_expansion(f0, k, t, alpha, nu, 
     b_t = 0.25 * np.power(nu * rho, 2.0) * y * y * phi_y
 
     # g_3
-    c_t = (np.power(nu * rho_inv, 2.0) * (4.0 * y*phi_y + 3.0 * cphi_y_inv) + np.power(nu * rho, 2.0) * (y * phi_y)) / 6.0
+    c_t = (np.power(nu * rho_inv, 2.0) * (4.0 * y*phi_y + 3.0 * cphi_y_inv) + 2.0 * np.power(nu * rho, 2.0) * (y * phi_y)) / 6.0
 
     # T^{3/2}
     # g_2 * g_3
