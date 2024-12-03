@@ -66,6 +66,8 @@ plt.plot(strikes, mc_price, label='mc price', linestyle='dashdot', color='k')
 plt.scatter(strikes, call_watanabe_price, label='watanabe price', s=8, color='c')
 plt.scatter(strikes, price_hagan, label='Hagan price', marker='x', s=8, color='y')
 
+plt.title("T=%s" % t)
+
 plt.legend()
 plt.show()
 
