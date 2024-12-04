@@ -37,19 +37,18 @@ def get_quadratic_option_lv_normal_sabr_watanabe_expansion(f0, k, t, alpha, nu, 
     # T^{3/2}
     # g_2 * g_3
     d_1_t = np.power(nu, 3.0) * np.power(rho_inv, 2.0) * rho * (2.0 * np.power(y, 4.0) + 3.0 * y * y + 9) * phi_y
-    d_2_t = np.power(nu * rho, 3.0) * (np.power(y, 4.0) + 3.0) * phi_y
+    d_2_t = 2.0 * np.power(nu * rho, 3.0) * (np.power(y, 4.0) + 3.0) * phi_y
     d_t = (d_1_t + d_2_t) / 12.0
 
     # g^3_2
     e_t = np.power(nu * rho, 3.0) * np.power(y * y - 1.0, 3.0) * phi_y / 24.0
 
     # g_4
-    f_1_t = - 3.0 * np.power(nu, 3.0) * np.power(rho_inv, 2.0) * rho * alpha * (np.power(y, 2.0) - 1.0) * phi_y / 144.0
-    f_2_t = - np.power(nu * rho, 2.0) * (7.0 * np.power(y, 2.0) - 1.0) * phi_y / 24.0
+    f_1_t = - 3.0 * np.power(nu, 3.0) * np.power(rho_inv, 2.0) * rho * alpha * (3.0 * np.power(y, 3.0) - 2.0 * y * y - 1.0) * phi_y / 144.0
+    # f_2_t = - np.power(nu * rho, 2.0) * (3.0 * y * y * phi_y + 13.0 * phi_y - 6.0 * y *  cphi_y_inv) / 24.0
+    # f_2_t = 0.0
 
-    # return alpha * alpha * t * (
-    #         g_y + a_t * np.sqrt(t) + (b_t + c_t) * t + (e_t + d_t + f_1_t + f_2_t) * np.power(t, 1.5))
-    return alpha * alpha * t * ( g_y + a_t * np.sqrt(t) + (b_t + c_t) * t +  (e_t + d_t + f_1_t + f_2_t) * np.power(t, 1.5))
+    return alpha * alpha * t * ( g_y + a_t * np.sqrt(t) + (b_t + c_t) * t +  (e_t + d_t + f_1_t) * np.power(t, 1.5))
 
 
 def get_quadratic_option_normal_sabr_watanabe_expansion(f0, k, t, alpha, nu, rho):
@@ -60,11 +59,11 @@ def get_quadratic_option_normal_sabr_watanabe_expansion(f0, k, t, alpha, nu, rho
     g_y = Gq(y)
 
     # T^{1/2}
-    a_t = 2.0 * rho * nu * phi_y
+    a_t = rho * nu * phi_y
 
     # T
     # g_3
-    b_1_t = np.power(nu * rho, 2.0) * y * phi_y / 6.0
+    b_1_t = np.power(nu * rho, 2.0) * y * phi_y / 3.0
 
     # g^2_2
     b_21_t = 0.25 * np.power(nu * rho, 2.0) * (np.power(y, 3.0) * phi_y + y * phi_y + 2.0 * cphi_y_inv)
@@ -85,13 +84,12 @@ def get_quadratic_option_normal_sabr_watanabe_expansion(f0, k, t, alpha, nu, rho
     # T^{3/2} g_2*g_3
     c_21_t = np.power(nu * rho, 3.0) * (np.power(y, 4.0) - y * y + 1.0) * phi_y / 6.0
     # c_22_t = np.power(nu, 3.0) * np.power(rho_inv, 2.0) * rho * (
-    #         y * y * phi_y - 3.0 * y * phi_y + 4.0 * phi_y - 3.0 * cphi_y_inv)
-
-    # return alpha * alpha * t * (
-    #         g_y + a_t * np.sqrt(t) + (b_1_t + b_21_t + b_22_t) * t + (c_1_t + c_21_t + c_3_t) * np.power(t, 1.5))
+    #        y * y * phi_y - 3.0 * y * phi_y + 4.0 * phi_y - 3.0 * cphi_y_inv)
 
     return alpha * alpha * t * (
-            g_y + a_t * np.sqrt(t) + (b_1_t + b_21_t + b_22_t) * t)
+            g_y + a_t * np.sqrt(t) + (b_1_t + b_21_t + b_22_t) * t + (c_1_t + c_21_t + c_3_t) * np.power(t, 1.5))
+
+
 
 
 def get_option_normal_sabr_watanabe_expansion(f0, k, t, alpha, nu, rho, option_type):
