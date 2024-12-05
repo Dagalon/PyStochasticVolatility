@@ -9,8 +9,8 @@ from VolatilitySurface.Tools import SABRTools
 
 
 # option info
-f0 = 0.03
-t = 10.0
+f0 = 0.025
+t = 2.0
 spreads = [-200.0, -150.0, -100.0, -50.0, 0.0, 10.0, 25.0, 50.0, 75.0, 100.0, 150.0, 200.0, 250.0, 300.0, 350.0, 400.0, 450, 500]
 
 strikes = []
@@ -20,9 +20,9 @@ for si in spreads:
     options.append(QuadraticEuropeanOption(strikes[-1], 1.0, TypeSellBuy.BUY, TypeEuropeanOption.CALL, f0, t))
 
 # sabr parameters
-alpha = 68.7/10000.0
-nu = 0.20566
-rho = 0.30787
+alpha = 76.10/10000.0
+nu = 0.3687
+rho = 0.2549
 parameters = [alpha, nu, rho]
 
 # mc price
@@ -57,8 +57,8 @@ for i in range(0, no_options):
     price_watanabe.append(watanabe)
 
 plt.plot(strikes, price_mc, label='mc price', linestyle='dashdot', color='k')
-plt.scatter(strikes, price_watanabe, label='watanabe price', s=8, color='c')
-plt.scatter(strikes, price_hagan, label='hagan price', s=8,  color='y')
+plt.scatter(strikes, price_watanabe, label='watanabe price', s=5, color='c')
+plt.scatter(strikes, price_hagan, label='Hagan price', s=5, color='red')
 
 # plt.plot(strikes, diff_hagan_mc, label='hagan - mc price', linestyle='dashdot', color='y')
 # plt.plot(strikes, diff_watanabe_mc, label='watanabe - mc price', linestyle='dashdot', color='c')
