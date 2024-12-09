@@ -9,7 +9,7 @@ import numpy as np
 
 
 # option info
-f0 = 0.025
+f0 = 0.03
 t = 10.0
 
 # spreads = [-300.0, -250.0, -200.0, -150.0, -100.0, -50.0, 0.0, 10.0, 25.0, 50.0, 75.0, 100.0,
@@ -17,7 +17,7 @@ t = 10.0
 
 # spreads = [700]
 
-spreads = [-200, -150, -100.0, -50.0, 0.0, 10.0, 25.0, 50.0, 75.0, 100.0, 150.0, 200.0, 250.0, 300.0, 350.0, 400.0, 450, 500, 600]
+spreads = [-200, -150, -100.0, -50.0, 0.0, 10.0, 25.0, 50.0, 75.0, 100.0, 150.0, 200.0, 250.0, 300.0, 350.0, 400.0, 450, 500, 600, 700, 800]
 
 # spreads = [250]
 
@@ -31,9 +31,9 @@ for si in spreads:
     options.append(QuadraticEuropeanOption(strikes[-1], 1.0, TypeSellBuy.BUY, TypeEuropeanOption.CALL, f0, t))
 
 # sabr parameters
-alpha = 68.67/10000.0
-nu = 0.2007
-rho = 0.3104
+alpha = 75.5/10000.0
+nu = 0.24
+rho = 0.235
 parameters = [alpha, nu, rho]
 
 # local vol info
