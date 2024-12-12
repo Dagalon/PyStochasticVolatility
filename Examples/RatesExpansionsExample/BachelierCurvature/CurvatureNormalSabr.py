@@ -30,7 +30,7 @@ for t in tis:
     partial_iv_hagan_up = SABRTools.sabr_normal_partial_k_jit(f0, f0 + shift, alpha, rho, nu, t)
     partial_iv_hagan_down = SABRTools.sabr_normal_partial_k_jit(f0, f0 - shift, alpha, rho, nu, t)
 
-    curvature = 0.5 * (partial_iv_hagan_up - partial_iv_hagan_down) /  shift
+    curvature = 0.5 * (partial_iv_hagan_up - partial_iv_hagan_down) / shift
     atm_curvature.append(curvature)
 
 
