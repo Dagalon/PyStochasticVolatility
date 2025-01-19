@@ -17,13 +17,11 @@ from scipy.integrate import quad_vec
 from functools import partial
 from typing import Callable, List
 from Tools.Types import TypeSellBuy, TypeEuropeanOption
-from MCPricers.EuropeanPricers import quadratic_call_operator, quadratic_put_operator, malliavin_delta_call_put, malliavin_gamma_call_put, \
-    call_operator_control_variate, put_operator_control_variate, call_operator, put_operator
+from MCPricers.EuropeanPricers import quadratic_call_operator, quadratic_put_operator, digital_call_operator, digital_put_operator, call_operator_control_variate, put_operator_control_variate, call_operator, put_operator
+from MCPricers.GreeksEuropeanPricer import malliavin_delta_call_put, malliavin_gamma_call_put
 from Tools.Types import ndarray, ANALYTIC_MODEL, TypeGreeks
-from AnalyticEngines.FourierMethod.CharesticFunctions.HestonCharesticFunction import f_attari_heston, \
-    f_delta_attari_heston, \
+from AnalyticEngines.FourierMethod.CharesticFunctions.HestonCharesticFunction import f_attari_heston, f_delta_attari_heston, \
     f_dual_delta_attari_heston, f_heston, f_gamma_heston, f_gamma_attari_heston, f_lewis_heston
-
 from AnalyticEngines.FourierMethod.CharesticFunctions.JumpDiffusionCharesticFunction import f_lewis_bate
 
 
@@ -51,7 +49,6 @@ class QuadraticEuropeanOption(object):
         self._buy_sell = buy_sell
         self._spot = spot
         self._delta_time = delta_time
-        # self._payoff_control_variate
 
         if buy_sell == TypeSellBuy.BUY:
             mult_buy_sell = 1.0
@@ -73,6 +70,50 @@ class QuadraticEuropeanOption(object):
             return self._payoff.get_value(x[:, -1])
 
 
+class DigitalEuropeanOption(object):
+    def __init__(self,
+                 strike: float,
+                 notional: float,
+                 buy_sell: TypeSellBuy,
+                 option_type: TypeEuropeanOption,
+                 spot: float,
+                 delta_time: float,
+                 call_spread_parameter: float):
+
+        self._strike = strike
+        self._notional = notional
+        self._option_type = option_type
+        self._buy_sell = buy_sell
+        self._spot = spot
+        self._delta_time = delta_time
+        self._call_spread_parameter = call_spread_parameter
+
+        if buy_sell == TypeSellBuy.BUY:
+            mult_buy_sell = 1.0
+        else:
+            mult_buy_sell = -1.0
+
+        if option_type == TypeEuropeanOption.CALL:
+            self._payoff = EuropeanPayoff(lambda x: mult_buy_sell * notional * digital_call_operator(x, strike, self._call_spread_parameter))
+        else:
+            self._payoff = EuropeanPayoff(lambda x: mult_buy_sell * notional * digital_call_operator(x, strike, self._call_spread_parameter))
+
+    def update_strike(self, strike: float):
+        self._strike = strike
+
+    def get_price(self, x: ndarray) -> ndarray:
+        if len(x.shape) == 1:
+            return self._payoff.get_value(x)
+        else:
+            return self._payoff.get_value(x[:, -1])
+
+    def get_malliavin_delta(self, x: ndarray, delta_weight: ndarray):
+        if self._option_type == TypeEuropeanOption.CALL:
+            return malliavin_delta_call_put(x[:, -1], self._strike, self._spot, delta_weight, 1.0)
+        else:
+            return malliavin_delta_call_put(x[:, -1], self._strike, self._spot, delta_weight, -1.0)
+
+
 class EuropeanOption(object):
     def __init__(self,
                  strike: float,
@@ -88,7 +129,6 @@ class EuropeanOption(object):
         self._buy_sell = buy_sell
         self._spot = spot
         self._delta_time = delta_time
-        # self._payoff_control_variate
 
         if buy_sell == TypeSellBuy.BUY:
             mult_buy_sell = 1.0

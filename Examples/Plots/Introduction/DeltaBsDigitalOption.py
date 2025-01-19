@@ -1,5 +1,5 @@
 from MC_Engines.MC_SABR import SABR_Engine
-from Instruments.EuropeanInstruments import EuropeanOption, TypeSellBuy, TypeEuropeanOption
+from Instruments.EuropeanInstruments import DigitalEuropeanOption, TypeSellBuy, TypeEuropeanOption
 from Tools import Types
 from Tools import RNG
 from prettytable import PrettyTable
@@ -15,15 +15,16 @@ parameters = [alpha, nu, rho]
 f0 = 100
 seed = 123456789
 no_paths = 100000
-T = 3.0
+T = 2.0
 
 delta = 1.0 / 32.0
 no_time_steps = int(T / delta)
 
-strike = 120.0
+strike = 150.0
 notional = 1.0
+call_spread_parameter = 0.01 * f0
 
-european_option = EuropeanOption(strike, notional, TypeSellBuy.BUY, TypeEuropeanOption.CALL, f0, T)
+digital_option = DigitalEuropeanOption(strike, notional, TypeSellBuy.BUY, TypeEuropeanOption.CALL, f0, T, call_spread_parameter)
 
 rnd_generator = RNG.RndGenerator(seed)
 
@@ -34,15 +35,12 @@ map_output = SABR_Engine.get_path_multi_step(0.0, T, parameters, f0, no_paths, n
                                              rnd_generator)
 
 
-result = european_option.get_price(map_output[Types.SABR_OUTPUT.PATHS])
+result = digital_option.get_price(map_output[Types.SABR_OUTPUT.PATHS])
 
 price = result[0]
 wide_ci = result[1]
-malliavin_delta = european_option.get_malliavin_delta(map_output[Types.SABR_OUTPUT.PATHS],
+malliavin_delta = digital_option.get_malliavin_delta(map_output[Types.SABR_OUTPUT.PATHS],
                                                       map_output[Types.SABR_OUTPUT.DELTA_MALLIAVIN_WEIGHTS_PATHS_TERMINAL])
-
-malliavin_gamma = european_option.get_malliavin_gamma(map_output[Types.SABR_OUTPUT.PATHS],
-                                                      map_output[Types.SABR_OUTPUT.GAMMA_MALLIAVIN_WEIGHTS_PATHS_TERMINAL])
 
 end_time_malliavin = time()
 diff_time_malliavin = (end_time_malliavin - start_time_malliavin)
@@ -57,7 +55,7 @@ map_output_right_shift = SABR_Engine.get_path_multi_step(0.0, T, parameters, f0_
                                                          Types.TYPE_STANDARD_NORMAL_SAMPLING.ANTITHETIC,
                                                          rnd_generator)
 
-result_right_shift = european_option.get_price(map_output_right_shift[Types.SABR_OUTPUT.PATHS])
+result_right_shift = digital_option.get_price(map_output_right_shift[Types.SABR_OUTPUT.PATHS])
 price_right_shift = result_right_shift[0]
 wide_ci_shift_right = result_right_shift[1]
 sabr_delta_fd = (price_right_shift - price) / (f0 * delta_shift)
@@ -69,7 +67,7 @@ map_output_left_shift = SABR_Engine.get_path_multi_step(0.0, T, parameters, f0_l
                                                         Types.TYPE_STANDARD_NORMAL_SAMPLING.ANTITHETIC,
                                                         rnd_generator)
 
-result_left_shift = european_option.get_price(map_output_left_shift[Types.SABR_OUTPUT.PATHS])
+result_left_shift = digital_option.get_price(map_output_left_shift[Types.SABR_OUTPUT.PATHS])
 price_left_shift = result_left_shift[0]
 wide_ci_shift_left = result_left_shift[1]
 sabr_gamma_fd = (price_right_shift - 2 * price + price_left_shift) / (delta_shift * f0)**2
@@ -78,13 +76,11 @@ diff_time_shift = end_time_shift - start_time_shift
 
 # Outputs
 table = PrettyTable()
-table.field_names = ["Numerical Method", "Price", "Delta", "Gamma", "CPU Time (sg)"]
-table.add_row(["MC and Malliavin", '{0:.4g}'.format(result[0]),
-               '{0:.4g}'.format(malliavin_delta[0]),
-               '{0:.4g}'.format(malliavin_gamma[0]), '{0:.4g}'.format(diff_time_malliavin)])
-table.add_row(["MC and Finite Differences", '{0:.4g}'.format(result[0]),
-               '{0:.4g}'.format(sabr_delta_fd), '{0:.4g}'.format(sabr_gamma_fd), '{0:.4g}'.format(diff_time_shift)])
+table.field_names = ["Numerical Method", "Price", "Delta", "CPU Time (sg)"]
+table.add_row(["MC and Malliavin", ['{0:.5g}'.format(result[0]), '{0:.5g}'.format(result[1])],
+               ['{0:.5g}'.format(malliavin_delta[0]), '{0:.5g}'.format(malliavin_delta[1])], diff_time_malliavin])
+table.add_row(["MC and Finite Differences", ['{0:.5g}'.format(result[0]), '{0:.5g}'.format(result[1])],
+               sabr_delta_fd, diff_time_shift])
 
-# print(tabulate(table, tablefmt="latex"))
-print(table.get_latex_string())
+print(tabulate(table, tablefmt="latex"))
 
