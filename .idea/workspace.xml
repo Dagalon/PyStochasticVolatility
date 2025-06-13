@@ -5,19 +5,27 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="5d2b9803-9a28-40b5-8e16-50611b7d64ad" name="Changes" comment="Fixed bug in expansion">
-      <change afterPath="$PROJECT_DIR$/Examples/RatesExpansionsExample/BachelierCurvature/EffectParametersCev.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Examples/RatesExpansionsExample/__init__.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/aws.xml" beforeDir="false" />
+      <change afterPath="$PROJECT_DIR$/Examples/Afi/Example_Check_Distribution.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Examples/Chapter5/MemoryFbm.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Examples/Plots/Introduction/CevBachelierSmileDynamic.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Examples/RatesExpansionsExample/BachelierCurvature/Calculations.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Examples/RatesExpansionsExample/paper_watanabe_cms/General/CurvatureCevModel.py" beforeDir="false" afterPath="$PROJECT_DIR$/Examples/RatesExpansionsExample/BachelierCurvature/CurvatureCevModel.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Examples/RatesExpansionsExample/paper_watanabe_cms/General/CurvatureNormalSabr.py" beforeDir="false" afterPath="$PROJECT_DIR$/Examples/RatesExpansionsExample/BachelierCurvature/CurvatureNormalSabr.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Examples/RatesExpansionsExample/paper_watanabe_cms/General/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/Examples/RatesExpansionsExample/BachelierCurvature/EffectParametersSabr.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Plots/Introduction/CevSmileDynamic.py" beforeDir="false" afterPath="$PROJECT_DIR$/Examples/Plots/Introduction/CevSmileDynamic.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Plots/Introduction/MarketData/SwaptionTenor5Y.csv" beforeDir="false" afterPath="$PROJECT_DIR$/Examples/Plots/Introduction/MarketData/SwaptionTenor5Y.csv" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Plots/Introduction/MarketData/volatility_market_swaption.csv" beforeDir="false" afterPath="$PROJECT_DIR$/Examples/Plots/Introduction/MarketData/volatility_market_swaption.csv" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Plots/Introduction/NegativeDensitySabr.py" beforeDir="false" afterPath="$PROJECT_DIR$/Examples/Plots/Introduction/NegativeDensitySabr.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Plots/Introduction/ShortTermSwaptionMarket.py" beforeDir="false" afterPath="$PROJECT_DIR$/Examples/Plots/Introduction/ShortTermSwaptionMarket.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Plots/Introduction/SwaptionmarketSmile.py" beforeDir="false" afterPath="$PROJECT_DIR$/Examples/Plots/Introduction/SwaptionmarketSmile.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/AnalyticEngines/MalliavinMethod/ExpansionTools.py" beforeDir="false" afterPath="$PROJECT_DIR$/AnalyticEngines/MalliavinMethod/ExpansionTools.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Examples/Chapter11/AtmSkewAtmNormalSabr.py" beforeDir="false" afterPath="$PROJECT_DIR$/Examples/Chapter11/AtmSkewAtmNormalSabr.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Examples/Chapter2/Example_2_2_4.py" beforeDir="false" afterPath="$PROJECT_DIR$/Examples/Chapter2/Example_2_2_4.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Examples/Plots/Introduction/CevSmileDynamic.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Examples/Plots/Introduction/NegativeDensitySabr.py" beforeDir="false" afterPath="$PROJECT_DIR$/Examples/Plots/Introduction/NegativeDensitySabr.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Examples/RatesExpansionsExample/BachelierCurvature/CurvatureCevModel.py" beforeDir="false" afterPath="$PROJECT_DIR$/Examples/RatesExpansionsExample/BachelierCurvature/CurvatureCevModel.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Examples/RatesExpansionsExample/BachelierCurvature/CurvatureNormalSabr.py" beforeDir="false" afterPath="$PROJECT_DIR$/Examples/RatesExpansionsExample/BachelierCurvature/CurvatureNormalSabr.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Examples/RatesExpansionsExample/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/Examples/Afi/VolatilitySwapEstimation.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Examples/RatesExpansionsExample/paper_cheyette/CMS_Convexity.py" beforeDir="false" afterPath="$PROJECT_DIR$/Examples/RatesExpansionsExample/paper_cheyette/CMS_Convexity.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Examples/RatesExpansionsExample/paper_cheyette/Fra_Futures_Convexity.py" beforeDir="false" afterPath="$PROJECT_DIR$/Examples/RatesExpansionsExample/paper_cheyette/Fra_Futures_Convexity.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Examples/RatesExpansionsExample/paper_cheyette/Fra_In_Arrears_Convexity.py" beforeDir="false" afterPath="$PROJECT_DIR$/Examples/RatesExpansionsExample/paper_cheyette/Fra_In_Arrears_Convexity.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Examples/RatesExpansionsExample/paper_cheyette/Moments_Cheyette_Local_Vol.py" beforeDir="false" afterPath="$PROJECT_DIR$/Examples/RatesExpansionsExample/paper_cheyette/Moments_Cheyette_Local_Vol.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Examples/RoughLocalVolatility/MarketSkewSabrTimeDependent.py" beforeDir="false" afterPath="$PROJECT_DIR$/Examples/RoughLocalVolatility/MarketSkewSabrTimeDependent.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Examples/RoughLocalVolatility/RbergomiCurvatureSkew.py" beforeDir="false" afterPath="$PROJECT_DIR$/Examples/RoughLocalVolatility/RbergomiCurvatureSkew.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MC_Engines/MC_Cheyette/CheyetteTools.py" beforeDir="false" afterPath="$PROJECT_DIR$/MC_Engines/MC_Cheyette/CheyetteTools.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MC_Engines/MC_SABR/Examples/Example_Check_Distribution.py" beforeDir="false" afterPath="$PROJECT_DIR$/MC_Engines/MC_SABR/Examples/Example_Check_Distribution.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -61,49 +69,63 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "Python.ATM_QuadraticCall.executor": "Run",
-    "Python.Cheyette_Engine.executor": "Debug",
-    "Python.CurvatureCevModel.executor": "Debug",
-    "Python.EffectGammaCurvature.executor": "Debug",
-    "Python.EffectParametersSabr.executor": "Debug",
-    "Python.Estimation_Expected_LocalVol.executor": "Run",
-    "Python.Example_Check_Distribution.executor": "Run",
-    "Python.ExpansionTools.executor": "Debug",
-    "Python.ExpectedValue_Different_Measures.executor": "Run",
-    "Python.Fra_Futures_Convexity.executor": "Run",
-    "Python.Fra_In_Arrears_Convexity.executor": "Run",
-    "Python.Moments_Cheyette_Local_Vol.executor": "Debug",
-    "Python.PartialLocVol.executor": "Debug",
-    "Python.QuadraticLocalVolSabrPrice.executor": "Debug",
-    "Python.ResumentFormula.executor": "Debug",
-    "Python.SymbolicCalculations.executor": "Debug",
-    "Python.SymbolicPartialK.executor": "Debug",
-    "Python.Tesp.executor": "Debug",
-    "Python.WatanabeCallOptionPrice.executor": "Run",
-    "Python.WatanabeMcLocalVolQuadraticPrice.executor": "Run",
-    "Python.WatanabeMcLocalVolSabrPrice.executor": "Run",
-    "Python.WatanabeQuadraticCallOptionPrice.executor": "Debug",
-    "Python.WatanabeSabrCallOptionPrice.executor": "Run",
-    "Python.WatanabeSabrImpliedVol.executor": "Run",
-    "Python.WatanabeSabrQuadraticCallOption.executor": "Run",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "RunOnceActivity.git.unshallow": "true",
-    "git-widget-placeholder": "NewExperiments",
-    "ignore.virus.scanning.warn.message": "true",
-    "last_opened_file_path": "C:/Users/Pc/Desktop/plots",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "settings.editor.selected.configurable": "preferences.keymap",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;Python.ATM_QuadraticCall.executor&quot;: &quot;Run&quot;,
+    &quot;Python.AtmSkewAtmNormalSabr.executor&quot;: &quot;Run&quot;,
+    &quot;Python.CMS_Convexity.executor&quot;: &quot;Run&quot;,
+    &quot;Python.Calculations.executor&quot;: &quot;Run&quot;,
+    &quot;Python.Cheyette_Engine.executor&quot;: &quot;Debug&quot;,
+    &quot;Python.CurvatureCevModel.executor&quot;: &quot;Run&quot;,
+    &quot;Python.CurvatureNormalSabr.executor&quot;: &quot;Run&quot;,
+    &quot;Python.EffectGammaCurvature.executor&quot;: &quot;Debug&quot;,
+    &quot;Python.EffectParametersSabr.executor&quot;: &quot;Debug&quot;,
+    &quot;Python.Estimation_Expected_LocalVol.executor&quot;: &quot;Run&quot;,
+    &quot;Python.Example_1_3_1.executor&quot;: &quot;Run&quot;,
+    &quot;Python.Example_1_4_1.executor&quot;: &quot;Run&quot;,
+    &quot;Python.Example_2_2_4.executor&quot;: &quot;Run&quot;,
+    &quot;Python.Example_Check_Distribution.executor&quot;: &quot;Run&quot;,
+    &quot;Python.ExpansionTools.executor&quot;: &quot;Debug&quot;,
+    &quot;Python.ExpectedValue_Different_Measures.executor&quot;: &quot;Run&quot;,
+    &quot;Python.Fra_Futures_Convexity.executor&quot;: &quot;Run&quot;,
+    &quot;Python.Fra_In_Arrears_Convexity.executor&quot;: &quot;Debug&quot;,
+    &quot;Python.MarketSkewSabrTimeDependent.executor&quot;: &quot;Run&quot;,
+    &quot;Python.MemoryFbm.executor&quot;: &quot;Run&quot;,
+    &quot;Python.Moments_Cheyette_Local_Vol.executor&quot;: &quot;Run&quot;,
+    &quot;Python.NegativeDensitySabr.executor&quot;: &quot;Run&quot;,
+    &quot;Python.PartialLocVol.executor&quot;: &quot;Debug&quot;,
+    &quot;Python.QuadraticLocalVolSabrPrice.executor&quot;: &quot;Debug&quot;,
+    &quot;Python.RbergomiCurvatureSkew.executor&quot;: &quot;Run&quot;,
+    &quot;Python.ResumentFormula.executor&quot;: &quot;Debug&quot;,
+    &quot;Python.SymbolicCalculations.executor&quot;: &quot;Debug&quot;,
+    &quot;Python.SymbolicPartialK.executor&quot;: &quot;Debug&quot;,
+    &quot;Python.Tesp.executor&quot;: &quot;Debug&quot;,
+    &quot;Python.VolatilitySwapEstimation.executor&quot;: &quot;Debug&quot;,
+    &quot;Python.WatanabeCallOptionPrice.executor&quot;: &quot;Run&quot;,
+    &quot;Python.WatanabeMcLocalVolQuadraticPrice.executor&quot;: &quot;Run&quot;,
+    &quot;Python.WatanabeMcLocalVolSabrPrice.executor&quot;: &quot;Run&quot;,
+    &quot;Python.WatanabeQuadraticCallOptionPrice.executor&quot;: &quot;Debug&quot;,
+    &quot;Python.WatanabeSabrCallOptionPrice.executor&quot;: &quot;Run&quot;,
+    &quot;Python.WatanabeSabrImpliedVol.executor&quot;: &quot;Run&quot;,
+    &quot;Python.WatanabeSabrQuadraticCallOption.executor&quot;: &quot;Run&quot;,
+    &quot;Python.symbolic.executor&quot;: &quot;Debug&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;NewExperiments&quot;,
+    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;D:/GitRepository/Python/PyStochasticVolatilityMaster/Examples/Afi&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.lookFeel&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="D:\GitRepository\Python\PyStochasticVolatilityMaster\Examples\Afi" />
       <recent name="D:\GitRepository\Python\PyStochasticVolatilityMaster\Examples\RatesExpansionsExample\paper_watanabe_cms\Data" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
@@ -113,8 +135,8 @@
       <recent name="D:\GitRepository\Python\PyStochasticVolatilityMaster\Examples\RatesExpansionsExample\paper_watanabe_cms\Old" />
     </key>
   </component>
-  <component name="RunManager" selected="Python.EffectParametersSabr">
-    <configuration name="CurvatureCevModel" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+  <component name="RunManager" selected="Python.Fra_In_Arrears_Convexity">
+    <configuration name="Example_Check_Distribution" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="PyStochasticVolatilityMaster" />
       <option name="ENV_FILES" value="" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -123,12 +145,12 @@
         <env name="PYTHONUNBUFFERED" value="1" />
       </envs>
       <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/Examples/RatesExpansionsExample/BachelierCurvature" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/Examples/Afi" />
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/Examples/RatesExpansionsExample/BachelierCurvature/CurvatureCevModel.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/Examples/Afi/Example_Check_Distribution.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -137,7 +159,7 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
-    <configuration name="EffectParametersCev" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+    <configuration name="Fra_In_Arrears_Convexity" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="PyStochasticVolatilityMaster" />
       <option name="ENV_FILES" value="" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -146,12 +168,12 @@
         <env name="PYTHONUNBUFFERED" value="1" />
       </envs>
       <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/Examples/RatesExpansionsExample/BachelierCurvature" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/Examples/RatesExpansionsExample/paper_cheyette" />
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
-      <option name="SCRIPT_NAME" value="D:\GitRepository\Python\PyStochasticVolatilityMaster\Examples\RatesExpansionsExample\BachelierCurvature\EffectParametersCev.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/Examples/RatesExpansionsExample/paper_cheyette/Fra_In_Arrears_Convexity.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -160,7 +182,7 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
-    <configuration name="EffectParametersSabr" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+    <configuration name="RbergomiCurvatureSkew" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="PyStochasticVolatilityMaster" />
       <option name="ENV_FILES" value="" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -169,12 +191,12 @@
         <env name="PYTHONUNBUFFERED" value="1" />
       </envs>
       <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/Examples/RatesExpansionsExample/BachelierCurvature" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/Examples/RoughLocalVolatility" />
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/Examples/RatesExpansionsExample/BachelierCurvature/EffectParametersSabr.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/Examples/RoughLocalVolatility/RbergomiCurvatureSkew.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -183,7 +205,7 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
-    <configuration name="WatanabeMcLocalVolQuadraticPrice" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+    <configuration name="VolatilitySwapEstimation" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="PyStochasticVolatilityMaster" />
       <option name="ENV_FILES" value="" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -192,12 +214,12 @@
         <env name="PYTHONUNBUFFERED" value="1" />
       </envs>
       <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/Examples/RatesExpansionsExample/paper_watanabe_cms" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/Examples/Afi" />
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/Examples/RatesExpansionsExample/paper_watanabe_cms/WatanabeMcLocalVolQuadraticPrice.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/Examples/Afi/VolatilitySwapEstimation.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -206,7 +228,7 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
-    <configuration name="WatanabeMcLocalVolQuadraticPrice" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+    <configuration name="symbolic" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="PyStochasticVolatilityMaster" />
       <option name="ENV_FILES" value="" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -215,81 +237,12 @@
         <env name="PYTHONUNBUFFERED" value="1" />
       </envs>
       <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/Examples/RatesExpansionsExample/paper_watanabe_cms" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/Examples/Afi" />
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/Examples/RatesExpansionsExample/paper_watanabe_cms/WatanabeMcLocalVolQuadraticPrice.py" />
-      <option name="PARAMETERS" value="" />
-      <option name="SHOW_COMMAND_LINE" value="false" />
-      <option name="EMULATE_TERMINAL" value="false" />
-      <option name="MODULE_MODE" value="false" />
-      <option name="REDIRECT_INPUT" value="false" />
-      <option name="INPUT_FILE" value="" />
-      <method v="2" />
-    </configuration>
-    <configuration name="WatanabeSabrCallOptionPrice" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
-      <module name="PyStochasticVolatilityMaster" />
-      <option name="ENV_FILES" value="" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/Examples/RatesExpansionsExample/paper_watanabe_cms" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/Examples/RatesExpansionsExample/paper_watanabe_cms/WatanabeSabrCallOptionPrice.py" />
-      <option name="PARAMETERS" value="" />
-      <option name="SHOW_COMMAND_LINE" value="false" />
-      <option name="EMULATE_TERMINAL" value="false" />
-      <option name="MODULE_MODE" value="false" />
-      <option name="REDIRECT_INPUT" value="false" />
-      <option name="INPUT_FILE" value="" />
-      <method v="2" />
-    </configuration>
-    <configuration name="WatanabeSabrImpliedVol" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
-      <module name="PyStochasticVolatilityMaster" />
-      <option name="ENV_FILES" value="" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/Examples/RatesExpansionsExample/paper_watanabe_cms" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/Examples/RatesExpansionsExample/paper_watanabe_cms/WatanabeSabrImpliedVol.py" />
-      <option name="PARAMETERS" value="" />
-      <option name="SHOW_COMMAND_LINE" value="false" />
-      <option name="EMULATE_TERMINAL" value="false" />
-      <option name="MODULE_MODE" value="false" />
-      <option name="REDIRECT_INPUT" value="false" />
-      <option name="INPUT_FILE" value="" />
-      <method v="2" />
-    </configuration>
-    <configuration name="WatanabeSabrImpliedVol" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
-      <module name="PyStochasticVolatilityMaster" />
-      <option name="ENV_FILES" value="" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/Examples/RatesExpansionsExample/paper_watanabe_cms" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/Examples/RatesExpansionsExample/paper_watanabe_cms/WatanabeSabrImpliedVol.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/Examples/Afi/symbolic.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -299,27 +252,27 @@
       <method v="2" />
     </configuration>
     <list>
-      <item itemvalue="Python.EffectParametersSabr" />
-      <item itemvalue="Python.CurvatureCevModel" />
-      <item itemvalue="Python.EffectParametersCev" />
-      <item itemvalue="Python.WatanabeMcLocalVolQuadraticPrice" />
-      <item itemvalue="Python.WatanabeSabrImpliedVol" />
+      <item itemvalue="Python.Fra_In_Arrears_Convexity" />
+      <item itemvalue="Python.Example_Check_Distribution" />
+      <item itemvalue="Python.symbolic" />
+      <item itemvalue="Python.VolatilitySwapEstimation" />
+      <item itemvalue="Python.RbergomiCurvatureSkew" />
     </list>
     <recent_temporary>
       <list>
-        <item itemvalue="Python.EffectParametersSabr" />
-        <item itemvalue="Python.EffectParametersCev" />
-        <item itemvalue="Python.CurvatureCevModel" />
-        <item itemvalue="Python.WatanabeSabrImpliedVol" />
-        <item itemvalue="Python.WatanabeMcLocalVolQuadraticPrice" />
+        <item itemvalue="Python.Fra_In_Arrears_Convexity" />
+        <item itemvalue="Python.Example_Check_Distribution" />
+        <item itemvalue="Python.VolatilitySwapEstimation" />
+        <item itemvalue="Python.symbolic" />
+        <item itemvalue="Python.RbergomiCurvatureSkew" />
       </list>
     </recent_temporary>
   </component>
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
-        <option value="bundled-js-predefined-d6986cc7102b-e768b9ed790e-JavaScript-PY-243.21565.199" />
-        <option value="bundled-python-sdk-cab1f2013843-4ae2d6a61b08-com.jetbrains.pycharm.pro.sharedIndexes.bundled-PY-243.21565.199" />
+        <option value="bundled-js-predefined-d6986cc7102b-6a121458b545-JavaScript-PY-251.25410.159" />
+        <option value="bundled-python-sdk-e0ed3721d81e-36ea0e71a18c-com.jetbrains.pycharm.pro.sharedIndexes.bundled-PY-251.25410.159" />
       </set>
     </attachedChunks>
   </component>
@@ -415,6 +368,44 @@
       <workItem from="1733740643976" duration="5597000" />
       <workItem from="1733987238944" duration="6852000" />
       <workItem from="1734001319826" duration="6510000" />
+      <workItem from="1734677169639" duration="1644000" />
+      <workItem from="1737016884931" duration="3538000" />
+      <workItem from="1737310646804" duration="1168000" />
+      <workItem from="1739458844336" duration="4637000" />
+      <workItem from="1739516341383" duration="6276000" />
+      <workItem from="1739885824740" duration="465000" />
+      <workItem from="1739900424286" duration="1391000" />
+      <workItem from="1740034596264" duration="640000" />
+      <workItem from="1740035321883" duration="6830000" />
+      <workItem from="1740045940098" duration="704000" />
+      <workItem from="1740062183351" duration="2604000" />
+      <workItem from="1740732307049" duration="543000" />
+      <workItem from="1741185104069" duration="1780000" />
+      <workItem from="1741190140893" duration="1118000" />
+      <workItem from="1741192732026" duration="77000" />
+      <workItem from="1741192898895" duration="956000" />
+      <workItem from="1741561382343" duration="3000" />
+      <workItem from="1741692066867" duration="968000" />
+      <workItem from="1741860982150" duration="790000" />
+      <workItem from="1741879093051" duration="7944000" />
+      <workItem from="1741941609149" duration="6624000" />
+      <workItem from="1741966726789" duration="5428000" />
+      <workItem from="1742894873885" duration="421000" />
+      <workItem from="1743073234537" duration="402000" />
+      <workItem from="1743077205413" duration="338000" />
+      <workItem from="1743408429405" duration="3299000" />
+      <workItem from="1743599425102" duration="498000" />
+      <workItem from="1744366615344" duration="264000" />
+      <workItem from="1745480695107" duration="3724000" />
+      <workItem from="1745512863806" duration="47000" />
+      <workItem from="1748929674282" duration="3965000" />
+      <workItem from="1749536233623" duration="259000" />
+      <workItem from="1749536509868" duration="1667000" />
+      <workItem from="1749550152263" duration="2028000" />
+      <workItem from="1749708695224" duration="6028000" />
+      <workItem from="1749718891165" duration="21385000" />
+      <workItem from="1749795200032" duration="4135000" />
+      <workItem from="1749827498623" duration="6822000" />
     </task>
     <task id="LOCAL-00001" summary="Fixed bug in expansion">
       <option name="closed" value="true" />
@@ -449,7 +440,7 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/Examples/RatesExpansionsExample/paper_cheyette/Moments_Cheyette_Local_Vol.py</url>
-          <line>75</line>
+          <line>76</line>
           <option name="timeStamp" value="48" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
@@ -474,7 +465,7 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/MC_Engines/MC_SABR/Examples/Example_Check_Distribution.py</url>
-          <line>59</line>
+          <line>58</line>
           <option name="timeStamp" value="110" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
@@ -527,34 +518,88 @@
           <line>37</line>
           <option name="timeStamp" value="228" />
         </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/Examples/Chapter1/Example_1_4_1.py</url>
+          <line>58</line>
+          <option name="timeStamp" value="229" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/Examples/Chapter2/Example_2_2_4.py</url>
+          <line>125</line>
+          <option name="timeStamp" value="230" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/Examples/RatesExpansionsExample/BachelierCurvature/Calculations.py</url>
+          <line>10</line>
+          <option name="timeStamp" value="233" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/Examples/RatesExpansionsExample/paper_watanabe_cms/WatanabeSabrCallOptionPrice.py</url>
+          <option name="timeStamp" value="234" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/Examples/Afi/VolatilitySwapEstimation.py</url>
+          <line>36</line>
+          <option name="timeStamp" value="239" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/Examples/RatesExpansionsExample/paper_cheyette/Fra_In_Arrears_Convexity.py</url>
+          <line>78</line>
+          <option name="timeStamp" value="241" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/Examples/RatesExpansionsExample/paper_cheyette/Fra_In_Arrears_Convexity.py</url>
+          <line>73</line>
+          <option name="timeStamp" value="246" />
+        </line-breakpoint>
       </breakpoints>
+      <default-breakpoints>
+        <breakpoint type="python-exception">
+          <properties notifyOnTerminate="true" exception="BaseException">
+            <option name="notifyOnTerminate" value="true" />
+          </properties>
+        </breakpoint>
+      </default-breakpoints>
     </breakpoint-manager>
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
-    <SUITE FILE_PATH="coverage/PyStochasticVolatilityMaster$ExpectedValue_Different_Measures.coverage" NAME="ExpectedValue_Different_Measures Coverage Results" MODIFIED="1726424180762" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Examples/RatesExpansionsExample/paper_cheyette" />
-    <SUITE FILE_PATH="coverage/PyStochasticVolatilityMaster$CurvatureCevModel.coverage" NAME="CurvatureCevModel Coverage Results" MODIFIED="1733993935294" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Examples/RatesExpansionsExample/BachelierCurvature" />
-    <SUITE FILE_PATH="coverage/PyStochasticVolatilityMaster$Fra_In_Arrears_Convexity.coverage" NAME="Fra_In_Arrears_Convexity Coverage Results" MODIFIED="1726421384138" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Examples/RatesExpansionsExample/paper_cheyette" />
-    <SUITE FILE_PATH="coverage/PyStochasticVolatilityMaster$WatanabeQuadraticCallOptionPrice.coverage" NAME="WatanabeQuadraticCallOptionPrice Coverage Results" MODIFIED="1728661042341" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Examples/RatesExpansionsExample/paper_watanabe_cms" />
-    <SUITE FILE_PATH="coverage/PyStochasticVolatilityMaster$QuadraticLocalVolSabrPrice.coverage" NAME="QuadraticLocalVolSabrPrice Coverage Results" MODIFIED="1731850216190" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Examples/RatesExpansionsExample/paper_watanabe_cms" />
-    <SUITE FILE_PATH="coverage/PyStochasticVolatilityMaster$WatanabeMcLocalVolQuadraticPrice.coverage" NAME="WatanabeMcLocalVolQuadraticPrice Coverage Results" MODIFIED="1733401498044" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Examples/RatesExpansionsExample/paper_watanabe_cms" />
-    <SUITE FILE_PATH="coverage/PyStochasticVolatilityMaster$WatanabeSabrCallOptionPrice.coverage" NAME="WatanabeSabrCallOptionPrice Coverage Results" MODIFIED="1733400373624" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Examples/RatesExpansionsExample/paper_watanabe_cms" />
-    <SUITE FILE_PATH="coverage/PyStochasticVolatilityMaster$Moments_Cheyette_Local_Vol.coverage" NAME="Moments_Cheyette_Local_Vol Coverage Results" MODIFIED="1726254098835" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Examples/RatesExpansionsExample/paper_cheyette" />
-    <SUITE FILE_PATH="coverage/PyStochasticVolatilityMaster$EffectParametersSabr.coverage" NAME="EffectParametersSabr Coverage Results" MODIFIED="1734015215986" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Examples/RatesExpansionsExample/BachelierCurvature" />
-    <SUITE FILE_PATH="coverage/PyStochasticVolatilityMaster$EffectGammaCurvature.coverage" NAME="EffectGammaCurvature Coverage Results" MODIFIED="1733996424428" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Examples/RatesExpansionsExample/BachelierCurvature" />
-    <SUITE FILE_PATH="coverage/PyStochasticVolatilityMaster$SymbolicPartialK.coverage" NAME="SymbolicPartialK Coverage Results" MODIFIED="1729464447595" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Examples/RatesExpansionsExample" />
-    <SUITE FILE_PATH="coverage/PyStochasticVolatilityMaster$ATM_QuadraticCall.coverage" NAME="ATM_QuadraticCall Coverage Results" MODIFIED="1728655182116" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Examples/RatesExpansionsExample/paper_watanabe_cms" />
-    <SUITE FILE_PATH="coverage/PyStochasticVolatilityMaster$Fra_Futures_Convexity.coverage" NAME="Fra_Futures_Convexity Coverage Results" MODIFIED="1725982480832" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Examples/RatesExpansionsExample/paper_cheyette" />
-    <SUITE FILE_PATH="coverage/PyStochasticVolatilityMaster$Cheyette_Engine.coverage" NAME="Cheyette_Engine Coverage Results" MODIFIED="1726226096573" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/MC_Engines/MC_Cheyette" />
-    <SUITE FILE_PATH="coverage/PyStochasticVolatilityMaster$PartialLocVol.coverage" NAME="PartialLocVol Coverage Results" MODIFIED="1732802958551" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Examples/RatesExpansionsExample/paper_watanabe_cms" />
-    <SUITE FILE_PATH="coverage/PyStochasticVolatilityMaster$Estimation_Expected_LocalVol.coverage" NAME="Estimation_Expected_LocalVol Coverage Results" MODIFIED="1726271778491" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Examples/RatesExpansionsExample/paper_cheyette" />
-    <SUITE FILE_PATH="coverage/PyStochasticVolatilityMaster$Example_Check_Distribution.coverage" NAME="Example_Check_Distribution Coverage Results" MODIFIED="1728669102858" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/MC_Engines/MC_SABR/Examples" />
-    <SUITE FILE_PATH="coverage/PyStochasticVolatilityMaster$WatanabeSabrImpliedVol.coverage" NAME="WatanabeSabrImpliedVol Coverage Results" MODIFIED="1733407276563" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Examples/RatesExpansionsExample/paper_watanabe_cms" />
-    <SUITE FILE_PATH="coverage/PyStochasticVolatilityMaster$SymbolicCalculations.coverage" NAME="SymbolicCalculations Coverage Results" MODIFIED="1728643245628" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Examples/RatesExpansionsExample/paper_watanabe_cms" />
-    <SUITE FILE_PATH="coverage/PyStochasticVolatilityMaster$WatanabeCallOptionPrice.coverage" NAME="WatanabeCallOptionPrice Coverage Results" MODIFIED="1730482270495" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Examples/RatesExpansionsExample/paper_watanabe_cms" />
-    <SUITE FILE_PATH="coverage/PyStochasticVolatilityMaster$ExpansionTools.coverage" NAME="ExpansionTools Coverage Results" MODIFIED="1732792651500" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/AnalyticEngines/BetaZeroSabr" />
-    <SUITE FILE_PATH="coverage/PyStochasticVolatilityMaster$WatanabeMcLocalVolSabrPrice.coverage" NAME="WatanabeMcLocalVolSabrPrice Coverage Results" MODIFIED="1733214913055" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Examples/RatesExpansionsExample/paper_watanabe_cms" />
+    <SUITE FILE_PATH="coverage/PyStochasticVolatilityMaster$MemoryFbm.coverage" NAME="MemoryFbm Coverage Results" MODIFIED="1745483762960" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Examples/Chapter5" />
+    <SUITE FILE_PATH="coverage/PyStochasticVolatilityMaster$MarketSkewSabrTimeDependent.coverage" NAME="MarketSkewSabrTimeDependent Coverage Results" MODIFIED="1741861569465" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Examples/RoughLocalVolatility" />
+    <SUITE FILE_PATH="coverage/PyStochasticVolatilityMaster$CurvatureNormalSabr.coverage" NAME="CurvatureNormalSabr Coverage Results" MODIFIED="1743073611948" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Examples/RatesExpansionsExample/BachelierCurvature" />
     <SUITE FILE_PATH="coverage/PyStochasticVolatilityMaster$Tesp.coverage" NAME="Tesp Coverage Results" MODIFIED="1732379024422" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Examples/RatesExpansionsExample/paper_watanabe_cms" />
-    <SUITE FILE_PATH="coverage/PyStochasticVolatilityMaster$WatanabeSabrQuadraticCallOption.coverage" NAME="WatanabeSabrQuadraticCallOption Coverage Results" MODIFIED="1733399297793" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Examples/RatesExpansionsExample/paper_watanabe_cms" />
+    <SUITE FILE_PATH="coverage/PyStochasticVolatilityMaster$WatanabeSabrCallOptionPrice.coverage" NAME="WatanabeSabrCallOptionPrice Coverage Results" MODIFIED="1733400373624" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Examples/RatesExpansionsExample/paper_watanabe_cms" />
+    <SUITE FILE_PATH="coverage/PyStochasticVolatilityMaster$WatanabeQuadraticCallOptionPrice.coverage" NAME="WatanabeQuadraticCallOptionPrice Coverage Results" MODIFIED="1728661042341" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Examples/RatesExpansionsExample/paper_watanabe_cms" />
+    <SUITE FILE_PATH="coverage/PyStochasticVolatilityMaster$Example_1_3_1.coverage" NAME="Example_1_3_1 Coverage Results" MODIFIED="1737025631734" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Examples/Chapter1" />
+    <SUITE FILE_PATH="coverage/PyStochasticVolatilityMaster$CurvatureCevModel.coverage" NAME="CurvatureCevModel Coverage Results" MODIFIED="1743077305908" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Examples/RatesExpansionsExample/BachelierCurvature" />
+    <SUITE FILE_PATH="coverage/PyStochasticVolatilityMaster$Fra_Futures_Convexity.coverage" NAME="Fra_Futures_Convexity Coverage Results" MODIFIED="1740036052204" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Examples/RatesExpansionsExample/paper_cheyette" />
+    <SUITE FILE_PATH="coverage/PyStochasticVolatilityMaster$AtmSkewAtmNormalSabr.coverage" NAME="AtmSkewAtmNormalSabr Coverage Results" MODIFIED="1742894907282" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Examples/Chapter11" />
+    <SUITE FILE_PATH="coverage/PyStochasticVolatilityMaster$ExpansionTools.coverage" NAME="ExpansionTools Coverage Results" MODIFIED="1732792651500" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/AnalyticEngines/BetaZeroSabr" />
+    <SUITE FILE_PATH="coverage/PyStochasticVolatilityMaster$CMS_Convexity.coverage" NAME="CMS_Convexity Coverage Results" MODIFIED="1740062261139" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Examples/RatesExpansionsExample/paper_cheyette" />
+    <SUITE FILE_PATH="coverage/PyStochasticVolatilityMaster$Example_1_4_1.coverage" NAME="Example_1_4_1 Coverage Results" MODIFIED="1737026566778" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Examples/Chapter1" />
+    <SUITE FILE_PATH="coverage/PyStochasticVolatilityMaster$symbolic.coverage" NAME="symbolic Coverage Results" MODIFIED="1749739889411" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Examples/Afi" />
+    <SUITE FILE_PATH="coverage/PyStochasticVolatilityMaster$Example_Check_Distribution.coverage" NAME="Example_Check_Distribution Coverage Results" MODIFIED="1749749421205" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Examples/Afi" />
+    <SUITE FILE_PATH="coverage/PyStochasticVolatilityMaster$WatanabeMcLocalVolQuadraticPrice.coverage" NAME="WatanabeMcLocalVolQuadraticPrice Coverage Results" MODIFIED="1733401498044" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Examples/RatesExpansionsExample/paper_watanabe_cms" />
+    <SUITE FILE_PATH="coverage/PyStochasticVolatilityMaster$WatanabeSabrImpliedVol.coverage" NAME="WatanabeSabrImpliedVol Coverage Results" MODIFIED="1733407276563" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Examples/RatesExpansionsExample/paper_watanabe_cms" />
+    <SUITE FILE_PATH="coverage/PyStochasticVolatilityMaster$QuadraticLocalVolSabrPrice.coverage" NAME="QuadraticLocalVolSabrPrice Coverage Results" MODIFIED="1731850216190" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Examples/RatesExpansionsExample/paper_watanabe_cms" />
+    <SUITE FILE_PATH="coverage/PyStochasticVolatilityMaster$Example_2_2_4.coverage" NAME="Example_2_2_4 Coverage Results" MODIFIED="1741192749672" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Examples/Chapter2" />
+    <SUITE FILE_PATH="coverage/PyStochasticVolatilityMaster$PartialLocVol.coverage" NAME="PartialLocVol Coverage Results" MODIFIED="1732802958551" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Examples/RatesExpansionsExample/paper_watanabe_cms" />
+    <SUITE FILE_PATH="coverage/PyStochasticVolatilityMaster$WatanabeMcLocalVolSabrPrice.coverage" NAME="WatanabeMcLocalVolSabrPrice Coverage Results" MODIFIED="1733214913055" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Examples/RatesExpansionsExample/paper_watanabe_cms" />
+    <SUITE FILE_PATH="coverage/PyStochasticVolatilityMaster$Fra_In_Arrears_Convexity.coverage" NAME="Fra_In_Arrears_Convexity Coverage Results" MODIFIED="1749845058215" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Examples/RatesExpansionsExample/paper_cheyette" />
+    <SUITE FILE_PATH="coverage/PyStochasticVolatilityMaster$EffectParametersSabr.coverage" NAME="EffectParametersSabr Coverage Results" MODIFIED="1734015215986" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Examples/RatesExpansionsExample/BachelierCurvature" />
+    <SUITE FILE_PATH="coverage/PyStochasticVolatilityMaster$VolatilitySwapEstimation.coverage" NAME="VolatilitySwapEstimation Coverage Results" MODIFIED="1749740466374" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Examples/Afi" />
     <SUITE FILE_PATH="coverage/PyStochasticVolatilityMaster$ResumentFormula.coverage" NAME="ResumentFormula Coverage Results" MODIFIED="1732800257427" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Examples/RatesExpansionsExample/paper_watanabe_cms" />
+    <SUITE FILE_PATH="coverage/PyStochasticVolatilityMaster$EffectGammaCurvature.coverage" NAME="EffectGammaCurvature Coverage Results" MODIFIED="1733996424428" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Examples/RatesExpansionsExample/BachelierCurvature" />
+    <SUITE FILE_PATH="coverage/PyStochasticVolatilityMaster$NegativeDensitySabr.coverage" NAME="NegativeDensitySabr Coverage Results" MODIFIED="1741193235196" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Examples/Plots/Introduction" />
+    <SUITE FILE_PATH="coverage/PyStochasticVolatilityMaster$SymbolicPartialK.coverage" NAME="SymbolicPartialK Coverage Results" MODIFIED="1729464447595" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Examples/RatesExpansionsExample" />
+    <SUITE FILE_PATH="coverage/PyStochasticVolatilityMaster$Moments_Cheyette_Local_Vol.coverage" NAME="Moments_Cheyette_Local_Vol Coverage Results" MODIFIED="1740046026056" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Examples/RatesExpansionsExample/paper_cheyette" />
+    <SUITE FILE_PATH="coverage/PyStochasticVolatilityMaster$WatanabeSabrQuadraticCallOption.coverage" NAME="WatanabeSabrQuadraticCallOption Coverage Results" MODIFIED="1733399297793" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Examples/RatesExpansionsExample/paper_watanabe_cms" />
+    <SUITE FILE_PATH="coverage/PyStochasticVolatilityMaster$SymbolicCalculations.coverage" NAME="SymbolicCalculations Coverage Results" MODIFIED="1728643245628" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Examples/RatesExpansionsExample/paper_watanabe_cms" />
+    <SUITE FILE_PATH="coverage/PyStochasticVolatilityMaster$Calculations.coverage" NAME="Calculations Coverage Results" MODIFIED="1743599761321" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Examples/RatesExpansionsExample/BachelierCurvature" />
+    <SUITE FILE_PATH="coverage/PyStochasticVolatilityMaster$WatanabeCallOptionPrice.coverage" NAME="WatanabeCallOptionPrice Coverage Results" MODIFIED="1730482270495" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Examples/RatesExpansionsExample/paper_watanabe_cms" />
+    <SUITE FILE_PATH="coverage/PyStochasticVolatilityMaster$Estimation_Expected_LocalVol.coverage" NAME="Estimation_Expected_LocalVol Coverage Results" MODIFIED="1726271778491" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Examples/RatesExpansionsExample/paper_cheyette" />
+    <SUITE FILE_PATH="coverage/PyStochasticVolatilityMaster$ExpectedValue_Different_Measures.coverage" NAME="ExpectedValue_Different_Measures Coverage Results" MODIFIED="1726424180762" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Examples/RatesExpansionsExample/paper_cheyette" />
+    <SUITE FILE_PATH="coverage/PyStochasticVolatilityMaster$ATM_QuadraticCall.coverage" NAME="ATM_QuadraticCall Coverage Results" MODIFIED="1728655182116" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Examples/RatesExpansionsExample/paper_watanabe_cms" />
+    <SUITE FILE_PATH="coverage/PyStochasticVolatilityMaster$RbergomiCurvatureSkew.coverage" NAME="RbergomiCurvatureSkew Coverage Results" MODIFIED="1741978492775" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Examples/RoughLocalVolatility" />
+    <SUITE FILE_PATH="coverage/PyStochasticVolatilityMaster$Cheyette_Engine.coverage" NAME="Cheyette_Engine Coverage Results" MODIFIED="1726226096573" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/MC_Engines/MC_Cheyette" />
   </component>
 </project>
