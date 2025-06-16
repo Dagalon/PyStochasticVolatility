@@ -74,7 +74,7 @@ for i in range(0, no_dates):
     for j in range(0, no_z_i_s):
         m_iv[i, j] = SABRTools.sabr_vol_jit(alpha_i, rho_i, nu_i, z_i_s[j], delta_time[i])
 
-fig_surface = plt.figure(figsize=(30, 15))
+fig_surface = plt.figure(figsize=(60, 30))
 ax = fig_surface.add_subplot(121, projection='3d')
 
 # setting colors
@@ -88,7 +88,7 @@ surf = ax.plot_surface(t,
                        m_iv.transpose(),
                        rstride=1,
                        cstride=1,
-                       cmap=cm.viridis,
+                       cmap=cm.coolwarm,
                        linewidth=0,
                        antialiased=False)
 
@@ -97,7 +97,7 @@ ax.set_zlim(0.0, 3.0)
 ax.set_xlabel('t(years)')
 ax.set_ylabel('ln(F/K)')
 ax.set_zlabel('volatility')
-ax.set_title('Implied volatility surface')
+# ax.set_title('Implied volatility surface')
 
 ax = fig_surface.add_subplot(122, projection='3d')
 
@@ -106,7 +106,7 @@ surf_local_vol = ax.plot_surface(t,
                                  m_loc_vol.transpose(),
                                  rstride=1,
                                  cstride=1,
-                                 cmap=cm.viridis,
+                                 cmap=cm.coolwarm,
                                  linewidth=0,
                                  antialiased=False)
 
@@ -114,13 +114,13 @@ ax.set_zlim(0.0, 3.0)
 ax.set_xlabel('t(years)')
 ax.set_ylabel('ln(F/K)')
 ax.set_zlabel('volatility')
-ax.set_title('Local volatility surface')
+# ax.set_title('Local volatility surface')
 
 # fig_surface.subplots_adjust(right=0.7)
 # cbar_ax = fig_surface.add_axes([0.75, 0.15, 0.020, 0.7])
 # fig_surface.colorbar(colorbar, cax=cbar_ax, extend='max')
 
 
-plt.savefig("C:\\Users\\david\\OneDrive\\Desktop\\Plots\\portadada.jpg", dpi=600)
+# plt.savefig("C:\\Users\\david\\OneDrive\\Desktop\\Plots\\portadada.jpg", dpi=600)
 
 plt.show()

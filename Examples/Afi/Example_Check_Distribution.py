@@ -14,7 +14,7 @@ nu = 0.8
 rho = -0.6
 parameters = [alpha, nu, rho]
 f0 = 100.0
-t = 2.0
+t = 5.0
 
 # simulation info
 no_paths = 500000

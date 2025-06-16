@@ -8,8 +8,8 @@ from Tools.Types import CHEYETTE_OUTPUT
 import matplotlib.pylab as plt
 
 # linear local volatility
-a = 0.2
-b = 0.01
+a = 0.0
+b = 0.02
 
 
 # linear local volatility
@@ -71,16 +71,17 @@ for j, t in enumerate(tis[1:]):
     fras_arrear.append(np.mean(fra_arrears))
 
     ca = fras_arrear[-1] - fra
-    ca_approximation = CheyetteTools.ca_linear_lv_arrears_fras(t, t + tenor, k, a, b, t)
+    ca_approximation = CheyetteTools.ca_linear_lv_arrears_fras(t, t + tenor, k, a, b, t + tenor, fra)
     convexity_adjustment_mc.append(ca)
     convexity_adjustment_app.append(ca_approximation)
 
 # plots
-plt.plot(tis[1:], convexity_adjustment_mc, label='CA Montecarlo', linestyle='--')
-plt.plot(tis[1:], convexity_adjustment_app, label='CA Malliavin', linestyle='--')
+plt.plot(tis[1:], convexity_adjustment_mc, label='CA Montecarlo', linestyle='-.', color='olive')
+plt.plot(tis[1:], convexity_adjustment_app, label='CA Malliavin',linestyle='-.', color='orange')
 
 plt.title(f'Convexity adjustment FRA Arrears with a={a} and b={b}')
 plt.xlabel('T')
 plt.legend()
 
+# plt.savefig("C:/Users/Pc/Desktop/plots_eps/cms_convexity_hw.eps", format='eps')
 plt.show()

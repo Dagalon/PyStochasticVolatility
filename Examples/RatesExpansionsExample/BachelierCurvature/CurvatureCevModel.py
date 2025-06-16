@@ -71,7 +71,7 @@ y_fit_values = f_law(tis, *popt)
 plt.plot(tis, y_fit_values, label='%s + %s T' % (round(popt[0], 8), round(popt[1], 8)), color='orange',
          linestyle='--', marker='.')
 
-plt.plot(tis, atm_curvature, label='atm curvature', linestyle='dotted')
+plt.plot(tis, atm_curvature, label='atm curvature', linestyle='dotted', color='olive')
 
 plt.title("sigma=%s, gamma=%s S= %s" % (nu, alpha, f0))
 

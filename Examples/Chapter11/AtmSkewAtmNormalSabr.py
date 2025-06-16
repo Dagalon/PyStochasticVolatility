@@ -51,9 +51,9 @@ def f_law(x, a, b, c):
 popt, pcov = curve_fit(f_law, dt, skew_atm_hagan)
 y_fit_values = f_law(dt, *popt)
 
-plt.plot(dt, skew_atm_hagan, label='dIV(F0,T)/dF0', color='black', linestyle='--')
+plt.plot(dt, skew_atm_hagan, label='dIV(F0,T)/dF0', color='olive', linestyle='--')
 plt.scatter(dt, y_fit_values, label="%s + %s * t ^ %s" % (round(popt[0], 5), round(popt[1], 5), round(popt[2], 5)), marker='.',
-         linestyle='--', color='black')
+         linestyle='--', color='orange')
 
 plt.xlabel('T')
 plt.legend()

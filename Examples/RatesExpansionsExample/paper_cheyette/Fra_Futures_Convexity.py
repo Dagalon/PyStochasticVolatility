@@ -7,7 +7,7 @@ from Tools.Types import CHEYETTE_OUTPUT
 import matplotlib.pylab as plt
 
 # linear local volatility
-a = 0.3
+a = 0.2
 b = 0.02
 
 
@@ -66,11 +66,12 @@ for j, t in enumerate(tis[1:]):
     convexity_adjustment_mc.append(ca)
 
 # plots
-plt.plot(tis[1:], convexity_adjustment_mc, label='CA Montecarlo', linestyle='--')
-plt.plot(tis[1:], convexity_adjustment_app, label='CA Malliavin', linestyle='--')
+plt.plot(tis[1:], convexity_adjustment_mc, label='CA Montecarlo', linestyle='-.')
+plt.plot(tis[1:], convexity_adjustment_app, label='CA Malliavin', linestyle='-.')
 
 plt.title(f'Convexity adjustment FRA Futures with a={a} and b={b}')
 plt.xlabel('T')
 plt.legend()
 
+plt.savefig("C:/Users/Pc/Desktop/plots_eps/future_convexity.eps", format='eps')
 plt.show()

@@ -102,8 +102,8 @@ for j, t in enumerate(tis):
 
 
 # plots
-plt.plot(tis, convexity_adjustment_mc, label='CA Montecarlo', linestyle='--')
-plt.plot(tis, convexity_adjustment_malliavin, label='CA Malliavin', linestyle='--')
+plt.plot(tis, convexity_adjustment_mc, label='CA Montecarlo', linestyle='--', color='olive')
+plt.plot(tis, convexity_adjustment_malliavin, label='CA Malliavin', linestyle='--', color='orange')
 
 plt.title(f'Convexity adjustment CMS 5Y  with a={a}, b={b} and c={c}')
 plt.xlabel('T')

@@ -59,11 +59,11 @@ for i in range(1, no_options - 1):
     pdf_hagan.append((option_prices_hagan[i+1] - 2.0 * option_prices_hagan[i] + option_prices_hagan[i-1]) / (delta_strike * delta_strike))
     pdf_mc.append((option_prices_mc[i+1] - 2.0 * option_prices_mc[i] + option_prices_mc[i-1]) / (delta_strike * delta_strike))
 
-grid = range(-5, 270, 10)
+grid = range(-10, 270, 20)
 plt.yticks(grid)
 
-plt.plot(strikes[1:no_options-1], pdf_hagan, label="Hagan's density", linestyle='--', color='blue',  linewidth=0.5)
-plt.plot(strikes[1:no_options-1], pdf_mc, label="MC's density", linestyle='--', markersize=3, color='green',  linewidth=0.5)
+plt.plot(strikes[1:no_options-1], pdf_hagan, label="Hagan's density", linestyle='--', color='olive',  linewidth=0.5)
+plt.plot(strikes[1:no_options-1], pdf_mc, label="MC's density", linestyle='--', markersize=3, color='orange',  linewidth=0.5)
 
 plt.xlabel("strike")
 plt.title("Negative values for Hagan's density")

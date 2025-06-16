@@ -32,13 +32,35 @@ def get_vol_swap_new_approximation(parameters: Types.ndarray, t0: float, t1: flo
     return var_swap - second_term
 
 
-
-
 # @nb.jit("f8(f8[:],f8,f8,f8)", nopython=True, nogil=True)
 def get_vol_swap_approximation_sabr(parameters: Types.ndarray, t0: float, t1: float, sigma_t0: float):
     nu = parameters[1]
 
     return sigma_t0 * (1.0 + (nu * nu / 12.0) * (t1 - t0))
+
+
+def get_variance_swap_sabr(parameters: Types.ndarray, t0: float, t1: float):
+
+    alpha = parameters[0]
+    nu = parameters[1]
+
+    delta = (t1 - t0)
+    Dt0t1 = (np.exp(nu * nu * delta) - 1.0) / (nu * nu)
+
+    return alpha * np.sqrt(Dt0t1 / delta)
+
+
+def get_volatility_swap_sabr_malliavin(parameters: Types.ndarray, t0: float, t1: float):
+
+    var_swap = get_variance_swap_sabr(parameters, t0, t1)
+
+    alpha = parameters[0]
+    nu = parameters[1]
+
+    delta = (t1 - t0)
+    Ct0t1 = np.exp(nu * nu * delta)
+
+    return var_swap - np.power(alpha, 4.0) * nu * nu * np.power(var_swap, -3.0) * Ct0t1 * delta / 6.0
 
 
 @nb.jit("f8(f8[:],f8,f8,f8)", nopython=True, nogil=True)

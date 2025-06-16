@@ -12,8 +12,8 @@ from MC_Engines.MC_RBergomi import LocalVolRBegomi
 from AnalyticEngines.MalliavinMethod import ExpansionTools
 
 # simulation info
-hurst = 0.499999
-nu = 1.1
+hurst = 0.2
+nu = 0.6
 rho = -0.6
 v0 = 0.09
 sigma_0 = np.sqrt(v0)
@@ -25,7 +25,7 @@ parameters = [nu, rho, hurst]
 
 f0 = 100
 K = 90.0
-ts = np.linspace(0.01, 1.0 / 12.0, 30)
+ts = np.linspace(0.01, 1.0 / 12.0, 20)
 # ts = [0.1]
 
 seed = 123
@@ -130,7 +130,7 @@ target_curvature = [1.0 / (2.0 * (hurst + 1.0)) for i in range(0, len(ts))]
 
 # plt.plot(ts, curvature_log_lv, label="lv curvature", color="black", linestyle="dashdot")
 # plt.plot(ts, curvature_log_iv, label="iv curvature", color="black", linestyle="dotted")
-plt.scatter(ts, ratio_skew, label="ratio_skew", color="black", marker="o")
+# plt.scatter(ts, ratio_skew, label="ratio_skew", color="olive", marker="o")
 # plt.plot(ts, target_skew, label="target skew", color="black", linestyle="dotted")
 
 
@@ -139,21 +139,23 @@ def f_law(x, a, b):
 
 
 # skew
-popt, pcov = curve_fit(f_law, ts, ratio_skew)
-ratio_skew_fit = f_law(ts, *popt)
-plt.plot(ts, ratio_skew_fit, label="%st^%s" % (round(popt[0], 5), round(popt[1], 5)), color="black",
-          linestyle="dashdot", marker=".")
+# popt, pcov = curve_fit(f_law, ts, ratio_skew)
+# ratio_skew_fit = f_law(ts, *popt)
+# plt.plot(ts, ratio_skew_fit, label="%st^%s" % (round(popt[0], 5), round(popt[1], 5)), color="orange",
+#           linestyle="dashdot", marker=".")
 
 
-# popt, pcov = curve_fit(f_law, ts, curvature_log_lv)
-# curvature_fit_log_lv = f_law(ts, *popt)
-# plt.plot(ts, curvature_fit_log_lv, label="%st^%s" % (round(popt[0], 5), round(popt[1], 5)), color="black",
-#          linestyle="dashdot", marker=".")
-#
-# popt, pcov = curve_fit(f_law, ts, curvature_log_iv)
-# curvature_fit_log_iv = f_law(ts, *popt)
-# plt.plot(ts, curvature_fit_log_iv, label="%st^%s" % (round(popt[0], 5), round(popt[1], 5)), color="black",
-#          linestyle="dotted", marker="o")
+popt, pcov = curve_fit(f_law, ts, curvature_log_lv)
+curvature_fit_log_lv = f_law(ts, *popt)
+
+plt.plot(ts, curvature_fit_log_lv, label="%st^%s" % (round(popt[0], 5), round(popt[1], 5)), color="olive",
+         linestyle="dashdot", marker=".")
+
+popt, pcov = curve_fit(f_law, ts, curvature_log_iv)
+curvature_fit_log_iv = f_law(ts, *popt)
+
+plt.plot(ts, curvature_fit_log_iv, label="%st^%s" % (round(popt[0], 5), round(popt[1], 5)), color="orange",
+         linestyle="dotted", marker="o")
 
 # plt.scatter(ts, target_skew, label="1 / (H + 3/2)", color="black", marker="x")
 

@@ -8,8 +8,8 @@ import matplotlib.pylab as plt
 from scipy.special import ndtri
 
 # linear local volatility
-a = 0.3
-b = 0.015
+a = 0.0
+b = 0.02
 
 
 # linear local volatility
@@ -40,9 +40,9 @@ ft = ql.ForwardCurve(dates, rates, ql.Actual360(), ql.TARGET())
 tis = np.linspace(0.0, tEnd, int(no_time_steps))
 
 # paths
-output = Cheyette_Engine.get_path_multi_step_forward_measure(tis, x0, y0, ft, k, no_paths,
-                                                             lambda ti, x, y: linear_eta_vol(a, b, ti, x, y),
-                                                             rnd_generator)
+output = Cheyette_Engine.get_path_multi_step(tis, x0, y0, ft, k, no_paths,
+                                             lambda ti, x, y: linear_eta_vol(a, b, ti, x, y),
+                                             rnd_generator)
 
 x_mc_moment = []
 y_mc_moment = []
@@ -57,20 +57,21 @@ for j, t in enumerate(tis[1:]):
     x_mc_moment.append(np.mean(output[CHEYETTE_OUTPUT.PATHS_X][:, j + 1]))
     y_mc_moment.append(np.mean(output[CHEYETTE_OUTPUT.PATHS_Y][:, j + 1]))
 
-    y_approx_moment.append(CheyetteTools.y_moment_linear_eta_vol_tp(a, b, k, t, tis[-1]))
-    x_approx_moment.append(CheyetteTools.x_moment_linear_eta_vol_tp(a, b, k, t, tis[-1]))
+    y_approx_moment.append(CheyetteTools.y_moment_linear_eta_vol(a, b, k, t))
+    x_approx_moment.append(CheyetteTools.x_moment_linear_eta_vol(a, b, k, t))
 
 # plots
 # plt.plot(tis[1:], y_mc_moment, label='y_t mean MC', linestyle='--')
 # plt.plot(tis[1:], x_mc_moment, label='x_t mean MC', linestyle='--')
 
-plt.plot(tis[1:], x_mc_moment, label='x_t mean mc', linestyle='--')
-plt.plot(tis[1:], x_approx_moment, label='x_t mean approximation', linestyle='--')
+plt.plot(tis[1:], x_mc_moment, label='x_t mean mc', linestyle='-.', color='olive')
+plt.plot(tis[1:], x_approx_moment, label='x_t mean approximation', linestyle='-.', color='orange')
 # plt.plot(tis[1:], upper_y, label='y_t upper mc', linestyle='--')
 # plt.plot(tis[1:], lower_y, label='y_t lower mc', linestyle='--')
 
 plt.title(f'  E(x_t) forward measure  with a={a} and b={b}')
 plt.xlabel('T')
 plt.legend()
+
 
 plt.show()

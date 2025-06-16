@@ -13,7 +13,7 @@ options = []
 # sabr parameters
 alpha = 0.007
 nu = 0.4
-rho = 0.5
+rho = 0.0
 parameters = [alpha, nu, rho]
 
 # mc price
@@ -41,10 +41,9 @@ popt, pcov = curve_fit(f_law, tis, atm_curvature)
 y_fit_values = f_law(tis, *popt)
 
 
-plt.plot(tis, y_fit_values, label='%s + %s T' % (round(popt[0], 5), round(popt[1], 5)), color='orange',
-          linestyle='--', marker='.')
+plt.plot(tis, y_fit_values, label='%s + %s T' % (round(popt[0], 5), round(popt[1], 5)), color='orange', linestyle='--', marker='.')
 
-plt.plot(tis, atm_curvature, label='atm curvature', linestyle='dotted')
+plt.plot(tis, atm_curvature, label='atm curvature', linestyle='dotted', color='olive')
 
 plt.title("rho=%s, F= %s" % (rho, f0))
 

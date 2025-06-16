@@ -88,8 +88,8 @@ for i in range(0, 16):
     ratio_curvature.append(curvature_iv[i] / curvature_lv[i])
 
 
-# def f_law(x, a, b, c):
-#     return a + np.multiply(x, b) + np.multiply(np.power(x, 2.0), c)
+def f_law(x, a, b, c):
+    return a + np.multiply(x, b) + np.multiply(np.power(x, 2.0), c)
 
 # popt, pcov = curve_fit(f_law, delta_time, ratio)
 # ratio_fit = f_law(delta_time, *popt)
@@ -99,14 +99,15 @@ for i in range(0, 16):
 # plt.scatter(delta_time, ratio, label="skew_iv / skew_lv", color="black", linestyle="dotted", marker="o")
 
 
-def fCurvature(x, a, b, c):
-    return a + b * np.power(x, c)
+# def fCurvature(x, a, b, c):
+#     return a + b * np.power(x, c)
 
 
-popt, pcov = curve_fit(fCurvature, delta_time, ratio_curvature)
-ratio_fit = fCurvature(delta_time, *popt)
+popt, pcov = curve_fit(f_law, delta_time, ratio)
+ratio_fit = f_law(delta_time, *popt)
 
-plt.scatter(delta_time, ratio_curvature, label="curvature_iv / curvature_lv", color="black", linestyle="dotted", marker="o")
+plt.scatter(delta_time, ratio, label="skew_iv / skew_lv", color="olive", linestyle="dotted", marker="o")
+plt.plot(delta_time, ratio_fit, color="orange", label="%s+ %s t + %s t^2" % (round(popt[0], 5), round(popt[1], 5), round(popt[2], 5)), linestyle="dotted")
 
 # plt.ylim([0.48, 0.53])
 plt.legend()
