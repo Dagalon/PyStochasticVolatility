@@ -121,6 +121,6 @@ ax.set_zlabel('volatility')
 # fig_surface.colorbar(colorbar, cax=cbar_ax, extend='max')
 
 
-# plt.savefig("C:\\Users\\david\\OneDrive\\Desktop\\Plots\\portadada.jpg", dpi=600)
+# plt.savefig("C:\\Users\\david\\OneDrive\\Desktop\\PlotsGenerated\\portadada.jpg", dpi=600)
 
 plt.show()

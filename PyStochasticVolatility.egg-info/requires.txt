@@ -7,6 +7,5 @@ statsmodels~=0.13.2
 quantlib~=1.27
 tabulate~=0.8.9
 prettytable~=3.3.0
-setuptools~=61.2.0
 sympy~=1.10.1
 ncephes~=1.1.0

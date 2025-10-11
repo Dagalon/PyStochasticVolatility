@@ -10,5 +10,6 @@
 .idea/vcs.xml
 .idea/workspace.xml
 .idea/*
+.venv/*
 .idea/aws.xml
 build/*
