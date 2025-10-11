@@ -109,11 +109,11 @@ Examples/Chapter9/Example_9_6_8.py
 Examples/Chapter9/Heston.py
 Examples/Chapter9/SabrLV.py
 Examples/DistributionApproximation/BSDistributionApproximation.py
-Examples/Plots/Introduction/CevBachelierSmileDynamic.py
-Examples/Plots/Introduction/DeltaBsDigitalOption.py
-Examples/Plots/Introduction/NegativeDensitySabr.py
-Examples/Plots/Introduction/ShortTermSwaptionMarket.py
-Examples/Plots/Introduction/SwaptionmarketSmile.py
+Examples/PlotsGenerated/Introduction/CevBachelierSmileDynamic.py
+Examples/PlotsGenerated/Introduction/DeltaBsDigitalOption.py
+Examples/PlotsGenerated/Introduction/NegativeDensitySabr.py
+Examples/PlotsGenerated/Introduction/ShortTermSwaptionMarket.py
+Examples/PlotsGenerated/Introduction/SwaptionmarketSmile.py
 Examples/RatesExpansionsExample/BachelierCurvature/Calculations.py
 Examples/RatesExpansionsExample/BachelierCurvature/CurvatureCevModel.py
 Examples/RatesExpansionsExample/BachelierCurvature/CurvatureNormalSabr.py
