@@ -21,6 +21,9 @@ worked examples illustrating end-to-end workflows.
   known characteristic functions such as Heston and Merton.
 - Monte Carlo pricing engines, variance reduction techniques, and reusable
   instrument definitions that decouple payoff logic from model dynamics.
+- Dedicated rough Bergomi workflows that combine fractional Brownian motion
+  sampling, forward variance curve handling, and volatility-of-volatility
+  calibration helpers.
 - Tools for sampling fractional Brownian motion and building volatility
   surfaces with SVI and SABR parameterisations.
 - Utilities written with `numba` to accelerate critical numerical kernels.
@@ -70,6 +73,9 @@ constraints.
    the instruments in [`Instruments/`](Instruments/) to price custom payoffs.
 4. Build or calibrate a volatility surface with the tools under
    [`VolatilitySurface/`](VolatilitySurface/).
+5. Experiment with the rough Bergomi engines in
+   [`MC_Engines/MC_RBergomi/`](MC_Engines/MC_RBergomi/) by simulating forward
+   variance curves, Malliavin weights, and joint spot/variance paths.
 
 A minimal script that prices a European option under the Heston model using the
 COS method could look like:
@@ -137,6 +143,19 @@ Simulation back-ends for a variety of stochastic processes under stochastic
 volatility dynamics. Engines can be combined with the pricers above to perform
 scenario analysis or pricing.
 
+#### Rough Bergomi
+The rough Bergomi implementation exposes several building blocks:
+
+- Discretisation of the Volterra kernel and hybrid scheme to simulate the
+  rough variance process driven by fractional Brownian motion.
+- Utilities for constructing forward variance curves and calibrating the
+  volatility-of-volatility parameter from market quotes.
+- Monte Carlo pricers that couple spot and variance simulations, enabling the
+  valuation of variance swaps, options on realised variance, and equity
+  derivatives with rough volatility dynamics.
+- Optional Malliavin weight computation to perform pathwise sensitivity
+  analysis with respect to model parameters.
+
 ### Solvers
 A robust one-dimensional PDE solver tailored for local volatility models. The
 solver supports explicit, implicit, and theta schemes with configurable boundary
@@ -152,6 +171,11 @@ Components for constructing and calibrating volatility term structures. Current
 implementations include SVI and SABR parameterisations.
 
 ## Development
+The entire development workflow is designed to work smoothly with
+[uv](https://github.com/astral-sh/uv). The tool handles virtual environment
+management, dependency resolution, and editable installs without requiring
+separate `pip` or `virtualenv` steps.
+
 1. Install development dependencies:
    ```bash
    uv pip install -e .[dev]
