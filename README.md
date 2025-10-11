@@ -22,8 +22,7 @@ worked examples illustrating end-to-end workflows.
 - Monte Carlo pricing engines, variance reduction techniques, and reusable
   instrument definitions that decouple payoff logic from model dynamics.
 - Dedicated rough Bergomi workflows that combine fractional Brownian motion
-  sampling, forward variance curve handling, and volatility-of-volatility
-  calibration helpers.
+  sampling, forward variance curve handling.
 - Tools for sampling fractional Brownian motion and building volatility
   surfaces with SVI and SABR parameterisations.
 - Utilities written with `numba` to accelerate critical numerical kernels.
