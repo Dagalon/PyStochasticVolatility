@@ -22,6 +22,7 @@ from math import gamma
 
 @nb.jit("f8(f8, f8)", nopython=True, nogil=True)
 def beta(t, m):
+    """Compute the integrated mean-reversion kernel used in rBergomi."""
     if t < 1.0e-05:
         return t
     else:
@@ -30,6 +31,7 @@ def beta(t, m):
 
 @nb.jit("f8(f8, f8, f8)", nopython=True, nogil=True)
 def get_volterra_covariance(s: float, t: float, h: float):
+    """Return the Volterra covariance kernel for fractional Gaussian noise."""
     if s < t:
         x = s / t
         alpha = 2.0 * np.power(s, h + 0.5) * np.power(t, h - 0.5) * h / (h + 0.5)
@@ -46,16 +48,19 @@ def get_volterra_covariance(s: float, t: float, h: float):
 
 @nb.jit("f8(f8, f8, f8)", nopython=True, nogil=True)
 def get_fbm_covariance(s: float, t: float, h: float):
+    """Closed-form covariance of a fractional Brownian motion."""
     return 0.5 * (np.power(np.abs(t), 2.0 * h) + np.power(np.abs(s), 2.0 * h) - np.power(np.abs(t - s), 2.0 * h))
 
 
 @nb.jit("f8[:](f8[:], f8)", nopython=True, nogil=True)
 def get_fbm_variance(t: float, h: float):
+    """Variance of a fractional Brownian motion evaluated on grid ``t``."""
     return np.power(t, 2.0 * h)
 
 
 @nb.jit("f8(f8, f8, f8, f8)", nopython=False, nogil=True)
 def get_covariance_fbm_w_t(s: float, t: float, rho: float, h: float):
+    """Covariance between Brownian motion and fractional Brownian motion."""
     h_3_2 = h + 1.5
     h_1_2 = h + 0.5
     if s < t:
@@ -66,6 +71,7 @@ def get_covariance_fbm_w_t(s: float, t: float, rho: float, h: float):
 
 @nb.jit("f8[:](f8[:], f8)", nopython=True, nogil=True)
 def get_volterra_variance(t: ndarray, h: float):
+    """Evaluate the variance of the Volterra process at grid points ``t``."""
     no_elements = len(t)
     output = np.zeros(no_elements)
     for i in range(0, no_elements):
@@ -75,12 +81,14 @@ def get_volterra_variance(t: ndarray, h: float):
 
 @nb.jit("f8(f8, f8, f8, f8)", nopython=True, nogil=True)
 def get_covariance_w_v_w_t(s: float, t: float, rho: float, h: float):
+    """Covariance between volatility and driving Brownian motions."""
     d_h = np.sqrt(2.0 * h) / (h + 0.5)
     return rho * d_h * (np.power(s, h + 0.5) - (np.power(s - np.minimum(s, t), h + 0.5)))
 
 
 @nb.jit("f8[:,:](f8[:], f8, f8)", nopython=True, nogil=True)
 def get_covariance_matrix(t_i_s: ndarray, h: float, rho: float):
+    """Construct the joint covariance matrix for the rBergomi drivers."""
     no_time_steps = len(t_i_s)
     cov = np.zeros(shape=(2 * no_time_steps, 2 * no_time_steps))
     for i in range(0, no_time_steps):
@@ -110,6 +118,7 @@ def generate_paths_turbocharging(s0: float,
                                  noise: ndarray,
                                  t_i_s: ndarray,
                                  no_paths: int):
+    """Simulate rough Bergomi paths using the turbocharged sampling scheme."""
     no_time_steps = len(t_i_s)
     sqrt_2h = np.sqrt(2.0 * h)
     inv_rho = np.sqrt(1.0 - rho * rho)
@@ -180,6 +189,7 @@ def generate_paths_rbergomi(s0: float,
                             cholk_cov: ndarray,
                             t_i_s: ndarray,
                             no_paths: int):
+    """Simulate rough Bergomi paths using a Cholesky factorisation."""
     no_time_steps = len(t_i_s)
 
     paths = np.zeros(shape=(no_paths, no_time_steps))
@@ -241,6 +251,7 @@ def generate_paths_compose_rbergomi(s0: float,
                                     cholk_cov_long: ndarray,
                                     t_i_s: ndarray,
                                     no_paths: int):
+    """Simulate a two-factor rough Bergomi model with short and long memory."""
     no_time_steps = len(t_i_s)
 
     paths = np.zeros(shape=(no_paths, no_time_steps))
@@ -328,6 +339,7 @@ def generate_paths_rexpou1f(s0: float,
                             cholk_cov: ndarray,
                             t_i_s: ndarray,
                             no_paths: int):
+    """Simulate the rExpOU one-factor model using rough Bergomi drivers."""
     no_time_steps = len(t_i_s)
 
     paths = np.zeros(shape=(no_paths, no_time_steps))
@@ -378,6 +390,7 @@ def generate_paths_variance_rbergomi(s0: float,
                                      cholk_cov: ndarray,
                                      t_i_s: ndarray,
                                      no_paths: int):
+    """Simulate rough Bergomi variance dynamics without correlation."""
     no_time_steps = len(t_i_s)
 
     paths = np.zeros(shape=(no_paths, no_time_steps))

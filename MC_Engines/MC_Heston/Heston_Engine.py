@@ -20,6 +20,7 @@ from Tools import AnalyticTools, Types
 
 
 def get_time_steps(t0: float, t1: float, no_time_steps: int, **kwargs):
+    """Build the simulation grid, optionally inserting extra sampling dates."""
     if len(kwargs) > 0:
         extra_points = kwargs['extra_sampling_points']
         basis_sampling_dates = np.linspace(t0, t1, no_time_steps).tolist()
@@ -39,6 +40,7 @@ def get_path_multi_step(t0: float,
                         type_random_numbers: Types.TYPE_STANDARD_NORMAL_SAMPLING,
                         rnd_generator,
                         **kwargs) -> ndarray:
+    """Generate Heston price and variance paths with Malliavin weights."""
 
     k = parameters[0]
     theta = parameters[1]

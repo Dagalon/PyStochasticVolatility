@@ -31,6 +31,7 @@ def get_variance(k: float,
                  v_t_i_1: ndarray,
                  u_i: ndarray,
                  no_paths: int):
+    """Sample the Heston variance process using the Quadratic-Exponential scheme."""
 
     # no_paths = len(v_t_i_1)
     paths = np.zeros(no_paths)

@@ -18,15 +18,18 @@ from scipy.special import ndtr
 
 @nb.jit("f8(f8, f8, f8)", nopython=True, nogil=True)
 def normal_pdf(mean=0.0, sigma=1.0, x=0.0):
+    """Evaluate the probability density of a normal variable at ``x``."""
     return np.exp(-0.5 * np.power(x - mean, 2.0) / sigma) / np.sqrt(2 * np.pi * sigma)
 
 
 @nb.jit("f8(f8, f8, f8)", nopython=True, nogil=True)
 def log_normal_pdf(mean=0.0, sigma=1.0, x=0.0):
+    """Return the log-normal density corresponding to ``mean`` and ``sigma``."""
     return normal_pdf(mean, sigma, (np.log(x) - mean) / sigma) * 1.0 / (sigma * x)
 
 
 def bs_distribution(r=0.0, q=0.0, t=0.0, sigma=0.0, s0=0.0, s=0.0):
+    """Compute the Black–Scholes cumulative distribution for a forward price."""
     f = np.exp((r - q) * t) * s0
     sigma_t = sigma * np.sqrt(t)
     d = (np.log(s / f) / sigma_t) + 0.5 * sigma_t
@@ -35,6 +38,7 @@ def bs_distribution(r=0.0, q=0.0, t=0.0, sigma=0.0, s0=0.0, s=0.0):
 
 
 def bs_density(r=0.0, q=0.0, t=0.0, sigma=0.0, s0=0.0, s=0.0):
+    """Return the Black–Scholes density of the asset price at maturity."""
     f = np.exp((r - q) * t) * s0
     sigma_t = sigma * np.sqrt(t)
     d = (np.log(s / f) / sigma_t) + 0.5 * sigma_t
@@ -43,6 +47,7 @@ def bs_density(r=0.0, q=0.0, t=0.0, sigma=0.0, s0=0.0, s=0.0):
 
 
 def bs_approximation_distribution(r=0.0, q=0.0, t=0.0, sigma=0.0, s0=0.0, s=0.0):
+    """Approximate the Black–Scholes CDF using a low-order Taylor expansion."""
     f = np.exp((r - q) * t) * s0
     x0 = np.log(f)
     sigma_t = sigma * np.sqrt(t)
@@ -57,6 +62,7 @@ def bs_approximation_distribution(r=0.0, q=0.0, t=0.0, sigma=0.0, s0=0.0, s=0.0)
 
 @nb.jit("f8(f8,f8,i4)", nopython=True, nogil=True)
 def get_bessel_moments(t, nu, n):
+    """Evaluate the first ``n`` moments of a Bessel process at time ``t``."""
     out = 0.0
     a_k = np.empty(n + 1)
     b_k = np.empty(n + 1)
@@ -82,6 +88,7 @@ def get_bessel_moments(t, nu, n):
 
 @nb.jit("f8[:](f8[:],f8[:])", nopython=True, nogil=True)
 def dot_wise(x, y):
+    """Multiply two vectors element-wise and return the resulting vector."""
     no_elements = len(x)
     out = np.empty(no_elements)
 
@@ -93,6 +100,7 @@ def dot_wise(x, y):
 
 @nb.jit("f8(f8[:],f8[:])", nopython=True, nogil=True)
 def scalar_product(x, y):
+    """Compute the scalar product of two vectors."""
     no_elements = len(x)
     total = 0.0
     for i in range(0, no_elements):
@@ -103,6 +111,7 @@ def scalar_product(x, y):
 
 @nb.jit("f8(f8[:],f8[:], f8[:])", nopython=True, nogil=True)
 def sum_product(x, y, z):
+    """Return the sum of the element-wise product of three vectors."""
     no_elements = len(x)
     total = 0.0
 
@@ -114,6 +123,7 @@ def sum_product(x, y, z):
 
 @nb.jit("f8[:](f8[:,:],f8[:])", nopython=True, nogil=True)
 def apply_lower_tridiagonal_matrix(a, b):
+    """Apply a lower triangular matrix ``a`` to the vector ``b``."""
     no_elements = len(b)
     output = np.zeros(no_elements)
     for i in range(0, no_elements):
@@ -125,6 +135,7 @@ def apply_lower_tridiagonal_matrix(a, b):
 
 @nb.jit("f8(f8,f8)", nopython=True, nogil=True)
 def dirichlet_kernel(t: float, n: float):
+    """Evaluate the Dirichlet kernel of order ``n`` at point ``t``."""
     if np.abs(t) > 0.0:
         return np.sin((n + 0.5) * t) / (np.sin(0.5 * t) * (2.0 * n + 1.0))
     else:
@@ -133,6 +144,7 @@ def dirichlet_kernel(t: float, n: float):
 
 @nb.jit("f8(f8,f8)", nopython=True, nogil=True)
 def fejer_kernel(t: float, n: float):
+    """Evaluate Fejér's kernel of order ``n`` at point ``t``."""
     if np.abs(t) > 0.0:
         return (1.0 / n) * np.power(np.sin(0.5 * n * t) / np.sin(0.5 * t), 2.0)
     else:

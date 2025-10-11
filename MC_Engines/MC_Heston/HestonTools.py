@@ -24,6 +24,7 @@ def v_t_conditional_mean(k: float,
                          v_t_i_1: float,
                          t_i_1: float,
                          t_i: float):
+    """Conditional mean of the variance process over ``[t_i_1, t_i]``."""
     delta_time = (t_i - t_i_1)
     return theta + (v_t_i_1 - theta) * np.exp(- k * delta_time)
 
@@ -35,6 +36,7 @@ def v_t_conditional_variance(k: float,
                              v_t_i_1: float,
                              t_i_1: float,
                              t_i: float):
+    """Conditional variance of the Heston variance process."""
     delta_time = (t_i - t_i_1)
     exp_k_t = (1.0 - np.exp(- k * delta_time)) / k
     return epsilon * epsilon * (v_t_i_1 * np.exp(- k * delta_time) * exp_k_t + 0.5 * theta * k * exp_k_t * exp_k_t)
@@ -43,6 +45,7 @@ def v_t_conditional_variance(k: float,
 @nb.jit("f8[:](f8,f8)", nopython=True, nogil=True)
 def matching_qe_moments_qg(m: float,
                            s2: float):
+    """Match the first two moments using a quadratic-Gaussian mixture."""
     parameters = np.empty(2)
 
     phi_t_i = s2 / (m * m)
@@ -57,6 +60,7 @@ def matching_qe_moments_qg(m: float,
 @nb.jit("f8[:](f8,f8)", nopython=True, nogil=True)
 def matching_qe_moments_exp(m: float,
                             s2: float):
+    """Match the first two moments using an exponential distribution."""
     parameters = np.empty(2)
 
     phi_t_i = s2 / (m * m)
@@ -70,6 +74,7 @@ def matching_qe_moments_exp(m: float,
 def inv_exp_heston(p: float,
                    beta: float,
                    u: float):
+    """Inverse transform sampler for the QE exponential branch."""
     if u < p:
         return 0.00001
     else:
@@ -83,12 +88,14 @@ def get_integral_variance(t_i_1: float,
                           v_t_i: ndarray,
                           w_i_1: float,
                           w_i: float):
+    """Compute the trapezoidal integral of the variance between time steps."""
     delta = (t_i - t_i_1)
     return delta * (w_i_1 * v_t_i_1 + w_i * v_t_i)
 
 
 @nb.jit("(f8,f8,f8[:],f8[:],f8[:],f8[:])")
 def get_delta_weight(t_i_1, t_i, v_t_i_1, v_t_i, w_i_f, delta_weight):
+    """Accumulate Malliavin delta weights for Heston QE paths."""
     alpha1 = 1.0
     alpha2 = 0.0
     no_paths = len(w_i_f)
@@ -99,6 +106,7 @@ def get_delta_weight(t_i_1, t_i, v_t_i_1, v_t_i, w_i_f, delta_weight):
 
 @nb.jit("(f8,f8,f8[:],f8[:],f8[:], f8[:])")
 def get_var_weight(t_i_1, t_i, v_t_i_1, v_t_i, w_i_f,  var_weight):
+    """Accumulate Malliavin variance weights for Heston QE paths."""
     alpha1 = 0.5
     alpha2 = 0.5
     no_paths = len(w_i_f)
@@ -109,6 +117,7 @@ def get_var_weight(t_i_1, t_i, v_t_i_1, v_t_i, w_i_f,  var_weight):
 
 # @nb.jit("(f8[:],f8[:],f8[:],f8,f8,f8[:])")
 def get_gamma_weight(delta_weight, var_weight, inv_variance, rho, t,  gamma_weight):
+    """Build Malliavin gamma weights from delta and variance components."""
     no_paths = len(delta_weight)
     rho_c = np.sqrt(1.0 - rho * rho)
     for i in range(0, no_paths):

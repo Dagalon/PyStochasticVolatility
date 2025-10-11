@@ -13,11 +13,12 @@ phi_hat_c = -0.001882039271
 
 @nb.jit("f8(f8)", nopython=True, nogil=True)
 def gamma_inc_inv(x):
-
+    """Approximate the inverse of the complementary error function integral."""
     return ndtr(x) + Tools.AnalyticTools.normal_pdf(0.0, 1.0, x) / x
 
 
 def bachelier(f, k, t, sigma, flag):
+    """Price a Bachelier call or put option for forward ``f`` and strike ``k``."""
 
     if f == k:
         return sigma * np.sqrt(t) * 1.0 / np.sqrt(2.0 * np.pi)
@@ -27,6 +28,7 @@ def bachelier(f, k, t, sigma, flag):
 
 
 def implied_volatility(price, f, k, t, flag):
+    """Infer the Bachelier volatility that reproduces ``price`` for the option."""
 
     if f == k:
         return np.sqrt(2.0 * np.pi / t) * price

@@ -23,6 +23,7 @@ from scipy.special import ndtri
 @nb.jit("f8[:](f8,f8,f8[:])", nopython=False)
 # @nb.jit(nopython=True)
 def norm_inv(mu, sigma, z):
+    """Transform uniform samples ``z`` into normal variates with mean ``mu``."""
     size_z = len(z)
     normal_narray = np.empty(size_z)
 
@@ -33,23 +34,27 @@ def norm_inv(mu, sigma, z):
 
 
 class RndGenerator(object):
+    """Wrapper around ``numpy`` RNG that provides convenience sampling methods."""
     def __init__(self,
                  initial_seed: int):
+        """Initialise the generator with ``initial_seed``."""
         self._seed = initial_seed
         self._rnd_generator = np.random.RandomState(initial_seed)
 
     @property
     def rnd_generator(self):
+        """Expose the underlying ``RandomState`` instance."""
         return self._rnd_generator
 
     def set_seed(self, seed):
+        """Reset the internal seed to ``seed``."""
         self._rnd_generator.seed(seed)
 
     def uniform(self,
                 a=0.0,
                 b=1.0,
                 size=None):
-
+        """Draw uniform samples on ``[a, b]`` with the requested ``size``."""
         return self._rnd_generator.uniform(a, b, size)
 
     def normal(self,
@@ -57,6 +62,7 @@ class RndGenerator(object):
                sigma=1.0,
                size=None,
                sampling_type=TYPE_STANDARD_NORMAL_SAMPLING.REGULAR_WAY):
+        """Draw normal samples supporting regular and antithetic sampling."""
 
         if sampling_type == TYPE_STANDARD_NORMAL_SAMPLING.REGULAR_WAY:
             return self._rnd_generator.normal(mu, sigma, size)
@@ -75,6 +81,7 @@ class RndGenerator(object):
     def normal_sobol(mu=0.0,
                      sigma=1.0,
                      size=None):
+        """Generate normal variates using Sobol quasi-random sequences."""
 
         if type(size) is tuple:
             m = size[1]
@@ -91,6 +98,7 @@ class RndGenerator(object):
     def uniform_sobol(a=0.0,
                       b=1.0,
                       size=None):
+        """Generate uniform Sobol variates over ``[a, b]``."""
 
         if type(size) is tuple:
             m = size[1]

@@ -22,22 +22,26 @@ from MC_Engines.MC_RBergomi import ToolsVariance
 
 @nb.jit("f8(f8, f8)", nopython=True, nogil=True)
 def h(x: float, hurst_parameter: float):
+    """Helper kernel used for approximating the spectral density."""
     return np.power((x - 1.0), 2.0 * hurst_parameter) - 2.0 + np.power((1.0 - x), 2.0 * hurst_parameter)
 
 
 @nb.jit("f8(f8, f8)", nopython=True, nogil=True)
 def gamma(k: float, hurst_parameter: float):
+    """Return the gamma coefficient for the spectral representation."""
     return 0.5 * np.power(k, 2.0 * hurst_parameter) * h(1.0 / k, hurst_parameter)
 
 
 @nb.jit("f8(f8, f8, f8)", nopython=True, nogil=True)
 def covariance(s: float, t: float, hurst_parameter: float):
+    """Analytical covariance of a fractional Brownian motion."""
     alpha = 2.0 * hurst_parameter
     return 0.5 * (np.power(t, alpha) + np.power(s, alpha) - np.power(np.abs(t - s), alpha))
 
 
 @nb.jit("f8[:](i8, f8)", nopython=True, nogil=True)
 def get_spectral_representation(n: int, hurst_parameter: float):
+    """Build the coefficients for the spectral representation of fBM."""
     output = np.zeros(2 * n)
     no_nodes = 2 * n
     for i in range(0, n):
@@ -49,6 +53,7 @@ def get_spectral_representation(n: int, hurst_parameter: float):
 
 @nb.jit("f8[:,:](f8[:],f8, f8[:,:], f8, i8, i8)", nopython=True, nogil=True)
 def cholesky_method_jit(t_i: ndarray, z0: float, z: ndarray,  hurst_parameter: float, no_paths: int, no_time_steps):
+    """Numba-accelerated Cholesky sampler for fractional Brownian paths."""
     paths = np.zeros(shape=(no_paths, no_time_steps))
     sigma = np.zeros(shape=(no_time_steps - 1, no_time_steps - 1))
 
@@ -76,6 +81,7 @@ def cholesky_method(t0: float,
                     hurst_parameter: float,
                     no_paths: int,
                     no_time_steps: int):
+    """Sample fractional Brownian paths using the exact Cholesky approach."""
 
     t_i = np.linspace(t0, t1, no_time_steps)
     z_i = rng_generator.normal(mu=0.0, sigma=1.0, size=(no_paths, no_time_steps),
@@ -86,6 +92,7 @@ def cholesky_method(t0: float,
 
 @nb.jit("f8[:,:](f8[:],f8, f8[:,:], f8, i8, i8)", nopython=True, nogil=True)
 def truncated_fbm_jit(t_i: ndarray, z0: float, z: ndarray,  hurst_parameter: float, no_paths: int, no_time_steps):
+    """Sample truncated fractional Brownian motion paths using Volterra kernels."""
     paths = np.zeros(shape=(no_paths, no_time_steps))
     sigma = np.zeros(shape=(no_time_steps - 1, no_time_steps - 1))
 
@@ -113,6 +120,7 @@ def truncated_fbm(t0: float,
                   hurst_parameter: float,
                   no_paths: int,
                   no_time_steps: int):
+    """Wrapper that draws truncated fBM paths using antithetic normals."""
 
     t_i = np.linspace(t0, t1, no_time_steps)
     z_i = rng_generator.normal(mu=0.0, sigma=1.0, size=(no_paths, no_time_steps),

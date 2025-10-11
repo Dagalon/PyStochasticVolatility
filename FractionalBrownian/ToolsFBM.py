@@ -19,6 +19,7 @@ from scipy.optimize import curve_fit
 
 
 def get_mean_ratio_rs(x_t: Types.ndarray, chunksize: int = 1):
+    """Estimate the average rescaled range for samples ``x_t``."""
     no_elements = len(x_t)
     index = list(range(0, no_elements, chunksize))
     no_packages = len(index)
@@ -39,6 +40,7 @@ def get_mean_ratio_rs(x_t: Types.ndarray, chunksize: int = 1):
 
 
 def get_estimator_rs(x_t: Types.ndarray, lower_chunksize: int = 0, upper_chunksize: int = 1):
+    """Fit the rescaled range estimator of the Hurst exponent."""
     rs = []
     log_no_elements = []
 
@@ -56,6 +58,7 @@ def get_estimator_rs(x_t: Types.ndarray, lower_chunksize: int = 0, upper_chunksi
 
 
 def get_estimator_pe(x_t: Types.ndarray, size_f: int):
+    """Estimate the Hurst exponent using the periodogram method."""
     no_elements = len(x_t)
     f_i = np.linspace(-0.5, 0.5, size_f)
     sr_n = np.zeros(size_f)
