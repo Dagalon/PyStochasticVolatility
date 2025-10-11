@@ -155,8 +155,11 @@ def get_path_multi_step(t0: float,
         diff_sigma = (rho / nu) * (sigma_t_i - sigma_t[:, i_step - 1])
         noise_sigma = AnalyticTools.dot_wise(np.sqrt(int_sigma_t_i[:, i_step - 1]), z_i)
 
-        SABRTools.get_delta_weight(t_i[i_step - 1], t_i[i_step], sigma_t[:, i_step - 1], sigma_t_i, z_sigma, delta_weight)
-        SABRTools.get_var_weight(t_i[i_step - 1], t_i[i_step], sigma_t[:, i_step - 1], sigma_t_i, z_sigma, var_weight)
+        # SABRTools.get_delta_weight(t_i[i_step - 1], t_i[i_step], sigma_t[:, i_step - 1], sigma_t_i, z_sigma, delta_weight)
+        # SABRTools.get_var_weight(t_i[i_step - 1], t_i[i_step], sigma_t[:, i_step - 1], sigma_t_i, z_sigma, var_weight)
+
+        SABRTools.get_delta_weight(t_i[i_step - 1], t_i[i_step], sigma_t[:, i_step - 1], sigma_t_i, z_i, delta_weight)
+        SABRTools.get_var_weight(t_i[i_step - 1], t_i[i_step], sigma_t[:, i_step - 1], sigma_t_i, z_i, var_weight)
 
         inv_variance += SABRTools.get_integral_variance(t_i[i_step - 1], t_i[i_step], 1.0 / sigma_t[:, i_step - 1],
                                                         1.0 / sigma_t_i, 0.5, 0.5)
@@ -172,7 +175,7 @@ def get_path_multi_step(t0: float,
                                                 np.exp(- 0.5 * int_sigma_t_i[:, i_step - 1] +
                                                        diff_sigma + rho_inv * noise_sigma))
 
-    map_output[SABR_OUTPUT.DELTA_MALLIAVIN_WEIGHTS_PATHS_TERMINAL] = delta_weight
+    map_output[SABR_OUTPUT.DELTA_MALLIAVIN_WEIGHTS_PATHS_TERMINAL] = np.multiply(delta_weight, 1.0 / (rho * t1 * f0))
     map_output[SABR_OUTPUT.PATHS] = s_t
     map_output[SABR_OUTPUT.INTEGRAL_VARIANCE_PATHS] = int_v_t_paths
     map_output[SABR_OUTPUT.INTEGRAL_SIGMA_PATHS] = int_sigma_t_i
@@ -182,7 +185,7 @@ def get_path_multi_step(t0: float,
     map_output[SABR_OUTPUT.INTEGRAL_SIGMA_PATHS_RESPECT_BROWNIANS] = int_sigma_w_t_paths
 
     SABRTools.get_gamma_weight(delta_weight, var_weight, inv_variance, rho, t1, gamma_weight)
-    map_output[SABR_OUTPUT.GAMMA_MALLIAVIN_WEIGHTS_PATHS_TERMINAL] = np.multiply(gamma_weight, 1.0 / (
-            (1.0 - rho * rho) * np.power(t1 * f0, 2.0)))
+    map_output[SABR_OUTPUT.GAMMA_MALLIAVIN_WEIGHTS_PATHS_TERMINAL] = np.multiply(gamma_weight, 1.0 / ((1.0 - rho * rho)
+    * np.power(t1 * f0, 2.0))) + np.multiply(delta_weight, 1.0 / (rho * t1 * f0 * f0))
 
     return map_output
