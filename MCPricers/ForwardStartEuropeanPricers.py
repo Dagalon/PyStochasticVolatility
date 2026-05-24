@@ -17,7 +17,6 @@ import numba as nb
 import numpy as np
 
 from Tools import Types
-# from ncephes import ndtr
 from scipy.special import ndtr
 
 

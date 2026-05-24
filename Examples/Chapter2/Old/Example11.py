@@ -2,10 +2,8 @@ import numpy as np
 import numba as nb
 import matplotlib.pylab as plt
 
-# from ncephes import ndtri
 from scipy.special import ndtri
 from AnalyticEngines.VolatilityTools import VolatilityEstimators
-
 
 # numba function to get market paths
 @nb.jit("(f8,f8,f8,f8,f8,f8,i8,i8,i8)", nopython=True, nogil=True)

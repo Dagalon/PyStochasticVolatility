@@ -16,7 +16,6 @@ import numba as nb
 import sobol_seq as sobol
 
 from Tools.Types import TYPE_STANDARD_NORMAL_SAMPLING
-# from ncephes import ndtri
 from scipy.special import ndtri
 
 

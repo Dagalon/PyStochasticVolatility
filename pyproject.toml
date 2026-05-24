@@ -7,23 +7,26 @@ name = "PyStochasticVolatility"
 version = "1.1"
 description = "Financial library created to give support the book Malliavin Calculus and Stochastic Volatility."
 readme = "README.md"
-requires-python = ">=3.8"
-authors = [
-  { name = "David Garcia Lorite", email = "david.garcia.lorite@gmail.com" },
-]
+requires-python = ">=3.11,<3.12"
+
+authors = [{ name = "David Garcia Lorite", email = "david.garcia.lorite@gmail.com" }, ]
+
 license = { text = "Apache-2.0" }
+
 dependencies = [
-  "numpy~=1.21.5",
-  "numba~=0.55.1",
-  "scipy~=1.7.3",
-  "matplotlib~=3.5.1",
-  "pandas~=1.4.2",
-  "statsmodels~=0.13.2",
-  "quantlib~=1.27",
-  "tabulate~=0.8.9",
-  "prettytable~=3.3.0",
-  "sympy~=1.10.1",
-  "ncephes~=1.1.0",
+  "numpy>=1.26,<1.27",
+  "numba>=0.59,<0.60",
+  "scipy>=1.10,<1.11",
+  "numba-scipy==0.4.0",
+  "matplotlib>=3.8",
+  "pandas>=2.1",
+  "statsmodels>=0.14",
+  "QuantLib>=1.36",
+  "tabulate>=0.9",
+  "prettytable>=3.10",
+  "sympy>=1.12",
+  "sobol-seq>=0.2.0",
+  "py_vollib>=1.0.1",
 ]
 
 [project.urls]

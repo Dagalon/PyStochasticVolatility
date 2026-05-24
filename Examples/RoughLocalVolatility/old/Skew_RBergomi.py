@@ -2,8 +2,7 @@ import numpy as np
 import matplotlib.pylab as plt
 
 from MC_Engines.MC_RBergomi import RBergomi_Variance_Engine
-from Tools import Types
-from Tools import RNG
+from Tools import Types, RNG
 from scipy.special import ndtr
 from Tools.AnalyticTools import normal_pdf
 from Instruments.EuropeanInstruments import EuropeanOption, TypeSellBuy, TypeEuropeanOption

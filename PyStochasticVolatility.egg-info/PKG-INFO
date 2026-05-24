@@ -5,19 +5,21 @@ Summary: Financial library created to give support the book Malliavin Calculus a
 Author-email: David Garcia Lorite <david.garcia.lorite@gmail.com>
 License: Apache-2.0
 Project-URL: Homepage, https://github.com/Dagalon/PyStochasticVolatility
-Requires-Python: >=3.8
+Requires-Python: <3.12,>=3.11
 Description-Content-Type: text/markdown
-Requires-Dist: numpy~=1.21.5
-Requires-Dist: numba~=0.55.1
-Requires-Dist: scipy~=1.7.3
-Requires-Dist: matplotlib~=3.5.1
-Requires-Dist: pandas~=1.4.2
-Requires-Dist: statsmodels~=0.13.2
-Requires-Dist: quantlib~=1.27
-Requires-Dist: tabulate~=0.8.9
-Requires-Dist: prettytable~=3.3.0
-Requires-Dist: sympy~=1.10.1
-Requires-Dist: ncephes~=1.1.0
+Requires-Dist: numpy<1.27,>=1.26
+Requires-Dist: numba<0.60,>=0.59
+Requires-Dist: scipy<1.11,>=1.10
+Requires-Dist: numba-scipy==0.4.0
+Requires-Dist: matplotlib>=3.8
+Requires-Dist: pandas>=2.1
+Requires-Dist: statsmodels>=0.14
+Requires-Dist: QuantLib>=1.36
+Requires-Dist: tabulate>=0.9
+Requires-Dist: prettytable>=3.10
+Requires-Dist: sympy>=1.12
+Requires-Dist: sobol-seq>=0.2.0
+Requires-Dist: py_vollib>=1.0.1
 
 # PyStochasticVolatility
 

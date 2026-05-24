@@ -5,7 +5,7 @@ from Tools import RNG
 from Tools.Types import ndarray
 from Tools.Types import CHEYETTE_OUTPUT
 import matplotlib.pylab as plt
-from scipy.special import ndtri
+
 
 # linear local volatility
 a = 0.0

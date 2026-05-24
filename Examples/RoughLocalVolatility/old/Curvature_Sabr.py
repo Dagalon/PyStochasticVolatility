@@ -2,8 +2,7 @@ import numpy as np
 import matplotlib.pylab as plt
 
 from MC_Engines.MC_SABR import SABR_Engine
-from Tools import Types
-from Tools import RNG
+from Tools import Types, RNG
 from Instruments.EuropeanInstruments import EuropeanOption, TypeSellBuy, TypeEuropeanOption
 from py_vollib.black_scholes import implied_volatility
 from scipy.special import ndtr

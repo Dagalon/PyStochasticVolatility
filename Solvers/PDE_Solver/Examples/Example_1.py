@@ -18,8 +18,8 @@ try:
 except ImportError:
     print('The import of matplotlib is not working.')
 
-T = 1.0
-mesh_t = Mesh(uniform_mesh, 10, 0.0, T)
+T = 5.0
+mesh_t = Mesh(uniform_mesh, 50, 0.0, T)
 
 r = 0.0
 q = 0.0

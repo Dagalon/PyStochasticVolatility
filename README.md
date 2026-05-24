@@ -30,7 +30,7 @@ worked examples illustrating end-to-end workflows.
 - Reproducible numerical experiments that accompany each chapter of the book.
 
 ## Installation
-PyStochasticVolatility targets Python 3.8 and newer. The recommended workflow
+PyStochasticVolatility targets Python 3.11. The recommended workflow
 uses [uv](https://github.com/astral-sh/uv), but any PEP 517 compliant build tool
 is supported.
 

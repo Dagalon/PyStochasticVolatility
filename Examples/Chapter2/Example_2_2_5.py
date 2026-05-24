@@ -17,7 +17,6 @@ from AnalyticEngines.LocalVolatility.Hagan import ExpansionLocVol
 f0 = 10.0
 T = 1.0
 
-
 def f_ln_payoff(mesh: Mesh, k: float) -> np_ndarray:
     return np.maximum(np.exp(mesh.get_points()) - k, 0.0)
 

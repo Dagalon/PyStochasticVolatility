@@ -15,10 +15,8 @@ __author__ = 'David Garcia Lorite'
 import numpy as np
 import numba as nb
 
-# from ncephes import ndtr
 from scipy.special import ndtr
 from Tools.AnalyticTools import normal_pdf
-
 
 @nb.jit("f8[:](f8[:], f8[:], f8, f8)", nopython=True, nogil=True)
 def get_conditional_moment_order_one(alpha_t,
@@ -26,7 +24,7 @@ def get_conditional_moment_order_one(alpha_t,
                                      nu,
                                      t):
     no_paths = len(alpha_t)
-    mean_z = np.empty(no_paths)
+    mean_z = np.zeros(no_paths)
     nu_t = nu * np.sqrt(t)
     mult = 0.5 * alpha * alpha * np.sqrt(t) / nu
 

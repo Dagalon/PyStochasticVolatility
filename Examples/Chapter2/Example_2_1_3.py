@@ -2,7 +2,6 @@ import numpy as np
 import numba as nb
 import matplotlib.pylab as plt
 
-# from ncephes import ndtri
 from scipy.special import ndtri
 from AnalyticEngines.VolatilityTools import VolatilityEstimators
 from Tools import Types
