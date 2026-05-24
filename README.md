@@ -10,6 +10,7 @@ worked examples illustrating end-to-end workflows.
 ## Table of contents
 - [Key features](#key-features)
 - [Installation](#installation)
+- [Python and dependency versions](#python-and-dependency-versions)
 - [Quick start](#quick-start)
 - [Project structure](#project-structure)
 - [Module overview](#module-overview)
@@ -48,21 +49,41 @@ If you prefer `pip`, install the package directly from the repository root:
 python -m pip install -e .
 ```
 
-The main runtime dependencies include:
-
-- numpy
-- numba
-- scipy
-- matplotlib
-- pandas
-- statsmodels
-- quantlib
-- tabulate / prettytable
-- sympy
-- ncephes
-
-Refer to [`pyproject.toml`](pyproject.toml) for the authoritative list of
+Refer to [`pyproject.toml`](pyproject.toml) for the authoritative dependency
 constraints.
+
+## Python and dependency versions
+The versions below come from the package metadata in `pyproject.toml`:
+
+### Python
+- `python >= 3.8`
+  - Comment: this is the minimum supported version. Newer Python versions should
+    work as long as all pinned third-party wheels are available for your
+    platform.
+
+### Runtime libraries
+- `numpy~=1.21.5`
+  - Comment: base array and vectorized numerical computing layer used across the project.
+- `numba~=0.55.1`
+  - Comment: JIT compilation to speed up hot loops and numeric kernels.
+- `scipy~=1.7.3`
+  - Comment: scientific routines (integration, optimization, distributions, etc.).
+- `matplotlib~=3.5.1`
+  - Comment: plotting utilities for examples and diagnostics.
+- `pandas~=1.4.2`
+  - Comment: tabular data handling for market data and experiment outputs.
+- `statsmodels~=0.13.2`
+  - Comment: statistical estimation helpers used in quantitative analysis workflows.
+- `quantlib~=1.27`
+  - Comment: quantitative finance primitives and conventions when QuantLib integration is needed.
+- `tabulate~=0.8.9`
+  - Comment: plain-text table formatting in console outputs.
+- `prettytable~=3.3.0`
+  - Comment: alternative table rendering for reports and CLI-friendly summaries.
+- `sympy~=1.10.1`
+  - Comment: symbolic algebra support for analytic derivations and formula prototyping.
+- `ncephes~=1.1.0`
+  - Comment: special mathematical functions used in numerical finance formulas.
 
 ## Quick start
 1. Install the project following the instructions above.
