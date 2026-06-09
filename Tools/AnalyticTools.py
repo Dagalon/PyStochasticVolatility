@@ -13,6 +13,7 @@ __author__ = 'David Garcia Lorite'
 
 import numba as nb
 import numpy as np
+from scipy.special import ndtr
 
 @nb.jit("f8(f8, f8, f8)", nopython=True, nogil=True)
 def normal_pdf(mean=0.0, sigma=1.0, x=0.0):
@@ -42,6 +43,13 @@ def bs_density(r=0.0, q=0.0, t=0.0, sigma=0.0, s0=0.0, s=0.0):
     d = (np.log(s / f) / sigma_t) + 0.5 * sigma_t
 
     return normal_pdf(0.0, 1.0, d) / (sigma_t * s)
+
+def third_derive_bs_log_spot(r=0.0, q=0.0, t=0.0, sigma=0.0, s0=0.0):
+    sigma_sqrt = sigma * np.sqrt(t)
+    d1 = (r - q + 0.5 * sigma * sigma) * t / sigma_sqrt
+    phi_1 = normal_pdf(0.0, 1.0, d1)
+    gamma = np.exp(- q * t) * phi_1 / (s0 * sigma_sqrt)
+    return - gamma * (1.0 + d1 / sigma_sqrt)
 
 
 def bs_approximation_distribution(r=0.0, q=0.0, t=0.0, sigma=0.0, s0=0.0, s=0.0):

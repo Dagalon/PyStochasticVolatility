@@ -17,8 +17,7 @@ import numba as nb
 from VolatilitySurface.Tools import ParameterTools
 from AnalyticEngines.LocalVolatility.Dupire import DupireFormulas
 from Tools import Types, AnalyticTools
-from ncephes import ndtr
-
+from scipy.special import ndtr
 
 @nb.jit("f8[:](f8[:],f8[:])", nopython=True, nogil=True)
 def dot_product(a, b):

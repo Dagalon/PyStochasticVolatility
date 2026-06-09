@@ -17,7 +17,7 @@ from typing import List, NewType
 from enum import Enum
 
 Vector = List[float]
-ndarray = NewType('ndarray', type(np.ndarray))
+ndarray = NewType('ndarray', np.ndarray)
 min_value = 1e-05
 
 MIN_VALUE_LOG_MONEYNESS = 0.00001

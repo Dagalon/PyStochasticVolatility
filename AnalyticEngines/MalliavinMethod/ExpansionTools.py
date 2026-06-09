@@ -32,7 +32,7 @@ def get_vol_swap_new_approximation(parameters: Types.ndarray, t0: float, t1: flo
     return var_swap - second_term
 
 
-# @nb.jit("f8(f8[:],f8,f8,f8)", nopython=True, nogil=True)
+@nb.jit("f8(f8[:],f8,f8,f8)", nopython=True, nogil=True)
 def get_vol_swap_approximation_sabr(parameters: Types.ndarray, t0: float, t1: float, sigma_t0: float):
     nu = parameters[1]
 

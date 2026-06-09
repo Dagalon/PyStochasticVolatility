@@ -37,7 +37,7 @@ vol_swap_approximation = get_vol_swap_new_approximation(parameters, 0.0, t)
 rnd_generator.set_seed(seed)
 z_int_t = rnd_generator.normal(0.0, 1.0, no_paths)
 z_t = rnd_generator.normal(0.0, 1.0, no_paths)
-alpha_t0 = np.full(no_paths, alpha, dtype=np.float)
+alpha_t0 = np.full(no_paths, alpha, dtype=float)
 alpha_t = SABR_Engine.get_vol_sampling(0.0, t, alpha_t0, nu, z_t)
 
 approx_I_t = VarianceSamplingMatchingMoment.get_variance(alpha_t0, nu, alpha_t, t, z_int_t)

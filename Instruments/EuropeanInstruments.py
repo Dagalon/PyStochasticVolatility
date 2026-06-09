@@ -17,8 +17,8 @@ from scipy.integrate import quad_vec
 from functools import partial
 from typing import Callable, List
 from Tools.Types import TypeSellBuy, TypeEuropeanOption
-from MCPricers.EuropeanPricers import quadratic_call_operator, quadratic_put_operator, digital_call_operator, digital_put_operator, call_operator_control_variate, put_operator_control_variate, call_operator, put_operator
-from MCPricers.GreeksEuropeanPricer import malliavin_delta_call_put, malliavin_gamma_call_put
+from MC_Pricers.EuropeanPricers import quadratic_call_operator, quadratic_put_operator, digital_call_operator, digital_put_operator, call_operator_control_variate, put_operator_control_variate, call_operator, put_operator
+from MC_Pricers.GreeksEuropeanPricer import malliavin_delta_call_put, malliavin_gamma_call_put
 from Tools.Types import ndarray, ANALYTIC_MODEL, TypeGreeks
 from AnalyticEngines.FourierMethod.CharesticFunctions.HestonCharesticFunction import f_attari_heston, f_delta_attari_heston, \
     f_dual_delta_attari_heston, f_heston, f_gamma_heston, f_gamma_attari_heston, f_lewis_heston

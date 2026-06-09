@@ -20,7 +20,6 @@ no_paths = 250000
 
 seed = 12345
 rnd_generator = RNG.RndGenerator(seed)
-
 sampling_vol_swap = []
 malliavin_vol_swap = []
 

@@ -1,5 +1,7 @@
 __author__ = 'David Garcia Lorite'
 
+from typing import Any
+
 #
 # Copyright 2020 David Garcia Lorite
 #
@@ -26,7 +28,8 @@ def get_path_one_step(t0: float,
                       parameters: Vector,
                       f0: float,
                       no_paths: int,
-                      rnd_generator) -> Vector:
+                      rnd_generator):
+
     alpha = parameters[0]
     nu = parameters[1]
     rho = parameters[2]
@@ -40,7 +43,7 @@ def get_path_one_step(t0: float,
                                nu,
                                z)
 
-    var_t0_t1 = VarianceSamplingMatchingMoment.get_variance(np.full(no_paths, alpha, dtype=np.float),
+    var_t0_t1 = VarianceSamplingMatchingMoment.get_variance(np.full(no_paths, alpha, dtype=float),
                                                             nu,
                                                             alpha_t,
                                                             t1,
@@ -61,6 +64,7 @@ def get_vol_sampling(t0: float,
                      sigma_i_1: ndarray,
                      nu: float,
                      z: ndarray) -> ndarray:
+
     delta_time = (t1 - t0)
     sqrt_delta_time = np.sqrt(delta_time)
     drift = sigma_i_1 * np.exp(- 0.5 * nu * nu * delta_time)

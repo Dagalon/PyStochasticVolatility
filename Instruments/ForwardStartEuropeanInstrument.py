@@ -14,7 +14,7 @@ __author__ = 'David Garcia Lorite'
 
 import numpy as np
 from Tools.Types import TypeSellBuy, TypeEuropeanOption, ndarray
-from MCPricers.ForwardStartEuropeanPricers import forward_start_call_operator, forward_start_put_operator, \
+from MC_Pricers.ForwardStartEuropeanPricers import forward_start_call_operator, forward_start_put_operator, \
     forward_call_operator_control_variate, forward_put_operator_control_variate
 from Tools.Types import ndarray
 from typing import Callable, List
